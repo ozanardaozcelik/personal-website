@@ -3,117 +3,209 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hosting Test | Ozan Arda Özçelik</title>
+    <title>Ozan Arda Özçelik | UAV Team Lead</title>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
     <style>
-        /* Modern ve Temiz Bir Tasarım (CSS) */
         body {
             margin: 0;
             padding: 0;
+            background-color: #0f172a;
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Giriş Bölümü */
+        .intro {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            position: relative;
+            background: linear-gradient(to bottom, #0f172a, #1e293b);
+        }
+
+        .intro h1 { font-size: 4rem; margin: 0; }
+        .intro p { font-size: 1.5rem; color: #94a3b8; }
+        .scroll-hint { margin-top: 50px; animation: bounce 2s infinite; }
+
+        /* Simülasyon Sahnesi (Burası Kilit Nokta) */
+        .sky-container {
+            height: 100vh;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(to top, #87CEEB, #0f172a); /* Gökyüzü rengi */
+            display: flex;
+            justify-content: center;
+            align-items: flex-end; /* SİHA pistte başlasın */
+        }
+
+        /* SİHA Görseli (Temsili Kutu - Resimle Değiştireceğiz) */
+        .siha-model {
+            width: 200px;
+            height: 100px;
+            background-color: #334155; /* SİHA Rengi */
+            border-radius: 10px;
+            position: absolute;
+            bottom: 10%; /* Pist konumu */
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+        
+        /* Kanat efekti için basit CSS */
+        .siha-model::after {
+            content: "ŞAHİ OTONOM";
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Bulutlar */
+        .cloud {
+            position: absolute;
+            background: rgba(255,255,255,0.8);
+            border-radius: 50%;
+            filter: blur(20px);
+            z-index: 2;
+        }
+
+        /* Metin Kartları */
+        .info-card {
+            position: absolute;
+            top: 50%;
+            right: 10%; /* Sağ tarafta dursun */
+            background: rgba(15, 23, 42, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #38bdf8;
+            max-width: 300px;
+            opacity: 0; /* Başlangıçta görünmez */
+            transform: translateY(50px);
+        }
+
+        .final-section {
+            height: 100vh;
+            background: #0f172a;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            background-color: #0f172a; /* Koyu Lacivert Arkaplan */
-            color: #ffffff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        .container {
-            text-align: center;
-            background: #1e293b;
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            border: 1px solid #334155;
-            max-width: 400px;
-            width: 90%;
-        }
-
-        h1 {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-            color: #38bdf8; /* Açık Mavi */
-        }
-
-        p {
-            color: #94a3b8;
-            margin-bottom: 2rem;
-        }
-
-        .status-indicator {
-            display: inline-block;
-            width: 15px;
-            height: 15px;
-            background-color: #22c55e; /* Yeşil */
-            border-radius: 50%;
-            margin-right: 10px;
-            box-shadow: 0 0 10px #22c55e;
-            animation: pulse 2s infinite;
-        }
-
-        .card {
-            background: #0f172a;
-            padding: 1rem;
-            border-radius: 8px;
-            border: 1px solid #334155;
-            margin-top: 1rem;
-        }
-
-        button {
-            background-color: #3b82f6;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background 0.3s;
-            margin-top: 15px;
-        }
-
-        button:hover {
-            background-color: #2563eb;
-        }
-
-        /* Animasyon */
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>Bağlantı Başarılı!</h1>
-        <p>GitHub & Netlify Entegrasyonu Çalışıyor.</p>
+    <section class="intro">
+        <h1>Ozan Arda Özçelik</h1>
+        <p>Computer Engineering Student</p>
+        <div class="scroll-hint">▼ Uçuşa Geçmek İçin Kaydır ▼</div>
+    </section>
 
-        <div class="card">
-            <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">
-                <span class="status-indicator"></span>
-                <span id="status-text">Sistem Online</span>
+    <div class="simulation-wrapper" style="height: 300vh;"> <div class="sky-container">
+            
+            <div class="cloud" style="width: 200px; height: 60px; top: 20%; left: 10%;"></div>
+            <div class="cloud" style="width: 300px; height: 80px; top: 40%; right: 20%;"></div>
+
+            <div class="siha-model" id="mySiha"></div>
+
+            <div class="info-card" id="card1">
+                <h3>Şahi Otonom Lideri</h3>
+                <p>TEKNOFEST Savaşan İHA kategorisinde otonom sistemler geliştiriyoruz.</p>
             </div>
-            <div id="dynamic-area" style="font-size: 0.9rem; color: #cbd5e1;">
-                Test verisi bekleniyor...
+
+            <div class="info-card" id="card2" style="left: 10%; right: auto;"> <h3>Yapay Zeka & Görüntü İşleme</h3>
+                <p>Python, OpenCV ve Derin Öğrenme ile hedef tespiti algoritmaları.</p>
             </div>
+
         </div>
-
-        <button onclick="testFunction()">JS Test Et</button>
     </div>
 
+    <section class="final-section">
+        <h1>İletişime Geçelim</h1>
+    </section>
+
     <script>
-        // Basit bir JavaScript Testi
-        function testFunction() {
-            const displayArea = document.getElementById('dynamic-area');
-            const now = new Date();
-            const timeString = now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds();
-            
-            displayArea.innerHTML = "✅ JavaScript Çalışıyor!<br>Sunucu Saati: " + timeString;
-            displayArea.style.color = "#4ade80"; // Yazıyı yeşil yap
-        }
+        // GSAP Plugin'ini kaydet
+        gsap.registerPlugin(ScrollTrigger);
+
+        // 1. Sahneyi Sabitle (Pin)
+        // Kullanıcı scroll yaptıkça "sky-container" ekranda sabit kalacak
+        // Ama arka planda biz animasyon oynatacağız.
+        ScrollTrigger.create({
+            trigger: ".simulation-wrapper",
+            start: "top top",
+            end: "bottom bottom",
+            pin: ".sky-container", // Sahneyi çivile
+            scrub: 1, // Scroll hareketine yumuşak tepki ver (1 saniye gecikmeli)
+        });
+
+        // 2. SİHA Hareketi (Kalkış)
+        gsap.to("#mySiha", {
+            y: -400, // Yukarı doğru 400px git
+            scale: 1.5, // Biraz büyüsün (yaklaşıyor hissi)
+            rotate: 5, // Hafif burnunu kaldırsın
+            scrollTrigger: {
+                trigger: ".simulation-wrapper",
+                start: "top top",
+                end: "bottom bottom",
+                scrub: 1 // Scroll ile senkronize et
+            }
+        });
+
+        // 3. Bulutları aşağı indir (Parallax etkisi)
+        gsap.to(".cloud", {
+            y: 500, // SİHA çıkarken bulutlar iniyor gibi gözüksün
+            scrollTrigger: {
+                trigger: ".simulation-wrapper",
+                start: "top top",
+                end: "bottom bottom",
+                scrub: 2
+            }
+        });
+
+        // 4. Kartların Giriş Çıkışı
         
-        console.log("Ozan Arda Özçelik - Debugging Mode On");
+        // Kart 1 (Takım Lideri)
+        gsap.to("#card1", {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            scrollTrigger: {
+                trigger: ".simulation-wrapper",
+                start: "top top",
+                end: "30% top", // İlk %30luk kısımda çalışsın
+                toggleActions: "play reverse play reverse", // Geri çıkınca kaybolsun
+                scrub: 1
+            }
+        });
+
+        // Kart 2 (Yapay Zeka) - Daha sonra çıksın
+        gsap.to("#card2", {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            scrollTrigger: {
+                trigger: ".simulation-wrapper",
+                start: "40% top", // Biraz daha aşağı inince başlasın
+                end: "80% top",
+                toggleActions: "play reverse play reverse",
+                scrub: 1
+            }
+        });
+
     </script>
 </body>
 </html>
