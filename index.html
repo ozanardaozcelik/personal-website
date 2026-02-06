@@ -1,4 +1,156 @@
-<div id="top-countdown-panel">
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ozan Arda Özçelik | Launching Soon</title>
+    
+    <style>
+        /* GENEL AYARLAR (Tek Ekran) */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
+            height: 100vh; /* Tam ekran yüksekliği */
+            overflow: hidden; /* Scroll'u kapat */
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Dikey ortalama */
+            align-items: center; /* Yatay ortalama */
+        }
+
+        /* ARKA PLAN VİDEOSU (Sabit) */
+        #bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1; /* En arkaya at */
+            opacity: 0.4; /* Biraz karart ki yazılar okunsun */
+            filter: grayscale(80%); /* Hafif siyah beyaz ton */
+        }
+
+        /* ----------------------------------------- */
+        /* 1. ESKİ SAYAÇ TASARIMI (İstediğin Gibi) */
+        /* ----------------------------------------- */
+        #top-countdown-panel {
+            position: absolute; /* Tepede sabit */
+            top: 30px;
+            background: rgba(15, 23, 42, 0.9); /* Orijinal Koyu Lacivert */
+            padding: 20px 40px;
+            border-radius: 12px;
+            border: 1px solid #38bdf8; /* Orijinal Açık Mavi Çerçeve */
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+            text-align: center;
+            backdrop-filter: blur(5px);
+            width: 80%;
+            max-width: 600px;
+            z-index: 10;
+        }
+
+        .typewriter-text {
+            color: #94a3b8;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+            margin: 0 0 15px 0;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 10px;
+        }
+
+        .timer-display {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .time-unit {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #38bdf8; /* Mavi rakamlar */
+            font-family: 'Courier New', monospace;
+            min-width: 40px;
+        }
+
+        .separator {
+            font-size: 2rem;
+            color: #64748b;
+            margin-top: -20px;
+        }
+
+        .label {
+            font-size: 0.7rem;
+            color: #64748b;
+            letter-spacing: 1px;
+            margin-top: 5px;
+        }
+
+        /* ----------------------------------------- */
+        /* 2. BASİT REFLEKS OYUNU (Hemen Aşağıda) */
+        /* ----------------------------------------- */
+        #game-container {
+            margin-top: 200px; /* Sayacın altına gelmesi için */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 5;
+        }
+
+        #reflex-box {
+            width: 300px;
+            height: 150px;
+            background-color: #ef4444; /* Kırmızı (Bekle) */
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 4px solid rgba(255,255,255,0.2);
+            transition: transform 0.1s, background-color 0.2s;
+            user-select: none; /* Yazı seçilmesin */
+        }
+
+        #reflex-box:active { transform: scale(0.95); }
+
+        .game-title {
+            margin-bottom: 15px;
+            font-family: 'Courier New', monospace;
+            color: #cbd5e1;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: rgba(0,0,0,0.7);
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .result-text {
+            margin-top: 15px;
+            font-size: 1.2rem;
+            color: #38bdf8;
+            height: 30px; /* Yer tutucu */
+        }
+
+    </style>
+</head>
+<body>
+
+    <video id="bg-video" src="talon-takeoff.mp4" autoplay muted loop playsinline></video>
+
+    <div id="top-countdown-panel">
         <p class="typewriter-text">Merhaba ben Ozan, web kodlama öğrendiğimde akşam saat 6'da bu siteyi açacağım.</p>
         <div class="timer-display">
             <div class="time-unit">
@@ -23,104 +175,96 @@
         </div>
     </div>
 
-    <style>
-        /* Panel Tasarımı */
-        #top-countdown-panel {
-            position: fixed; /* Sayfa kaydırılsa bile tepede sabit kalsın */
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(15, 23, 42, 0.9); /* Yarı saydam koyu lacivert */
-            padding: 15px 30px;
-            border-radius: 12px;
-            border: 1px solid #38bdf8; /* Açık mavi çerçeve */
-            box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
-            text-align: center;
-            z-index: 9999; /* Her şeyin üstünde dursun */
-            backdrop-filter: blur(5px);
-            width: 80%;
-            max-width: 600px;
-        }
+    <div id="game-container">
+        <div class="game-title">⚡ SİHA PİLOT REFLEKS TESTİ ⚡</div>
+        
+        <div id="reflex-box" onclick="handleClick()">
+            BAŞLATMAK İÇİN<br>TIKLA
+        </div>
 
-        /* Açıklama Yazısı */
-        .typewriter-text {
-            color: #94a3b8;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.9rem;
-            margin: 0 0 10px 0;
-            border-bottom: 1px solid #334155;
-            padding-bottom: 10px;
-        }
-
-        /* Sayaç Kutusu */
-        .timer-display {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Segoe UI', sans-serif;
-            color: white;
-            gap: 10px;
-        }
-
-        .time-unit {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .number {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #38bdf8;
-            font-family: 'Courier New', monospace; /* Dijital saat hissi */
-            min-width: 40px;
-        }
-
-        .separator {
-            font-size: 1.5rem;
-            color: #64748b;
-            margin-top: -15px; /* Hizalama ayarı */
-        }
-
-        .label {
-            font-size: 0.6rem;
-            color: #64748b;
-            letter-spacing: 1px;
-        }
-    </style>
+        <div class="result-text" id="result-display"></div>
+    </div>
 
     <script>
-        // =========================================
-        // GERİ SAYIM MANTIĞI (18:00 HEDEFLİ)
-        // =========================================
+        // --- SAYAÇ MANTIĞI (18:00 HEDEFLİ) ---
         function updateCountdown() {
             const now = new Date();
             let target = new Date();
 
-            // Hedef saati 18:00:00 olarak ayarla
-            target.setHours(18, 0, 0, 0);
+            target.setHours(18, 0, 0, 0); // Hedef: 18:00:00
 
-            // Eğer şu an saat 18:00'i geçtiyse, hedef yarın akşam 18:00 olsun
+            // Eğer saat 18:00'i geçtiyse yarına kur
             if (now > target) {
                 target.setDate(target.getDate() + 1);
             }
 
             const diff = target - now;
-
-            // Matematiksel hesaplamalar
             const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-            // Ekrana yazdırma (Tek haneli ise başına 0 ekle)
             document.getElementById('cd-hours').innerText = hours < 10 ? '0' + hours : hours;
             document.getElementById('cd-minutes').innerText = minutes < 10 ? '0' + minutes : minutes;
             document.getElementById('cd-seconds').innerText = seconds < 10 ? '0' + seconds : seconds;
-            
-            // GÜN kısmı HTML'de zaten statik olarak "??" yazıldı, ona dokunmuyoruz.
         }
-
-        // Sayacı her 1 saniyede bir güncelle
         setInterval(updateCountdown, 1000);
-        updateCountdown(); // Sayfa açılır açılmaz bir kere çalıştır (bekleme yapmasın)
+        updateCountdown();
+
+
+        // --- OYUN MANTIĞI (BASİT REFLEKS) ---
+        const box = document.getElementById('reflex-box');
+        const resultDisplay = document.getElementById('result-display');
+        
+        let gameState = 'idle'; // Durumlar: idle (boş), waiting (kırmızı), ready (yeşil)
+        let startTime;
+        let timeoutId;
+
+        function handleClick() {
+            if (gameState === 'idle') {
+                // Oyunu Başlat
+                gameState = 'waiting';
+                box.style.backgroundColor = '#ef4444'; // Kırmızı
+                box.innerHTML = 'BEKLE...<br>(Yeşil Olunca Tıkla)';
+                resultDisplay.innerText = "";
+                
+                // Rastgele 1 ile 4 saniye arasında bekle
+                const randomTime = Math.random() * 3000 + 1000;
+                
+                timeoutId = setTimeout(() => {
+                    // Yeşil ol!
+                    gameState = 'ready';
+                    box.style.backgroundColor = '#22c55e'; // Yeşil
+                    box.innerHTML = 'TIKLA!';
+                    startTime = Date.now();
+                }, randomTime);
+
+            } else if (gameState === 'waiting') {
+                // Erken bastı (Ceza)
+                clearTimeout(timeoutId);
+                gameState = 'idle';
+                box.style.backgroundColor = '#ef4444';
+                box.innerHTML = 'ÇOK ERKEN!<br>Tekrar Dene';
+                resultDisplay.innerText = "⚠️ Acele etme pilot!";
+
+            } else if (gameState === 'ready') {
+                // Başarılı Tıklama
+                const endTime = Date.now();
+                const reactionTime = endTime - startTime;
+                
+                gameState = 'idle';
+                box.style.backgroundColor = '#3b82f6'; // Mavi (Sonuç)
+                box.innerHTML = `SÜRE:<br>${reactionTime} ms`;
+                
+                // Yorum yap
+                let comment = "";
+                if(reactionTime < 200) comment = "🚀 İNANILMAZ! Savaş Pilotu Seviyesi";
+                else if(reactionTime < 300) comment = "✅ Gayet İyi Reflex";
+                else if(reactionTime < 500) comment = "⚠️ Biraz Yavaşsın";
+                else comment = "🐌 Uykun Gelmiş Senin";
+
+                resultDisplay.innerText = comment;
+            }
+        }
     </script>
+</body>
+</html>
