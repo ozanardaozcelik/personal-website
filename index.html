@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hosting Test | Ozan Arda Özçelik</title>
+    <style>
+        /* Modern ve Temiz Bir Tasarım (CSS) */
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #0f172a; /* Koyu Lacivert Arkaplan */
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .container {
+            text-align: center;
+            background: #1e293b;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            border: 1px solid #334155;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #38bdf8; /* Açık Mavi */
+        }
+
+        p {
+            color: #94a3b8;
+            margin-bottom: 2rem;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            background-color: #22c55e; /* Yeşil */
+            border-radius: 50%;
+            margin-right: 10px;
+            box-shadow: 0 0 10px #22c55e;
+            animation: pulse 2s infinite;
+        }
+
+        .card {
+            background: #0f172a;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid #334155;
+            margin-top: 1rem;
+        }
+
+        button {
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background-color: #2563eb;
+        }
+
+        /* Animasyon */
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Bağlantı Başarılı!</h1>
+        <p>GitHub & Netlify Entegrasyonu Çalışıyor.</p>
+
+        <div class="card">
+            <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">
+                <span class="status-indicator"></span>
+                <span id="status-text">Sistem Online</span>
+            </div>
+            <div id="dynamic-area" style="font-size: 0.9rem; color: #cbd5e1;">
+                Test verisi bekleniyor...
+            </div>
+        </div>
+
+        <button onclick="testFunction()">JS Test Et</button>
+    </div>
+
+    <script>
+        // Basit bir JavaScript Testi
+        function testFunction() {
+            const displayArea = document.getElementById('dynamic-area');
+            const now = new Date();
+            const timeString = now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds();
+            
+            displayArea.innerHTML = "✅ JavaScript Çalışıyor!<br>Sunucu Saati: " + timeString;
+            displayArea.style.color = "#4ade80"; // Yazıyı yeşil yap
+        }
+        
+        console.log("Ozan Arda Özçelik - Debugging Mode On");
+    </script>
+</body>
+</html>
