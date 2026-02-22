@@ -1,0 +1,61 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Courier New', monospace; /* Teknoloji hissiyatı için */
+}
+
+body {
+    background-color: #000;
+    color: #fff;
+    overflow-x: hidden;
+}
+
+/* Scroll Trigger için gerekli uzun alan */
+.scroll-container {
+    width: 100%;
+    height: 400vh; /* 4 sahne için 4 sayfa boyu kaydırma alanı */
+    position: relative;
+}
+
+/* Her bir sahnenin genel yapısı */
+.scene {
+    position: fixed; /* Ekrana sabitliyoruz, scroll ile içindeki elemanlar değişecek */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform-origin: center center; /* Zoom tam ortadan yapılsın */
+}
+
+/* İçerik Kutuları */
+.content {
+    background: rgba(0, 0, 0, 0.7);
+    padding: 2rem;
+    border-radius: 15px;
+    border: 1px solid #4ecca3;
+    text-align: center;
+    z-index: 10;
+}
+
+.content h2 { color: #4ecca3; margin-bottom: 1rem; font-size: 2.5rem; }
+.content ul { list-style: none; font-size: 1.5rem; line-height: 1.8; }
+
+/* Kamera HUD Efekti (İsteğe bağlı, 1. sahneye yeşil tarama çizgileri ekler) */
+.hud-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: repeating-linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1) 2px, transparent 2px, transparent 4px);
+    pointer-events: none;
+}
+
+/* Katman Sıralaması (Z-index) - En üstte Sahne 1 olacak */
+#scene1 { z-index: 4; }
+#scene2 { z-index: 3; opacity: 0; transform: scale(3); } /* Başlangıçta devasa ve görünmez */
+#scene3 { z-index: 2; opacity: 0; transform: scale(3); }
+#scene4 { z-index: 1; opacity: 0; transform: scale(3); }
