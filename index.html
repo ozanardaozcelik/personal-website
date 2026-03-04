@@ -3,51 +3,452 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ozan Arda Özçelik - Portfolio</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Ozan Arda Özçelik | Mission Control Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00f2ff;
+            --secondary: #7000ff;
+            --bg: #020205;
+            --card-bg: rgba(10, 10, 15, 0.4); 
+            --border: rgba(0, 242, 255, 0.15); 
+            --font-tech: 'Orbitron', sans-serif;
+            --font-main: 'Inter', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: #fff; overflow-x: hidden; font-family: var(--font-main); -webkit-font-smoothing: antialiased; margin: 0; padding: 0; }
+
+        .top-bar {
+            position: fixed; top: 0; width: 100%; padding: 30px 40px;
+            display: flex; justify-content: space-between; align-items: center; z-index: 1002;
+        }
+        .logo-text { font-family: var(--font-tech); font-weight: 900; letter-spacing: 2px; color: #fff; }
+        
+        .lang-btn {
+            background: transparent; border: 1px solid var(--primary); color: var(--primary);
+            padding: 8px 16px; border-radius: 4px; cursor: pointer; font-family: var(--font-tech);
+            font-size: 0.85rem; transition: 0.3s; letter-spacing: 1px; font-weight: 700;
+        }
+        .lang-btn:hover { background: var(--primary); color: #000; box-shadow: 0 0 15px rgba(0, 242, 255, 0.4); }
+
+        /* --- HOLOGRAMLAR --- */
+        .hologram-img {
+            position: fixed; 
+            width: 85%; max-width: 1100px; 
+            filter: drop-shadow(0 0 30px var(--primary));
+            mask-image: radial-gradient(circle at center, black 20%, transparent 80%);
+            -webkit-mask-image: radial-gradient(circle at center, black 20%, transparent 80%);
+            z-index: -1; pointer-events: none;
+        }
+
+        #bg-world { top: 15vh; left: 50%; transform: translateX(-50%); opacity: 0.15; }
+        #bg-uav { top: 50%; left: -60vw; transform: translateY(-50%); opacity: 0; }
+
+        /* --- AANG AVATAR --- */
+        #bg-aang-final {
+            position: fixed;
+            top: 25vh; 
+            left: 50%;
+            transform: translate(-50%, -50%); 
+            height: 130vh; 
+            width: auto;
+            object-fit: contain;
+            opacity: 0; 
+            z-index: 0;
+            pointer-events: none;
+            filter: drop-shadow(0 0 50px rgba(0, 242, 255, 0.3));
+            mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+            -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+        }
+
+        .section-wrapper { position: relative; width: 100%; overflow: hidden; }
+
+        .side-nav {
+            position: fixed; left: 30px; top: 50%; transform: translateY(-50%);
+            display: flex; flex-direction: column; gap: 15px; z-index: 1001;
+        }
+        .nav-dot { width: 10px; height: 10px; border: 2px solid rgba(0, 242, 255, 0.2); border-radius: 50%; cursor: pointer; transition: 0.3s; text-decoration: none; }
+        .nav-dot.active { background: var(--primary); box-shadow: 0 0 10px var(--primary); border-color: var(--primary); }
+
+        section { width: 100%; position: relative; }
+        
+        #hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+
+        .flow-container { 
+            display: flex; flex-direction: column; justify-content: center; align-items: center; 
+            gap: 18vh; padding: 15vh 0; min-height: 130vh;
+        }
+
+        #flow-intern { justify-content: flex-start; padding-top: 25vh; min-height: 100vh; }
+
+        .static-text { 
+            font-family: var(--font-tech); 
+            font-size: clamp(1.1rem, 2.5vw, 1.8rem); 
+            font-weight: 700; 
+            text-align: center; 
+            width: 75%; 
+            line-height: 1.6;
+            letter-spacing: 2px;
+            color: #ffffff; 
+            text-shadow: 0 0 10px rgba(0, 0, 0, 1), 0 0 20px rgba(0, 242, 255, 0.5); 
+        }
+
+        .horizontal-wrapper { overflow: hidden; background: transparent; position: relative; }
+        .horizontal-container { display: flex; width: 700vw; height: 100vh; }
+        .panel { width: 100vw; height: 100vh; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+        
+        .cyber-arrow { font-size: 7rem; color: var(--primary); animation: slideArrow 2s infinite; margin-top: 20px;}
+        @keyframes slideArrow { 0% { transform: translateX(-30px); opacity: 0; } 50% { opacity: 1; } 100% { transform: translateX(50px); opacity: 0; } }
+
+        .project-card { 
+            background: var(--card-bg); border: 1px solid var(--border); padding: 45px; 
+            width: 800px; border-radius: 16px; backdrop-filter: blur(20px);
+        }
+        .project-card h3 { color: var(--primary); font-family: var(--font-tech); font-size: 2.5rem; margin-bottom: 20px; }
+        .project-card p { font-size: 1.1rem; line-height: 1.6; color: #a1a1aa; margin-bottom: 30px; font-weight: 400; }
+        
+        .github-link { 
+            display: inline-block; border: 1px solid rgba(0, 242, 255, 0.4); color: var(--primary); 
+            padding: 10px 20px; text-decoration: none; border-radius: 4px; font-weight: 600; 
+            font-size: 0.8rem; font-family: var(--font-tech); transition: 0.3s; letter-spacing: 1px;
+        }
+        .github-link:hover { background: rgba(0, 242, 255, 0.1); box-shadow: 0 0 15px rgba(0, 242, 255, 0.2); }
+
+        /* --- FİNAL SAYFASI --- */
+        #final { 
+            height: 100vh; 
+            display: flex; flex-direction: column; align-items: center; 
+            justify-content: flex-end; 
+            padding-bottom: 8vh; 
+            position: relative; overflow: hidden; margin: 0; 
+        }
+
+        .bento-2x2 { 
+            display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; 
+            gap: 20px; max-width: 1000px; width: 92%; 
+            z-index: 1; 
+        }
+        
+        .bento-box { 
+            background: var(--card-bg); border: 1px solid var(--border); padding: 40px; 
+            border-radius: 16px; display: flex; flex-direction: column; justify-content: center; 
+            backdrop-filter: blur(20px); box-shadow: inset 0 0 20px rgba(0, 242, 255, 0.02);
+            transition: transform 0.4s ease, border-color 0.4s ease;
+        }
+        .bento-box:hover {
+            transform: translateY(-5px); border-color: rgba(0, 242, 255, 0.4);
+            box-shadow: inset 0 0 30px rgba(0, 242, 255, 0.05), 0 10px 20px rgba(0,0,0,0.4);
+        }
+        
+        .hud-title { color: #888; font-family: var(--font-tech); font-size: 0.65rem; letter-spacing: 4px; margin-bottom: 25px; text-transform: uppercase; }
+        .b-name { font-family: var(--font-tech); font-size: clamp(2rem, 3vw, 2.8rem); letter-spacing: 2px; color: #fff; text-align: center; line-height: 1.3;}
+        
+        .mission-item { color: var(--primary); font-weight: 700; font-size: 0.95rem; margin-bottom: 12px; font-family: var(--font-tech); letter-spacing: 1px; }
+        
+        .skill-grid { display: flex; flex-wrap: wrap; gap: 12px; }
+        .skill-chip { border: 1px solid rgba(0, 242, 255, 0.3); background: rgba(0, 242, 255, 0.05); padding: 10px 18px; border-radius: 50px; font-size: 0.8rem; font-weight: 500; color: #e2e8f0; font-family: var(--font-tech); letter-spacing: 1px; display: flex; align-items: center; gap: 6px;}
+        
+        .establish-btn { background: transparent; border: 1px solid var(--primary); color: var(--primary); padding: 14px 35px; text-decoration: none; font-weight: 600; display: inline-block; border-radius: 50px; font-family: var(--font-tech); font-size: 0.8rem; transition: 0.3s; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px;}
+        .establish-btn:hover { background: rgba(0, 242, 255, 0.1); box-shadow: 0 0 20px rgba(0, 242, 255, 0.2); color: #fff; }
+        .social-link { color: #888; text-decoration: none; font-size: 0.75rem; font-weight: 600; margin: 0 15px; font-family: var(--font-tech); letter-spacing: 2px; transition: 0.3s; }
+        .social-link:hover { color: var(--primary); }
+
+        /* --- MOBİL UYUMLULUK (RESPONSIVE) AYARLARI --- */
+        @media (max-width: 768px) {
+            /* Üst Menü ve Navigasyon */
+            .top-bar { padding: 20px 20px; }
+            .side-nav { left: 10px; }
+            .nav-dot { width: 8px; height: 8px; }
+
+            /* Tipografi ve Ana Başlık Daraltmaları */
+            #hero h1 { font-size: 2.8rem !important; letter-spacing: 4px !important; line-height: 1.2; }
+            #hero-sub { font-size: 0.85rem; }
+            .static-text { width: 90%; font-size: 1.1rem; }
+            .flow-container { gap: 10vh; padding: 10vh 0; }
+
+            /* Proje Kartları Sıkıştırması */
+            .project-card { width: 85vw; padding: 25px; }
+            .project-card h3 { font-size: 1.8rem; margin-bottom: 10px; }
+            .project-card p { font-size: 1rem; }
+            #proj-title { font-size: 3rem !important; letter-spacing: 2px !important; }
+            .cyber-arrow { font-size: 4rem; }
+
+            /* Bento Box (Final Sayfası) - Tek Sütuna Düşürme */
+            #final { 
+                height: auto; 
+                min-height: 100vh; 
+                padding-top: 120px; 
+                padding-bottom: 60px; 
+                justify-content: center; 
+            }
+            .bento-2x2 { 
+                grid-template-columns: 1fr; /* 2 sütundan tek sütuna düşürür */
+                grid-template-rows: auto; 
+                gap: 15px; 
+                width: 90%; 
+            }
+            .bento-box { padding: 25px; }
+            .b-name { font-size: 2.2rem; }
+            .skill-grid { justify-content: center; }
+            
+            /* Hologram Optimizasyonu */
+            #bg-aang-final { height: 100vh; object-position: top; }
+        }
+    </style>
 </head>
 <body>
 
-    <div class="scroll-container">
-        
-        <div class="scene" id="scene4" style="background-image: url('4.jpg');">
-            <div class="content">
-                <h2>Asıl Web Sitesi</h2>
-                <p>Burayı daha sonra tasarlayacağız.</p>
+    <img id="bg-world" src="world.jpg" class="hologram-img" alt="World">
+    <img id="bg-uav" src="uav hologram.jpg" class="hologram-img" alt="SIHA">
+    <img id="bg-aang-final" src="aang.jpg" alt="Aang">
+
+    <div class="top-bar">
+        <div class="logo-text">O.A.Ö</div>
+        <button id="langBtn" class="lang-btn" onclick="toggleLanguage()">TR</button>
+    </div>
+
+    <div class="side-nav">
+        <div class="nav-dot active" data-target="hero"></div>
+        <div class="nav-dot" data-target="projects"></div>
+        <div class="nav-dot" data-target="final"></div>
+    </div>
+
+    <div class="section-wrapper" id="intro-wrapper">
+        <section id="hero">
+            <div style="text-align: center;">
+                <h1 style="font-family: var(--font-tech); font-size: clamp(2.5rem, 8vw, 5rem); letter-spacing: 12px;">OZAN ARDA ÖZÇELİK</h1>
+                <p id="hero-sub" style="color: var(--primary); font-family: var(--font-tech); margin-top: 15px; font-weight: 700;">// OTONOM SİSTEMLER VE YAPAY ZEKA GELİŞTİRİCİSİ</p>
+            </div>
+        </section>
+
+        <section id="flow-sahi" class="flow-container">
+            <div class="static-text" id="flow1-1">Şahi Otonom SİHA Takımında Yazılım Ekip Liderliği Görevini Yürütüyorum.</div>
+            <div class="static-text" id="flow1-2">Teknofest Kapsamında Otonom Uçuş ve Görüntü İşleme Sistemlerini Ekibimle Birlikte Geliştirdim.</div>
+            <div class="static-text" id="flow1-3">Karmaşık Senaryoları Python ve Gazebo Ortamında Simüle Ederek Hayata Geçiriyorum.</div>
+        </section>
+    </div>
+
+    <div id="projects" class="horizontal-wrapper">
+        <div class="horizontal-container">
+            <div class="panel">
+                <div style="text-align: center;"><h2 id="proj-title" style="font-family: var(--font-tech); font-size: 5rem; letter-spacing: 5px;">PROJELERİM</h2><div class="cyber-arrow">➔</div></div>
+            </div>
+            <div class="panel">
+                <div class="project-card">
+                    <h3>TensileForge</h3>
+                    <p id="p-desc-1">Mühendislik simülasyonları için geliştirdiğim malzeme analizi ve simülasyon aracı.</p>
+                    <a href="https://github.com/ozanardaozcelik" target="_blank" class="github-link">VIEW ON GITHUB</a>
+                </div>
+            </div>
+            <div class="panel">
+                <div class="project-card">
+                    <h3>Comp2laintBox</h3>
+                    <p id="p-desc-2">Dijital şikayet ve geri bildirim yönetim sistemini kullanıcı odaklı olarak ben tasarladım.</p>
+                    <a href="https://github.com/ozanardaozcelik" target="_blank" class="github-link">VIEW ON GITHUB</a>
+                </div>
+            </div>
+            <div class="panel">
+                <div class="project-card">
+                    <h3>EmployeeLoss</h3>
+                    <p id="p-desc-3">Makine Öğrenmesi ile çalışan kaybını tahmin eden yapay zeka modelini ben kurdum.</p>
+                    <a href="https://github.com/ozanardaozcelik" target="_blank" class="github-link">VIEW ON GITHUB</a>
+                </div>
+            </div>
+            <div class="panel">
+                <div class="project-card">
+                    <h3>MovieNSeriesNSitcom</h3>
+                    <p id="p-desc-4">Kişisel dizi, film ve sitcom takip platformu.</p>
+                    <a href="https://github.com/ozanardaozcelik" target="_blank" class="github-link">VIEW ON GITHUB</a>
+                </div>
+            </div>
+            <div class="panel">
+                <div class="project-card">
+                    <h3>TurtleAimBot</h3>
+                    <p id="p-desc-5">Python ile geliştirilen refleks eğitim simülasyonu.</p>
+                    <a href="https://github.com/ozanardaozcelik" target="_blank" class="github-link">VIEW ON GITHUB</a>
+                </div>
+            </div>
+            <div class="panel">
+                <div class="project-card">
+                    <h3>HandDetector</h3>
+                    <p id="p-desc-6">Görüntü işleme ile gerçek zamanlı el hareketi tanıma sistemi üzerinde çalışıyorum.</p>
+                    <a href="#" class="github-link" id="p-btn-soon" style="opacity:0.5; border-color: #555; color: #555;">COMING SOON</a>
+                </div>
             </div>
         </div>
+    </div>
 
-        <div class="scene" id="scene3" style="background-image: url('3.png');">
-            <div class="content">
-                <h2>Hakkımda</h2>
-                <p>Şahi Otonom SİHA Takımı Yazılım Lideri | Ozan Arda Özçelik</p>
+    <div class="section-wrapper" id="outro-wrapper">
+        <section id="flow-intern" class="flow-container">
+            <div class="static-text" id="flow2-1">Staj Sürecimde Python Ekosisteminde Generative AI ve Büyük Dil Modelleri (LLM) Üzerine Odaklandım.</div>
+            <div class="static-text" id="flow2-2">Yenilikçi Yapay Zeka Çözümlerinin Geliştirilme Süreçlerine Aktif Katkı Sağladım.</div>
+            <div class="static-text" id="flow2-3">Endüstriyel Veri Analitiği ve Otonom Sistem Entegrasyonunda Tecrübe Kazandım.</div>
+        </section>
+
+        <section id="final">
+            <div class="bento-2x2">
+                <div class="bento-box" style="align-items: center; text-align: center;">
+                    <h2 class="b-name">Ozan Arda<br>Özçelik</h2>
+                </div>
+                <div class="bento-box">
+                    <h4 class="hud-title" id="hud-1">AKTİF İŞLER</h4>
+                    <div class="mission-item" id="miss-1">YAZILIM EKİP LİDERİ @ ŞAHİ OTONOM SİHA</div>
+                    <div class="mission-item" id="miss-2">NKÜ | BİLGİSAYAR MÜHENDİSLİĞİ 3. SINIF</div>
+                </div>
+                <div class="bento-box">
+                    <h4 class="hud-title" id="hud-2">YETENEKLERİM</h4>
+                    <div class="skill-grid">
+                        <span class="skill-chip">Python 🐍</span>
+                        <span class="skill-chip">Machine Learning 🤖</span>
+                        <span class="skill-chip">Image Processing 👁️</span>
+                        <span class="skill-chip">OpenCV 🎥</span>
+                    </div>
+                </div>
+                <div class="bento-box" style="align-items: center; text-align: center;">
+                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=ozan.a.ozcelik@gmail.com" target="_blank" class="establish-btn" id="btn-contact">✉ BANA ULAŞIN</a>
+                    <div>
+                        <a href="https://github.com/ozanardaozcelik" target="_blank" class="social-link">GITHUB</a>
+                        <a href="https://linkedin.com/in/ozanardaozcelik" target="_blank" class="social-link">LINKEDIN</a>
+                    </div>
+                </div>
             </div>
-        </div>
-
-        <div class="scene" id="scene2" style="background-image: url('2.png');">
-            <div class="content">
-                <h2>Projelerim</h2>
-                <p>Otonom Uçuş Sistemleri, AI Projeleri, Python Geliştirmeleri</p>
-            </div>
-        </div>
-
-        <div class="scene" id="scene1" style="background-image: url('1.jpg');">
-            <div class="hud-overlay"></div> <div class="content">
-                <h2>Yeteneklerim</h2>
-                <ul>
-                    <li>Python</li>
-                    <li>C++</li>
-                    <li>Görüntü İşleme (OpenCV)</li>
-                    <li>GSAP & Web Animasyonları</li>
-                </ul>
-            </div>
-        </div>
-
+        </section>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    
-    <script src="app.js"></script>
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // --- 1. DÜNYA HOLOGRAMI ---
+        gsap.to("#bg-world", { 
+            y: "-150%", opacity: 0, ease: "none", 
+            scrollTrigger: { trigger: "#intro-wrapper", start: "top top", end: "bottom top", scrub: true } 
+        });
+        
+        // --- 2. YATAY KAYDIRMA (PROJELER) ---
+        const container = document.querySelector(".horizontal-container");
+        gsap.to(container, {
+            x: () => -(container.scrollWidth - window.innerWidth), ease: "none",
+            scrollTrigger: { trigger: ".horizontal-wrapper", pin: true, scrub: 1, end: () => "+=" + container.scrollWidth }
+        });
+
+        // --- 3. SİHA HOLOGRAMI (OPAKLIK ARTIRILDI) ---
+        gsap.to("#bg-uav", { 
+            x: "150vw", 
+            opacity: 0.35, // GÖRÜNÜRLÜK ARTIRILDI (0.15 -> 0.35)
+            ease: "none", 
+            scrollTrigger: { 
+                trigger: ".horizontal-wrapper", 
+                start: "top top", 
+                end: () => "+=" + container.scrollWidth, 
+                scrub: 1 
+            } 
+        });
+
+        // --- 4. AANG HOLOGRAMI ---
+        gsap.to("#bg-aang-final", { 
+            opacity: 0.35, 
+            y: "10%", 
+            ease: "none", 
+            scrollTrigger: { 
+                trigger: "#outro-wrapper", 
+                start: "top center", 
+                end: "bottom bottom", 
+                scrub: true 
+            } 
+        });
+
+        // --- YAN NAVİGASYON ---
+        const dots = document.querySelectorAll(".nav-dot");
+        const sections = [
+            document.getElementById("hero"),
+            document.getElementById("projects"),
+            document.getElementById("final")
+        ];
+
+        window.addEventListener("scroll", () => {
+            let current = "";
+            sections.forEach(s => {
+                if (s && pageYOffset >= s.offsetTop - s.clientHeight / 2) current = s.getAttribute("id");
+            });
+            dots.forEach(d => {
+                d.classList.remove("active");
+                if (d.getAttribute("data-target") === current) d.classList.add("active");
+            });
+        });
+
+        dots.forEach(dot => {
+            dot.addEventListener("click", (e) => {
+                const targetId = dot.getAttribute("data-target");
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    const yOffset = targetElement.getBoundingClientRect().top + window.scrollY;
+                    window.scrollTo({ top: yOffset, behavior: 'smooth' });
+                }
+            });
+        });
+
+        // --- ÇEVİRİ ---
+        const translations = {
+            "TR": {
+                "hero-sub": "// OTONOM SİSTEMLER VE YAPAY ZEKA GELİŞTİRİCİSİ",
+                "flow1-1": "Şahi Otonom SİHA Takımında Yazılım Ekip Liderliği Görevini Yürütüyorum.",
+                "flow1-2": "Teknofest Kapsamında Otonom Uçuş ve Görüntü İşleme Sistemlerini Ekibimle Birlikte Geliştirdim.",
+                "flow1-3": "Karmaşık Senaryoları Python ve Gazebo Ortamında Simüle Ederek Hayata Geçiriyorum.",
+                "proj-title": "PROJELERİM",
+                "p-desc-1": "Mühendislik simülasyonları için geliştirdiğim malzeme analizi ve simülasyon aracı.",
+                "p-desc-2": "Dijital şikayet ve geri bildirim yönetim sistemini kullanıcı odaklı olarak ben tasarladım.",
+                "p-desc-3": "Makine Öğrenmesi ile çalışan kaybını tahmin eden yapay zeka modelini ben kurdum.",
+                "p-desc-4": "Kişisel dizi, film ve sitcom takip platformu.",
+                "p-desc-5": "Python ile geliştirilen refleks eğitim simülasyonu.",
+                "p-desc-6": "Görüntü işleme ile gerçek zamanlı el hareketi tanıma sistemi üzerinde çalışıyorum.",
+                "flow2-1": "Staj Sürecimde Python Ekosisteminde Generative AI ve Büyük Dil Modelleri (LLM) Üzerine Odaklandım.",
+                "flow2-2": "Yenilikçi Yapay Zeka Çözümlerinin Geliştirilme Süreçlerine Aktif Katkı Sağladım.",
+                "flow2-3": "Endüstriyel Veri Analitiği ve Otonom Sistem Entegrasyonunda Tecrübe Kazandım.",
+                "hud-1": "AKTİF İŞLER",
+                "hud-2": "YETENEKLERİM",
+                "miss-1": "YAZILIM EKİP LİDERİ @ ŞAHİ OTONOM SİHA",
+                "miss-2": "NKÜ | BİLGİSAYAR MÜHENDİSLİĞİ 3. SINIF",
+                "btn-contact": "✉ BANA ULAŞIN"
+            },
+            "EN": {
+                "hero-sub": "// AUTONOMOUS SYSTEMS AND AI DEVELOPER",
+                "flow1-1": "I serve as the Software Team Lead at Şahi Autonomous UCAV Team.",
+                "flow1-2": "I developed Autonomous Flight and Image Processing Systems for the Teknofest Competitions together with my team.",
+                "flow1-3": "I bring complex scenarios to life by simulating them in Python and Gazebo environments.",
+                "proj-title": "PROJECTS",
+                "p-desc-1": "Material analysis and simulation tool developed for engineering simulations.",
+                "p-desc-2": "User-oriented digital complaint and feedback management system.",
+                "p-desc-3": "AI model predicting employee attrition using Machine Learning.",
+                "p-desc-4": "Personal tracking platform for movies, series, and sitcoms.",
+                "p-desc-5": "Reflex training simulation developed with Python.",
+                "p-desc-6": "Real-time hand gesture recognition system using image processing.",
+                "flow2-1": "During my internship, I focused on Generative AI and Large Language Models (LLM) in the Python ecosystem.",
+                "flow2-2": "I gained experience by actively contributing to the development of innovative AI solutions.",
+                "flow2-3": "I acquired expertise in industrial data analytics and autonomous system integration.",
+                "hud-1": "ACTIVE MISSIONS",
+                "hud-2": "MY SKILLS",
+                "miss-1": "SOFTWARE TEAM LEAD @ ŞAHİ AUTONOMOUS UCAV",
+                "miss-2": "NKÜ | COMPUTER ENGINEERING 3RD YEAR",
+                "btn-contact": "✉ CONTACT ME"
+            }
+        };
+
+        let currentLang = "TR";
+        
+        function toggleLanguage() {
+            currentLang = currentLang === "TR" ? "EN" : "TR";
+            document.getElementById("langBtn").innerText = currentLang;
+            
+            for (let key in translations[currentLang]) {
+                const element = document.getElementById(key);
+                if (element) {
+                    element.innerText = translations[currentLang][key];
+                }
+            }
+        }
+    </script>
 </body>
 </html>
