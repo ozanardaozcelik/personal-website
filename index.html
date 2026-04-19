@@ -1,454 +1,1620 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ozan Arda Özçelik | Mission Control Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #00f2ff;
-            --secondary: #7000ff;
-            --bg: #020205;
-            --card-bg: rgba(10, 10, 15, 0.4); 
-            --border: rgba(0, 242, 255, 0.15); 
-            --font-tech: 'Orbitron', sans-serif;
-            --font-main: 'Inter', sans-serif;
-        }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ozan Arda Özçelik — Otonom Sistemler & Yapay Zeka</title>
+<meta name="description" content="Otonom Sistemler ve Yapay Zeka Geliştiricisi. Şahi Otonom SİHA Takımı Yazılım Ekip Lideri." />
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: var(--bg); color: #fff; overflow-x: hidden; font-family: var(--font-main); -webkit-font-smoothing: antialiased; margin: 0; padding: 0; }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-        .top-bar {
-            position: fixed; top: 0; width: 100%; padding: 30px 40px;
-            display: flex; justify-content: space-between; align-items: center; z-index: 1002;
-        }
-        .logo-text { font-family: var(--font-tech); font-weight: 900; letter-spacing: 2px; color: #fff; }
-        
-        .lang-btn {
-            background: transparent; border: 1px solid var(--primary); color: var(--primary);
-            padding: 8px 16px; border-radius: 4px; cursor: pointer; font-family: var(--font-tech);
-            font-size: 0.85rem; transition: 0.3s; letter-spacing: 1px; font-weight: 700;
-        }
-        .lang-btn:hover { background: var(--primary); color: #000; box-shadow: 0 0 15px rgba(0, 242, 255, 0.4); }
+<style>
+  :root {
+    --bg:        #05080F;
+    --bg-2:      #080C18;
+    --surface:   #0D1321;
+    --surface-2: #121a2b;
+    --border:    #1b2438;
+    --border-hi: #2a3855;
+    --text:      #E8ECF5;
+    --muted:     #7C879E;
+    --dim:       #4E5770;
+    --accent:    #00E5FF;
+    --accent-dim:#0097a8;
+    --warm:      #FF7A45;
+    --success:   #35D39A;
+    --grid-line: rgba(120, 180, 255, 0.05);
+  }
 
-        /* --- HOLOGRAMLAR --- */
-        .hologram-img {
-            position: fixed; 
-            width: 85%; max-width: 1100px; 
-            filter: drop-shadow(0 0 30px var(--primary));
-            mask-image: radial-gradient(circle at center, black 20%, transparent 80%);
-            -webkit-mask-image: radial-gradient(circle at center, black 20%, transparent 80%);
-            z-index: -1; pointer-events: none;
-        }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Barlow', sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    cursor: default;
+  }
+  body::before {
+    content:'';
+    position: fixed; inset:0;
+    pointer-events:none;
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 60px 60px;
+    z-index: 0;
+    opacity: .7;
+  }
+  body::after {
+    content:'';
+    position: fixed; inset:0;
+    pointer-events:none;
+    background: radial-gradient(ellipse at 50% -20%, rgba(0,229,255,0.08), transparent 60%);
+    z-index: 0;
+  }
 
-        #bg-world { top: 15vh; left: 50%; transform: translateX(-50%); opacity: 0.15; }
-        #bg-uav { top: 50%; left: -60vw; transform: translateY(-50%); opacity: 0; }
+  /* Noise overlay */
+  .noise {
+    position: fixed; inset:0;
+    pointer-events:none;
+    z-index: 1;
+    opacity: .035;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence baseFrequency='0.9' numOctaves='2'/></filter><rect width='160' height='160' filter='url(%23n)' opacity='0.8'/></svg>");
+  }
 
-        /* --- AANG AVATAR --- */
-        #bg-aang-final {
-            position: fixed;
-            top: 25vh; 
-            left: 50%;
-            transform: translate(-50%, -50%); 
-            height: 130vh; 
-            width: auto;
-            object-fit: contain;
-            opacity: 0; 
-            z-index: 0;
-            pointer-events: none;
-            filter: drop-shadow(0 0 50px rgba(0, 242, 255, 0.3));
-            mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
-            -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
-        }
+  /* Scroll progress */
+  .scroll-progress {
+    position: fixed; top:0; left:0; height:2px;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent), var(--warm));
+    z-index: 100;
+    box-shadow: 0 0 12px var(--accent);
+    transition: width 60ms linear;
+  }
 
-        .section-wrapper { position: relative; width: 100%; overflow: hidden; }
+  /* Nav */
+  nav {
+    position: fixed; top:0; left:0; right:0;
+    z-index: 50;
+    padding: 20px 48px;
+    display: flex; align-items:center; justify-content:space-between;
+    backdrop-filter: blur(12px);
+    background: linear-gradient(180deg, rgba(5,8,15,.8), rgba(5,8,15,.3));
+    border-bottom: 1px solid rgba(26,36,56,.6);
+  }
+  .logo {
+    font-family:'Chakra Petch', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: .18em;
+    display: flex; align-items:center; gap: 10px;
+  }
+  .logo .dot {
+    width:8px; height:8px; border-radius:50%;
+    background: var(--success);
+    box-shadow: 0 0 10px var(--success);
+    animation: pulse 2s infinite ease-in-out;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform:scale(1); }
+    50% { opacity:.5; transform:scale(.85); }
+  }
+  .nav-items {
+    display:flex; gap: 2px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+  }
+  .nav-items a {
+    color: var(--muted);
+    text-decoration:none;
+    padding: 8px 14px;
+    border: 1px solid transparent;
+    letter-spacing: .08em;
+    transition: all .25s;
+    position: relative;
+  }
+  .nav-items a:hover {
+    color: var(--accent);
+    border-color: var(--border-hi);
+    background: rgba(0,229,255,.04);
+  }
+  .nav-items a .num {
+    color: var(--dim);
+    margin-right: 6px;
+    font-size: 10px;
+  }
+  .nav-items a:hover .num { color: var(--warm); }
+  .lang-toggle {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    padding: 6px 10px;
+    background: transparent;
+    cursor: pointer;
+    letter-spacing: .12em;
+    transition: all .2s;
+  }
+  .lang-toggle:hover { border-color: var(--accent); color: var(--accent); }
 
-        .side-nav {
-            position: fixed; left: 30px; top: 50%; transform: translateY(-50%);
-            display: flex; flex-direction: column; gap: 15px; z-index: 1001;
-        }
-        .nav-dot { width: 10px; height: 10px; border: 2px solid rgba(0, 242, 255, 0.2); border-radius: 50%; cursor: pointer; transition: 0.3s; text-decoration: none; }
-        .nav-dot.active { background: var(--primary); box-shadow: 0 0 10px var(--primary); border-color: var(--primary); }
+  /* Main container */
+  main { position: relative; z-index: 2; }
+  section { padding: 120px 48px; position: relative; }
 
-        section { width: 100%; position: relative; }
-        
-        #hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 100px 48px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-status {
+    display: flex; align-items:center; gap:14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: .18em;
+    margin-bottom: 32px;
+  }
+  .hero-status .dot-green {
+    width:6px; height:6px; border-radius:50%;
+    background: var(--success);
+    box-shadow: 0 0 8px var(--success);
+  }
+  .hero-status span.sep { color: var(--dim); }
+  .hero-status .live { color: var(--success); }
 
-        .flow-container { 
-            display: flex; flex-direction: column; justify-content: center; align-items: center; 
-            gap: 18vh; padding: 15vh 0; min-height: 130vh;
-        }
+  .hero-title {
+    font-family: 'Chakra Petch', sans-serif;
+    font-weight: 700;
+    font-size: clamp(48px, 9vw, 140px);
+    line-height: .95;
+    letter-spacing: -.02em;
+    margin-bottom: 28px;
+  }
+  .hero-title .line { display:block; overflow:hidden; }
+  .hero-title .line span { display:inline-block; }
+  .hero-title .outline {
+    -webkit-text-stroke: 1.5px var(--accent);
+    color: transparent;
+  }
+  .hero-title em {
+    font-style: normal;
+    color: var(--accent);
+    position: relative;
+  }
 
-        #flow-intern { justify-content: flex-start; padding-top: 25vh; min-height: 100vh; }
+  .hero-role {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--warm);
+    letter-spacing: .1em;
+    margin-bottom: 48px;
+    display: flex; align-items:center; gap: 12px;
+  }
+  .hero-role::before {
+    content:'//';
+    color: var(--dim);
+  }
+  .cursor-blink {
+    display: inline-block;
+    width: 9px; height: 18px;
+    background: var(--warm);
+    animation: blink 1s infinite step-end;
+    margin-left: 2px;
+    vertical-align: middle;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
 
-        .static-text { 
-            font-family: var(--font-tech); 
-            font-size: clamp(1.1rem, 2.5vw, 1.8rem); 
-            font-weight: 700; 
-            text-align: center; 
-            width: 75%; 
-            line-height: 1.6;
-            letter-spacing: 2px;
-            color: #ffffff; 
-            text-shadow: 0 0 10px rgba(0, 0, 0, 1), 0 0 20px rgba(0, 242, 255, 0.5); 
-        }
+  .hero-meta {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    margin-top: 80px;
+  }
+  .hero-meta .cell {
+    padding: 24px 24px 24px 0;
+    border-right: 1px solid var(--border);
+    position: relative;
+  }
+  .hero-meta .cell:last-child { border-right: none; padding-right: 0; }
+  .hero-meta .cell .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--dim);
+    letter-spacing: .18em;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+  .hero-meta .cell .value {
+    font-family: 'Chakra Petch', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    color: var(--text);
+  }
+  .hero-meta .cell .value .accent { color: var(--accent); }
 
-        .horizontal-wrapper { overflow: hidden; background: transparent; position: relative; }
-        .horizontal-container { display: flex; width: 700vw; height: 100vh; }
-        .panel { width: 100vw; height: 100vh; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
-        
-        .cyber-arrow { font-size: 7rem; color: var(--primary); animation: slideArrow 2s infinite; margin-top: 20px;}
-        @keyframes slideArrow { 0% { transform: translateX(-30px); opacity: 0; } 50% { opacity: 1; } 100% { transform: translateX(50px); opacity: 0; } }
+  .scroll-hint {
+    position: absolute;
+    bottom: 32px; left: 48px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--dim);
+    letter-spacing: .2em;
+    display: flex; align-items:center; gap:10px;
+  }
+  .scroll-hint .line-down {
+    width: 1px; height: 40px;
+    background: linear-gradient(180deg, var(--dim), transparent);
+    animation: scroll-line 2s infinite ease-out;
+  }
+  @keyframes scroll-line {
+    0% { transform: scaleY(0); transform-origin: top; }
+    50% { transform: scaleY(1); transform-origin: top; }
+    50.01% { transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
 
-        .project-card { 
-            background: var(--card-bg); border: 1px solid var(--border); padding: 45px; 
-            width: 800px; border-radius: 16px; backdrop-filter: blur(20px);
-        }
-        .project-card h3 { color: var(--primary); font-family: var(--font-tech); font-size: 2.5rem; margin-bottom: 20px; }
-        .project-card p { font-size: 1.1rem; line-height: 1.6; color: #a1a1aa; margin-bottom: 30px; font-weight: 400; }
-        
-        .github-link { 
-            display: inline-block; border: 1px solid rgba(0, 242, 255, 0.4); color: var(--primary); 
-            padding: 10px 20px; text-decoration: none; border-radius: 4px; font-weight: 600; 
-            font-size: 0.8rem; font-family: var(--font-tech); transition: 0.3s; letter-spacing: 1px;
-        }
-        .github-link:hover { background: rgba(0, 242, 255, 0.1); box-shadow: 0 0 15px rgba(0, 242, 255, 0.2); }
+  /* Radar in hero right */
+  .hero-radar {
+    position: absolute;
+    top: 50%; right: 48px;
+    transform: translateY(-50%);
+    width: 280px; height: 280px;
+    pointer-events: none;
+    opacity: .6;
+  }
+  .radar-ring {
+    position: absolute;
+    border: 1px solid rgba(0,229,255,.15);
+    border-radius: 50%;
+    inset: 0;
+  }
+  .radar-ring.r2 { inset: 20%; border-color: rgba(0,229,255,.2); }
+  .radar-ring.r3 { inset: 40%; border-color: rgba(0,229,255,.25); }
+  .radar-sweep {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, transparent 0deg, rgba(0,229,255,.35) 40deg, transparent 60deg);
+    animation: sweep 4s linear infinite;
+  }
+  @keyframes sweep { to { transform: rotate(360deg); } }
+  .radar-cross {
+    position: absolute;
+    inset: 0;
+  }
+  .radar-cross::before, .radar-cross::after {
+    content:'';
+    position:absolute;
+    background: rgba(0,229,255,.1);
+  }
+  .radar-cross::before { top:50%; left:0; right:0; height:1px; }
+  .radar-cross::after { left:50%; top:0; bottom:0; width:1px; }
+  .radar-dot {
+    position: absolute;
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 12px var(--accent);
+  }
+  .radar-dot.d1 { top: 32%; left: 68%; animation: blip 3.2s infinite; }
+  .radar-dot.d2 { top: 72%; left: 38%; animation: blip 4s infinite .8s; }
+  .radar-dot.d3 { top: 55%; left: 22%; animation: blip 3.5s infinite 1.4s; }
+  @keyframes blip {
+    0%, 100% { opacity: 0; }
+    20% { opacity: 1; }
+    60% { opacity: .4; }
+  }
 
-        /* --- FİNAL SAYFASI --- */
-        #final { 
-            height: 100vh; 
-            display: flex; flex-direction: column; align-items: center; 
-            justify-content: flex-end; 
-            padding-bottom: 8vh; 
-            position: relative; overflow: hidden; margin: 0; 
-        }
+  /* Marquee divider */
+  .marquee {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 22px 0;
+    overflow: hidden;
+    background: var(--bg-2);
+    position: relative;
+    z-index: 2;
+  }
+  .marquee-track {
+    display: flex;
+    gap: 64px;
+    white-space: nowrap;
+    animation: marquee 40s linear infinite;
+    font-family: 'Chakra Petch', sans-serif;
+    font-weight: 500;
+    font-size: 22px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+  .marquee span { color: var(--text); }
+  .marquee span.outline {
+    -webkit-text-stroke: 1px var(--accent);
+    color: transparent;
+  }
+  .marquee .star { color: var(--warm); }
+  @keyframes marquee {
+    to { transform: translateX(-50%); }
+  }
 
-        .bento-2x2 { 
-            display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; 
-            gap: 20px; max-width: 1000px; width: 92%; 
-            z-index: 1; 
-        }
-        
-        .bento-box { 
-            background: var(--card-bg); border: 1px solid var(--border); padding: 40px; 
-            border-radius: 16px; display: flex; flex-direction: column; justify-content: center; 
-            backdrop-filter: blur(20px); box-shadow: inset 0 0 20px rgba(0, 242, 255, 0.02);
-            transition: transform 0.4s ease, border-color 0.4s ease;
-        }
-        .bento-box:hover {
-            transform: translateY(-5px); border-color: rgba(0, 242, 255, 0.4);
-            box-shadow: inset 0 0 30px rgba(0, 242, 255, 0.05), 0 10px 20px rgba(0,0,0,0.4);
-        }
-        
-        .hud-title { color: #888; font-family: var(--font-tech); font-size: 0.65rem; letter-spacing: 4px; margin-bottom: 25px; text-transform: uppercase; }
-        .b-name { font-family: var(--font-tech); font-size: clamp(2rem, 3vw, 2.8rem); letter-spacing: 2px; color: #fff; text-align: center; line-height: 1.3;}
-        
-        .mission-item { color: var(--primary); font-weight: 700; font-size: 0.95rem; margin-bottom: 12px; font-family: var(--font-tech); letter-spacing: 1px; }
-        
-        .skill-grid { display: flex; flex-wrap: wrap; gap: 12px; }
-        .skill-chip { border: 1px solid rgba(0, 242, 255, 0.3); background: rgba(0, 242, 255, 0.05); padding: 10px 18px; border-radius: 50px; font-size: 0.8rem; font-weight: 500; color: #e2e8f0; font-family: var(--font-tech); letter-spacing: 1px; display: flex; align-items: center; gap: 6px;}
-        
-        .establish-btn { background: transparent; border: 1px solid var(--primary); color: var(--primary); padding: 14px 35px; text-decoration: none; font-weight: 600; display: inline-block; border-radius: 50px; font-family: var(--font-tech); font-size: 0.8rem; transition: 0.3s; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px;}
-        .establish-btn:hover { background: rgba(0, 242, 255, 0.1); box-shadow: 0 0 20px rgba(0, 242, 255, 0.2); color: #fff; }
-        .social-link { color: #888; text-decoration: none; font-size: 0.75rem; font-weight: 600; margin: 0 15px; font-family: var(--font-tech); letter-spacing: 2px; transition: 0.3s; }
-        .social-link:hover { color: var(--primary); }
+  /* Section headers */
+  .section-head {
+    display: flex; align-items: baseline; gap: 20px;
+    margin-bottom: 64px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .section-head .num {
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: .18em;
+  }
+  .section-head h2 {
+    font-family: 'Chakra Petch', sans-serif;
+    font-weight: 600;
+    font-size: clamp(32px, 5vw, 56px);
+    letter-spacing: -.01em;
+    color: var(--text);
+  }
+  .section-head .line-grow {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border-hi), transparent);
+  }
 
-        /* --- MOBİL UYUMLULUK (RESPONSIVE) AYARLARI --- */
-        @media (max-width: 768px) {
-            /* Üst Menü ve Navigasyon */
-            .top-bar { padding: 20px 20px; }
-            .side-nav { left: 10px; }
-            .nav-dot { width: 8px; height: 8px; }
+  /* About */
+  .about {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+  }
+  .about-text p {
+    font-size: 19px;
+    color: var(--text);
+    margin-bottom: 20px;
+    max-width: 540px;
+  }
+  .about-text p:nth-child(2), .about-text p:nth-child(3) {
+    color: var(--muted);
+    font-size: 16px;
+  }
+  .about-text p strong {
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .about-code {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.9;
+    position: relative;
+  }
+  .about-code-head {
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 18px;
+    display: flex; align-items: center; gap: 10px;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: .1em;
+  }
+  .about-code-head .dots { display: flex; gap: 6px; }
+  .about-code-head .dots span {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--border-hi);
+  }
+  .about-code-head .dots span:nth-child(1) { background: #ff5f57; }
+  .about-code-head .dots span:nth-child(2) { background: #febc2e; }
+  .about-code-head .dots span:nth-child(3) { background: #28c840; }
+  .about-code-head .path { margin-left: 10px; }
+  .about-code pre {
+    padding: 24px 18px;
+    color: var(--text);
+  }
+  .tk-key { color: #ff79c6; }
+  .tk-str { color: var(--success); }
+  .tk-num { color: var(--warm); }
+  .tk-com { color: var(--dim); }
+  .tk-fn  { color: var(--accent); }
+  .tk-var { color: #c9d1d9; }
 
-            /* Tipografi ve Ana Başlık Daraltmaları */
-            #hero h1 { font-size: 2.8rem !important; letter-spacing: 4px !important; line-height: 1.2; }
-            #hero-sub { font-size: 0.85rem; }
-            .static-text { width: 90%; font-size: 1.1rem; }
-            .flow-container { gap: 10vh; padding: 10vh 0; }
+  /* Featured Şahi SIHA */
+  .featured {
+    background:
+      radial-gradient(circle at 30% 20%, rgba(255,122,69,.08), transparent 55%),
+      radial-gradient(circle at 80% 70%, rgba(0,229,255,.08), transparent 50%),
+      var(--bg-2);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .featured-wrap {
+    display: grid;
+    grid-template-columns: 1.1fr .9fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .featured-tag {
+    display: inline-flex; align-items:center; gap:10px;
+    border: 1px solid var(--warm);
+    color: var(--warm);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .18em;
+    padding: 6px 12px;
+    margin-bottom: 28px;
+  }
+  .featured-tag::before {
+    content:'';
+    width:6px; height:6px; border-radius:50%;
+    background: var(--warm);
+    box-shadow: 0 0 8px var(--warm);
+    animation: pulse 1.8s infinite;
+  }
+  .featured h3 {
+    font-family: 'Chakra Petch', sans-serif;
+    font-weight: 700;
+    font-size: clamp(40px, 6vw, 72px);
+    line-height: 1;
+    margin-bottom: 24px;
+    letter-spacing: -.02em;
+  }
+  .featured h3 .accent { color: var(--warm); }
+  .featured .role {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--accent);
+    letter-spacing: .15em;
+    margin-bottom: 24px;
+    text-transform: uppercase;
+  }
+  .featured p {
+    font-size: 17px;
+    color: var(--muted);
+    margin-bottom: 20px;
+    max-width: 560px;
+  }
+  .featured-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    margin-top: 40px;
+    border-top: 1px solid var(--border);
+  }
+  .featured-stats .stat {
+    padding: 24px 20px 0 0;
+    border-right: 1px solid var(--border);
+  }
+  .featured-stats .stat:last-child { border-right: none; }
+  .featured-stats .num {
+    font-family: 'Chakra Petch', sans-serif;
+    font-weight: 600;
+    font-size: 44px;
+    color: var(--text);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .featured-stats .num .accent { color: var(--warm); }
+  .featured-stats .lbl {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--dim);
+    letter-spacing: .18em;
+    text-transform: uppercase;
+  }
 
-            /* Proje Kartları Sıkıştırması */
-            .project-card { width: 85vw; padding: 25px; }
-            .project-card h3 { font-size: 1.8rem; margin-bottom: 10px; }
-            .project-card p { font-size: 1rem; }
-            #proj-title { font-size: 3rem !important; letter-spacing: 2px !important; }
-            .cyber-arrow { font-size: 4rem; }
+  /* Drone visual */
+  .drone-visual {
+    position: relative;
+    aspect-ratio: 1;
+    width: 100%;
+    max-width: 480px;
+    margin-left: auto;
+  }
+  .drone-visual svg {
+    width: 100%; height: 100%;
+  }
+  .drone-ring {
+    position: absolute;
+    border: 1px solid rgba(255,122,69,.3);
+    border-radius: 50%;
+    inset: 0;
+    animation: spin-slow 30s linear infinite;
+  }
+  .drone-ring.r2 {
+    inset: 12%;
+    border-color: rgba(0,229,255,.25);
+    border-style: dashed;
+    animation: spin-slow 20s linear infinite reverse;
+  }
+  .drone-ring.r3 {
+    inset: 28%;
+    border-color: rgba(0,229,255,.4);
+  }
+  @keyframes spin-slow { to { transform: rotate(360deg); } }
+  .drone-ring .tick {
+    position: absolute;
+    top: -4px; left: 50%;
+    width: 1px; height: 10px;
+    background: var(--warm);
+  }
+  .drone-hud {
+    position: absolute;
+    inset: 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: .1em;
+    pointer-events: none;
+  }
+  .drone-hud .label-top { position:absolute; top:-6px; left:50%; transform:translateX(-50%); color: var(--warm); }
+  .drone-hud .label-bot { position:absolute; bottom:-6px; left:50%; transform:translateX(-50%); color: var(--muted); }
+  .drone-hud .label-lt  { position:absolute; top:50%; left:-38px; transform:translateY(-50%) rotate(-90deg); color: var(--muted); }
+  .drone-hud .label-rt  { position:absolute; top:50%; right:-38px; transform:translateY(-50%) rotate(90deg); color: var(--muted); }
 
-            /* Bento Box (Final Sayfası) - Tek Sütuna Düşürme */
-            #final { 
-                height: auto; 
-                min-height: 100vh; 
-                padding-top: 120px; 
-                padding-bottom: 60px; 
-                justify-content: center; 
-            }
-            .bento-2x2 { 
-                grid-template-columns: 1fr; /* 2 sütundan tek sütuna düşürür */
-                grid-template-rows: auto; 
-                gap: 15px; 
-                width: 90%; 
-            }
-            .bento-box { padding: 25px; }
-            .b-name { font-size: 2.2rem; }
-            .skill-grid { justify-content: center; }
-            
-            /* Hologram Optimizasyonu */
-            #bg-aang-final { height: 100vh; object-position: top; }
-        }
-    </style>
+  /* Projects */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+  .project {
+    background: var(--surface);
+    padding: 32px 28px;
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    transition: background .4s;
+    grid-column: span 2;
+    cursor: pointer;
+  }
+  .project::before {
+    content:'';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(0,229,255,.08), transparent 60%);
+    opacity: 0;
+    transition: opacity .4s;
+  }
+  .project:hover { background: var(--surface-2); }
+  .project:hover::before { opacity: 1; }
+  .project:hover .project-arrow { transform: translate(4px, -4px); color: var(--accent); }
+
+  .project-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--dim);
+    letter-spacing: .15em;
+    margin-bottom: 20px;
+    display: flex; justify-content: space-between;
+  }
+  .project-num .status {
+    color: var(--success);
+    display: flex; align-items:center; gap:6px;
+  }
+  .project-num .status::before {
+    content:''; width:5px; height:5px; border-radius:50%;
+    background: var(--success);
+    box-shadow: 0 0 6px var(--success);
+  }
+  .project-num .status.soon { color: var(--warm); }
+  .project-num .status.soon::before {
+    background: var(--warm);
+    box-shadow: 0 0 6px var(--warm);
+  }
+  .project h4 {
+    font-family: 'Chakra Petch', sans-serif;
+    font-weight: 600;
+    font-size: 26px;
+    letter-spacing: -.01em;
+    margin-bottom: 14px;
+    color: var(--text);
+    position: relative;
+    z-index: 1;
+  }
+  .project p {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 24px;
+    position: relative;
+    z-index: 1;
+  }
+  .project-tags {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    margin-top: auto;
+    margin-bottom: 24px;
+    position: relative;
+    z-index: 1;
+  }
+  .project-tags span {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    border: 1px solid var(--border-hi);
+    padding: 4px 8px;
+    letter-spacing: .08em;
+  }
+  .project-link {
+    display: flex; align-items: center; justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text);
+    letter-spacing: .15em;
+    text-decoration: none;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    position: relative;
+    z-index: 1;
+  }
+  .project-link.disabled { color: var(--dim); pointer-events:none; }
+  .project-arrow {
+    display: inline-block;
+    transition: transform .3s, color .3s;
+  }
+
+  /* GitHub status */
+  .gh-status {
+    display: flex; align-items: center; gap: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: .15em;
+    margin-bottom: 28px;
+    padding: 12px 16px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    width: fit-content;
+  }
+  .gh-status .gh-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--warm);
+    box-shadow: 0 0 8px var(--warm);
+    animation: pulse 1.5s infinite;
+  }
+  .gh-status.connected .gh-dot {
+    background: var(--success);
+    box-shadow: 0 0 8px var(--success);
+  }
+  .gh-status.error .gh-dot {
+    background: #ff5f57;
+    box-shadow: 0 0 8px #ff5f57;
+  }
+  .gh-status .gh-sep { color: var(--dim); }
+  .gh-status #gh-count { color: var(--accent); }
+
+  /* Language dot */
+  .lang-dot {
+    display: inline-block;
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+  .lang-tag {
+    display: inline-flex; align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text);
+    letter-spacing: .08em;
+    border: 1px solid var(--border-hi);
+    padding: 4px 10px;
+  }
+
+  /* Skeleton loader */
+  .project.skeleton { pointer-events: none; }
+  .project.skeleton .skel-line {
+    height: 12px;
+    background: linear-gradient(90deg, var(--border) 25%, var(--border-hi) 50%, var(--border) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.6s infinite linear;
+    margin-bottom: 14px;
+  }
+  .project.skeleton .skel-line.w30 { width: 30%; height: 10px; }
+  .project.skeleton .skel-line.w50 { width: 50%; }
+  .project.skeleton .skel-line.w70 { width: 70%; height: 22px; margin-bottom: 20px; }
+  .project.skeleton .skel-line.w90 { width: 90%; height: 10px; }
+  @keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  /* Skills */
+  .skills-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .skills-terminal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+  }
+  .skills-terminal .head {
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 16px;
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: .1em;
+    display: flex; gap: 10px; align-items:center;
+  }
+  .skills-terminal .head::before {
+    content:'●●●'; color: var(--border-hi); letter-spacing: 2px;
+  }
+  .skills-terminal .body { padding: 24px 20px; }
+  .prompt { color: var(--accent); }
+  .skills-list {
+    margin-top: 20px;
+    display: grid;
+    gap: 18px;
+  }
+  .skill {
+    position: relative;
+  }
+  .skill-head {
+    display: flex; justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    margin-bottom: 8px;
+  }
+  .skill-head .name { color: var(--text); letter-spacing: .05em; }
+  .skill-head .pct { color: var(--accent); }
+  .skill-bar {
+    height: 4px;
+    background: var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .skill-bar::before {
+    content:'';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: var(--w, 0%);
+    background: linear-gradient(90deg, var(--accent), var(--warm));
+    box-shadow: 0 0 10px var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 1.4s cubic-bezier(.16,1,.3,1);
+  }
+  .skill.in-view .skill-bar::before { transform: scaleX(1); }
+
+  .skills-side h3 {
+    font-family: 'Chakra Petch', sans-serif;
+    font-weight: 600;
+    font-size: 32px;
+    margin-bottom: 20px;
+    letter-spacing: -.01em;
+  }
+  .skills-side p {
+    color: var(--muted);
+    font-size: 16px;
+    margin-bottom: 24px;
+    max-width: 480px;
+  }
+  .info-grid {
+    border-top: 1px solid var(--border);
+    margin-top: 32px;
+  }
+  .info-row {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+  }
+  .info-row .k { color: var(--dim); letter-spacing: .1em; text-transform: uppercase; font-size: 11px; }
+  .info-row .v { color: var(--text); }
+  .info-row .v .hi { color: var(--accent); }
+
+  /* Contact */
+  .contact {
+    background: var(--bg-2);
+    border-top: 1px solid var(--border);
+    padding: 140px 48px 80px;
+  }
+  .contact-wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .contact .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: .25em;
+    margin-bottom: 24px;
+  }
+  .contact h2 {
+    font-family: 'Chakra Petch', sans-serif;
+    font-weight: 600;
+    font-size: clamp(48px, 8vw, 120px);
+    line-height: 1;
+    letter-spacing: -.02em;
+    margin-bottom: 24px;
+  }
+  .contact h2 .outline {
+    -webkit-text-stroke: 1.5px var(--accent);
+    color: transparent;
+  }
+  .contact p {
+    color: var(--muted);
+    font-size: 18px;
+    max-width: 540px;
+    margin: 0 auto 48px;
+  }
+  .mail-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 32px;
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    letter-spacing: .1em;
+    text-decoration: none;
+    transition: all .3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .mail-btn::before {
+    content:'';
+    position: absolute;
+    inset: 0;
+    background: var(--accent);
+    transform: translateX(-101%);
+    transition: transform .4s cubic-bezier(.77,0,.18,1);
+    z-index: -1;
+  }
+  .mail-btn:hover {
+    color: var(--bg);
+    border-color: var(--accent);
+  }
+  .mail-btn:hover::before { transform: translateX(0); }
+  .mail-btn .arrow { transition: transform .3s; }
+  .mail-btn:hover .arrow { transform: translate(4px,-4px); }
+
+  .social-links {
+    display: flex;
+    gap: 1px;
+    justify-content: center;
+    margin-top: 64px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .social-links a {
+    flex: 1;
+    padding: 24px;
+    background: var(--surface);
+    color: var(--text);
+    text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: .15em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all .3s;
+  }
+  .social-links a:hover {
+    background: var(--surface-2);
+    color: var(--accent);
+  }
+  .social-links a .ext {
+    color: var(--dim);
+    transition: color .3s;
+  }
+  .social-links a:hover .ext { color: var(--warm); }
+
+  footer {
+    margin-top: 100px;
+    padding-top: 40px;
+    border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--dim);
+    letter-spacing: .1em;
+  }
+  footer .right { display: flex; gap: 24px; }
+
+  /* Reveal animations */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1);
+  }
+  .reveal.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-stagger > * {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1);
+  }
+  .reveal-stagger.in-view > * {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-stagger.in-view > *:nth-child(1) { transition-delay: .05s; }
+  .reveal-stagger.in-view > *:nth-child(2) { transition-delay: .15s; }
+  .reveal-stagger.in-view > *:nth-child(3) { transition-delay: .25s; }
+  .reveal-stagger.in-view > *:nth-child(4) { transition-delay: .35s; }
+  .reveal-stagger.in-view > *:nth-child(5) { transition-delay: .45s; }
+  .reveal-stagger.in-view > *:nth-child(6) { transition-delay: .55s; }
+
+  /* Responsive */
+  @media (max-width: 960px) {
+    nav { padding: 16px 20px; }
+    .nav-items { display:none; }
+    section { padding: 80px 20px; }
+    .hero { padding: 100px 20px 60px; }
+    .hero-radar { display: none; }
+    .hero-meta { grid-template-columns: repeat(2,1fr); }
+    .hero-meta .cell:nth-child(2) { border-right: none; }
+    .hero-meta .cell { padding: 18px 18px 18px 0; }
+    .about, .skills-wrap, .featured-wrap { grid-template-columns: 1fr; gap: 40px; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .project { grid-column: span 1; min-height: auto; }
+    .scroll-hint { left: 20px; }
+    .contact { padding: 80px 20px 60px; }
+    footer { flex-direction: column; gap: 12px; text-align: center; }
+    .social-links { flex-direction: column; }
+  }
+</style>
 </head>
+
 <body>
 
-    <img id="bg-world" src="world.jpg" class="hologram-img" alt="World">
-    <img id="bg-uav" src="uav hologram.jpg" class="hologram-img" alt="SIHA">
-    <img id="bg-aang-final" src="aang.jpg" alt="Aang">
+<div class="noise"></div>
+<div class="scroll-progress" id="progress"></div>
 
-    <div class="top-bar">
-        <div class="logo-text">O.A.Ö</div>
-        <button id="langBtn" class="lang-btn" onclick="toggleLanguage()">TR</button>
+<nav>
+  <div class="logo">
+    <span class="dot"></span>
+    <span>OAÖ // PORTFOLIO v2.0</span>
+  </div>
+  <div class="nav-items">
+    <a href="#about"><span class="num">01</span>HAKKIMDA</a>
+    <a href="#siha"><span class="num">02</span>ŞAHİ SİHA</a>
+    <a href="#projects"><span class="num">03</span>PROJELER</a>
+    <a href="#skills"><span class="num">04</span>YETENEKLER</a>
+    <a href="#contact"><span class="num">05</span>İLETİŞİM</a>
+  </div>
+  <button class="lang-toggle">TR / EN</button>
+</nav>
+
+<main>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-status reveal">
+      <span class="dot-green"></span>
+      <span class="live">ÇEVRİMİÇİ</span>
+      <span class="sep">/</span>
+      <span>İSTANBUL, TR</span>
+      <span class="sep">/</span>
+      <span id="clock">--:--:-- UTC+3</span>
+      <span class="sep">/</span>
+      <span>SYS.READY</span>
     </div>
 
-    <div class="side-nav">
-        <div class="nav-dot active" data-target="hero"></div>
-        <div class="nav-dot" data-target="projects"></div>
-        <div class="nav-dot" data-target="final"></div>
+    <h1 class="hero-title">
+      <span class="line reveal"><span>OZAN ARDA</span></span>
+      <span class="line reveal"><span class="outline">ÖZÇELİK<em>.</em></span></span>
+    </h1>
+
+    <div class="hero-role reveal">
+      <span id="typed">OTONOM SİSTEMLER &amp; YAPAY ZEKA GELİŞTİRİCİSİ</span><span class="cursor-blink"></span>
     </div>
 
-    <div class="section-wrapper" id="intro-wrapper">
-        <section id="hero">
-            <div style="text-align: center;">
-                <h1 style="font-family: var(--font-tech); font-size: clamp(2.5rem, 8vw, 5rem); letter-spacing: 12px;">OZAN ARDA ÖZÇELİK</h1>
-                <p id="hero-sub" style="color: var(--primary); font-family: var(--font-tech); margin-top: 15px; font-weight: 700;">// OTONOM SİSTEMLER VE YAPAY ZEKA GELİŞTİRİCİSİ</p>
-            </div>
-        </section>
-
-        <section id="flow-sahi" class="flow-container">
-            <div class="static-text" id="flow1-1">Şahi Otonom SİHA Takımında Yazılım Ekip Liderliği Görevini Yürütüyorum.</div>
-            <div class="static-text" id="flow1-2">Teknofest Kapsamında Otonom Uçuş ve Görüntü İşleme Sistemlerini Ekibimle Birlikte Geliştirdim.</div>
-            <div class="static-text" id="flow1-3">Karmaşık Senaryoları Python ve Gazebo Ortamında Simüle Ederek Hayata Geçiriyorum.</div>
-        </section>
+    <div class="hero-meta reveal">
+      <div class="cell">
+        <div class="label">◆ Görev</div>
+        <div class="value"><span class="accent">Yazılım</span> Ekip Lideri</div>
+      </div>
+      <div class="cell">
+        <div class="label">◆ Takım</div>
+        <div class="value">Şahi Otonom <span class="accent">SİHA</span></div>
+      </div>
+      <div class="cell">
+        <div class="label">◆ Eğitim</div>
+        <div class="value">NKÜ Bil. Müh. <span class="accent">3.</span> Sınıf</div>
+      </div>
+      <div class="cell">
+        <div class="label">◆ Yığın</div>
+        <div class="value"><span class="accent">Python</span> · ML · CV</div>
+      </div>
     </div>
 
-    <div id="projects" class="horizontal-wrapper">
-        <div class="horizontal-container">
-            <div class="panel">
-                <div style="text-align: center;"><h2 id="proj-title" style="font-family: var(--font-tech); font-size: 5rem; letter-spacing: 5px;">PROJELERİM</h2><div class="cyber-arrow">➔</div></div>
-            </div>
-            <div class="panel">
-                <div class="project-card">
-                    <h3>TensileForge</h3>
-                    <p id="p-desc-1">Mühendislik simülasyonları için geliştirdiğim malzeme analizi ve simülasyon aracı.</p>
-                    <a href="https://github.com/ozanardaozcelik" target="_blank" class="github-link">VIEW ON GITHUB</a>
-                </div>
-            </div>
-            <div class="panel">
-                <div class="project-card">
-                    <h3>Comp2laintBox</h3>
-                    <p id="p-desc-2">Dijital şikayet ve geri bildirim yönetim sistemini kullanıcı odaklı olarak ben tasarladım.</p>
-                    <a href="https://github.com/ozanardaozcelik" target="_blank" class="github-link">VIEW ON GITHUB</a>
-                </div>
-            </div>
-            <div class="panel">
-                <div class="project-card">
-                    <h3>EmployeeLoss</h3>
-                    <p id="p-desc-3">Makine Öğrenmesi ile çalışan kaybını tahmin eden yapay zeka modelini ben kurdum.</p>
-                    <a href="https://github.com/ozanardaozcelik" target="_blank" class="github-link">VIEW ON GITHUB</a>
-                </div>
-            </div>
-            <div class="panel">
-                <div class="project-card">
-                    <h3>MovieNSeriesNSitcom</h3>
-                    <p id="p-desc-4">Kişisel dizi, film ve sitcom takip platformu.</p>
-                    <a href="https://github.com/ozanardaozcelik" target="_blank" class="github-link">VIEW ON GITHUB</a>
-                </div>
-            </div>
-            <div class="panel">
-                <div class="project-card">
-                    <h3>TurtleAimBot</h3>
-                    <p id="p-desc-5">Python ile geliştirilen refleks eğitim simülasyonu.</p>
-                    <a href="https://github.com/ozanardaozcelik" target="_blank" class="github-link">VIEW ON GITHUB</a>
-                </div>
-            </div>
-            <div class="panel">
-                <div class="project-card">
-                    <h3>HandDetector</h3>
-                    <p id="p-desc-6">Görüntü işleme ile gerçek zamanlı el hareketi tanıma sistemi üzerinde çalışıyorum.</p>
-                    <a href="#" class="github-link" id="p-btn-soon" style="opacity:0.5; border-color: #555; color: #555;">COMING SOON</a>
-                </div>
-            </div>
+    <!-- Radar -->
+    <div class="hero-radar">
+      <div class="radar-cross"></div>
+      <div class="radar-ring"></div>
+      <div class="radar-ring r2"></div>
+      <div class="radar-ring r3"></div>
+      <div class="radar-sweep"></div>
+      <div class="radar-dot d1"></div>
+      <div class="radar-dot d2"></div>
+      <div class="radar-dot d3"></div>
+    </div>
+
+    <div class="scroll-hint">
+      <span>KAYDIR</span>
+      <div class="line-down"></div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee">
+    <div class="marquee-track">
+      <span>PYTHON</span><span class="star">✦</span>
+      <span class="outline">MACHINE LEARNING</span><span class="star">✦</span>
+      <span>COMPUTER VISION</span><span class="star">✦</span>
+      <span class="outline">OPENCV</span><span class="star">✦</span>
+      <span>TENSORFLOW</span><span class="star">✦</span>
+      <span class="outline">GAZEBO · ROS</span><span class="star">✦</span>
+      <span>AUTONOMOUS UAV</span><span class="star">✦</span>
+      <span class="outline">LLM · GEN AI</span><span class="star">✦</span>
+      <!-- duplicate for seamless loop -->
+      <span>PYTHON</span><span class="star">✦</span>
+      <span class="outline">MACHINE LEARNING</span><span class="star">✦</span>
+      <span>COMPUTER VISION</span><span class="star">✦</span>
+      <span class="outline">OPENCV</span><span class="star">✦</span>
+      <span>TENSORFLOW</span><span class="star">✦</span>
+      <span class="outline">GAZEBO · ROS</span><span class="star">✦</span>
+      <span>AUTONOMOUS UAV</span><span class="star">✦</span>
+      <span class="outline">LLM · GEN AI</span><span class="star">✦</span>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-head reveal">
+      <span class="num">[ 01 ]</span>
+      <h2>Hakkımda</h2>
+      <div class="line-grow"></div>
+    </div>
+
+    <div class="about">
+      <div class="about-text reveal">
+        <p>Otonom sistemler ve yapay zeka üzerine <strong>çalışan</strong>, karmaşık senaryoları Python ve Gazebo ortamında simüle edip sahada hayata geçiren bir bilgisayar mühendisliği öğrencisiyim.</p>
+        <p>Şahi Otonom SİHA Takımında yazılım ekip liderliği yürütüyorum. Teknofest kapsamında otonom uçuş ve görüntü işleme sistemlerini ekibimle birlikte geliştirdim.</p>
+        <p>Staj sürecimde Python ekosisteminde Generative AI ve Büyük Dil Modelleri üzerine odaklandım; endüstriyel veri analitiği ve otonom sistem entegrasyonunda tecrübe kazandım.</p>
+      </div>
+
+      <div class="about-code reveal">
+        <div class="about-code-head">
+          <div class="dots"><span></span><span></span><span></span></div>
+          <span class="path">~ /ozan/identity.py</span>
         </div>
+<pre><span class="tk-key">class</span> <span class="tk-fn">Developer</span>:
+    <span class="tk-key">def</span> <span class="tk-fn">__init__</span>(<span class="tk-var">self</span>):
+        <span class="tk-var">self</span>.name      = <span class="tk-str">"Ozan Arda Özçelik"</span>
+        <span class="tk-var">self</span>.role      = <span class="tk-str">"Yazılım Ekip Lideri"</span>
+        <span class="tk-var">self</span>.team      = <span class="tk-str">"Şahi Otonom SİHA"</span>
+        <span class="tk-var">self</span>.focus     = [<span class="tk-str">"autonomy"</span>,
+                          <span class="tk-str">"computer vision"</span>,
+                          <span class="tk-str">"LLM + GenAI"</span>]
+        <span class="tk-var">self</span>.coffee    = <span class="tk-num">∞</span>
+
+    <span class="tk-key">def</span> <span class="tk-fn">build</span>(<span class="tk-var">self</span>, idea):
+        <span class="tk-com"># prototip → simülasyon → saha</span>
+        <span class="tk-key">while</span> <span class="tk-key">not</span> idea.works():
+            idea.iterate()
+        <span class="tk-key">return</span> idea.deploy()</pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ŞAHİ SIHA FEATURED -->
+  <section id="siha" class="featured">
+    <div class="section-head reveal">
+      <span class="num">[ 02 ]</span>
+      <h2>Öne Çıkan Görev</h2>
+      <div class="line-grow"></div>
     </div>
 
-    <div class="section-wrapper" id="outro-wrapper">
-        <section id="flow-intern" class="flow-container">
-            <div class="static-text" id="flow2-1">Staj Sürecimde Python Ekosisteminde Generative AI ve Büyük Dil Modelleri (LLM) Üzerine Odaklandım.</div>
-            <div class="static-text" id="flow2-2">Yenilikçi Yapay Zeka Çözümlerinin Geliştirilme Süreçlerine Aktif Katkı Sağladım.</div>
-            <div class="static-text" id="flow2-3">Endüstriyel Veri Analitiği ve Otonom Sistem Entegrasyonunda Tecrübe Kazandım.</div>
-        </section>
+    <div class="featured-wrap">
+      <div class="reveal">
+        <div class="featured-tag">AKTİF · TEKNOFEST</div>
+        <h3>ŞAHİ <span class="accent">OTONOM</span><br/>SİHA TAKIMI</h3>
+        <div class="role">// YAZILIM EKİP LİDERİ</div>
+        <p>Teknofest Savaşan İHA ve benzeri yarışmalar için <strong style="color:var(--text)">otonom uçuş, görüntü işleme ve görev planlama sistemleri</strong> geliştiriyoruz. Ekip olarak karmaşık hava senaryolarını önce Gazebo ortamında simüle edip ardından sahada teste alıyoruz.</p>
+        <p>Benim sorumluluk alanım; yazılım ekibinin koordinasyonu, görüntü işleme pipeline'larının mimarisi ve otonom karar verme modüllerinin entegrasyonudur.</p>
 
-        <section id="final">
-            <div class="bento-2x2">
-                <div class="bento-box" style="align-items: center; text-align: center;">
-                    <h2 class="b-name">Ozan Arda<br>Özçelik</h2>
-                </div>
-                <div class="bento-box">
-                    <h4 class="hud-title" id="hud-1">AKTİF İŞLER</h4>
-                    <div class="mission-item" id="miss-1">YAZILIM EKİP LİDERİ @ ŞAHİ OTONOM SİHA</div>
-                    <div class="mission-item" id="miss-2">NKÜ | BİLGİSAYAR MÜHENDİSLİĞİ 3. SINIF</div>
-                </div>
-                <div class="bento-box">
-                    <h4 class="hud-title" id="hud-2">YETENEKLERİM</h4>
-                    <div class="skill-grid">
-                        <span class="skill-chip">Python 🐍</span>
-                        <span class="skill-chip">Machine Learning 🤖</span>
-                        <span class="skill-chip">Image Processing 👁️</span>
-                        <span class="skill-chip">OpenCV 🎥</span>
-                    </div>
-                </div>
-                <div class="bento-box" style="align-items: center; text-align: center;">
-                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=ozan.a.ozcelik@gmail.com" target="_blank" class="establish-btn" id="btn-contact">✉ BANA ULAŞIN</a>
-                    <div>
-                        <a href="https://github.com/ozanardaozcelik" target="_blank" class="social-link">GITHUB</a>
-                        <a href="https://linkedin.com/in/ozanardaozcelik" target="_blank" class="social-link">LINKEDIN</a>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <div class="featured-stats">
+          <div class="stat">
+            <div class="num" data-count="12"><span class="accent">0</span></div>
+            <div class="lbl">Aktif Modül</div>
+          </div>
+          <div class="stat">
+            <div class="num" data-count="1400"><span class="accent">0</span>+</div>
+            <div class="lbl">Satır Kod / Hafta</div>
+          </div>
+          <div class="stat">
+            <div class="num" data-count="24"><span class="accent">0</span>/7</div>
+            <div class="lbl">Simülasyon</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <div class="drone-visual">
+          <div class="drone-ring"><div class="tick"></div></div>
+          <div class="drone-ring r2"></div>
+          <div class="drone-ring r3"></div>
+          <div class="drone-hud">
+            <span class="label-top">◆ TARGET LOCK</span>
+            <span class="label-bot">ALT. 120 M</span>
+            <span class="label-lt">PITCH 00.0°</span>
+            <span class="label-rt">YAW 270°</span>
+          </div>
+          <svg viewBox="0 0 400 400" fill="none">
+            <!-- drone silhouette -->
+            <g stroke="rgba(0,229,255,.9)" stroke-width="1.5" fill="none">
+              <!-- center body -->
+              <rect x="175" y="175" width="50" height="50" rx="6"/>
+              <circle cx="200" cy="200" r="6" fill="rgba(255,122,69,.8)"/>
+              <!-- arms -->
+              <line x1="175" y1="185" x2="120" y2="130"/>
+              <line x1="225" y1="185" x2="280" y2="130"/>
+              <line x1="175" y1="215" x2="120" y2="270"/>
+              <line x1="225" y1="215" x2="280" y2="270"/>
+              <!-- rotors -->
+              <circle cx="120" cy="130" r="32" stroke-dasharray="3 4"/>
+              <circle cx="280" cy="130" r="32" stroke-dasharray="3 4"/>
+              <circle cx="120" cy="270" r="32" stroke-dasharray="3 4"/>
+              <circle cx="280" cy="270" r="32" stroke-dasharray="3 4"/>
+              <circle cx="120" cy="130" r="14" stroke="rgba(255,122,69,.5)"/>
+              <circle cx="280" cy="130" r="14" stroke="rgba(255,122,69,.5)"/>
+              <circle cx="120" cy="270" r="14" stroke="rgba(255,122,69,.5)"/>
+              <circle cx="280" cy="270" r="14" stroke="rgba(255,122,69,.5)"/>
+              <!-- sensor lines -->
+              <line x1="200" y1="200" x2="200" y2="80"   stroke-dasharray="2 4" opacity=".4"/>
+              <line x1="200" y1="200" x2="320" y2="200"  stroke-dasharray="2 4" opacity=".4"/>
+              <line x1="200" y1="200" x2="200" y2="320"  stroke-dasharray="2 4" opacity=".4"/>
+              <line x1="200" y1="200" x2="80"  y2="200"  stroke-dasharray="2 4" opacity=".4"/>
+            </g>
+            <!-- corner markers -->
+            <g stroke="rgba(255,122,69,.7)" stroke-width="1.5" fill="none">
+              <path d="M 10 10 L 10 40 M 10 10 L 40 10"/>
+              <path d="M 390 10 L 390 40 M 390 10 L 360 10"/>
+              <path d="M 10 390 L 10 360 M 10 390 L 40 390"/>
+              <path d="M 390 390 L 390 360 M 390 390 L 360 390"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-head reveal">
+      <span class="num">[ 03 ]</span>
+      <h2>Projelerim</h2>
+      <div class="line-grow"></div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script>
-        gsap.registerPlugin(ScrollTrigger);
+    <!-- GitHub durum göstergesi -->
+    <div class="gh-status reveal" id="gh-status">
+      <span class="gh-dot"></span>
+      <span id="gh-status-text">github.com/ozanardaozcelik bağlantısı kuruluyor...</span>
+      <span class="gh-sep">/</span>
+      <span id="gh-count">—</span>
+    </div>
 
-        // --- 1. DÜNYA HOLOGRAMI ---
-        gsap.to("#bg-world", { 
-            y: "-150%", opacity: 0, ease: "none", 
-            scrollTrigger: { trigger: "#intro-wrapper", start: "top top", end: "bottom top", scrub: true } 
-        });
-        
-        // --- 2. YATAY KAYDIRMA (PROJELER) ---
-        const container = document.querySelector(".horizontal-container");
-        gsap.to(container, {
-            x: () => -(container.scrollWidth - window.innerWidth), ease: "none",
-            scrollTrigger: { trigger: ".horizontal-wrapper", pin: true, scrub: 1, end: () => "+=" + container.scrollWidth }
-        });
+    <!-- Dinamik projeler grid'i -->
+    <div class="projects-grid" id="projects-grid">
+      <!-- Skeleton loading -->
+      <div class="project skeleton"><div class="skel-line w30"></div><div class="skel-line w70"></div><div class="skel-line w90"></div><div class="skel-line w50"></div></div>
+      <div class="project skeleton"><div class="skel-line w30"></div><div class="skel-line w70"></div><div class="skel-line w90"></div><div class="skel-line w50"></div></div>
+      <div class="project skeleton"><div class="skel-line w30"></div><div class="skel-line w70"></div><div class="skel-line w90"></div><div class="skel-line w50"></div></div>
+    </div>
+  </section>
 
-        // --- 3. SİHA HOLOGRAMI (OPAKLIK ARTIRILDI) ---
-        gsap.to("#bg-uav", { 
-            x: "150vw", 
-            opacity: 0.35, // GÖRÜNÜRLÜK ARTIRILDI (0.15 -> 0.35)
-            ease: "none", 
-            scrollTrigger: { 
-                trigger: ".horizontal-wrapper", 
-                start: "top top", 
-                end: () => "+=" + container.scrollWidth, 
-                scrub: 1 
-            } 
-        });
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-head reveal">
+      <span class="num">[ 04 ]</span>
+      <h2>Yetenekler &amp; Kimlik</h2>
+      <div class="line-grow"></div>
+    </div>
 
-        // --- 4. AANG HOLOGRAMI ---
-        gsap.to("#bg-aang-final", { 
-            opacity: 0.35, 
-            y: "10%", 
-            ease: "none", 
-            scrollTrigger: { 
-                trigger: "#outro-wrapper", 
-                start: "top center", 
-                end: "bottom bottom", 
-                scrub: true 
-            } 
-        });
+    <div class="skills-wrap">
+      <div class="skills-terminal reveal">
+        <div class="head">ozan@dev ~ / stack.sh</div>
+        <div class="body">
+          <div><span class="prompt">$</span> <span style="color:var(--muted)">cat</span> <span style="color:var(--text)">skills.json</span></div>
+          <div class="skills-list">
+            <div class="skill"><div class="skill-head"><span class="name">// Python</span><span class="pct">95%</span></div><div class="skill-bar" style="--w:95%"></div></div>
+            <div class="skill"><div class="skill-head"><span class="name">// Machine Learning</span><span class="pct">85%</span></div><div class="skill-bar" style="--w:85%"></div></div>
+            <div class="skill"><div class="skill-head"><span class="name">// Image Processing</span><span class="pct">88%</span></div><div class="skill-bar" style="--w:88%"></div></div>
+            <div class="skill"><div class="skill-head"><span class="name">// OpenCV</span><span class="pct">90%</span></div><div class="skill-bar" style="--w:90%"></div></div>
+            <div class="skill"><div class="skill-head"><span class="name">// Gazebo / ROS</span><span class="pct">75%</span></div><div class="skill-bar" style="--w:75%"></div></div>
+            <div class="skill"><div class="skill-head"><span class="name">// LLM / GenAI</span><span class="pct">80%</span></div><div class="skill-bar" style="--w:80%"></div></div>
+          </div>
+          <div style="margin-top:22px"><span class="prompt">$</span> <span style="color:var(--muted)">_</span><span class="cursor-blink" style="background:var(--accent)"></span></div>
+        </div>
+      </div>
 
-        // --- YAN NAVİGASYON ---
-        const dots = document.querySelectorAll(".nav-dot");
-        const sections = [
-            document.getElementById("hero"),
-            document.getElementById("projects"),
-            document.getElementById("final")
-        ];
+      <div class="skills-side reveal">
+        <h3>Kim konuşuyor?</h3>
+        <p>Problem tanımından saha testine kadar döngünün her aşamasında bulunmayı seviyorum. Kod yazdığım kadar ekip içi iletişim ve mimari tartışmalara da zaman ayırıyorum.</p>
+        <div class="info-grid">
+          <div class="info-row"><span class="k">◆ İsim</span><span class="v">Ozan Arda Özçelik</span></div>
+          <div class="info-row"><span class="k">◆ Konum</span><span class="v">İstanbul, <span class="hi">Türkiye</span></span></div>
+          <div class="info-row"><span class="k">◆ Rol</span><span class="v">Yazılım Ekip Lideri <span class="hi">@ Şahi Otonom SİHA</span></span></div>
+          <div class="info-row"><span class="k">◆ Eğitim</span><span class="v">NKÜ · Bilgisayar Mühendisliği · <span class="hi">3. Sınıf</span></span></div>
+          <div class="info-row"><span class="k">◆ İlgi</span><span class="v">Otonom Sistemler · GenAI · CV</span></div>
+          <div class="info-row"><span class="k">◆ Durum</span><span class="v"><span class="hi">▸ İşbirliklerine açık</span></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-        window.addEventListener("scroll", () => {
-            let current = "";
-            sections.forEach(s => {
-                if (s && pageYOffset >= s.offsetTop - s.clientHeight / 2) current = s.getAttribute("id");
-            });
-            dots.forEach(d => {
-                d.classList.remove("active");
-                if (d.getAttribute("data-target") === current) d.classList.add("active");
-            });
-        });
+  <!-- CONTACT -->
+  <section id="contact" class="contact">
+    <div class="contact-wrap">
+      <div class="tag reveal">[ 05 ] &nbsp; İLETİŞİM KANALI AÇIK</div>
+      <h2 class="reveal">
+        Hadi <span class="outline">bir şeyler</span><br/>inşa edelim.
+      </h2>
+      <p class="reveal">Bir projede birlikte çalışmak, yeni bir fikir üzerine konuşmak veya sadece merhaba demek için bana ulaş.</p>
 
-        dots.forEach(dot => {
-            dot.addEventListener("click", (e) => {
-                const targetId = dot.getAttribute("data-target");
-                const targetElement = document.getElementById(targetId);
-                if (targetElement) {
-                    const yOffset = targetElement.getBoundingClientRect().top + window.scrollY;
-                    window.scrollTo({ top: yOffset, behavior: 'smooth' });
-                }
-            });
-        });
+      <a class="mail-btn reveal" href="mailto:ozan.a.ozcelik@gmail.com">
+        <span>ozan.a.ozcelik@gmail.com</span>
+        <span class="arrow">↗</span>
+      </a>
 
-        // --- ÇEVİRİ ---
-        const translations = {
-            "TR": {
-                "hero-sub": "// OTONOM SİSTEMLER VE YAPAY ZEKA GELİŞTİRİCİSİ",
-                "flow1-1": "Şahi Otonom SİHA Takımında Yazılım Ekip Liderliği Görevini Yürütüyorum.",
-                "flow1-2": "Teknofest Kapsamında Otonom Uçuş ve Görüntü İşleme Sistemlerini Ekibimle Birlikte Geliştirdim.",
-                "flow1-3": "Karmaşık Senaryoları Python ve Gazebo Ortamında Simüle Ederek Hayata Geçiriyorum.",
-                "proj-title": "PROJELERİM",
-                "p-desc-1": "Mühendislik simülasyonları için geliştirdiğim malzeme analizi ve simülasyon aracı.",
-                "p-desc-2": "Dijital şikayet ve geri bildirim yönetim sistemini kullanıcı odaklı olarak ben tasarladım.",
-                "p-desc-3": "Makine Öğrenmesi ile çalışan kaybını tahmin eden yapay zeka modelini ben kurdum.",
-                "p-desc-4": "Kişisel dizi, film ve sitcom takip platformu.",
-                "p-desc-5": "Python ile geliştirilen refleks eğitim simülasyonu.",
-                "p-desc-6": "Görüntü işleme ile gerçek zamanlı el hareketi tanıma sistemi üzerinde çalışıyorum.",
-                "flow2-1": "Staj Sürecimde Python Ekosisteminde Generative AI ve Büyük Dil Modelleri (LLM) Üzerine Odaklandım.",
-                "flow2-2": "Yenilikçi Yapay Zeka Çözümlerinin Geliştirilme Süreçlerine Aktif Katkı Sağladım.",
-                "flow2-3": "Endüstriyel Veri Analitiği ve Otonom Sistem Entegrasyonunda Tecrübe Kazandım.",
-                "hud-1": "AKTİF İŞLER",
-                "hud-2": "YETENEKLERİM",
-                "miss-1": "YAZILIM EKİP LİDERİ @ ŞAHİ OTONOM SİHA",
-                "miss-2": "NKÜ | BİLGİSAYAR MÜHENDİSLİĞİ 3. SINIF",
-                "btn-contact": "✉ BANA ULAŞIN"
-            },
-            "EN": {
-                "hero-sub": "// AUTONOMOUS SYSTEMS AND AI DEVELOPER",
-                "flow1-1": "I serve as the Software Team Lead at Şahi Autonomous UCAV Team.",
-                "flow1-2": "I developed Autonomous Flight and Image Processing Systems for the Teknofest Competitions together with my team.",
-                "flow1-3": "I bring complex scenarios to life by simulating them in Python and Gazebo environments.",
-                "proj-title": "PROJECTS",
-                "p-desc-1": "Material analysis and simulation tool developed for engineering simulations.",
-                "p-desc-2": "User-oriented digital complaint and feedback management system.",
-                "p-desc-3": "AI model predicting employee attrition using Machine Learning.",
-                "p-desc-4": "Personal tracking platform for movies, series, and sitcoms.",
-                "p-desc-5": "Reflex training simulation developed with Python.",
-                "p-desc-6": "Real-time hand gesture recognition system using image processing.",
-                "flow2-1": "During my internship, I focused on Generative AI and Large Language Models (LLM) in the Python ecosystem.",
-                "flow2-2": "I gained experience by actively contributing to the development of innovative AI solutions.",
-                "flow2-3": "I acquired expertise in industrial data analytics and autonomous system integration.",
-                "hud-1": "ACTIVE MISSIONS",
-                "hud-2": "MY SKILLS",
-                "miss-1": "SOFTWARE TEAM LEAD @ ŞAHİ AUTONOMOUS UCAV",
-                "miss-2": "NKÜ | COMPUTER ENGINEERING 3RD YEAR",
-                "btn-contact": "✉ CONTACT ME"
-            }
-        };
+      <div class="social-links reveal">
+        <a href="https://github.com/ozanardaozcelik" target="_blank">
+          <span>GITHUB</span>
+          <span class="ext">↗</span>
+        </a>
+        <a href="https://linkedin.com/in/ozanardaozcelik" target="_blank">
+          <span>LINKEDIN</span>
+          <span class="ext">↗</span>
+        </a>
+        <a href="mailto:ozan.a.ozcelik@gmail.com">
+          <span>EMAIL</span>
+          <span class="ext">↗</span>
+        </a>
+      </div>
 
-        let currentLang = "TR";
-        
-        function toggleLanguage() {
-            currentLang = currentLang === "TR" ? "EN" : "TR";
-            document.getElementById("langBtn").innerText = currentLang;
-            
-            for (let key in translations[currentLang]) {
-                const element = document.getElementById(key);
-                if (element) {
-                    element.innerText = translations[currentLang][key];
-                }
-            }
-        }
-    </script>
+      <footer>
+        <div>© 2026 · OZAN ARDA ÖZÇELİK · ALL SYSTEMS NOMINAL</div>
+        <div class="right">
+          <span>v2.0.0</span>
+          <span>BUILT IN ISTANBUL</span>
+        </div>
+      </footer>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  // Scroll progress bar
+  const progress = document.getElementById('progress');
+  const onScroll = () => {
+    const h = document.documentElement;
+    const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+    progress.style.width = pct + '%';
+  };
+  window.addEventListener('scroll', onScroll, { passive:true });
+
+  // Clock
+  const clock = document.getElementById('clock');
+  const pad = n => String(n).padStart(2,'0');
+  const updateClock = () => {
+    const d = new Date();
+    clock.textContent = `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())} UTC+3`;
+  };
+  updateClock(); setInterval(updateClock, 1000);
+
+  // Reveal on scroll
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in-view');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal, .reveal-stagger, .skill').forEach(el => io.observe(el));
+
+  // Count-up for stats
+  const counters = document.querySelectorAll('.featured-stats .num');
+  const countIO = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el = e.target;
+      const target = parseInt(el.dataset.count, 10);
+      const suffix = el.textContent.includes('+') ? '+' : (el.textContent.includes('/') ? '/7' : '');
+      let n = 0;
+      const step = Math.max(1, Math.ceil(target / 60));
+      const tick = () => {
+        n = Math.min(target, n + step);
+        el.innerHTML = `<span class="accent">${n}</span>${suffix}`;
+        if (n < target) requestAnimationFrame(tick);
+      };
+      tick();
+      countIO.unobserve(el);
+    });
+  }, { threshold: 0.6 });
+  counters.forEach(c => countIO.observe(c));
+
+  // Typing effect on hero role
+  const typedEl = document.getElementById('typed');
+  const phrases = [
+    'OTONOM SİSTEMLER & YAPAY ZEKA GELİŞTİRİCİSİ',
+    'YAZILIM EKİP LİDERİ — ŞAHİ SİHA',
+    'BİLGİSAYAR GÖRÜŞÜ / PYTHON / OPENCV'
+  ];
+  let pi = 0, ci = 0, deleting = false;
+  const type = () => {
+    const current = phrases[pi];
+    if (!deleting) {
+      ci++;
+      typedEl.textContent = current.slice(0, ci);
+      if (ci === current.length) { deleting = true; setTimeout(type, 2400); return; }
+      setTimeout(type, 40 + Math.random()*40);
+    } else {
+      ci--;
+      typedEl.textContent = current.slice(0, ci);
+      if (ci === 0) { deleting = false; pi = (pi+1) % phrases.length; setTimeout(type, 400); return; }
+      setTimeout(type, 20);
+    }
+  };
+  setTimeout(type, 1800);
+
+  // Smooth nav
+  document.querySelectorAll('.nav-items a').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const id = a.getAttribute('href');
+      document.querySelector(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  // Language toggle (placeholder — can be wired to i18n later)
+  const langBtn = document.querySelector('.lang-toggle');
+  langBtn.addEventListener('click', () => {
+    langBtn.textContent = langBtn.textContent.trim().startsWith('TR') ? 'EN / TR' : 'TR / EN';
+  });
+
+  /* ============================================
+     GITHUB ENTEGRASYONU
+     ============================================
+     Yeni proje eklediğinde GitHub'a push atman yeterli —
+     24 saatlik cache süresi dolduğunda otomatik güncellenir.
+     Cache'i hemen temizlemek için tarayıcıda:
+        localStorage.removeItem('gh_repos_cache')
+  */
+
+  const GITHUB_USER = 'ozanardaozcelik';
+  const CACHE_KEY = 'gh_repos_cache';
+  const CACHE_HOURS = 24;
+
+  // GITHUB'DA OLMAYAN, ELLE EKLEMEK İSTEDİĞİN PROJELER BURAYA:
+  // Yeni bir şey eklemek için aşağıya yeni bir obje ekle.
+  const MANUAL_PROJECTS = [
+    {
+      name: 'HandDetector',
+      description: 'Görüntü işleme ile gerçek zamanlı el hareketi tanıma sistemi. MediaPipe ve OpenCV tabanlı jest tanıma pipeline\'ı.',
+      language: 'Python',
+      status: 'soon',           // 'soon' → "GELİYOR" rozeti
+      url: '#',                 // repo hazırsa buraya URL ver
+      updated_at: new Date().toISOString()
+    }
+    // Örnek:
+    // {
+    //   name: 'NewProject',
+    //   description: 'Açıklama...',
+    //   language: 'Python',
+    //   status: 'active',
+    //   url: 'https://github.com/...',
+    //   updated_at: '2026-04-01T00:00:00Z'
+    // }
+  ];
+
+  // GitHub resmi dil renkleri (popüler olanlar)
+  const LANG_COLORS = {
+    'Python':      '#3572A5',
+    'JavaScript':  '#F1E05A',
+    'TypeScript':  '#3178C6',
+    'Jupyter Notebook': '#DA5B0B',
+    'C':           '#555555',
+    'C++':         '#F34B7D',
+    'C#':          '#178600',
+    'Java':        '#B07219',
+    'Go':          '#00ADD8',
+    'Rust':        '#DEA584',
+    'HTML':        '#E34C26',
+    'CSS':         '#663399',
+    'Shell':       '#89E051',
+    'Dart':        '#00B4AB',
+    'Kotlin':      '#A97BFF',
+    'Swift':       '#FA7343',
+    'Ruby':        '#701516',
+    'PHP':         '#4F5D95',
+    'Vue':         '#41B883',
+    'R':           '#198CE7',
+    'MATLAB':      '#E16737'
+  };
+
+  const ghStatus = document.getElementById('gh-status');
+  const ghStatusText = document.getElementById('gh-status-text');
+  const ghCount = document.getElementById('gh-count');
+  const projectsGrid = document.getElementById('projects-grid');
+
+  // Cache helpers (localStorage — gerçek sitede çalışır)
+  function readCache() {
+    try {
+      const raw = localStorage.getItem(CACHE_KEY);
+      if (!raw) return null;
+      const parsed = JSON.parse(raw);
+      const ageHours = (Date.now() - parsed.ts) / (1000 * 60 * 60);
+      if (ageHours > CACHE_HOURS) return null;
+      return parsed.data;
+    } catch { return null; }
+  }
+  function writeCache(data) {
+    try {
+      localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), data }));
+    } catch {}
+  }
+
+  async function fetchRepos() {
+    const cached = readCache();
+    if (cached) return { repos: cached, fromCache: true };
+
+    const res = await fetch(
+      `https://api.github.com/users/${GITHUB_USER}/repos?per_page=100&sort=updated`,
+      { headers: { 'Accept': 'application/vnd.github+json' } }
+    );
+    if (!res.ok) throw new Error(`GitHub API: ${res.status}`);
+    const data = await res.json();
+    writeCache(data);
+    return { repos: data, fromCache: false };
+  }
+
+  function escapeHtml(str) {
+    return (str || '').replace(/[&<>"']/g, c => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[c]));
+  }
+
+  function makeCard(project, index) {
+    const num = String(index + 1).padStart(3, '0');
+    const isSoon = project.status === 'soon';
+    const statusHtml = isSoon
+      ? `<span class="status soon">GELİYOR</span>`
+      : `<span class="status">AKTİF</span>`;
+
+    const lang = project.language;
+    const langColor = LANG_COLORS[lang] || '#8b949e';
+    const langHtml = lang
+      ? `<span class="lang-tag"><span class="lang-dot" style="background:${langColor}"></span>${escapeHtml(lang)}</span>`
+      : `<span class="lang-tag"><span class="lang-dot" style="background:#4E5770"></span>—</span>`;
+
+    // GitHub açıklamalarını yumuşak bir varsayılanla doldur
+    const desc = project.description
+      ? escapeHtml(project.description)
+      : 'Bu proje için henüz bir açıklama yazılmamış. GitHub üzerinde README\'yi açarak detaylara göz atabilirsin.';
+
+    const linkHtml = isSoon
+      ? `<a class="project-link disabled" href="#"><span>YAKINDA</span><span class="project-arrow">···</span></a>`
+      : `<a class="project-link" href="${escapeHtml(project.url)}" target="_blank" rel="noopener"><span>GITHUB'DA İNCELE</span><span class="project-arrow">↗</span></a>`;
+
+    return `
+      <div class="project">
+        <div class="project-num">
+          <span>// ${num}</span>
+          ${statusHtml}
+        </div>
+        <h4>${escapeHtml(project.name)}</h4>
+        <p>${desc}</p>
+        <div class="project-tags">${langHtml}</div>
+        ${linkHtml}
+      </div>
+    `;
+  }
+
+  function renderProjects(items) {
+    projectsGrid.innerHTML = items.map(makeCard).join('');
+    // Reveal animasyonunu yeni kartlara uygula
+    projectsGrid.classList.add('reveal-stagger');
+    requestAnimationFrame(() => projectsGrid.classList.add('in-view'));
+  }
+
+  function renderFallback() {
+    // API erişilemezse sadece manuel projeleri göster
+    const items = MANUAL_PROJECTS.map(p => ({
+      name: p.name, description: p.description,
+      language: p.language, status: p.status, url: p.url
+    }));
+    renderProjects(items);
+  }
+
+  async function loadProjects() {
+    try {
+      const { repos, fromCache } = await fetchRepos();
+
+      // Fork ve arşivlenenler hariç, güncellenme tarihine göre sırala
+      const filtered = repos
+        .filter(r => !r.fork && !r.archived && !r.disabled)
+        .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+
+      // GitHub repo'larını normalize et
+      const normalized = filtered.map(r => ({
+        name: r.name,
+        description: r.description,
+        language: r.language,
+        status: 'active',
+        url: r.html_url,
+        updated_at: r.updated_at
+      }));
+
+      // Manuel projeleri ekle — "soon" olanlar en sona, diğerleri tarihe göre karışır
+      const manualSoon = MANUAL_PROJECTS.filter(p => p.status === 'soon');
+      const manualActive = MANUAL_PROJECTS.filter(p => p.status !== 'soon');
+
+      const combined = [...normalized, ...manualActive]
+        .sort((a, b) => new Date(b.updated_at || 0) - new Date(a.updated_at || 0));
+
+      const finalList = [...combined, ...manualSoon];
+
+      renderProjects(finalList);
+
+      // Status güncelle
+      ghStatus.classList.add('connected');
+      ghStatusText.textContent = fromCache
+        ? `github.com/${GITHUB_USER} · önbellekten yüklendi`
+        : `github.com/${GITHUB_USER} · bağlantı kuruldu`;
+      ghCount.textContent = `${finalList.length} PROJE`;
+
+    } catch (err) {
+      console.error('GitHub API hatası:', err);
+      ghStatus.classList.add('error');
+      ghStatusText.textContent = `API'ye ulaşılamadı — yedek liste gösteriliyor`;
+      ghCount.textContent = `${MANUAL_PROJECTS.length} PROJE`;
+      renderFallback();
+    }
+  }
+
+  loadProjects();
+</script>
+
 </body>
 </html>
