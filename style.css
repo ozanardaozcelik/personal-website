@@ -49,3 +49,19 @@
 .box-projects li { color: #ccc; margin-bottom: 10px; font-size: 1.1rem; }
 .sosyal span { color: #999; cursor: pointer; }
 .sosyal span:hover { color: #fff; }
+
+/* ============================================
+     DİL SEÇENEĞİ KONTROLLERİ
+     ============================================ */
+  :lang(en) .lang-tr { display: none !important; }
+  :lang(tr) .lang-en { display: none !important; }
+
+  .nav-lang {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    color: var(--muted); text-decoration: none;
+    background: transparent; border: 1px solid var(--border);
+    padding: 8px 12px; letter-spacing: .12em; transition: all .25s;
+    cursor: pointer;
+  }
+  .nav-lang:hover { border-color: var(--accent); color: var(--accent); }
