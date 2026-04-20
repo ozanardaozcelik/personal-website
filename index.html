@@ -41,7 +41,23 @@
   }
 
   /* ============================================
-     SİHA CURSOR — GPU accelerated, no mix-blend
+     DİL SEÇENEĞİ KONTROLLERİ
+     ============================================ */
+  :lang(en) .lang-tr { display: none !important; }
+  :lang(tr) .lang-en { display: none !important; }
+
+  .nav-lang {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    color: var(--muted); text-decoration: none;
+    background: transparent; border: 1px solid var(--border);
+    padding: 8px 12px; letter-spacing: .12em; transition: all .25s;
+    cursor: pointer;
+  }
+  .nav-lang:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ============================================
+     SİHA CURSOR
      ============================================ */
   @media (hover: hover) and (pointer: fine) {
     body, a, button, .project, .mail-btn, .capability, .mg-target, .mg-btn, .mg-qr, .carousel-btn, .dot {
@@ -118,15 +134,6 @@
   .nav-items a:hover { color: var(--accent); border-color: var(--border-hi); background: rgba(0,229,255,.04); }
   .nav-items a .num { color: var(--dim); margin-right: 6px; font-size: 10px; }
   .nav-items a:hover .num { color: var(--warm); }
-  .nav-gh {
-    display: inline-flex; align-items: center; gap: 8px;
-    font-family: 'JetBrains Mono', monospace; font-size: 11px;
-    color: var(--muted); text-decoration: none;
-    border: 1px solid var(--border); padding: 8px 12px;
-    letter-spacing: .12em; transition: all .25s;
-  }
-  .nav-gh:hover { border-color: var(--accent); color: var(--accent); }
-  .nav-gh svg { width: 14px; height: 14px; }
 
   main { position: relative; z-index: 2; }
   section { padding: 120px 48px; position: relative; }
@@ -245,7 +252,7 @@
   .section-head .line-grow { flex: 1; height: 1px;
     background: linear-gradient(90deg, var(--border-hi), transparent); }
 
-  /* ABOUT — with converge effect */
+  /* ABOUT */
   .about { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; }
   .about-text p { font-size: 19px; color: var(--text); margin-bottom: 20px; max-width: 540px; }
   .about-text p:nth-child(2), .about-text p:nth-child(3) { color: var(--muted); font-size: 16px; }
@@ -270,7 +277,7 @@
   .tk-num { color: var(--warm); } .tk-com { color: var(--dim); }
   .tk-fn { color: var(--accent); } .tk-var { color: #c9d1d9; }
 
-  /* PHILOSOPHY — label kaldırıldı */
+  /* PHILOSOPHY */
   .philosophy {
     padding: 120px 48px; text-align: center; position: relative;
     border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
@@ -613,17 +620,8 @@
   }
   footer.site-footer .right { display: flex; gap: 24px; }
 
-  footer {
-    margin-top: 100px; padding-top: 40px; border-top: 1px solid var(--border);
-    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;
-    font-family: 'JetBrains Mono', monospace; font-size: 11px;
-    color: var(--dim); letter-spacing: .1em;
-  }
-  footer .right { display: flex; gap: 24px; }
-
   /* ============================================
      MINIGAME — TEKNOFEST KAMIKAZE SIMÜLASYONU
-     Kapalı alan, site geri kalanını etkilemez.
      ============================================ */
   .minigame {
     padding: 100px 48px 100px;
@@ -663,7 +661,6 @@
     border: 1px solid var(--border);
     border-top: none;
   }
-  /* perspektif grid (yer) */
   .mg-arena::before {
     content:''; position: absolute;
     left: -50%; right: -50%; bottom: 0; height: 55%;
@@ -676,14 +673,13 @@
     opacity: .5;
     pointer-events: none;
   }
-  /* vignette */
   .mg-arena::after {
     content:''; position: absolute; inset: 0;
     background: radial-gradient(ellipse at center, transparent 40%, rgba(5,8,15,.7) 100%);
     pointer-events: none;
   }
 
-  /* HUD corners */
+  /* HUD */
   .mg-hud {
     position: absolute; z-index: 5;
     font-family: 'JetBrains Mono', monospace;
@@ -703,7 +699,6 @@
   .mg-hud #mg-mode { color: var(--warm); transition: color .4s; }
   .mg-hud #mg-mode.autonomous { color: var(--success); }
 
-  /* Merkez crosshair (kılavuz) */
   .mg-center-cross {
     position: absolute; top: 50%; left: 50%;
     width: 40px; height: 40px;
@@ -724,7 +719,6 @@
     box-shadow: 0 0 4px var(--accent);
   }
 
-  /* QR target */
   .mg-qr {
     position: absolute; z-index: 6;
     bottom: 14%; left: 50%;
@@ -769,7 +763,6 @@
     background: rgba(5,8,15,.7);
     border: 1px solid var(--warm);
   }
-  /* köşe parantezleri */
   .mg-qr-corners span {
     position: absolute;
     width: 14px; height: 14px;
@@ -781,7 +774,6 @@
   .mg-qr-corners span:nth-child(3) { bottom: -3px; left: -3px; border-right:none; border-top:none; }
   .mg-qr-corners span:nth-child(4) { bottom: -3px; right: -3px; border-left:none; border-top:none; }
 
-  /* scan line — only animates during scanning state */
   .mg-qr .scan-line {
     position: absolute;
     left: 8px; right: 8px;
@@ -812,7 +804,6 @@
     border-color: var(--success);
   }
 
-  /* Status overlay (sağ üstte kayan terminal yazıları) */
   .mg-status {
     position: absolute; z-index: 8;
     top: 42px; right: 16px;
@@ -844,7 +835,6 @@
     to { opacity: 1; transform: translateX(0); }
   }
 
-  /* Briefing prompt — başlangıçta ortada "TIKLA" yazısı */
   .mg-prompt {
     position: absolute; z-index: 7;
     top: 22%; left: 50%;
@@ -864,7 +854,6 @@
   }
   .mg-prompt::before { content:'▾ '; }
 
-  /* Restart overlay button */
   .mg-restart-wrap {
     position: absolute; z-index: 9;
     bottom: 14px; left: 50%;
@@ -885,7 +874,6 @@
     box-shadow: 0 0 16px rgba(0,229,255,.5);
   }
 
-  /* Extracted data readout (arena'nın altında) */
   .mg-readout {
     border: 1px solid var(--border);
     border-top: none;
@@ -985,9 +973,6 @@
   .reveal-stagger.in-view > *:nth-child(5) { transition-delay: .45s; }
   .reveal-stagger.in-view > *:nth-child(6) { transition-delay: .55s; }
 
-  /* ============================================
-     MOBILE
-     ============================================ */
   @media (max-width: 960px) {
     nav { padding: 14px 16px; }
     .nav-items { display:none; }
@@ -1021,7 +1006,6 @@
     .social-links { flex-direction: column; }
     .stack-row { grid-template-columns: 1fr; gap: 4px; padding: 10px 0; }
     .drone-visual { max-width: 340px; margin: 0 auto; }
-    /* Mobilde converge'i daha kısa yap ki overflow olmasın */
     .converge-left  { transform: translate3d(-40px, 0, 0); }
     .converge-right { transform: translate3d( 40px, 0, 0); }
     .capability { grid-template-columns: 36px 1fr; gap: 12px; padding: 18px 18px; }
@@ -1049,7 +1033,6 @@
 <div class="noise"></div>
 <div class="scroll-progress" id="progress"></div>
 
-<!-- SİHA İmleç (GPU accelerated) -->
 <div class="cursor-siha" id="cursor-siha">
   <div>
     <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
@@ -1084,27 +1067,27 @@
     <span>OAÖ // PORTFOLIO v2.0</span>
   </div>
   <div class="nav-items">
-    <a href="#about"><span class="num">01</span>HAKKIMDA</a>
-    <a href="#siha"><span class="num">02</span>ŞAHİ SİHA</a>
-    <a href="#projects"><span class="num">03</span>PROJELER</a>
-    <a href="#skills"><span class="num">04</span>YETENEKLER</a>
-    <a href="#contact"><span class="num">05</span>İLETİŞİM</a>
+    <a href="#about"><span class="num">01</span><span class="lang-tr">HAKKIMDA</span><span class="lang-en">ABOUT</span></a>
+    <a href="#siha"><span class="num">02</span><span class="lang-tr">ŞAHİ SİHA</span><span class="lang-en">ŞAHİ UAV</span></a>
+    <a href="#projects"><span class="num">03</span><span class="lang-tr">PROJELER</span><span class="lang-en">PROJECTS</span></a>
+    <a href="#skills"><span class="num">04</span><span class="lang-tr">YETENEKLER</span><span class="lang-en">SKILLS</span></a>
+    <a href="#contact"><span class="num">05</span><span class="lang-tr">İLETİŞİM</span><span class="lang-en">CONTACT</span></a>
   </div>
-  <a class="nav-gh" href="https://github.com/ozanardaozcelik" target="_blank" rel="noopener" aria-label="GitHub">
-    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.67 5.56.67 11.83c0 5.02 3.24 9.27 7.75 10.77.57.11.77-.25.77-.55 0-.27-.01-1.17-.02-2.12-3.15.69-3.81-1.34-3.81-1.34-.52-1.31-1.27-1.66-1.27-1.66-1.04-.71.08-.7.08-.7 1.15.08 1.75 1.18 1.75 1.18 1.02 1.75 2.68 1.24 3.33.95.1-.74.4-1.24.73-1.53-2.52-.29-5.17-1.26-5.17-5.6 0-1.23.44-2.24 1.17-3.03-.12-.29-.51-1.45.11-3.02 0 0 .96-.31 3.15 1.16a10.9 10.9 0 0 1 5.72 0c2.19-1.47 3.15-1.16 3.15-1.16.62 1.57.23 2.73.11 3.02.73.79 1.17 1.8 1.17 3.03 0 4.35-2.66 5.31-5.19 5.59.41.35.77 1.04.77 2.1 0 1.52-.01 2.74-.01 3.12 0 .3.2.67.78.55 4.51-1.5 7.75-5.76 7.75-10.77C23.33 5.56 18.27.5 12 .5z"/></svg>
-    <span>GITHUB</span>
-  </a>
+  
+  <button class="nav-lang" id="lang-toggle" aria-label="Dil Değiştir / Change Language">
+    <span class="lang-tr">TR / ENG</span>
+    <span class="lang-en">ENG / TR</span>
+  </button>
 </nav>
 
 <main>
 
-  <!-- HERO -->
   <section class="hero">
     <div class="hero-status reveal">
       <span class="dot-green"></span>
-      <span class="live">ÇEVRİMİÇİ</span>
+      <span class="live"><span class="lang-tr">ÇEVRİMİÇİ</span><span class="lang-en">ONLINE</span></span>
       <span class="sep">/</span>
-      <span>İSTANBUL, TR</span>
+      <span><span class="lang-tr">İSTANBUL, TR</span><span class="lang-en">ISTANBUL, TR</span></span>
       <span class="sep">/</span>
       <span id="clock">--:--:-- UTC+3</span>
       <span class="sep">/</span>
@@ -1115,23 +1098,23 @@
       <span class="line reveal"><span class="outline">ÖZÇELİK<em>.</em></span></span>
     </h1>
     <div class="hero-role reveal">
-      <span id="typed">OTONOM SİSTEMLER &amp; YAPAY ZEKA GELİŞTİRİCİSİ</span><span class="cursor-blink"></span>
+      <span id="typed"></span><span class="cursor-blink"></span>
     </div>
     <div class="hero-meta reveal">
       <div class="cell">
-        <div class="label">◆ Görev</div>
-        <div class="value"><span class="accent">Yazılım</span> Ekip Lideri</div>
+        <div class="label">◆ <span class="lang-tr">Görev</span><span class="lang-en">Role</span></div>
+        <div class="value"><span class="accent"><span class="lang-tr">Yazılım</span><span class="lang-en">Software</span></span> <span class="lang-tr">Ekip Lideri</span><span class="lang-en">Team Lead</span></div>
       </div>
       <div class="cell">
-        <div class="label">◆ Takım</div>
-        <div class="value">Şahi Otonom <span class="accent">SİHA</span></div>
+        <div class="label">◆ <span class="lang-tr">Takım</span><span class="lang-en">Team</span></div>
+        <div class="value">Şahi Otonom <span class="accent"><span class="lang-tr">SİHA</span><span class="lang-en">UAV</span></span></div>
       </div>
       <div class="cell">
-        <div class="label">◆ Eğitim</div>
-        <div class="value">NKÜ Bil. Müh. <span class="accent">3.</span> Sınıf</div>
+        <div class="label">◆ <span class="lang-tr">Eğitim</span><span class="lang-en">Education</span></div>
+        <div class="value">NKÜ <span class="lang-tr">Bil. Müh. <span class="accent">3.</span> Sınıf</span><span class="lang-en">Comp. Eng. <span class="accent">3rd</span> Year</span></div>
       </div>
       <div class="cell">
-        <div class="label">◆ Yığın</div>
+        <div class="label">◆ <span class="lang-tr">Yığın</span><span class="lang-en">Stack</span></div>
         <div class="value"><span class="accent">Python</span> · CV · ML</div>
       </div>
     </div>
@@ -1146,7 +1129,7 @@
       <div class="radar-dot d3"></div>
     </div>
     <div class="scroll-hint">
-      <span>KAYDIR</span>
+      <span><span class="lang-tr">KAYDIR</span><span class="lang-en">SCROLL</span></span>
       <div class="line-down"></div>
     </div>
   </section>
@@ -1172,18 +1155,22 @@
     </div>
   </div>
 
-  <!-- ABOUT — sol/sağ converge -->
   <section id="about">
     <div class="section-head reveal">
       <span class="num">[ 01 ]</span>
-      <h2>Hakkımda</h2>
+      <h2><span class="lang-tr">Hakkımda</span><span class="lang-en">About Me</span></h2>
       <div class="line-grow"></div>
     </div>
     <div class="about">
       <div class="about-text converge-left">
-        <p>Otonom sistemler, <strong>görüntü işleme</strong> ve yapay zeka üzerine çalışan; karmaşık senaryoları Python ve Gazebo ortamında simüle edip sahada hayata geçiren bir bilgisayar mühendisliği öğrencisiyim.</p>
-        <p>Şahi Otonom SİHA Takımında yazılım ekip liderliği yürütüyorum. Teknofest kapsamında otonom uçuş ve görüntü işleme sistemlerini ekibimle birlikte geliştirdim.</p>
-        <p>Staj sürecimde Python ekosisteminde Generative AI ve Büyük Dil Modelleri üzerine odaklandım; endüstriyel veri analitiği ve otonom sistem entegrasyonunda tecrübe kazandım.</p>
+        <p class="lang-tr">Otonom sistemler, <strong>görüntü işleme</strong> ve yapay zeka üzerine çalışan; karmaşık senaryoları Python ve Gazebo ortamında simüle edip sahada hayata geçiren bir bilgisayar mühendisliği öğrencisiyim.</p>
+        <p class="lang-en">I am a computer engineering student working on autonomous systems, <strong>computer vision</strong>, and artificial intelligence. I simulate complex scenarios in Python and Gazebo, bringing them to life in the field.</p>
+        
+        <p class="lang-tr">Şahi Otonom SİHA Takımında yazılım ekip liderliği yürütüyorum. Teknofest kapsamında otonom uçuş ve görüntü işleme sistemlerini ekibimle birlikte geliştirdim.</p>
+        <p class="lang-en">I lead the software team at Şahi Autonomous UAV Team. I developed autonomous flight and image processing systems alongside my team for the Teknofest competitions.</p>
+        
+        <p class="lang-tr">Staj sürecimde Python ekosisteminde Generative AI ve Büyük Dil Modelleri üzerine odaklandım; endüstriyel veri analitiği ve otonom sistem entegrasyonunda tecrübe kazandım.</p>
+        <p class="lang-en">During my internship, I focused on Generative AI and Large Language Models within the Python ecosystem, gaining experience in industrial data analytics and autonomous system integration.</p>
       </div>
       <div class="about-code converge-right">
         <div class="about-code-head">
@@ -1193,15 +1180,15 @@
 <pre><span class="tk-key">class</span> <span class="tk-fn">Developer</span>:
     <span class="tk-key">def</span> <span class="tk-fn">__init__</span>(<span class="tk-var">self</span>):
         <span class="tk-var">self</span>.name   = <span class="tk-str">"Ozan Arda Özçelik"</span>
-        <span class="tk-var">self</span>.role   = <span class="tk-str">"Yazılım Ekip Lideri"</span>
-        <span class="tk-var">self</span>.team   = <span class="tk-str">"Şahi Otonom SİHA"</span>
+        <span class="tk-var">self</span>.role   = <span class="tk-str">"<span class="lang-tr">Yazılım Ekip Lideri</span><span class="lang-en">Software Team Lead</span>"</span>
+        <span class="tk-var">self</span>.team   = <span class="tk-str">"<span class="lang-tr">Şahi Otonom SİHA</span><span class="lang-en">Şahi Autonomous UAV</span>"</span>
         <span class="tk-var">self</span>.focus  = [<span class="tk-str">"computer vision"</span>,
                        <span class="tk-str">"autonomy"</span>,
                        <span class="tk-str">"LLM + GenAI"</span>]
         <span class="tk-var">self</span>.coffee = <span class="tk-num">∞</span>
 
     <span class="tk-key">def</span> <span class="tk-fn">build</span>(<span class="tk-var">self</span>, idea):
-        <span class="tk-com"># prototip → simülasyon → saha</span>
+        <span class="tk-com"># <span class="lang-tr">prototip → simülasyon → saha</span><span class="lang-en">prototype → simulation → field</span></span>
         <span class="tk-key">while</span> <span class="tk-key">not</span> idea.works():
             idea.iterate()
         <span class="tk-key">return</span> idea.deploy()</pre>
@@ -1209,48 +1196,48 @@
     </div>
   </section>
 
-  <!-- PHILOSOPHY — etiket yok, sadece alıntı -->
   <section class="philosophy">
     <div class="marker reveal">◆ ◆ ◆</div>
     <blockquote class="reveal">
-      Teorik bilgilerimi<br/><span class="accent">pratiğe dönüştürüyorum.</span>
+      <span class="lang-tr">Teorik bilgilerimi<br/><span class="accent">pratiğe dönüştürüyorum.</span></span>
+      <span class="lang-en">Transforming theoretical knowledge<br/><span class="accent">into practical reality.</span></span>
     </blockquote>
     <cite class="reveal">OZAN ARDA ÖZÇELİK</cite>
   </section>
 
-  <!-- ŞAHİ SİHA -->
   <section id="siha" class="featured">
     <div class="section-head reveal">
       <span class="num">[ 02 ]</span>
-      <h2>Öne Çıkan Görev</h2>
+      <h2><span class="lang-tr">Öne Çıkan Görev</span><span class="lang-en">Featured Mission</span></h2>
       <div class="line-grow"></div>
     </div>
     <div class="featured-wrap">
       <div class="reveal">
-        <div class="featured-tag">AKTİF · TEKNOFEST</div>
-        <h3>ŞAHİ <span class="accent">OTONOM</span><br/>SİHA TAKIMI</h3>
-        <div class="role">// YAZILIM EKİP LİDERİ</div>
-        <p>Teknofest Savaşan İHA ve benzeri yarışmalar için <strong style="color:var(--text)">otonom uçuş, görüntü işleme ve görev planlama sistemleri</strong> geliştiriyoruz. Ekip olarak karmaşık hava senaryolarını önce Gazebo ortamında simüle ediyor, ardından sahada teste alıyoruz.</p>
+        <div class="featured-tag"><span class="lang-tr">AKTİF · TEKNOFEST</span><span class="lang-en">ACTIVE · TEKNOFEST</span></div>
+        <h3>ŞAHİ <span class="accent"><span class="lang-tr">OTONOM</span><span class="lang-en">AUTONOMOUS</span></span><br/><span class="lang-tr">SİHA TAKIMI</span><span class="lang-en">UAV TEAM</span></h3>
+        <div class="role">// <span class="lang-tr">YAZILIM EKİP LİDERİ</span><span class="lang-en">SOFTWARE TEAM LEAD</span></div>
+        <p class="lang-tr">Teknofest Savaşan İHA ve benzeri yarışmalar için <strong style="color:var(--text)">otonom uçuş, görüntü işleme ve görev planlama sistemleri</strong> geliştiriyoruz. Ekip olarak karmaşık hava senaryolarını önce Gazebo ortamında simüle ediyor, ardından sahada teste alıyoruz.</p>
+        <p class="lang-en">We develop <strong style="color:var(--text)">autonomous flight, computer vision, and mission planning systems</strong> for Teknofest Fighting UAV and similar competitions. As a team, we simulate complex aerial scenarios in Gazebo first, then execute field tests.</p>
         <div class="capability-grid">
           <div class="capability">
             <div class="icon">01</div>
             <div>
-              <div class="title">Görüntü İşleme</div>
-              <div class="desc"><b>OpenCV tabanlı</b> gerçek zamanlı hedef tespiti ve takip pipeline'larının mimarisi.</div>
+              <div class="title"><span class="lang-tr">Görüntü İşleme</span><span class="lang-en">Computer Vision</span></div>
+              <div class="desc"><span class="lang-tr"><b>OpenCV tabanlı</b> gerçek zamanlı hedef tespiti ve takip pipeline'larının mimarisi.</span><span class="lang-en">Architecture of <b>OpenCV-based</b> real-time target detection and tracking pipelines.</span></div>
             </div>
           </div>
           <div class="capability">
             <div class="icon">02</div>
             <div>
-              <div class="title">Otonom Uçuş</div>
-              <div class="desc"><b>Gazebo + Python</b> ile simüle edilen görev senaryolarının gerçek platforma entegrasyonu.</div>
+              <div class="title"><span class="lang-tr">Otonom Uçuş</span><span class="lang-en">Autonomous Flight</span></div>
+              <div class="desc"><span class="lang-tr"><b>Gazebo + Python</b> ile simüle edilen görev senaryolarının gerçek platforma entegrasyonu.</span><span class="lang-en">Integration of mission scenarios simulated with <b>Gazebo + Python</b> into the real platform.</span></div>
             </div>
           </div>
           <div class="capability">
             <div class="icon">03</div>
             <div>
-              <div class="title">Ekip Koordinasyonu</div>
-              <div class="desc">Yazılım ekibinin <b>kod review, mimari kararlar</b> ve görev dağılımını yürütmek.</div>
+              <div class="title"><span class="lang-tr">Ekip Koordinasyonu</span><span class="lang-en">Team Coordination</span></div>
+              <div class="desc"><span class="lang-tr">Yazılım ekibinin <b>kod review, mimari kararlar</b> ve görev dağılımını yürütmek.</span><span class="lang-en">Managing <b>code reviews, architectural decisions</b>, and task distribution of the software team.</span></div>
             </div>
           </div>
         </div>
@@ -1299,18 +1286,17 @@
     </div>
   </section>
 
-  <!-- PROJECTS — Carousel (3'er 3'er) -->
   <section id="projects">
     <div class="section-head reveal">
       <span class="num">[ 03 ]</span>
-      <h2>Projelerim</h2>
+      <h2><span class="lang-tr">Projelerim</span><span class="lang-en">My Projects</span></h2>
       <div class="line-grow"></div>
     </div>
 
     <div class="projects-top-bar reveal">
       <div class="gh-status" id="gh-status">
         <span class="gh-dot"></span>
-        <span id="gh-status-text">github.com/ozanardaozcelik bağlantısı kuruluyor...</span>
+        <span id="gh-status-text">github.com/ozanardaozcelik <span class="lang-tr">bağlantısı kuruluyor...</span><span class="lang-en">connecting...</span></span>
         <span class="gh-sep">/</span>
         <span id="gh-count">—</span>
       </div>
@@ -1337,16 +1323,15 @@
     </div>
 
     <div class="more-on-gh reveal">
-      <span>// Daha fazla kod için → </span>
+      <span>// <span class="lang-tr">Daha fazla kod için</span><span class="lang-en">For more code</span> → </span>
       <a href="https://github.com/ozanardaozcelik" target="_blank" rel="noopener">github.com/ozanardaozcelik</a>
     </div>
   </section>
 
-  <!-- SKILLS — sol/sağ converge -->
   <section id="skills">
     <div class="section-head reveal">
       <span class="num">[ 04 ]</span>
-      <h2>Yetenekler &amp; Kimlik</h2>
+      <h2><span class="lang-tr">Yetenekler &amp; Kimlik</span><span class="lang-en">Skills &amp; Identity</span></h2>
       <div class="line-grow"></div>
     </div>
     <div class="skills-wrap">
@@ -1356,42 +1341,45 @@
           <div><span class="prompt">$</span> <span style="color:var(--muted)">cat</span> <span style="color:var(--text)">./stack.json</span></div>
           <div class="stack-list">
             <div class="stack-row"><span class="key">Python</span>
-              <span class="ctx"><b>Günlük ana dilim</b> — backend, otomasyon, ML pipeline'ları</span></div>
+              <span class="ctx"><span class="lang-tr"><b>Günlük ana dilim</b> — backend, otomasyon, ML pipeline'ları</span><span class="lang-en"><b>Primary daily language</b> — backend, automation, ML pipelines</span></span></div>
             <div class="stack-row"><span class="key">OpenCV</span>
-              <span class="ctx">SİHA <b>görüntü işleme pipeline'larında</b> gerçek zamanlı hedef tespiti</span></div>
+              <span class="ctx"><span class="lang-tr">SİHA <b>görüntü işleme pipeline'larında</b> gerçek zamanlı hedef tespiti</span><span class="lang-en">Real-time target detection in UAV <b>computer vision pipelines</b></span></span></div>
             <div class="stack-row"><span class="key">Machine Learning</span>
-              <span class="ctx"><b>Scikit-learn · TensorFlow</b> ile sınıflandırma ve regresyon modelleri</span></div>
+              <span class="ctx"><span class="lang-tr"><b>Scikit-learn · TensorFlow</b> ile sınıflandırma ve regresyon modelleri</span><span class="lang-en">Classification and regression models via <b>Scikit-learn &amp; TensorFlow</b></span></span></div>
             <div class="stack-row"><span class="key">Gazebo / ROS</span>
-              <span class="ctx">Saha testi öncesi <b>otonom uçuş senaryolarının</b> simülasyonu</span></div>
+              <span class="ctx"><span class="lang-tr">Saha testi öncesi <b>otonom uçuş senaryolarının</b> simülasyonu</span><span class="lang-en">Simulation of <b>autonomous flight scenarios</b> before field testing</span></span></div>
             <div class="stack-row"><span class="key">LLM / GenAI</span>
-              <span class="ctx">Staj sürecinde <b>büyük dil modelleri</b> ve üretken yapay zeka uygulamaları</span></div>
+              <span class="ctx"><span class="lang-tr">Staj sürecinde <b>büyük dil modelleri</b> ve üretken yapay zeka uygulamaları</span><span class="lang-en">Applied <b>large language models</b> and generative AI during internship</span></span></div>
             <div class="stack-row"><span class="key">Görüntü İşleme</span>
-              <span class="ctx">MediaPipe · <b>gerçek zamanlı CV</b> uygulamaları, jest tanıma, tracking</span></div>
+              <span class="ctx"><span class="lang-tr">MediaPipe · <b>gerçek zamanlı CV</b> uygulamaları, jest tanıma, tracking</span><span class="lang-en">MediaPipe · <b>real-time CV</b> applications, gesture recognition, tracking</span></span></div>
           </div>
           <div style="margin-top:22px"><span class="prompt">$</span> <span style="color:var(--muted)">_</span><span class="cursor-blink" style="background:var(--accent)"></span></div>
         </div>
       </div>
       <div class="skills-side converge-right">
-        <h3>Kim konuşuyor?</h3>
-        <p>Problem tanımından saha testine kadar döngünün her aşamasında bulunmayı seviyorum. Kod yazdığım kadar ekip içi iletişim ve mimari tartışmalara da zaman ayırıyorum.</p>
+        <h3><span class="lang-tr">Kim konuşuyor?</span><span class="lang-en">Who's talking?</span></h3>
+        <p class="lang-tr">Problem tanımından saha testine kadar döngünün her aşamasında bulunmayı seviyorum. Kod yazdığım kadar ekip içi iletişim ve mimari tartışmalara da zaman ayırıyorum.</p>
+        <p class="lang-en">I enjoy being involved in every stage of the cycle, from problem definition to field testing. I dedicate as much time to team communication and architectural discussions as I do to writing code.</p>
         <div class="info-grid">
-          <div class="info-row"><span class="k">◆ İsim</span><span class="v">Ozan Arda Özçelik</span></div>
-          <div class="info-row"><span class="k">◆ Konum</span><span class="v">İstanbul, <span class="hi">Türkiye</span></span></div>
-          <div class="info-row"><span class="k">◆ Rol</span><span class="v">Yazılım Ekip Lideri <span class="hi">@ Şahi Otonom SİHA</span></span></div>
-          <div class="info-row"><span class="k">◆ Eğitim</span><span class="v">NKÜ · Bilgisayar Mühendisliği · <span class="hi">3. Sınıf</span></span></div>
-          <div class="info-row"><span class="k">◆ İlgi</span><span class="v">Görüntü İşleme · Otonom Sistemler · GenAI</span></div>
-          <div class="info-row"><span class="k">◆ Durum</span><span class="v"><span class="hi">▸ İşbirliklerine açık</span></span></div>
+          <div class="info-row"><span class="k">◆ <span class="lang-tr">İsim</span><span class="lang-en">Name</span></span><span class="v">Ozan Arda Özçelik</span></div>
+          <div class="info-row"><span class="k">◆ <span class="lang-tr">Konum</span><span class="lang-en">Location</span></span><span class="v">Istanbul, <span class="hi"><span class="lang-tr">Türkiye</span><span class="lang-en">Turkey</span></span></span></div>
+          <div class="info-row"><span class="k">◆ <span class="lang-tr">Rol</span><span class="lang-en">Role</span></span><span class="v"><span class="lang-tr">Yazılım Ekip Lideri</span><span class="lang-en">Software Team Lead</span> <span class="hi">@ Şahi Otonom SİHA</span></span></div>
+          <div class="info-row"><span class="k">◆ <span class="lang-tr">Eğitim</span><span class="lang-en">Edu</span></span><span class="v">NKÜ · <span class="lang-tr">Bilgisayar Mühendisliği</span><span class="lang-en">Computer Engineering</span> · <span class="hi"><span class="lang-tr">3. Sınıf</span><span class="lang-en">3rd Year</span></span></span></div>
+          <div class="info-row"><span class="k">◆ <span class="lang-tr">İlgi</span><span class="lang-en">Interests</span></span><span class="v">Computer Vision · Autonomy · GenAI</span></div>
+          <div class="info-row"><span class="k">◆ <span class="lang-tr">Durum</span><span class="lang-en">Status</span></span><span class="v"><span class="hi">▸ <span class="lang-tr">İşbirliklerine açık</span><span class="lang-en">Open to collaborations</span></span></span></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- CONTACT -->
   <section id="contact" class="contact">
     <div class="contact-wrap">
-      <div class="tag reveal">[ 05 ] &nbsp; İLETİŞİM KANALI AÇIK</div>
-      <h2 class="reveal">Hadi <span class="outline">bir şeyler</span><br/>inşa edelim.</h2>
-      <p class="reveal">Bir projede birlikte çalışmak, yeni bir fikir üzerine konuşmak veya sadece merhaba demek için bana ulaş.</p>
+      <div class="tag reveal">[ 05 ] &nbsp; <span class="lang-tr">İLETİŞİM KANALI AÇIK</span><span class="lang-en">COMM CHANNEL OPEN</span></div>
+      <h2 class="reveal"><span class="lang-tr">Hadi <span class="outline">bir şeyler</span><br/>inşa edelim.</span><span class="lang-en">Let's build <span class="outline">something</span><br/>together.</span></h2>
+      <p class="reveal">
+        <span class="lang-tr">Bir projede birlikte çalışmak, yeni bir fikir üzerine konuşmak veya sadece merhaba demek için bana ulaş.</span>
+        <span class="lang-en">Reach out to collaborate on a project, discuss a new idea, or just to say hello.</span>
+      </p>
       <a class="mail-btn reveal" href="mailto:ozan.a.ozcelik@gmail.com">
         <span>ozan.a.ozcelik@gmail.com</span>
         <span class="arrow">↗</span>
@@ -1404,22 +1392,21 @@
     </div>
   </section>
 
-  <!-- MINIGAME — TEKNOFEST KAMIKAZE SIMÜLASYONU -->
   <section id="minigame" class="minigame">
     <div class="section-head reveal">
       <span class="num">[ BONUS ]</span>
-      <h2>Kamikaze Simülasyonu</h2>
+      <h2><span class="lang-tr">Kamikaze Simülasyonu</span><span class="lang-en">Kamikaze Simulation</span></h2>
       <div class="line-grow"></div>
     </div>
 
     <div class="mg-wrap reveal">
       <div class="mg-briefing">
         <span class="tag">◆ TEKNOFEST SCENARIO · SIM-07</span>
-        <p>Alt hedefte şifreli bir QR kod mevcut. SİHA imlecini hedefin üzerine yönlendir ve <b>TIKLA</b> — kamikaze dalışı ile veriyi topla.</p>
+        <p class="lang-tr">Alt hedefte şifreli bir QR kod mevcut. SİHA imlecini hedefin üzerine yönlendir ve <b>TIKLA</b> — kamikaze dalışı ile veriyi topla.</p>
+        <p class="lang-en">There is an encrypted QR code on the ground target. Steer the UAV cursor over the target and <b>CLICK</b> — execute a kamikaze dive to extract the data.</p>
       </div>
 
       <div class="mg-arena" id="mg-arena">
-        <!-- HUD köşeleri -->
         <div class="mg-hud tl">
           <span class="row">◉ <strong>TARGET LOCK</strong></span>
           <span class="row"><span class="k">MODE</span><strong id="mg-mode">MANUAL</strong></span>
@@ -1437,13 +1424,10 @@
           <span class="row"><span class="k">SIG</span> 98%</span>
         </div>
 
-        <!-- Merkez kılavuz -->
         <div class="mg-center-cross"></div>
 
-        <!-- "Tıkla" prompt'u -->
-        <div class="mg-prompt" id="mg-prompt">TIKLAYARAK DALIŞ YAP</div>
+        <div class="mg-prompt" id="mg-prompt"><span class="lang-tr">TIKLAYARAK DALIŞ YAP</span><span class="lang-en">CLICK TO DIVE</span></div>
 
-        <!-- QR hedefi -->
         <div class="mg-qr" id="mg-qr" role="button" aria-label="QR koda dalış yap">
           <span class="mg-qr-label">QR-7021 · TARGET</span>
           <canvas id="mg-qr-canvas" width="175" height="175"></canvas>
@@ -1451,16 +1435,13 @@
           <div class="scan-line"></div>
         </div>
 
-        <!-- Durum satırları (sağ üst) -->
         <div class="mg-status" id="mg-status"></div>
 
-        <!-- Yeniden başlat -->
         <div class="mg-restart-wrap" id="mg-restart-wrap" hidden>
-          <button class="mg-btn" id="mg-restart-btn">YENİ GÖREV →</button>
+          <button class="mg-btn" id="mg-restart-btn"><span class="lang-tr">YENİ GÖREV →</span><span class="lang-en">NEW MISSION →</span></button>
         </div>
       </div>
 
-      <!-- QR'dan çıkan veri -->
       <div class="mg-readout" id="mg-readout">
         <div class="mg-readout-head">
           <span class="live-dot"></span>
@@ -1480,7 +1461,30 @@
 </main>
 
 <script>
-  // Scroll progress (passive)
+  // --- LANGUAGE TOGGLE LOGIC ---
+  const langToggle = document.getElementById('lang-toggle');
+  const htmlTag = document.documentElement;
+
+  // LocalStorage'dan kayıtlı dili al veya varsayılan "tr" yap
+  const savedLang = localStorage.getItem('siteLang') || 'tr';
+  htmlTag.setAttribute('lang', savedLang);
+
+  langToggle.addEventListener('click', () => {
+    const currentLang = htmlTag.getAttribute('lang');
+    const newLang = currentLang === 'tr' ? 'en' : 'tr';
+    
+    htmlTag.setAttribute('lang', newLang);
+    localStorage.setItem('siteLang', newLang);
+    
+    // Typing effect'i dili değiştirince sıfırla
+    if (typeof updateTypingLanguage === 'function') {
+      updateTypingLanguage(newLang);
+    }
+  });
+
+  const isEn = () => document.documentElement.getAttribute('lang') === 'en';
+
+  // Scroll progress
   const progress = document.getElementById('progress');
   window.addEventListener('scroll', () => {
     const h = document.documentElement;
@@ -1497,7 +1501,7 @@
   };
   updateClock(); setInterval(updateClock, 1000);
 
-  // Reveal / converge observer
+  // Intersection Observer for Reveal Elements
   const io = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (e.isIntersecting) {
@@ -1508,17 +1512,25 @@
   }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
   document.querySelectorAll('.reveal, .reveal-stagger, .converge-left, .converge-right').forEach(el => io.observe(el));
 
-  // Typing effect
+  // --- TYPING EFFECT (ÇİFT DİLLİ) ---
   const typedEl = document.getElementById('typed');
-  const phrases = [
+  const phrasesTR = [
     'OTONOM SİSTEMLER & YAPAY ZEKA GELİŞTİRİCİSİ',
     'YAZILIM EKİP LİDERİ — ŞAHİ SİHA',
     'GÖRÜNTÜ İŞLEME / PYTHON / OPENCV'
   ];
+  const phrasesEN = [
+    'AUTONOMOUS SYSTEMS & AI DEVELOPER',
+    'SOFTWARE TEAM LEAD — ŞAHİ UAV',
+    'COMPUTER VISION / PYTHON / OPENCV'
+  ];
+  
+  let currentPhrases = savedLang === 'en' ? phrasesEN : phrasesTR;
   let pi = 0, ci = 0, deleting = false;
+  
   const type = () => {
     if (!typedEl) return;
-    const current = phrases[pi];
+    const current = currentPhrases[pi];
     if (!deleting) {
       ci++;
       typedEl.textContent = current.slice(0, ci);
@@ -1527,11 +1539,17 @@
     } else {
       ci--;
       typedEl.textContent = current.slice(0, ci);
-      if (ci === 0) { deleting = false; pi = (pi+1) % phrases.length; setTimeout(type, 400); return; }
+      if (ci === 0) { deleting = false; pi = (pi+1) % currentPhrases.length; setTimeout(type, 400); return; }
       setTimeout(type, 20);
     }
   };
   setTimeout(type, 1800);
+
+  // Dışarıdan dili güncellemek için
+  window.updateTypingLanguage = (lang) => {
+    currentPhrases = lang === 'en' ? phrasesEN : phrasesTR;
+    ci = 0; pi = 0; deleting = false;
+  };
 
   // Smooth nav
   document.querySelectorAll('.nav-items a').forEach(a => {
@@ -1542,12 +1560,7 @@
   });
 
   /* ============================================
-     SİHA İMLEÇ — GPU accelerated, optimized
-     - translate3d ile GPU layer
-     - will-change: transform
-     - mix-blend-mode yok (ağır)
-     - tek rAF loop
-     - passive mouse event
+     SİHA İMLEÇ
      ============================================ */
   (function () {
     if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
@@ -1556,11 +1569,10 @@
     const reticle = document.getElementById('cursor-reticle');
     if (!siha || !reticle) return;
 
-    let mx = -100, my = -100;  // başlangıçta ekran dışı
+    let mx = -100, my = -100;
     let sx = mx, sy = my;
     let rafId = null;
 
-    // --- Lock API: minigame gibi dış kontrollerin cursor'u hareket ettirebilmesi için
     const lockState = { active: false, x: 0, y: 0, lerp: 0.2 };
     window.__SIHA_CURSOR = {
       getPos: () => ({ x: sx, y: sy }),
@@ -1572,14 +1584,9 @@
     const onMove = (e) => { mx = e.clientX; my = e.clientY; };
     document.addEventListener('mousemove', onMove, { passive: true });
 
-    document.addEventListener('mouseleave', () => {
-      siha.style.opacity = 0; reticle.style.opacity = 0;
-    });
-    document.addEventListener('mouseenter', () => {
-      siha.style.opacity = ''; reticle.style.opacity = '';
-    });
+    document.addEventListener('mouseleave', () => { siha.style.opacity = 0; reticle.style.opacity = 0; });
+    document.addEventListener('mouseenter', () => { siha.style.opacity = ''; reticle.style.opacity = ''; });
 
-    // Tek rAF loop — smooth follow + instant reticle
     const loop = () => {
       const tx = lockState.active ? lockState.x : mx;
       const ty = lockState.active ? lockState.y : my;
@@ -1587,7 +1594,6 @@
       sx += (tx - sx) * l;
       sy += (ty - sy) * l;
       siha.style.transform    = `translate3d(${sx}px, ${sy}px, 0)`;
-      // Kilitliyken reticle da SİHA'yla beraber (otonom mod hissi)
       reticle.style.transform = lockState.active
         ? `translate3d(${sx}px, ${sy}px, 0)`
         : `translate3d(${mx}px, ${my}px, 0)`;
@@ -1595,13 +1601,11 @@
     };
     loop();
 
-    // Sekme arka plandayken loop'u durdur
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) { cancelAnimationFrame(rafId); }
       else { loop(); }
     });
 
-    // Tıklanabilir elementlerde crosshair'e geç
     const interactiveSel = 'a, button, .project, .mail-btn, .capability, .mg-target, .mg-btn, .mg-qr, .carousel-btn, .dot';
     document.addEventListener('mouseover', e => {
       if (e.target.closest(interactiveSel)) document.body.classList.add('cursor-active');
@@ -1614,7 +1618,7 @@
   })();
 
   /* ============================================
-     GITHUB PROJELER — Carousel (3'er sayfa)
+     GITHUB PROJELER — Carousel
      ============================================ */
   const GITHUB_USER = 'ozanardaozcelik';
   const CACHE_KEY = 'gh_repos_cache_v3';
@@ -1624,11 +1628,11 @@
   const EXCLUDE = new Set(['ozanardaozcelik', 'ozanardaozcelik.github.io']);
   const EXCLUDE_KEYWORDS = ['netlify', 'hosting', 'deploy', 'website-config'];
 
-  // Elle eklenen "geliyor" projeleri
   const MANUAL_PROJECTS = [
     {
       name: 'HandDetector',
       description: 'Görüntü işleme ile gerçek zamanlı el hareketi tanıma sistemi. MediaPipe ve OpenCV tabanlı jest tanıma pipeline\'ı.',
+      descriptionEn: 'Real-time hand gesture recognition system via computer vision. MediaPipe and OpenCV based pipeline.',
       language: 'Python',
       status: 'soon',
       url: '#'
@@ -1670,10 +1674,7 @@
   async function fetchRepos() {
     const cached = readCache();
     if (cached) return { repos: cached, fromCache: true };
-    const res = await fetch(
-      `https://api.github.com/users/${GITHUB_USER}/repos?per_page=100&sort=updated`,
-      { headers: { 'Accept': 'application/vnd.github+json' } }
-    );
+    const res = await fetch(`https://api.github.com/users/${GITHUB_USER}/repos?per_page=100&sort=updated`, { headers: { 'Accept': 'application/vnd.github+json' } });
     if (!res.ok) throw new Error(`GitHub API: ${res.status}`);
     const data = await res.json();
     writeCache(data);
@@ -1687,35 +1688,39 @@
   function makeCard(p, i) {
     const num = String(i + 1).padStart(3, '0');
     const isSoon = p.status === 'soon';
+    
+    // Çift dilli statüs
     const statusHtml = isSoon
-      ? `<span class="status soon">GELİYOR</span>`
-      : `<span class="status">AKTİF</span>`;
+      ? `<span class="status soon"><span class="lang-tr">GELİYOR</span><span class="lang-en">SOON</span></span>`
+      : `<span class="status"><span class="lang-tr">AKTİF</span><span class="lang-en">ACTIVE</span></span>`;
+    
     const color = LANG_COLORS[p.language] || '#8b949e';
     const langHtml = p.language
       ? `<span class="lang-tag"><span class="lang-dot" style="background:${color}"></span>${escapeHtml(p.language)}</span>`
       : '';
-    const desc = p.description
-      ? escapeHtml(p.description)
-      : 'Bu repo için henüz bir açıklama yazılmamış — detayları GitHub\'daki README\'den inceleyebilirsin.';
+      
+    // Açıklamayı manuel eklenen projeler için dil destekli yapalım (GitHub'dan gelenler İngilizce ise dokunmuyoruz)
+    let descTr = p.description ? escapeHtml(p.description) : 'Bu repo için henüz bir açıklama yazılmamış — detayları GitHub\'daki README\'den inceleyebilirsin.';
+    let descEn = p.descriptionEn ? escapeHtml(p.descriptionEn) : (p.description ? escapeHtml(p.description) : 'No description provided for this repo — check out the README on GitHub for details.');
+
     const link = isSoon
-      ? `<a class="project-link disabled" href="#"><span>YAKINDA</span><span class="project-arrow">···</span></a>`
-      : `<a class="project-link" href="${escapeHtml(p.url)}" target="_blank" rel="noopener"><span>GITHUB'DA İNCELE</span><span class="project-arrow">↗</span></a>`;
+      ? `<a class="project-link disabled" href="#"><span><span class="lang-tr">YAKINDA</span><span class="lang-en">UPCOMING</span></span><span class="project-arrow">···</span></a>`
+      : `<a class="project-link" href="${escapeHtml(p.url)}" target="_blank" rel="noopener"><span><span class="lang-tr">GITHUB'DA İNCELE</span><span class="lang-en">VIEW ON GITHUB</span></span><span class="project-arrow">↗</span></a>`;
+      
     return `
       <div class="project">
         <div class="project-num"><span>// ${num}</span>${statusHtml}</div>
         <h4>${escapeHtml(p.name)}</h4>
-        <p>${desc}</p>
+        <p><span class="lang-tr">${descTr}</span><span class="lang-en">${descEn}</span></p>
         <div class="project-tags">${langHtml}</div>
         ${link}
       </div>`;
   }
 
-  // Carousel state
   let currentPage = 0;
   let totalPages = 1;
 
   function renderCarousel(items) {
-    // Sayfa sayısını hesapla
     const pages = [];
     for (let i = 0; i < items.length; i += ITEMS_PER_PAGE) {
       pages.push(items.slice(i, i + ITEMS_PER_PAGE));
@@ -1723,10 +1728,8 @@
     totalPages = Math.max(1, pages.length);
     currentPage = 0;
 
-    // Her sayfada 3 hücre olsun (boş kalanlar görünmez), grid bozulmasın
     track.innerHTML = pages.map((pageItems, pi) => {
       let cards = pageItems.map((p, i) => makeCard(p, pi * ITEMS_PER_PAGE + i)).join('');
-      // Eksik hücreleri "ghost" ile doldur
       const missing = ITEMS_PER_PAGE - pageItems.length;
       for (let m = 0; m < missing; m++) {
         cards += `<div class="project" style="background:transparent;border:none;visibility:hidden"></div>`;
@@ -1734,15 +1737,12 @@
       return `<div class="carousel-page">${cards}</div>`;
     }).join('');
 
-    // Dots
     dotsEl.innerHTML = pages.map((_, i) =>
       `<button class="dot ${i === 0 ? 'active' : ''}" data-page="${i}" aria-label="Sayfa ${i+1}"></button>`
     ).join('');
 
-    // Nav görünürlüğü
     carouselNav.hidden = totalPages <= 1;
 
-    // Event listeners
     dotsEl.querySelectorAll('.dot').forEach(d => {
       d.addEventListener('click', () => goToPage(parseInt(d.dataset.page, 10)));
     });
@@ -1766,7 +1766,6 @@
   prevBtn?.addEventListener('click', () => goToPage(currentPage - 1));
   nextBtn?.addEventListener('click', () => goToPage(currentPage + 1));
 
-  // Klavye desteği — projeler section'ı viewport'ta iken
   document.addEventListener('keydown', e => {
     if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
     if (carouselNav.hidden) return;
@@ -1777,7 +1776,6 @@
     if (e.key === 'ArrowRight') { e.preventDefault(); goToPage(currentPage + 1); }
   });
 
-  // Dokunmatik swipe desteği
   let touchStartX = 0, touchDeltaX = 0;
   track.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; touchDeltaX = 0; }, { passive: true });
   track.addEventListener('touchmove',  e => { touchDeltaX = e.touches[0].clientX - touchStartX; }, { passive: true });
@@ -1802,15 +1800,15 @@
       renderCarousel(finalList);
 
       ghStatus.classList.add('connected');
-      ghStatusText.textContent = fromCache
-        ? `github.com/${GITHUB_USER} · önbellekten yüklendi`
-        : `github.com/${GITHUB_USER} · bağlantı kuruldu`;
-      ghCount.textContent = `${finalList.length} PROJE`;
+      ghStatusText.innerHTML = fromCache
+        ? `github.com/${GITHUB_USER} · <span class="lang-tr">önbellekten yüklendi</span><span class="lang-en">loaded from cache</span>`
+        : `github.com/${GITHUB_USER} · <span class="lang-tr">bağlantı kuruldu</span><span class="lang-en">connected</span>`;
+      ghCount.innerHTML = `${finalList.length} <span class="lang-tr">PROJE</span><span class="lang-en">PROJECTS</span>`;
     } catch (err) {
       console.error('GitHub API hatası:', err);
       ghStatus.classList.add('error');
-      ghStatusText.textContent = `API'ye ulaşılamadı — yedek liste gösteriliyor`;
-      ghCount.textContent = `${MANUAL_PROJECTS.length} PROJE`;
+      ghStatusText.innerHTML = `<span class="lang-tr">API'ye ulaşılamadı — yedek liste gösteriliyor</span><span class="lang-en">API unreachable — showing fallback list</span>`;
+      ghCount.innerHTML = `${MANUAL_PROJECTS.length} <span class="lang-tr">PROJE</span><span class="lang-en">PROJECTS</span>`;
       renderCarousel(MANUAL_PROJECTS);
     }
   }
@@ -1818,13 +1816,6 @@
 
   /* ============================================
      MINIGAME — TEKNOFEST KAMIKAZE SIMÜLASYONU
-     Akış:
-     1) Kullanıcı QR'a tıklar (veya dokunur) → dalış
-     2) Scan çizgisi QR üzerinde aşağı kayar
-     3) Durum satırları sağ üstte sırayla belirir
-     4) SİHA imleci kendiliğinden biraz yükselir (otonom mod)
-     5) Aşağıda QR'dan çıkan "veri" (Atatürk alıntısı) yazılır
-     6) YENİ GÖREV butonu ile sıfırlanır
      ============================================ */
   (function () {
     const arena       = document.getElementById('mg-arena');
@@ -1843,9 +1834,11 @@
 
     if (!arena || !qr || !qrCanvas) return;
 
-    const QUOTE = 'İstikbal göklerdedir. Göklerini koruyamayan uluslar, yarınlarından asla emin olamazlar.';
+    // Alıntıyı da iki dil yapalım
+    const QUOTE_TR = 'İstikbal göklerdedir. Göklerini koruyamayan uluslar, yarınlarından asla emin olamazlar.';
+    const QUOTE_EN = 'The future is in the skies. Nations that cannot protect their skies can never be sure of their tomorrow.';
 
-    let missionState = 'ready'; // ready | scanning | complete
+    let missionState = 'ready';
     const timers = [];
 
     function setTimer(fn, ms) {
@@ -1858,10 +1851,8 @@
       timers.length = 0;
     }
 
-    // --- Sahte ama inandırıcı QR grid render ---
     function buildQRGrid(size) {
       const g = Array.from({length: size}, () => new Array(size).fill(null));
-      // Finder pattern (7x7 — 3 köşede)
       const drawFinder = (sx, sy) => {
         for (let y = 0; y < 7; y++) {
           for (let x = 0; x < 7; x++) {
@@ -1871,10 +1862,7 @@
           }
         }
       };
-      drawFinder(0, 0);
-      drawFinder(size - 7, 0);
-      drawFinder(0, size - 7);
-      // Alignment pattern (5x5) sağ altta
+      drawFinder(0, 0); drawFinder(size - 7, 0); drawFinder(0, size - 7);
       if (size >= 21) {
         const ax = size - 9, ay = size - 9;
         for (let y = 0; y < 5; y++) {
@@ -1884,19 +1872,11 @@
           }
         }
       }
-      // Timing patterns
-      for (let i = 8; i < size - 8; i++) {
-        g[6][i] = i % 2 === 0;
-        g[i][6] = i % 2 === 0;
-      }
-      // Rastgele veri dolgusu
+      for (let i = 8; i < size - 8; i++) { g[6][i] = i % 2 === 0; g[i][6] = i % 2 === 0; }
       for (let y = 0; y < size; y++) {
         for (let x = 0; x < size; x++) {
           if (g[y][x] !== null) continue;
-          const inFinderZone =
-            (x < 9 && y < 9) ||
-            (x >= size - 8 && y < 9) ||
-            (x < 9 && y >= size - 8);
+          const inFinderZone = (x < 9 && y < 9) || (x >= size - 8 && y < 9) || (x < 9 && y >= size - 8);
           if (inFinderZone) { g[y][x] = false; continue; }
           g[y][x] = Math.random() < 0.48;
         }
@@ -1905,13 +1885,10 @@
     }
     function renderQR() {
       const ctx = qrCanvas.getContext('2d');
-      const size = 25, cellSize = 7;
-      const pad = 0;
-      qrCanvas.width = size * cellSize;
-      qrCanvas.height = size * cellSize;
+      const size = 25, cellSize = 7, pad = 0;
+      qrCanvas.width = size * cellSize; qrCanvas.height = size * cellSize;
       const grid = buildQRGrid(size);
-      ctx.fillStyle = '#F3F5FA';
-      ctx.fillRect(0, 0, qrCanvas.width, qrCanvas.height);
+      ctx.fillStyle = '#F3F5FA'; ctx.fillRect(0, 0, qrCanvas.width, qrCanvas.height);
       ctx.fillStyle = '#0a0f1c';
       for (let y = 0; y < size; y++) {
         for (let x = 0; x < size; x++) {
@@ -1921,7 +1898,6 @@
     }
     renderQR();
 
-    // --- Durum satırı ekleme ---
     function addStatusLine(text, kind, ts) {
       const el = document.createElement('div');
       el.className = 'line' + (kind ? ' ' + kind : '');
@@ -1929,7 +1905,6 @@
       statusBox.appendChild(el);
     }
 
-    // --- Quote typewriter ---
     function typeQuote(text, onDone) {
       const caret = document.createElement('span');
       caret.className = 'caret';
@@ -1952,7 +1927,6 @@
       step();
     }
 
-    // --- Altitude counter animation ---
     function animateAltitude(from, to, duration) {
       const start = performance.now();
       const tick = (now) => {
@@ -1964,12 +1938,10 @@
       requestAnimationFrame(tick);
     }
 
-    // --- SİHA imlecinin otonom tırmanışı ---
     function autoRiseCursor() {
       const cursor = window.__SIHA_CURSOR;
-      if (!cursor) return; // mobilde / dokunmatik cihazlarda yok
+      if (!cursor) return;
       const pos = cursor.getPos();
-      // Mevcut pozisyonundan 90px yukarı doğru yavaşça
       cursor.lockTo(pos.x, pos.y, 0.08);
       const startY = pos.y;
       const targetY = Math.max(60, pos.y - 90);
@@ -1980,44 +1952,36 @@
         const eased = 1 - Math.pow(1 - p, 3);
         cursor.moveTo(pos.x, startY + (targetY - startY) * eased);
         if (p < 1) requestAnimationFrame(step);
-        else {
-          // Yükselme bitince biraz bekle, kontrolü geri ver
-          setTimer(() => cursor.release(), 1500);
-        }
+        else setTimer(() => cursor.release(), 1500);
       };
       requestAnimationFrame(step);
     }
 
-    // --- Mission run ---
     function runMission() {
       if (missionState !== 'ready') return;
       missionState = 'scanning';
 
-      // Prompt ve QR prompt kaldır
       if (promptEl) promptEl.style.display = 'none';
-
-      // Dalış efekti
       qr.classList.add('diving');
       setTimer(() => qr.classList.remove('diving'), 420);
-      // Scan çizgisi
       setTimer(() => qr.classList.add('scanning'), 200);
       setTimer(() => qr.classList.add('scanned'), 1600);
 
-      // Durum satırları
-      setTimer(() => addStatusLine('QR tespit edildi.', 'ok', '00:00:01'), 450);
-      setTimer(() => addStatusLine('Görüntü işlendi.', '',   '00:00:02'), 1300);
-      setTimer(() => addStatusLine('Sunucuya iletildi.', '', '00:00:03'), 2100);
+      // Status mesajlarını o anki dile göre basıyoruz
+      setTimer(() => addStatusLine(isEn() ? 'QR detected.' : 'QR tespit edildi.', 'ok', '00:00:01'), 450);
+      setTimer(() => addStatusLine(isEn() ? 'Image processed.' : 'Görüntü işlendi.', '', '00:00:02'), 1300);
+      setTimer(() => addStatusLine(isEn() ? 'Transmitting to HQ.' : 'Sunucuya iletildi.', '', '00:00:03'), 2100);
       setTimer(() => {
-        addStatusLine('Uçak otonom moda geçti — <span class="ok">tırmanıyor</span>.', 'warn', '00:00:04');
+        const msg = isEn() 
+          ? 'UAV entered autonomous mode — <span class="ok">climbing</span>.'
+          : 'Uçak otonom moda geçti — <span class="ok">tırmanıyor</span>.';
+        addStatusLine(msg, 'warn', '00:00:04');
         modeEl.textContent = 'AUTONOMOUS';
         modeEl.classList.add('autonomous');
-        // İmleç otonom olarak biraz yükselsin
         autoRiseCursor();
-        // Altitude HUD değeri yükselsin
         animateAltitude(80, 185, 1600);
       }, 2900);
 
-      // Readout + alıntı
       setTimer(() => {
         const now = new Date();
         const hh = String(now.getHours()).padStart(2, '0');
@@ -2025,16 +1989,16 @@
         const ss = String(now.getSeconds()).padStart(2, '0');
         readoutTs.textContent = `DECODED DATA · QR-7021 · ${hh}:${mm}:${ss}`;
         readout.classList.add('shown');
-        typeQuote(QUOTE, () => {
+        
+        const quoteToType = isEn() ? QUOTE_EN : QUOTE_TR;
+        typeQuote(quoteToType, () => {
           citeEl.hidden = false;
           missionState = 'complete';
-          // Yeniden başlat butonu
           setTimer(() => { restartWrap.hidden = false; }, 500);
         });
       }, 4600);
     }
 
-    // --- Reset ---
     function resetMission() {
       clearTimers();
       missionState = 'ready';
@@ -2050,24 +2014,16 @@
       modeEl.classList.remove('autonomous');
       restartWrap.hidden = true;
       if (promptEl) promptEl.style.display = '';
-      // Yeni random QR
       renderQR();
-      // Cursor lock'ı da bırak (varsa)
       if (window.__SIHA_CURSOR) window.__SIHA_CURSOR.release();
     }
 
-    // --- Event binding ---
     qr.addEventListener('click', runMission);
-    qr.addEventListener('touchstart', (e) => {
-      e.preventDefault();
-      runMission();
-    }, { passive: false });
+    qr.addEventListener('touchstart', (e) => { e.preventDefault(); runMission(); }, { passive: false });
     restartBtn.addEventListener('click', resetMission);
 
-    // Sekme arka plana geçerse, bekleyen animasyonlar gürültü yapmasın
     document.addEventListener('visibilitychange', () => {
       if (document.hidden && missionState === 'scanning') {
-        // Tam olarak reset etmeyelim; sadece cursor'u bırak
         if (window.__SIHA_CURSOR) window.__SIHA_CURSOR.release();
       }
     });
