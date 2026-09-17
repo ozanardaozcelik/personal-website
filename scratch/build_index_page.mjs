@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+import fs from 'fs';
+
+const html = `<!DOCTYPE html>
 <html lang="tr">
 <head>
   <meta charset="UTF-8" />
@@ -1213,3 +1215,7 @@
   </script>
 </body>
 </html>
+`;
+
+fs.writeFileSync('index.html', html, 'utf8');
+console.log('Successfully written restored pristine Step 2410 index.html! Bytes:', html.length);

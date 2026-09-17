@@ -1,0 +1,67 @@
+/* --- GERÇEK WEB SİTESİ (BENTO GRID) TASARIMI --- */
+#scene4 {
+    background-color: #0a0a0c; /* Siyah/koyu gri arka plan */
+}
+
+.bento-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto auto;
+    gap: 20px;
+    max-width: 1000px;
+    width: 90%;
+    /* Başlangıçta kutular görünmesin, GSAP ile "şak" diye getireceğiz */
+    opacity: 0; 
+}
+
+.bento-box {
+    background: #151518;
+    border: 1px solid #2a2a30;
+    border-radius: 20px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.bento-box:hover {
+    transform: translateY(-5px);
+    border-color: #4ecca3;
+}
+
+/* Kutuların Yerleşimi */
+.box-profile { grid-column: span 2; }
+.box-contact { grid-column: span 1; text-align: center; }
+.box-skills { grid-column: span 1; }
+.box-projects { grid-column: span 2; }
+
+/* Yazı ve Renk Ayarları */
+.isim { font-size: 2.5rem; color: #fff; margin-bottom: 10px; }
+.unvan { color: #4ecca3; font-size: 1.2rem; margin-bottom: 15px; font-weight: bold; }
+.ozet { color: #999; line-height: 1.6; }
+.bento-box h3 { color: #fff; margin-bottom: 15px; font-size: 1.3rem; border-bottom: 1px solid #333; padding-bottom: 10px; }
+
+/* Buton ve Etiketler */
+.btn { display: inline-block; background: #4ecca3; color: #000; padding: 10px 20px; text-decoration: none; font-weight: bold; border-radius: 8px; margin-bottom: 15px; }
+.skill-tags span { display: inline-block; background: #222; color: #4ecca3; padding: 5px 12px; border-radius: 5px; margin: 5px; font-size: 0.9rem; border: 1px solid #333; }
+.box-projects ul { list-style: none; padding: 0; }
+.box-projects li { color: #ccc; margin-bottom: 10px; font-size: 1.1rem; }
+.sosyal span { color: #999; cursor: pointer; }
+.sosyal span:hover { color: #fff; }
+
+/* ============================================
+     DİL SEÇENEĞİ KONTROLLERİ
+     ============================================ */
+  :lang(en) .lang-tr { display: none !important; }
+  :lang(tr) .lang-en { display: none !important; }
+
+  .nav-lang {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    color: var(--muted); text-decoration: none;
+    background: transparent; border: 1px solid var(--border);
+    padding: 8px 12px; letter-spacing: .12em; transition: all .25s;
+    cursor: pointer;
+  }
+  .nav-lang:hover { border-color: var(--accent); color: var(--accent); }
