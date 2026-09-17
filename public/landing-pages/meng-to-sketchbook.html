@@ -943,6 +943,42 @@ addEventListener('wheel', e => {
     } catch (err) {}
   }
 }, { passive: true });
+
+let touchStartY = 0;
+let touchStartX = 0;
+let isTouchScroll = false;
+
+window.addEventListener('touchstart', e => {
+  if (e.touches && e.touches.length === 1) {
+    touchStartY = e.touches[0].clientY;
+    touchStartX = e.touches[0].clientX;
+    isTouchScroll = false;
+  }
+}, { passive: true });
+
+window.addEventListener('touchmove', e => {
+  if (e.touches && e.touches.length === 1) {
+    const cy = e.touches[0].clientY;
+    const cx = e.touches[0].clientX;
+    const dy = touchStartY - cy;
+    const dx = touchStartX - cx;
+
+    if (!isTouchScroll && Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > 4) {
+      isTouchScroll = true;
+    }
+
+    if (isTouchScroll && window.parent && window.parent !== window) {
+      try {
+        window.parent.postMessage({
+          type: 'PARENT_SCROLL',
+          deltaY: dy * 1.15
+        }, '*');
+      } catch (err) {}
+      touchStartY = cy;
+    }
+  }
+}, { passive: true });
+
 stage.addEventListener('dblclick',()=>setView(view.trx,view.try_,1));
 
 /* ------------------------------------------------------- pointer work */

@@ -192,9 +192,13 @@
         ></iframe>
       </div>
 
-      <!-- LAYER 2: 3D DOCKING BOOK (Authentic 3D folding & gliding on warm paper background) -->
+      <!-- LAYER 2: 3D DOCKING BOOK (Clean blank paper spread matching active sketchbook) -->
       <div class="flow-layer flow-3d-book-layer" id="flow3dBookLayer">
         <div class="scroll-dock-book" id="scrollDockBook">
+          <!-- Realistic drop shadows matching active sketchbook -->
+          <div class="sdb-cast sdb-cast-ambient"></div>
+          <div class="sdb-cast sdb-cast-contact"></div>
+
           <!-- Spine -->
           <div class="sdb-spine">
             <span>00 · HİKAYEM</span>
@@ -202,45 +206,31 @@
 
           <!-- Left Wing (Back cover / left spread) -->
           <div class="sdb-wing sdb-left" id="sdbWingLeft">
-            <div class="sdb-face sdb-paper">
-              <div class="sdb-page-art">
-                <span class="sdb-tag">LEVHA 01 // 1999</span>
-                <div class="sdb-sketch-lead">3 YAŞ: İLK BİLGİSAYAR</div>
-                <div class="sdb-sketch-sub">Retro Oyunlar · Dijital Kıvılcım</div>
-              </div>
-              <div style="font-family:var(--font-mono);font-size:9px;color:#9a6a3e;letter-spacing:0.12em;">TEORİK BİLGİ ➔ PRATİK</div>
-            </div>
+            <div class="sdb-face sdb-paper"></div>
             <div class="sdb-face sdb-back-cover">
               <div class="sdb-cover-foil">
                 <div class="sdb-roman">✦</div>
                 <div>
                   <div class="sdb-title">OZAN ARDA</div>
-                  <div class="sdb-sub">MAKİNE MANTIĞI</div>
+                  <div class="sdb-sub"><span class="lang-tr">MAKİNE MANTIĞI</span><span class="lang-en">MACHINE LOGIC</span></div>
                 </div>
-                <div class="sdb-meta">2026 EDİSYON</div>
+                <div class="sdb-meta">2026 EDITION</div>
               </div>
             </div>
           </div>
 
           <!-- Right Wing (Front cover that folds shut over the book) -->
           <div class="sdb-wing sdb-right" id="sdbWingRight">
-            <div class="sdb-face sdb-paper">
-              <div class="sdb-page-art">
-                <span class="sdb-tag">LEVHA 09 // 2026</span>
-                <div class="sdb-sketch-lead">İNSAN FORMU — MAKİNE MANTIĞI</div>
-                <div class="sdb-sketch-sub">Şahi SİHA · Çözüm Makina · Gelecek Vizyonu</div>
-              </div>
-              <div style="font-family:var(--font-mono);font-size:9px;color:#9a6a3e;letter-spacing:0.12em;">SİHA YAZILIM LİDERİ</div>
-            </div>
+            <div class="sdb-face sdb-paper"></div>
             <div class="sdb-face sdb-front-cover">
               <div class="sdb-cover-foil">
                 <div class="sdb-roman">0</div>
                 <div>
-                  <div class="sdb-title">HİKAYEM</div>
+                  <div class="sdb-title"><span class="lang-tr">HİKAYEM</span><span class="lang-en">MY STORY</span></div>
                   <div class="sdb-sub">OZAN ARDA ÖZÇELİK</div>
                 </div>
                 <div class="sdb-rule"></div>
-                <div class="sdb-meta">VOL. 00 // 9 DÖNÜM NOKTASI</div>
+                <div class="sdb-meta"><span class="lang-tr">VOL. 00 // 9 DÖNÜM NOKTASI</span><span class="lang-en">VOL. 00 // 9 MILESTONES</span></div>
               </div>
             </div>
           </div>
@@ -922,26 +912,26 @@
         setShelfActiveState(shouldShelfBeActive);
 
         // 1. Story layer (02 Hikayem Sketchbook):
-        // 100% Solid & fully interactive reading zone (p: 0.00 -> 0.35)
-        // Gentle crossfade out (p: 0.35 -> 0.48)
+        // 100% Solid & fully interactive reading zone (p: 0.00 -> 0.38)
+        // Gentle crossfade out to blank closing volume (p: 0.38 -> 0.48)
         if (flowStoryLayer) {
           let storyOpacity = 1;
-          if (p > 0.35) {
-            storyOpacity = Math.max(0, 1 - (p - 0.35) / 0.13);
+          if (p > 0.38) {
+            storyOpacity = Math.max(0, 1 - (p - 0.38) / 0.10);
           }
           flowStoryLayer.style.opacity = storyOpacity.toFixed(3);
-          flowStoryLayer.style.pointerEvents = (scrollY >= flowTop - 50 && p <= 0.38) ? 'auto' : 'none';
+          flowStoryLayer.style.pointerEvents = (scrollY >= flowTop - 80 && p <= 0.40) ? 'auto' : 'none';
           flowStoryLayer.style.visibility = storyOpacity <= 0 ? 'hidden' : 'visible';
         }
 
         // 2. 3D Closing book layer:
-        // Stays hidden during reading (p < 0.35), crossfades in (p: 0.35 -> 0.46), folds shut (p: 0.46 -> 0.74), scales & glides (p: 0.70 -> 0.88), fades out (p: 0.84 -> 0.92)
+        // Appears seamlessly on top of active sketchbook (p: 0.38 -> 0.48), folds shut (p: 0.48 -> 0.72), scales & glides (p: 0.68 -> 0.88), fades out (p: 0.84 -> 0.92)
         if (flow3dBookLayer) {
           let bookOpacity = 0;
-          if (p < 0.35) {
+          if (p < 0.38) {
             bookOpacity = 0;
-          } else if (p < 0.46) {
-            bookOpacity = (p - 0.35) / 0.11;
+          } else if (p < 0.48) {
+            bookOpacity = (p - 0.38) / 0.10;
           } else if (p <= 0.84) {
             bookOpacity = 1;
           } else if (p <= 0.92) {
@@ -953,24 +943,24 @@
           flow3dBookLayer.style.visibility = bookOpacity <= 0 ? 'hidden' : 'visible';
         }
 
-        // 3. Right wing cover folding shut in 3D perspective (p: 0.46 -> 0.74):
+        // 3. Right wing cover folding shut in 3D perspective over left page (p: 0.48 -> 0.72):
         let foldP = 0;
-        if (p > 0.46) {
-          foldP = smoothstep((p - 0.46) / 0.28);
+        if (p > 0.48) {
+          foldP = smoothstep((p - 0.48) / 0.24);
         }
         const rightDeg = -foldP * 180;
         sdbWingRight.style.transform = 'rotateY(' + rightDeg.toFixed(2) + 'deg)';
         sdbWingRight.style.zIndex = foldP > 0.5 ? 20 : 2;
 
-        // 4. Zoom out in 3D perspective and glide (p: 0.70 -> 0.88):
+        // 4. Zoom out in 3D perspective and glide towards shelf slot (p: 0.68 -> 0.88):
         let zoomP = 0;
-        if (p > 0.70) {
-          zoomP = smoothstep((p - 0.70) / 0.18);
+        if (p > 0.68) {
+          zoomP = smoothstep((p - 0.68) / 0.20);
         }
-        const scale = 1 - zoomP * 0.77; // 1.0 down to 0.23
-        const translateY = zoomP * 140;
-        const rotateY = zoomP * 15;
-        const rotateX = zoomP * 7;
+        const scale = 1 - zoomP * 0.76; // 1.0 down to 0.24
+        const translateY = zoomP * 130;
+        const rotateY = zoomP * 16;
+        const rotateX = zoomP * 8;
 
         scrollDockBook.style.transform =
           'translateY(' + translateY.toFixed(1) + 'px) ' +
@@ -978,11 +968,11 @@
           'rotateY(' + rotateY.toFixed(1) + 'deg) ' +
           'rotateX(' + rotateX.toFixed(1) + 'deg)';
 
-        // 5. Background shelf fades in cleanly as the book docks (p: 0.76 -> 0.96):
+        // 5. Background shelf fades in cleanly as the book docks (p: 0.74 -> 0.94):
         if (flowShelfLayer) {
           let shelfFade = 0;
-          if (p > 0.76) {
-            shelfFade = smoothstep((p - 0.76) / 0.20);
+          if (p > 0.74) {
+            shelfFade = smoothstep((p - 0.74) / 0.20);
           }
           flowShelfLayer.style.opacity = shelfFade.toFixed(3);
           flowShelfLayer.style.pointerEvents = p >= 0.86 ? 'auto' : 'none';
@@ -1054,6 +1044,25 @@
       window.__scrollToProjects = scrollToProjects;
       window.__scrollToContact = scrollToContact;
 
+      // Cancel any ongoing auto-scroll as soon as user takes manual control
+      function interruptAutoScroll() {
+        if (isAutoScrolling) {
+          if (autoScrollAnimId) {
+            cancelAnimationFrame(autoScrollAnimId);
+            autoScrollAnimId = null;
+          }
+          isAutoScrolling = false;
+        }
+      }
+
+      window.addEventListener('wheel', interruptAutoScroll, { passive: true });
+      window.addEventListener('touchstart', interruptAutoScroll, { passive: true });
+      window.addEventListener('keydown', (e) => {
+        if (['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' '].includes(e.key)) {
+          interruptAutoScroll();
+        }
+      }, { passive: true });
+
       // Handle postMessages from iframes for smooth scrolling
       window.addEventListener('message', (e) => {
         if (e.data && e.data.type === 'SET_LANG' && (e.data.lang === 'tr' || e.data.lang === 'en')) {
@@ -1062,11 +1071,11 @@
           }
         }
         if (e.data && e.data.type === 'PARENT_SCROLL') {
-          if (isAutoScrolling) return;
+          interruptAutoScroll();
           const deltaY = typeof e.data.deltaY === 'number' ? e.data.deltaY : 0;
-          if (Math.abs(deltaY) < 3) return;
-
-          window.scrollBy({ top: deltaY, behavior: 'auto' });
+          if (deltaY !== 0) {
+            window.scrollBy({ top: deltaY, behavior: 'auto' });
+          }
         }
       });
 
