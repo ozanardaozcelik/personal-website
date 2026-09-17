@@ -2347,7 +2347,8 @@
     let readingOpen = false;
     let detailBookHovered = false;
     let currentSpread = 0;
-    let suspended = (window.parent !== window);
+    let pointerDirty = false;
+    let suspended = false;
     let viewWidth = window.innerWidth;
     let viewHeight = window.innerHeight;
     let detailViewOffsetX = 0;
@@ -5928,7 +5929,7 @@
       viewHeight = window.innerHeight;
       configureResponsiveTargets();
       renderer.setSize(viewWidth, viewHeight, false);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.25));
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, viewWidth < 820 ? 1.5 : 2));
       camera.aspect = viewWidth / viewHeight;
       camera.updateProjectionMatrix();
 
@@ -6012,26 +6013,6 @@
         }
       }
     }
-
-    // Handle cross-window suspension from main page
-    window.addEventListener("message", (event) => {
-      if (!event.data) return;
-      if (event.data.type === "SUSPEND_WEBGL") {
-        suspended = true;
-        settlePageDrag(true);
-        resetDetailPress();
-        if (rafId) {
-          cancelAnimationFrame(rafId);
-          rafId = 0;
-        }
-      } else if (event.data.type === "RESUME_WEBGL") {
-        if (suspended) {
-          suspended = false;
-          lastTime = performance.now();
-          requestFrame();
-        }
-      }
-    });
 
     function onWindowBlur() {
       settlePageDrag(true);
@@ -6146,7 +6127,7 @@
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
       renderer.toneMappingExposure = 0.9;
       renderer.shadowMap.enabled = true;
-      renderer.shadowMap.type = THREE.PCFShadowMap;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
       renderer.setClearColor(0x000000, 0);
 
       scene = new THREE.Scene();
