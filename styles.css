@@ -2009,6 +2009,15 @@ html.menu-open {
   height: 100%;
   border: none;
   display: block;
+  overflow: hidden !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+.flow-iframe::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
 /* LAYER 1: 03 YETENEKLERİM (3D SHELF IFRAME) */
