@@ -12,6 +12,7 @@ export const fluidFragmentShader = `
   uniform sampler2D uPrevTrails;
   uniform vec2 uMouse, uPrevMouse, uResolution;
   uniform float uDecay;
+  uniform float uLineWidth;
   uniform bool uIsMoving;
   varying vec2 vUv;
 
@@ -28,8 +29,8 @@ export const fluidFragmentShader = `
         float proj = clamp(dot(toPx, d), 0.0, len);
         vec2 closest = uPrevMouse + proj * d;
         float dist = length(vUv - closest);
-        float lineWidth = 0.09;
-        float intensity = smoothstep(lineWidth, 0.0, dist) * 0.35;
+        float width = uLineWidth > 0.0 ? uLineWidth : 0.055;
+        float intensity = smoothstep(width, 0.0, dist) * 0.35;
         newValue += intensity;
       }
     }

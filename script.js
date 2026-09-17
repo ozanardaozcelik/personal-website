@@ -6,7 +6,7 @@ const CONFIG = {
   simSize: 256,
   // Trail mask falloff
   decay: 0.97,
-  lineWidth: 0.09,
+  lineWidth: 0.055,
   perFrameIntensity: 0.35,
   // Reveal threshold (display shader)
   revealThreshold: 0.02,
@@ -101,6 +101,7 @@ function initHeroFluid(canvas) {
     uPrevMouse: { value: new THREE.Vector2(0.5, 0.5) },
     uResolution: { value: new THREE.Vector2(CONFIG.simSize, CONFIG.simSize) },
     uDecay: { value: CONFIG.decay },
+    uLineWidth: { value: CONFIG.lineWidth },
     uIsMoving: { value: false }
   };
 
