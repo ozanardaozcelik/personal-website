@@ -49,9 +49,9 @@ export const displayFragmentShader = `
     vec2 s = uResolution / ts;
     float scale = max(s.x, s.y);
     vec2 scaled = ts * scale;
-    // Align horizontally center, and vertically anchor towards top (0.12) to ensure hair & headroom are 100% visible
+    // Align horizontally center, and vertically anchor right at the top (0.02) so hair & headroom are 100% visible
     float offsetX = (uResolution.x - scaled.x) * 0.5;
-    float offsetY = (uResolution.y - scaled.y) * 0.12;
+    float offsetY = (uResolution.y - scaled.y) * 0.02;
     return (uv * uResolution - vec2(offsetX, offsetY)) / scaled;
   }
 
