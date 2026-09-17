@@ -1973,7 +1973,7 @@ html.menu-open {
 .hero-scroll-flow {
   position: relative;
   width: 100%;
-  height: 300vh;
+  height: 480vh;
   background: #ece7dc;
   border-bottom: 1px solid var(--rule-strong);
   contain: layout;
@@ -2050,6 +2050,7 @@ html.menu-open {
   height: 380px;
   transform-style: preserve-3d;
   will-change: transform, opacity;
+  transform: translateZ(0);
 }
 
 /* SPREAD WINGS */
@@ -2059,12 +2060,15 @@ html.menu-open {
   width: 290px;
   height: 380px;
   transform-style: preserve-3d;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .sdb-left {
   left: 0;
   transform-origin: right center;
   z-index: 1;
+  transform: translateZ(0);
 }
 
 .sdb-right {
@@ -2072,6 +2076,7 @@ html.menu-open {
   transform-origin: left center;
   z-index: 4;
   will-change: transform;
+  transform: translateZ(0);
 }
 
 /* WING FACES */

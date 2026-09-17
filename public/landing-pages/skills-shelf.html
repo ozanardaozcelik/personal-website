@@ -2347,8 +2347,7 @@
     let readingOpen = false;
     let detailBookHovered = false;
     let currentSpread = 0;
-    let pointerDirty = false;
-    let suspended = false;
+    let suspended = (window.parent !== window);
     let viewWidth = window.innerWidth;
     let viewHeight = window.innerHeight;
     let detailViewOffsetX = 0;

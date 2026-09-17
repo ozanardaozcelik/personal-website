@@ -865,7 +865,12 @@ const html = `<!DOCTYPE html>
         }
       }
 
-      // Scroll Handler with Generous Dedicated Reading Buffer before Book Folding
+      // Preload shelf early in the background so it's ready with zero WebGL compile lag
+      setTimeout(() => {
+        ensureShelfLoaded();
+      }, 1200);
+
+      // Scroll Handler with Generous Dedicated Reading Buffer & Cinematic Pacing
       let lastRenderedP = -999;
 
       function onScrollHeroFlow() {
@@ -882,45 +887,45 @@ const html = `<!DOCTYPE html>
         p = Math.max(0, Math.min(1, p));
 
         // Skip micro-jitter
-        if (Math.abs(p - lastRenderedP) < 0.0008 && scrollY > flowTop && scrollY < flowTop + totalTravel) {
+        if (Math.abs(p - lastRenderedP) < 0.0006 && scrollY > flowTop && scrollY < flowTop + totalTravel) {
           return;
         }
         lastRenderedP = p;
 
-        // Lazy load shelf when user approaches folding (p > 0.20)
-        if (p > 0.20) {
+        // Ensure shelf is loaded
+        if (p > 0.05) {
           ensureShelfLoaded();
         }
 
-        // Manage Shelf WebGL suspension (only active when visible)
-        const shouldShelfBeActive = p >= 0.65 && p <= 1.05;
+        // Manage Shelf WebGL suspension (active during shelf transition & view)
+        const shouldShelfBeActive = p >= 0.72 && p <= 1.08;
         setShelfActiveState(shouldShelfBeActive);
 
         // 1. Story layer (02 Hikayem Sketchbook):
-        // 100% Solid & fully interactive reading zone (p: 0.00 -> 0.30)
-        // Gentle crossfade out only after intentional scrolling past reading zone (p: 0.30 -> 0.42)
+        // 100% Solid & fully interactive reading zone (p: 0.00 -> 0.35)
+        // Gentle crossfade out (p: 0.35 -> 0.48)
         if (flowStoryLayer) {
           let storyOpacity = 1;
-          if (p > 0.30) {
-            storyOpacity = Math.max(0, 1 - (p - 0.30) / 0.12);
+          if (p > 0.35) {
+            storyOpacity = Math.max(0, 1 - (p - 0.35) / 0.13);
           }
           flowStoryLayer.style.opacity = storyOpacity.toFixed(3);
-          flowStoryLayer.style.pointerEvents = (scrollY >= flowTop - 50 && p <= 0.34) ? 'auto' : 'none';
+          flowStoryLayer.style.pointerEvents = (scrollY >= flowTop - 50 && p <= 0.38) ? 'auto' : 'none';
           flowStoryLayer.style.visibility = storyOpacity <= 0 ? 'hidden' : 'visible';
         }
 
         // 2. 3D Closing book layer:
-        // Stays hidden during reading (p < 0.30), crossfades in (p: 0.30 -> 0.38), folds shut (p: 0.36 -> 0.68), fades out before shelf (p: 0.72 -> 0.86)
+        // Stays hidden during reading (p < 0.35), crossfades in (p: 0.35 -> 0.46), folds shut (p: 0.46 -> 0.74), scales & glides (p: 0.70 -> 0.88), fades out (p: 0.84 -> 0.92)
         if (flow3dBookLayer) {
           let bookOpacity = 0;
-          if (p < 0.30) {
+          if (p < 0.35) {
             bookOpacity = 0;
-          } else if (p < 0.38) {
-            bookOpacity = (p - 0.30) / 0.08;
-          } else if (p <= 0.72) {
+          } else if (p < 0.46) {
+            bookOpacity = (p - 0.35) / 0.11;
+          } else if (p <= 0.84) {
             bookOpacity = 1;
-          } else if (p <= 0.86) {
-            bookOpacity = Math.max(0, 1 - (p - 0.72) / 0.14);
+          } else if (p <= 0.92) {
+            bookOpacity = Math.max(0, 1 - (p - 0.84) / 0.08);
           } else {
             bookOpacity = 0;
           }
@@ -928,19 +933,19 @@ const html = `<!DOCTYPE html>
           flow3dBookLayer.style.visibility = bookOpacity <= 0 ? 'hidden' : 'visible';
         }
 
-        // 3. Right wing cover folding shut in 3D perspective (p: 0.34 -> 0.68):
+        // 3. Right wing cover folding shut in 3D perspective (p: 0.46 -> 0.74):
         let foldP = 0;
-        if (p > 0.34) {
-          foldP = smoothstep((p - 0.34) / 0.34);
+        if (p > 0.46) {
+          foldP = smoothstep((p - 0.46) / 0.28);
         }
         const rightDeg = -foldP * 180;
         sdbWingRight.style.transform = 'rotateY(' + rightDeg.toFixed(2) + 'deg)';
         sdbWingRight.style.zIndex = foldP > 0.5 ? 20 : 2;
 
-        // 4. Zoom out in 3D perspective and glide (p: 0.58 -> 0.84):
+        // 4. Zoom out in 3D perspective and glide (p: 0.70 -> 0.88):
         let zoomP = 0;
-        if (p > 0.58) {
-          zoomP = smoothstep((p - 0.58) / 0.26);
+        if (p > 0.70) {
+          zoomP = smoothstep((p - 0.70) / 0.18);
         }
         const scale = 1 - zoomP * 0.77; // 1.0 down to 0.23
         const translateY = zoomP * 140;
@@ -953,19 +958,19 @@ const html = `<!DOCTYPE html>
           'rotateY(' + rotateY.toFixed(1) + 'deg) ' +
           'rotateX(' + rotateX.toFixed(1) + 'deg)';
 
-        // 5. Background shelf fades in cleanly as the book docks (p: 0.70 -> 0.94):
+        // 5. Background shelf fades in cleanly as the book docks (p: 0.76 -> 0.96):
         if (flowShelfLayer) {
           let shelfFade = 0;
-          if (p > 0.70) {
-            shelfFade = smoothstep((p - 0.70) / 0.24);
+          if (p > 0.76) {
+            shelfFade = smoothstep((p - 0.76) / 0.20);
           }
           flowShelfLayer.style.opacity = shelfFade.toFixed(3);
-          flowShelfLayer.style.pointerEvents = p >= 0.88 ? 'auto' : 'none';
+          flowShelfLayer.style.pointerEvents = p >= 0.86 ? 'auto' : 'none';
           flowShelfLayer.style.visibility = shelfFade <= 0 ? 'hidden' : 'visible';
         }
 
         // 6. 5-Section Nav Tracking & Story Riffle Trigger
-        const shelfThreshold = flowTop + (flowH - winH) * 0.60;
+        const shelfThreshold = flowTop + (flowH - winH) * 0.65;
         const projectsTop = getDocTop(projectsSec) - winH * 0.35;
         const contactTop = getDocTop(contactSec) - winH * 0.35;
 
@@ -1028,7 +1033,7 @@ const html = `<!DOCTYPE html>
       window.__scrollToProjects = scrollToProjects;
       window.__scrollToContact = scrollToContact;
 
-      // Handle postMessages from iframes for smooth scrolling & auto-snap
+      // Handle postMessages from iframes for smooth scrolling
       window.addEventListener('message', (e) => {
         if (e.data && e.data.type === 'SET_LANG' && (e.data.lang === 'tr' || e.data.lang === 'en')) {
           if (currentLang !== e.data.lang) {
@@ -1040,33 +1045,9 @@ const html = `<!DOCTYPE html>
           const deltaY = typeof e.data.deltaY === 'number' ? e.data.deltaY : 0;
           if (Math.abs(deltaY) < 3) return;
 
-          // Normal natural scroll - no premature hijacking while reading!
           window.scrollBy({ top: deltaY, behavior: 'auto' });
         }
       });
-
-      // Settle Debounce: Only settle if user stopped in the middle of active folding
-      let snapDebounceTimer = null;
-      function checkScrollSettling() {
-        if (isAutoScrolling) return;
-        clearTimeout(snapDebounceTimer);
-        snapDebounceTimer = setTimeout(() => {
-          if (isAutoScrolling) return;
-          const scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
-          const { flowTop, flowH, winH } = getSnapTargets();
-          const totalTravel = Math.max(1, flowH - winH);
-          const p = (scrollY - flowTop) / totalTravel;
-
-          // Only settle if left mid-way through folding (0.42 < p < 0.88)
-          if (p > 0.42 && p < 0.88) {
-            if (p >= 0.65) {
-              scrollToShelf();
-            } else {
-              scrollToStory();
-            }
-          }
-        }, 320);
-      }
 
       // RAF-throttled scroll
       let rafPending = false;
@@ -1078,7 +1059,6 @@ const html = `<!DOCTYPE html>
             rafPending = false;
           });
         }
-        checkScrollSettling();
       }
 
       window.addEventListener('scroll', handleScroll, { passive: true });
