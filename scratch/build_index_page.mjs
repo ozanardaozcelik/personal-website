@@ -249,12 +249,13 @@ const html = `<!DOCTYPE html>
         </div>
       </div>
 
-      <!-- LAYER 3: 02 HİKAYEM (ORIGINAL 3D MENG-TO SKETCHBOOK) -->
+      <!-- LAYER 3: 02 HİKAYEM (ORIGINAL 3D MENG-TO SKETCHBOOK - Lazy loaded for instant initial page speed) -->
       <div class="flow-layer flow-story-layer" id="flowStoryLayer">
         <iframe
           id="sketchbook-interactive-frame"
           class="flow-iframe"
-          src="/landing-pages/meng-to-sketchbook.html"
+          data-src="/landing-pages/meng-to-sketchbook.html"
+          src="about:blank"
           title="Ozan Arda Özçelik — 02 Hikayem (3D Dokunsal Eskiz Defteri)"
           sandbox="allow-downloads allow-forms allow-modals allow-popups allow-same-origin allow-scripts"
           loading="lazy"
@@ -842,6 +843,16 @@ const html = `<!DOCTYPE html>
         autoScrollAnimId = requestAnimationFrame(step);
       }
 
+      let storyLoaded = false;
+      function ensureStoryLoaded() {
+        if (storyLoaded || !sbIframe) return;
+        const dSrc = sbIframe.getAttribute('data-src');
+        if (dSrc && (!sbIframe.src || sbIframe.src === 'about:blank' || !sbIframe.src.includes('meng-to-sketchbook'))) {
+          sbIframe.src = dSrc;
+          storyLoaded = true;
+        }
+      }
+
       let isShelfActive = false;
       let shelfLoaded = false;
 
@@ -865,10 +876,16 @@ const html = `<!DOCTYPE html>
         }
       }
 
-      // Preload shelf early in the background so it's ready with zero WebGL compile lag
-      setTimeout(() => {
-        ensureShelfLoaded();
-      }, 1200);
+      // Preload story iframe when flowContainer is near viewport
+      if (flowContainer && 'IntersectionObserver' in window) {
+        const flowObserver = new IntersectionObserver((entries) => {
+          if (entries[0].isIntersecting) {
+            flowObserver.disconnect();
+            ensureStoryLoaded();
+          }
+        }, { rootMargin: '300px' });
+        flowObserver.observe(flowContainer);
+      }
 
       // Scroll Handler with Generous Dedicated Reading Buffer & Cinematic Pacing
       let lastRenderedP = -999;
@@ -892,8 +909,13 @@ const html = `<!DOCTYPE html>
         }
         lastRenderedP = p;
 
-        // Ensure shelf is loaded
-        if (p > 0.05) {
+        // Lazy load story when scrolling towards Section 02
+        if (scrollY > 50 || p > 0.00) {
+          ensureStoryLoaded();
+        }
+
+        // Lazy load shelf when user approaches folding
+        if (p > 0.15) {
           ensureShelfLoaded();
         }
 
@@ -1008,6 +1030,7 @@ const html = `<!DOCTYPE html>
         customSmoothScrollTo(0, 1500);
       }
       function scrollToStory() {
+        ensureStoryLoaded();
         const { storyY } = getSnapTargets();
         customSmoothScrollTo(storyY, 1600, () => {
           setTimeout(triggerStoryRiffle, 100);
