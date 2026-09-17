@@ -571,6 +571,101 @@ html = html.slice(0, booksSearchStart) + newBooksScript + html.slice(booksSearch
 // 7. Ensure coverAtlasReady stays false so it generates authentic foiled cloth covers procedurally
 html = html.replace('coverAtlasReady = true;', 'coverAtlasReady = false;');
 
+// 7b. Multiline title rendering helper for covers
+const drawCoverTitleHelper = `
+    function drawCoverTitle(ctx, title, x, y, maxWidth, isCenter = true) {
+      let lines = [title];
+      if (title.includes(" & ") && ctx.measureText(title).width > maxWidth) {
+        const parts = title.split(" & ");
+        lines = [parts[0] + " &", parts.slice(1).join(" & ")];
+      } else if (title.includes(" and ") && ctx.measureText(title).width > maxWidth) {
+        const parts = title.split(" and ");
+        lines = [parts[0] + " and", parts.slice(1).join(" and ")];
+      } else if (ctx.measureText(title).width > maxWidth) {
+        const words = title.split(" ");
+        if (words.length >= 2) {
+          const mid = Math.ceil(words.length / 2);
+          lines = [words.slice(0, mid).join(" "), words.slice(mid).join(" ")];
+        }
+      }
+
+      const fontSize = parseInt(ctx.font, 10) || 58;
+      const lineHeight = fontSize * 1.16;
+      if (lines.length > 1) {
+        const startY = isCenter ? y - (lineHeight * (lines.length - 1)) / 2 : y - (lineHeight * (lines.length - 1));
+        lines.forEach((line, idx) => {
+          ctx.fillText(line, x, startY + idx * lineHeight);
+        });
+      } else {
+        ctx.fillText(title, x, y);
+      }
+    }
+`;
+
+html = html.replace('function makeCoverTexture(book) {', `${drawCoverTitleHelper}\n    function makeCoverTexture(book) {`);
+
+// In makeCoverTexture:
+const oldCoverTitleBlock = `      const titleSize = book.title.length > 10 ? 72 : 88;
+      ctx.font = \`400 \${titleSize}px "Iowan Old Style", Baskerville, Georgia, serif\`;
+      ctx.fillText(book.title, canvasTexture.width / 2, canvasTexture.height * 0.72);
+      ctx.font = '500 16px Inter, "Helvetica Neue", Arial, sans-serif';
+      ctx.fillText(book.discipline.toUpperCase(), canvasTexture.width / 2, canvasTexture.height * 0.79);`;
+
+const newCoverTitleBlock = `      const titleSize = book.title.length > 18 ? 58 : (book.title.length > 10 ? 68 : 84);
+      ctx.font = \`400 \${titleSize}px "Iowan Old Style", Baskerville, Georgia, serif\`;
+      drawCoverTitle(ctx, book.title, canvasTexture.width / 2, canvasTexture.height * 0.72, canvasTexture.width - 140, true);
+      ctx.font = '500 16px Inter, "Helvetica Neue", Arial, sans-serif';
+      ctx.fillText(book.discipline.toUpperCase(), canvasTexture.width / 2, canvasTexture.height * 0.81);`;
+
+html = html.replace(oldCoverTitleBlock, newCoverTitleBlock);
+
+// In makeFoilTexture:
+const oldFoilTitleBlock = `      const titleSize = book.title.length > 10 ? 64 : 78;
+      ctx.font = \`400 \${titleSize}px "Iowan Old Style", Baskerville, Georgia, serif\`;
+      ctx.fillText(book.title, 58, 1020);
+      ctx.font = '500 14px Inter, "Helvetica Neue", Arial, sans-serif';
+      ctx.letterSpacing = "2.4px";
+      ctx.fillText(book.discipline.toUpperCase(), 60, 1066);`;
+
+const newFoilTitleBlock = `      const titleSize = book.title.length > 18 ? 52 : (book.title.length > 10 ? 62 : 76);
+      ctx.font = \`400 \${titleSize}px "Iowan Old Style", Baskerville, Georgia, serif\`;
+      drawCoverTitle(ctx, book.title, 58, 1010, foilCanvas.width - 120, false);
+      ctx.font = '500 14px Inter, "Helvetica Neue", Arial, sans-serif';
+      ctx.letterSpacing = "2.4px";
+      ctx.fillText(book.discipline.toUpperCase(), 60, 1070);`;
+
+html = html.replace(oldFoilTitleBlock, newFoilTitleBlock);
+
+// In makeSpineFoilTexture:
+const oldSpineTitleBlock = `      ctx.font = \`400 \${book.title.length > 10 ? 58 : 68}px "Iowan Old Style", Baskerville, Georgia, serif\`;
+      ctx.letterSpacing = "0px";
+      ctx.fillText(book.title, 0, 0);`;
+
+const newSpineTitleBlock = `      const spineTitleSize = book.title.length > 18 ? 48 : (book.title.length > 10 ? 56 : 66);
+      ctx.font = \`400 \${spineTitleSize}px "Iowan Old Style", Baskerville, Georgia, serif\`;
+      ctx.letterSpacing = "0px";
+      ctx.fillText(book.title, 0, 0);`;
+
+html = html.replace(oldSpineTitleBlock, newSpineTitleBlock);
+
+// In makeBackFoilTexture:
+const oldBackFoilTitleBlock = `      ctx.font = \`400 \${book.title.length > 10 ? 52 : 62}px "Iowan Old Style", Baskerville, Georgia, serif\`;
+      ctx.letterSpacing = "0px";
+      ctx.fillText(book.title, 68, 956);
+      ctx.font = '500 15px Inter, "Helvetica Neue", Arial, sans-serif';
+      ctx.letterSpacing = "2.6px";
+      ctx.fillText(book.discipline.toUpperCase(), 70, 1004);`;
+
+const newBackFoilTitleBlock = `      const titleSize = book.title.length > 18 ? 44 : (book.title.length > 10 ? 52 : 62);
+      ctx.font = \`400 \${titleSize}px "Iowan Old Style", Baskerville, Georgia, serif\`;
+      ctx.letterSpacing = "0px";
+      drawCoverTitle(ctx, book.title, 68, 946, foilCanvas.width - 140, false);
+      ctx.font = '500 15px Inter, "Helvetica Neue", Arial, sans-serif';
+      ctx.letterSpacing = "2.6px";
+      ctx.fillText(book.discipline.toUpperCase(), 70, 1010);`;
+
+html = html.replace(oldBackFoilTitleBlock, newBackFoilTitleBlock);
+
 // 8. Custom onWheel handler: Only slide books when cursor is hovering over a book; otherwise scroll parent page!
 const oldOnWheel = `    function onWheel(event) {
       if (mode !== "hero") return;

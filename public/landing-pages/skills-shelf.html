@@ -2678,6 +2678,35 @@
       return texture;
     }
 
+    
+    function drawCoverTitle(ctx, title, x, y, maxWidth, isCenter = true) {
+      let lines = [title];
+      if (title.includes(" & ") && ctx.measureText(title).width > maxWidth) {
+        const parts = title.split(" & ");
+        lines = [parts[0] + " &", parts.slice(1).join(" & ")];
+      } else if (title.includes(" and ") && ctx.measureText(title).width > maxWidth) {
+        const parts = title.split(" and ");
+        lines = [parts[0] + " and", parts.slice(1).join(" and ")];
+      } else if (ctx.measureText(title).width > maxWidth) {
+        const words = title.split(" ");
+        if (words.length >= 2) {
+          const mid = Math.ceil(words.length / 2);
+          lines = [words.slice(0, mid).join(" "), words.slice(mid).join(" ")];
+        }
+      }
+
+      const fontSize = parseInt(ctx.font, 10) || 58;
+      const lineHeight = fontSize * 1.16;
+      if (lines.length > 1) {
+        const startY = isCenter ? y - (lineHeight * (lines.length - 1)) / 2 : y - (lineHeight * (lines.length - 1));
+        lines.forEach((line, idx) => {
+          ctx.fillText(line, x, startY + idx * lineHeight);
+        });
+      } else {
+        ctx.fillText(title, x, y);
+      }
+    }
+
     function makeCoverTexture(book) {
       const canvasTexture = document.createElement("canvas");
       canvasTexture.width = 768;
@@ -2751,11 +2780,11 @@
       ctx.letterSpacing = "4px";
       ctx.fillText(`WORKING VOLUMES  /  ${book.roman}`, canvasTexture.width / 2, 92);
 
-      const titleSize = book.title.length > 10 ? 72 : 88;
+      const titleSize = book.title.length > 18 ? 58 : (book.title.length > 10 ? 68 : 84);
       ctx.font = `400 ${titleSize}px "Iowan Old Style", Baskerville, Georgia, serif`;
-      ctx.fillText(book.title, canvasTexture.width / 2, canvasTexture.height * 0.72);
+      drawCoverTitle(ctx, book.title, canvasTexture.width / 2, canvasTexture.height * 0.72, canvasTexture.width - 140, true);
       ctx.font = '500 16px Inter, "Helvetica Neue", Arial, sans-serif';
-      ctx.fillText(book.discipline.toUpperCase(), canvasTexture.width / 2, canvasTexture.height * 0.79);
+      ctx.fillText(book.discipline.toUpperCase(), canvasTexture.width / 2, canvasTexture.height * 0.81);
 
       return configureCanvasTexture(new THREE.CanvasTexture(canvasTexture));
     }
@@ -2784,12 +2813,12 @@
       ctx.stroke();
       ctx.globalAlpha = 1;
 
-      const titleSize = book.title.length > 10 ? 64 : 78;
+      const titleSize = book.title.length > 18 ? 52 : (book.title.length > 10 ? 62 : 76);
       ctx.font = `400 ${titleSize}px "Iowan Old Style", Baskerville, Georgia, serif`;
-      ctx.fillText(book.title, 58, 1020);
+      drawCoverTitle(ctx, book.title, 58, 1010, foilCanvas.width - 120, false);
       ctx.font = '500 14px Inter, "Helvetica Neue", Arial, sans-serif';
       ctx.letterSpacing = "2.4px";
-      ctx.fillText(book.discipline.toUpperCase(), 60, 1066);
+      ctx.fillText(book.discipline.toUpperCase(), 60, 1070);
 
       return configureCanvasTexture(new THREE.CanvasTexture(foilCanvas));
     }
@@ -3426,7 +3455,8 @@
       ctx.save();
       ctx.translate(foilCanvas.width * 0.5, foilCanvas.height * 0.5);
       ctx.rotate(Math.PI / 2);
-      ctx.font = `400 ${book.title.length > 10 ? 58 : 68}px "Iowan Old Style", Baskerville, Georgia, serif`;
+      const spineTitleSize = book.title.length > 18 ? 48 : (book.title.length > 10 ? 56 : 66);
+      ctx.font = `400 ${spineTitleSize}px "Iowan Old Style", Baskerville, Georgia, serif`;
       ctx.letterSpacing = "0px";
       ctx.fillText(book.title, 0, 0);
       ctx.restore();
@@ -3524,12 +3554,13 @@
       ctx.lineTo(548, 574);
       ctx.stroke();
 
-      ctx.font = `400 ${book.title.length > 10 ? 52 : 62}px "Iowan Old Style", Baskerville, Georgia, serif`;
+      const titleSize = book.title.length > 18 ? 44 : (book.title.length > 10 ? 52 : 62);
+      ctx.font = `400 ${titleSize}px "Iowan Old Style", Baskerville, Georgia, serif`;
       ctx.letterSpacing = "0px";
-      ctx.fillText(book.title, 68, 956);
+      drawCoverTitle(ctx, book.title, 68, 946, foilCanvas.width - 140, false);
       ctx.font = '500 15px Inter, "Helvetica Neue", Arial, sans-serif';
       ctx.letterSpacing = "2.6px";
-      ctx.fillText(book.discipline.toUpperCase(), 70, 1004);
+      ctx.fillText(book.discipline.toUpperCase(), 70, 1010);
       ctx.globalAlpha = 0.68;
       ctx.fillRect(68, 1040, 632, 1.5);
       ctx.globalAlpha = 1;
