@@ -57,10 +57,10 @@ spreads_data = [
         'plate_num': 'LEVHA 03',
         'title': 'Mühendislik Temeli & Akademik Disiplin',
         'subtitle': 'Tekirdağ Namık Kemal Üniversitesi — Bilgisayar Mühendisliği',
-        'lead': 'Tekirdağ Namık Kemal Üniversitesi Bilgisayar Mühendisliği bölümünde lisans eğitimime başladım ve akademik yolculuğumu Yüksek Onur derecesiyle sürdürüyorum.',
-        'body': 'Veri yapıları, algoritmalar, ayrık matematik, işletim sistemleri ve sistem mimarileri üzerine inşa edilen bu dönem; teorik hesaplama prensiplerini pratik mühendislik çözümlerine dönüştürme vizyonumu güçlendirdi. Amfilerdeki matematiksel temelleri araştırma-geliştirme disipliniyle harmanladım.',
+        'lead': '',
+        'body': 'Veri yapıları, algoritmalar, ayrık matematik, işletim sistemleri ve sistem mimarileri üzerine inşa edilen bu dönem; teorik hesaplama prensiplerini pratik mühendislik çözümlerine dönüştürme vizyonumu güçlendirdi. Matematiksel temelleri araştırma-geliştirme disipliniyle harmanladım.',
         'note': '✦ "Temel matematik ve veri yapıları ne kadar sağlam olursa, inşa edilen otonom mimari o kadar yüksek irtifalara ulaşır."',
-        'signature': '[NKÜ Mühendislik Fakültesi — Yüksek Onur / High Honors]'
+        'signature': '[Tekirdağ Namık Kemal Üniversitesi — Bilgisayar Mühendisliği]'
     },
     {
         'file': 'buddha-tooth.png',
@@ -158,8 +158,8 @@ def wrap_text(text, font, max_width, draw):
 
 for s in spreads_data:
     dest_file = s['file']
-    if dest_file in ['marina-bay-sands.png', 'gardens-by-the-bay.png']:
-        # Managed with custom high-fidelity pipelines in scratch/build_spread_01_retro.py & build_spread_02_modern.py
+    if dest_file in ['marina-bay-sands.png', 'gardens-by-the-bay.png', 'merlion.png']:
+        # Managed with custom high-fidelity pipelines in scratch/build_spread_01_retro.py, build_spread_02_modern.py & build_spread_03_university.py
         continue
     illus_file = s['illus']
     dest_path = os.path.join(out_dir, dest_file)
