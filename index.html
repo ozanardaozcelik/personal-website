@@ -34,9 +34,66 @@
     <path d="M-50,970 C300,1030 830,910 1240,1000 C1460,1050 1580,950 1650,980" />
   </svg>
 
+  <!-- CINEMATIC 35MM FILM STRIP NAVIGATION TRANSITION OVERLAY -->
+  <div class="film-strip-overlay" id="filmStripOverlay" aria-hidden="true">
+    <div class="film-strip-track" id="filmStripTrack">
+      <!-- TOP SPROCKET PERFORATION STRIP -->
+      <div class="film-sprocket-bar">
+        <span class="film-sprocket-edge-text">OZAN ARDA // 35MM VISION-3</span>
+        <div class="film-sprocket-hole"></div>
+        <div class="film-sprocket-hole"></div>
+        <div class="film-sprocket-hole"></div>
+        <span class="film-sprocket-edge-text">REEL ARCHIVE // 24FPS</span>
+        <div class="film-sprocket-hole"></div>
+        <div class="film-sprocket-hole"></div>
+        <div class="film-sprocket-hole"></div>
+        <span class="film-sprocket-edge-text">TIMECODE // 00:00:20:26</span>
+        <div class="film-sprocket-hole"></div>
+        <div class="film-sprocket-hole"></div>
+        <div class="film-sprocket-hole"></div>
+        <span class="film-sprocket-edge-text">KODAK 500T 7219</span>
+      </div>
+
+      <!-- CENTER NEGATIVE APERTURE / HUD BADGE -->
+      <div class="film-gate-center">
+        <div class="film-gate-grain"></div>
+        <div class="film-frame-divider left"></div>
+        <div class="film-frame-divider right"></div>
+
+        <div class="film-hud-badge-card" id="filmHudCard">
+          <div class="film-hud-tag">
+            <span class="film-tally-dot"></span>
+            <span id="filmHudSectionTag">REEL SCENE // 02</span>
+          </div>
+          <h3 class="film-hud-title" id="filmHudTitle">02 HİKAYEM</h3>
+          <div class="film-hud-timecode" id="filmHudTimecode">FRAME: #0180 · 3D TACTILE SKETCHBOOK</div>
+        </div>
+
+        <div class="film-light-leak" id="filmLightLeak"></div>
+      </div>
+
+      <!-- BOTTOM SPROCKET PERFORATION STRIP -->
+      <div class="film-sprocket-bar">
+        <span class="film-sprocket-edge-text">SAFETY FILM · ISO 500</span>
+        <div class="film-sprocket-hole"></div>
+        <div class="film-sprocket-hole"></div>
+        <div class="film-sprocket-hole"></div>
+        <span class="film-sprocket-edge-text">SCENE CUT // TELEMETRY GATE</span>
+        <div class="film-sprocket-hole"></div>
+        <div class="film-sprocket-hole"></div>
+        <div class="film-sprocket-hole"></div>
+        <span class="film-sprocket-edge-text">AUTONOMOUS ROBOTICS REEL</span>
+        <div class="film-sprocket-hole"></div>
+        <div class="film-sprocket-hole"></div>
+        <div class="film-sprocket-hole"></div>
+        <span class="film-sprocket-edge-text">LATENCY: 0.00ms</span>
+      </div>
+    </div>
+  </div>
+
   <!-- NAVIGATION BAR: 5-SECTION SWITCHER -->
   <nav class="site-nav" aria-label="Main Navigation">
-    <a href="#heroHome" class="nav-brand" onclick="window.__scrollToHome &amp;&amp; window.__scrollToHome(); return false;">OZAN ARDA</a>
+    <a href="#heroHome" class="nav-brand" onclick="window.__navigateToHome ? window.__navigateToHome() : (window.__scrollToHome &amp;&amp; window.__scrollToHome()); return false;">OZAN ARDA</a>
 
     <!-- 5-PILL VIEW SELECTOR -->
     <div class="nav-view-switcher" id="sectionNavSwitcher">
@@ -1020,36 +1077,116 @@
         }
       }
 
-      // Smooth Navigation Actions (Luxurious, Cinematic ~1500ms - 1800ms)
-      function scrollToHome() {
-        customSmoothScrollTo(0, 1500);
-      }
-      function scrollToStory() {
-        ensureStoryLoaded();
-        const { storyY } = getSnapTargets();
-        customSmoothScrollTo(storyY, 1600, () => {
-          setTimeout(triggerStoryRiffle, 100);
-        });
-      }
-      function scrollToShelf() {
-        ensureShelfLoaded();
-        const { shelfY } = getSnapTargets();
-        customSmoothScrollTo(shelfY, 1800);
-      }
-      function scrollToProjects() {
-        const { projectsY } = getSnapTargets();
-        customSmoothScrollTo(projectsY, 1600);
-      }
-      function scrollToContact() {
-        const { contactY } = getSnapTargets();
-        customSmoothScrollTo(contactY, 1500);
+      // 3. Cinematic 35mm Film Strip Navigation Transition Engine
+      const filmOverlay = document.getElementById('filmStripOverlay');
+      const filmTrack = document.getElementById('filmStripTrack');
+      const filmHudSectionTag = document.getElementById('filmHudSectionTag');
+      const filmHudTitle = document.getElementById('filmHudTitle');
+      const filmHudTimecode = document.getElementById('filmHudTimecode');
+      let isFilmTransitioning = false;
+      let currentSectionIndex = 0; // 0: Home, 1: Story, 2: Skills, 3: Projects, 4: Contact
+
+      const SECTION_INFO = [
+        { index: 0, tag: 'REEL SCENE // 01', titleTr: '01 ANA SAYFA', titleEn: '01 HOME', tc: 'FRAME: #0001 · PORTRAIT & HERO ROBOTICS' },
+        { index: 1, tag: 'REEL SCENE // 02', titleTr: '02 HİKAYEM', titleEn: '02 STORY', tc: 'FRAME: #0180 · 3D TACTILE SKETCHBOOK' },
+        { index: 2, tag: 'REEL SCENE // 03', titleTr: '03 YETENEKLERİM', titleEn: '03 CAPABILITIES', tc: 'FRAME: #0360 · 3D THREE.JS VOLUMES' },
+        { index: 3, tag: 'REEL SCENE // 04', titleTr: '04 PROJELERİM', titleEn: '04 PROJECTS', tc: 'FRAME: #0540 · 3D CYLINDRICAL RIBBON' },
+        { index: 4, tag: 'REEL SCENE // 05', titleTr: '05 İLETİŞİM', titleEn: '05 CONTACT', tc: 'FRAME: #0720 · CRT RETRO MONITOR WALL' }
+      ];
+
+      function playFilmStripTransition(targetSectionIndex, targetY, onMidpoint) {
+        if (isFilmTransitioning || !filmOverlay || !filmTrack) {
+          window.scrollTo({ top: targetY, behavior: 'auto' });
+          if (typeof onMidpoint === 'function') onMidpoint();
+          return;
+        }
+
+        isFilmTransitioning = true;
+        interruptAutoScroll();
+
+        const info = SECTION_INFO[targetSectionIndex] || SECTION_INFO[0];
+        const isForward = targetSectionIndex >= currentSectionIndex;
+        currentSectionIndex = targetSectionIndex;
+
+        // Set Film Badge Content
+        if (filmHudSectionTag) filmHudSectionTag.textContent = info.tag;
+        if (filmHudTitle) filmHudTitle.textContent = currentLang === 'en' ? info.titleEn : info.titleTr;
+        if (filmHudTimecode) filmHudTimecode.textContent = info.tc;
+
+        // Directional film transport start position
+        const startX = isForward ? '-100%' : '100%';
+        const exitX = isForward ? '100%' : '-100%';
+
+        filmTrack.style.transition = 'none';
+        filmTrack.style.transform = 'translateX(' + startX + ')';
+        filmOverlay.classList.add('is-active');
+
+        // Force reflow
+        void filmTrack.offsetHeight;
+
+        // Phase 1: Film Gate sweeps into center (260ms)
+        filmTrack.style.transition = 'transform 260ms cubic-bezier(0.2, 0.9, 0.3, 1)';
+        filmTrack.style.transform = 'translateX(0%)';
+
+        setTimeout(() => {
+          // Midpoint: Jump to exact target position behind the film gate
+          window.scrollTo({ top: targetY, behavior: 'auto' });
+          onScrollHeroFlow();
+
+          if (typeof onMidpoint === 'function') {
+            onMidpoint();
+          }
+
+          // Phase 2: Film Gate sweeps away revealing destination (280ms)
+          setTimeout(() => {
+            filmTrack.style.transition = 'transform 280ms cubic-bezier(0.4, 0, 0.2, 1)';
+            filmTrack.style.transform = 'translateX(' + exitX + ')';
+
+            setTimeout(() => {
+              filmOverlay.classList.remove('is-active');
+              filmTrack.style.transition = 'none';
+              filmTrack.style.transform = 'translateX(-100%)';
+              isFilmTransitioning = false;
+            }, 290);
+          }, 80);
+        }, 260);
       }
 
-      window.__scrollToHome = scrollToHome;
-      window.__scrollToStory = scrollToStory;
-      window.__scrollToShelf = scrollToShelf;
-      window.__scrollToProjects = scrollToProjects;
-      window.__scrollToContact = scrollToContact;
+      function navigateToHome() {
+        playFilmStripTransition(0, 0);
+      }
+
+      function navigateToStory() {
+        ensureStoryLoaded();
+        const { storyY } = getSnapTargets();
+        playFilmStripTransition(1, storyY, () => {
+          triggerStoryRiffle();
+        });
+      }
+
+      function navigateToShelf() {
+        ensureShelfLoaded();
+        const { shelfY } = getSnapTargets();
+        playFilmStripTransition(2, shelfY, () => {
+          setShelfActiveState(true);
+        });
+      }
+
+      function navigateToProjects() {
+        const { projectsY } = getSnapTargets();
+        playFilmStripTransition(3, projectsY);
+      }
+
+      function navigateToContact() {
+        const { contactY } = getSnapTargets();
+        playFilmStripTransition(4, contactY);
+      }
+
+      window.__navigateToHome = navigateToHome;
+      window.__navigateToStory = navigateToStory;
+      window.__navigateToShelf = navigateToShelf;
+      window.__navigateToProjects = navigateToProjects;
+      window.__navigateToContact = navigateToContact;
 
       // Cancel any ongoing auto-scroll as soon as user takes manual control
       function interruptAutoScroll() {
@@ -1085,7 +1222,7 @@
           }
         }
         if (e.data && e.data.type === 'NAVIGATE_TO_STORY') {
-          scrollToStory();
+          navigateToStory();
         }
       });
 
@@ -1105,21 +1242,15 @@
       window.addEventListener('resize', handleScroll, { passive: true });
       onScrollHeroFlow();
 
-      window.__scrollToHome = scrollToHome;
-      window.__scrollToStory = scrollToStory;
-      window.__scrollToShelf = scrollToShelf;
-      window.__scrollToProjects = scrollToProjects;
-      window.__scrollToContact = scrollToContact;
-
-      if (btnNavHome) btnNavHome.addEventListener('click', scrollToHome);
-      if (btnNavStory) btnNavStory.addEventListener('click', scrollToStory);
-      if (btnNavSkills) btnNavSkills.addEventListener('click', scrollToShelf);
-      if (btnNavProjects) btnNavProjects.addEventListener('click', scrollToProjects);
-      if (btnNavContact) btnNavContact.addEventListener('click', scrollToContact);
+      if (btnNavHome) btnNavHome.addEventListener('click', navigateToHome);
+      if (btnNavStory) btnNavStory.addEventListener('click', navigateToStory);
+      if (btnNavSkills) btnNavSkills.addEventListener('click', navigateToShelf);
+      if (btnNavProjects) btnNavProjects.addEventListener('click', navigateToProjects);
+      if (btnNavContact) btnNavContact.addEventListener('click', navigateToContact);
 
       const btnExploreStory = document.getElementById('btnExploreStory');
       if (btnExploreStory) {
-        btnExploreStory.addEventListener('click', scrollToStory);
+        btnExploreStory.addEventListener('click', navigateToStory);
       }
 
       // Menu Panel Navigation Links
@@ -1129,11 +1260,11 @@
       const menuLinkProjects = document.getElementById('menu-link-projects');
       const menuLinkContact = document.getElementById('menu-link-contact');
 
-      if (menuLinkHome) menuLinkHome.addEventListener('click', (e) => { e.preventDefault(); scrollToHome(); toggleMenu(false); });
-      if (menuLinkStory) menuLinkStory.addEventListener('click', (e) => { e.preventDefault(); scrollToStory(); toggleMenu(false); });
-      if (menuLinkSkills) menuLinkSkills.addEventListener('click', (e) => { e.preventDefault(); scrollToShelf(); toggleMenu(false); });
-      if (menuLinkProjects) menuLinkProjects.addEventListener('click', (e) => { e.preventDefault(); scrollToProjects(); toggleMenu(false); });
-      if (menuLinkContact) menuLinkContact.addEventListener('click', (e) => { e.preventDefault(); scrollToContact(); toggleMenu(false); });
+      if (menuLinkHome) menuLinkHome.addEventListener('click', (e) => { e.preventDefault(); navigateToHome(); toggleMenu(false); });
+      if (menuLinkStory) menuLinkStory.addEventListener('click', (e) => { e.preventDefault(); navigateToStory(); toggleMenu(false); });
+      if (menuLinkSkills) menuLinkSkills.addEventListener('click', (e) => { e.preventDefault(); navigateToShelf(); toggleMenu(false); });
+      if (menuLinkProjects) menuLinkProjects.addEventListener('click', (e) => { e.preventDefault(); navigateToProjects(); toggleMenu(false); });
+      if (menuLinkContact) menuLinkContact.addEventListener('click', (e) => { e.preventDefault(); navigateToContact(); toggleMenu(false); });
 
       // 4. Slide-Down Menu Toggle
       const menuBtn = document.getElementById('menu-toggle-btn');

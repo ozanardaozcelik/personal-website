@@ -2746,3 +2746,214 @@ html.menu-open {
   }
 }
 
+/* ==========================================================================
+   CINEMATIC 35MM FILM STRIP (FILM ŞERİDİ) NAV TRANSITION OVERLAY
+   ========================================================================== */
+.film-strip-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.15s ease, visibility 0.15s ease;
+}
+
+.film-strip-overlay.is-active {
+  pointer-events: all;
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Master Film Carriage Carrier (slides across screen horizontally with 35mm film reels) */
+.film-strip-track {
+  position: absolute;
+  top: -30px;
+  bottom: -30px;
+  left: -20vw;
+  right: -20vw;
+  background: #020305;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transform: translateX(-100%);
+  will-change: transform;
+  box-shadow: 0 0 120px rgba(0, 0, 0, 0.98), 0 0 50px rgba(255, 140, 55, 0.15);
+}
+
+/* Top & Bottom 35mm Sprocket Hole Perforation Strips */
+.film-sprocket-bar {
+  height: 54px;
+  background: #05070a;
+  border-top: 2px solid rgba(255, 140, 55, 0.4);
+  border-bottom: 2px solid rgba(255, 140, 55, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 clamp(16px, 3vw, 40px);
+  overflow: hidden;
+  position: relative;
+  z-index: 2;
+  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.9);
+}
+
+.film-sprocket-hole {
+  width: 22px;
+  height: 32px;
+  background: #000;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.95), 0 0 6px rgba(255, 140, 55, 0.2);
+  flex-shrink: 0;
+  margin: 0 clamp(8px, 1.5vw, 18px);
+  position: relative;
+}
+
+.film-sprocket-hole::after {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 2px;
+}
+
+.film-sprocket-edge-text {
+  font-family: var(--font-mono);
+  font-size: clamp(9px, 1.1vw, 11px);
+  letter-spacing: 0.28em;
+  color: #ff8c37;
+  text-transform: uppercase;
+  font-weight: 700;
+  white-space: nowrap;
+  opacity: 0.9;
+  text-shadow: 0 0 10px rgba(255, 140, 55, 0.5);
+}
+
+/* Central Film Gate Area (Dark Negative Frame + Lens Flare + Section HUD) */
+.film-gate-center {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background: 
+    radial-gradient(ellipse at center, rgba(14, 18, 26, 0.95) 0%, rgba(3, 4, 6, 0.98) 75%),
+    linear-gradient(90deg, rgba(255, 140, 55, 0.06) 0%, transparent 20%, transparent 80%, rgba(0, 210, 255, 0.06) 100%);
+  overflow: hidden;
+}
+
+/* Film Grain & Scanlines */
+.film-gate-grain {
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.25) 0px, rgba(0, 0, 0, 0.25) 1px, transparent 1px, transparent 3px);
+  pointer-events: none;
+  opacity: 0.65;
+}
+
+/* Horizontal Frame Border Lines (Separating film frames) */
+.film-frame-divider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 14px;
+  background: #000;
+  border-left: 2px solid rgba(255, 140, 55, 0.35);
+  border-right: 2px solid rgba(0, 210, 255, 0.35);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.9);
+}
+.film-frame-divider.left { left: 12%; }
+.film-frame-divider.right { right: 12%; }
+
+/* Film HUD Destination Badge */
+.film-hud-badge-card {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: clamp(20px, 3.5vw, 36px) clamp(30px, 5vw, 60px);
+  background: rgba(10, 14, 20, 0.92);
+  border: 1px solid rgba(255, 140, 55, 0.6);
+  border-radius: 8px;
+  box-shadow: 
+    0 0 60px rgba(0, 0, 0, 0.95),
+    0 0 35px rgba(255, 140, 55, 0.25),
+    inset 0 0 25px rgba(255, 140, 55, 0.1);
+  backdrop-filter: blur(14px);
+  transform: scale(0.92);
+  opacity: 0;
+  transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.24s ease;
+}
+
+.film-strip-overlay.is-active .film-hud-badge-card {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.film-hud-tag {
+  font-family: var(--font-mono);
+  font-size: clamp(10px, 1.2vw, 12px);
+  letter-spacing: 0.24em;
+  color: #00d2ff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.film-hud-tag .film-tally-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ff8c37;
+  box-shadow: 0 0 12px #ff8c37;
+  animation: filmTallyBlink 0.3s infinite alternate;
+}
+
+@keyframes filmTallyBlink {
+  from { opacity: 0.3; transform: scale(0.85); }
+  to { opacity: 1; transform: scale(1.15); }
+}
+
+.film-hud-title {
+  font-family: var(--font-display);
+  font-size: clamp(26px, 4.2vw, 48px);
+  letter-spacing: 0.08em;
+  color: #fff;
+  text-shadow: 0 0 25px rgba(255, 140, 55, 0.5), 0 0 50px rgba(0, 210, 255, 0.2);
+  text-transform: uppercase;
+  margin: 0;
+  text-align: center;
+}
+
+.film-hud-timecode {
+  font-family: var(--font-mono);
+  font-size: clamp(10px, 1.1vw, 12px);
+  letter-spacing: 0.18em;
+  color: rgba(255, 255, 255, 0.65);
+  text-align: center;
+}
+
+/* Light Leak / Shutter Exposure Flash */
+.film-light-leak {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(255, 160, 80, 0.45) 0%, rgba(0, 210, 255, 0.25) 45%, transparent 75%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.film-strip-overlay.is-active .film-light-leak {
+  opacity: 1;
+}
+
+
