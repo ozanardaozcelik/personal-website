@@ -91,33 +91,38 @@ button{font:inherit}
   touch-action:pan-y;
 }
 .sb-arrow{
+  position:relative;
   flex:none;display:inline-flex;align-items:center;justify-content:center;
-  width:44px;height:44px;border-radius:50%;
-  border:1px solid rgba(255,255,255,.16);
-  background:rgba(18,22,28,.85);
+  width:48px;height:48px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.22);
+  background:rgba(18,22,28,.88);
   backdrop-filter:blur(10px);
   -webkit-backdrop-filter:blur(10px);
   color:#f1f5f9;cursor:pointer;
-  box-shadow:0 4px 16px rgba(0,0,0,.5);
-  transition:all .22s cubic-bezier(0.16,1,0.3,1);
+  box-shadow:0 4px 18px rgba(0,0,0,.55);
+  transition:all .2s cubic-bezier(0.16,1,0.3,1);
   -webkit-tap-highlight-color:transparent;
-  z-index:100;
-  margin:0 12px;
+  z-index:1000;
+  margin:0 14px;
 }
-.sb-arrow:hover:not([disabled]){
-  background:rgba(28,34,44,.95);
+.sb-arrow:hover:not(:disabled):not(.is-disabled){
+  background:rgba(32,40,52,.98);
   border-color:var(--earth);
   color:var(--earth);
-  transform:scale(1.08);
-  box-shadow:0 6px 20px rgba(255,140,55,.28);
+  transform:scale(1.10);
+  box-shadow:0 6px 24px rgba(255,140,55,.35);
 }
-.sb-arrow:active:not([disabled]){transform:scale(0.96)}
-.sb-arrow[disabled],.sb-arrow.is-disabled{
-  opacity:0 !important;
+.sb-arrow:active:not(:disabled):not(.is-disabled){transform:scale(0.95)}
+.sb-arrow:disabled,.sb-arrow.is-disabled{
+  opacity:0.22 !important;
   pointer-events:none !important;
-  cursor:default !important;
-  transform:scale(0.85);
+  cursor:not-allowed !important;
+  border-color:rgba(255,255,255,.08) !important;
+  color:rgba(255,255,255,.25) !important;
+  transform:none !important;
+  box-shadow:none !important;
 }
+.sb-arrow svg{pointer-events:none}
 
 /* The box is the book's own untransformed frame: the loupe lives here, on
    the desk, while only .sb-tilt leans and scales underneath it. */
@@ -1054,12 +1059,13 @@ function settleTurn(){
 }
 
 stage.addEventListener('pointerdown',e=>{
+  if(e.target.closest('.sb-arrow'))return;
   if(e.button!==0)return;
-  e.preventDefault();                     /* no text selection, no image drag */
   const onBook=e.target.closest('.sb-zone');
-  stage.setPointerCapture(e.pointerId);
-  hideHint();
   if(!onBook||introOn||rewinding)return;
+  e.preventDefault();
+  try{stage.setPointerCapture(e.pointerId);}catch(err){}
+  hideHint();
   settleTurn();
   const r=bookRect();
   const dir=(e.clientX-r.left)/r.width>0.5?'next':'prev';
@@ -1142,8 +1148,29 @@ function goTo(i){
   if(Math.abs(diff)===1){step(diff>0?'next':'prev');return;}
   idx=i;paint();
 }
-document.getElementById('sbLeft').onclick=()=>step('prev');
-document.getElementById('sbRight').onclick=()=>step('next');
+const btnLeft = document.getElementById('sbLeft');
+const btnRight = document.getElementById('sbRight');
+
+if(btnLeft){
+  btnLeft.addEventListener('pointerdown', e => e.stopPropagation());
+  btnLeft.addEventListener('mousedown', e => e.stopPropagation());
+  btnLeft.addEventListener('click', e => {
+    e.preventDefault();
+    e.stopPropagation();
+    step('prev');
+  });
+}
+
+if(btnRight){
+  btnRight.addEventListener('pointerdown', e => e.stopPropagation());
+  btnRight.addEventListener('mousedown', e => e.stopPropagation());
+  btnRight.addEventListener('click', e => {
+    e.preventDefault();
+    e.stopPropagation();
+    step('next');
+  });
+}
+
 const rewindBtn=document.getElementById('rewindBtn');
 if(rewindBtn)rewindBtn.onclick=rewindToStart;
 const sbRewindBanner=document.getElementById('sbRewindBanner');
