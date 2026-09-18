@@ -92,23 +92,23 @@ spreads_data = [
         'kicker': 'BÖLÜM 06 // ÇÖZÜM MAKİNA AR-GE · ISEE VISION',
         'plate_num': 'LEVHA 06',
         'title': 'Çözüm Makina: ISEE Vision',
-        'subtitle': 'Endüstriyel Görüntü İşleme, İSG Denetimi & Kalite Kontrol',
+        'subtitle': 'Endüstriyel Görüntü İşleme, İSG Denetimi, Web Panel & HMI',
         'lead': 'Çözüm Makina Ar-Ge bünyesinde ISEE Vision ile üretim hatlarında sıfır hata kalite kontrol ve sahalarda yapay zeka tabanlı İSG denetim sistemleri geliştirdim.',
-        'body': 'Fabrika, hastane ve ofis ortamlarında kameralar üzerinden gerçek zamanlı nesne tespitiyle çalışanlara yönelik İSG (İş Sağlığı ve Güvenliği) kontrolleri gerçekleştiren görüntü işleme yazılımlarını sahada kurdum, inceledim ve optimize ettim. Ayrıca konveyör hatlarındaki mikrometre düzeyindeki yüzey anomalilerini yakalamak için PatchCore ve DINO Vision Transformers mimarilerini kullanarak beklenmedik üretim kusurlarını sıfır hatayla tespit eden derin öğrenme modelleri geliştirdim.',
-        'note': '✦ "Sahadan üretim hattına: Gerçek zamanlı nesne tespiti, İSG denetimi ve derin vizyon modelleri."',
-        'signature': '[Çözüm Makina ISEE Vision — Gerçek Zamanlı Nesne Tespiti, İSG Kontrolü & Anomali]'
+        'body': 'Fabrika, hastane ve ofis ortamlarında kameralar üzerinden gerçek zamanlı nesne tespitiyle çalışanlara yönelik İSG (İş Sağlığı ve Güvenliği) kontrolleri gerçekleştiren görüntü işleme yazılımlarını sahada kurdum, inceledim ve optimize ettim. Operatörler ve denetim ekipleri için kullanıcı dostu Web panelleri ile endüstriyel dokunmatik HMI arayüzleri tasarladım. Ayrıca konveyör hatlarındaki mikrometre düzeyindeki yüzey anomalilerini yakalamak için PatchCore ve DINO Vision Transformers mimarilerini kullanarak beklenmedik kusurları sıfır hatayla tespit eden derin öğrenme modelleri geliştirdim.',
+        'note': '✦ "Sahadan üretim hattına: Gerçek zamanlı nesne tespiti, İSG denetimi, Web panel ve HMI arayüzleri."',
+        'signature': '[Çözüm Makina ISEE Vision — İSG Kontrolü, Web Panel, HMI & Derin Vizyon]'
     },
     {
         'file': 'singapore-river.png',
-        'illus': 'plate04_robotics_1789635708664.jpg',
+        'illus': 'plate07_isee_robotics_final.jpg',
         'kicker': 'BÖLÜM 07 // ÇÖZÜM MAKİNA · ISEE ROBOTICS',
         'plate_num': 'LEVHA 07',
         'title': 'Çözüm Makina: ISEE Robotics',
-        'subtitle': 'Endüstriyel Robotik, ROS, MQTT & Gazebo',
-        'lead': 'Çözüm Makina bünyesinde ISEE Robotics çatısı altında endüstriyel robotlarla çalıştım; ROS ve MQTT ile otonom operasyonlar kurdum.',
-        'body': 'Endüstriyel robot kollarının ve otonom fabrika araçlarının koordinasyonu için ROS (Robot Operating System) hesaplama düğümlerini ve MQTT protokolü üzerinden IoT donanım telemetri haberleşmesini geliştirdim. Robot kinematiğini ve yol planlamalarını Gazebo ortamında modelleyerek sahaya fiziksel olarak entegre ettim.',
-        'note': '✦ "Endüstriyel robotik, ROS ve MQTT\'nin senkronize dansı: Fabrika zemininde gerçek otonomi."',
-        'signature': '[Çözüm Makina ISEE Robotics — ROS, MQTT, Gazebo & Industrial Robots]'
+        'subtitle': 'Robot Kol, M20, Tron 1, Gazebo Harmonic & Arayüzler',
+        'lead': 'Çözüm Makina ISEE Robotics bünyesinde; endüstriyel robot kolları, M20 otonom mobil platformu ve Tron 1 dinamik robotik sistemleriyle çalıştım.',
+        'body': 'Endüstriyel robotik süreçlerinde yalnızca 6 eksenli robot kollarıyla sınırlı kalmayıp; M20 otonom mobil platformu ve Tron 1 dinamik robotik sistemleri üzerinde çalıştım. Gazebo Harmonic fizik simülasyonu, ROS / ROS 2 hesaplama düğümleri ve MQTT telemetri hatları üzerinden uçtan uca kontrol mimarileri inşa ettim. Operasyon sahasında robotların hareketini, anlık durumunu ve rotasını yöneten robot kontrol ve takip arayüzleri (dashboards & telemetry UI) tasarlayıp geliştirdim.',
+        'note': '✦ "Robotik kollar, M20, Tron 1, Gazebo Harmonic simülasyonu ve gerçek zamanlı kontrol/takip arayüzleri."',
+        'signature': '[Çözüm Makina ISEE Robotics — Robot Kol, M20, Tron 1, Gazebo Harmonic & Kontrol UI]'
     },
     {
         'file': 'botanic-gardens.png',
