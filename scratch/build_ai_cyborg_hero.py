@@ -35,7 +35,7 @@ def build_composite_bottom():
     composite = (bot_aligned * mask_3ch + top * (1.0 - mask_3ch)).astype(np.uint8)
     return composite
 
-def draw_cyber_box(overlay, px1, py1, px2, py2, label, score, primary=CYAN, accent=AMBER, class_id=None, glow=False):
+def draw_cyber_box(overlay, px1, py1, px2, py2, label, score, primary=CYAN, accent=AMBER, class_id=None, glow=False, tag_pos="top", font_scale_custom=None):
     box_thick = 2 if glow else 1
 
     # Boundary box
@@ -54,27 +54,32 @@ def draw_cyber_box(overlay, px1, py1, px2, py2, label, score, primary=CYAN, acce
     # Tag label text
     tag_text = f"[{class_id}] {label} {score:.1f}%" if score is not None else f"[{class_id}] {label}"
     font = cv2.FONT_HERSHEY_SIMPLEX
-    font_scale = 0.44 if glow else 0.41
+    font_scale = font_scale_custom if font_scale_custom is not None else (0.44 if glow else 0.41)
     thickness = 1
     (tw, th), _ = cv2.getTextSize(tag_text, font, font_scale, thickness)
 
-    tag_w = tw + 16
-    tag_h = th + 10
+    tag_w = tw + 20
+    tag_h = th + 12
     tag_x1 = max(4, min(px1, TARGET_W - tag_w - 4))
     tag_x2 = tag_x1 + tag_w
 
-    if py1 - tag_h > 4:
-        tag_y1 = py1 - tag_h
-        tag_y2 = py1
+    if tag_pos == "bottom":
+        tag_y1 = py2
+        tag_y2 = min(TARGET_H - 4, py2 + tag_h)
+        text_y = py2 + th + 4
     else:
-        tag_y1 = py1 + 2
-        tag_y2 = py1 + tag_h + 2
-    text_y = tag_y2 - 6
+        if py1 - tag_h > 4:
+            tag_y1 = py1 - tag_h
+            tag_y2 = py1
+        else:
+            tag_y1 = py1 + 2
+            tag_y2 = py1 + tag_h + 2
+        text_y = tag_y2 - 6
 
     # Dark background badge with cyber outline
     cv2.rectangle(overlay, (tag_x1, tag_y1), (tag_x2, tag_y2), DARK_BG, -1)
     cv2.rectangle(overlay, (tag_x1, tag_y1), (tag_x2, tag_y2), primary, 1, cv2.LINE_AA)
-    cv2.putText(overlay, tag_text, (tag_x1 + 8, text_y), font, font_scale, WHITE, thickness, cv2.LINE_AA)
+    cv2.putText(overlay, tag_text, (tag_x1 + 10, text_y), font, font_scale, WHITE, thickness, cv2.LINE_AA)
 
     # Center tracking reticle
     cx_center = (px1 + px2) // 2
@@ -94,18 +99,18 @@ sx = 1920.0 / 1376.0
 sy = 1080.0 / 768.0
 
 BOX_SPECS = [
-    # 1. Main Engineer Face Box (Head & Shoulders)
-    (int(515 * sx), int(35 * sy), int(865 * sx), int(520 * sy), "ENGINEER: OZAN ARDA OZCELIK", 100.0, CYAN, AMBER, "AI:CYBORG"),
+    # 1. Main Engineer Face Box (Head & Shoulders) — TAG AT BOTTOM FOR MAXIMUM READABILITY!
+    (int(515 * sx), int(35 * sy), int(865 * sx), int(520 * sy), "ENGINEER: OZAN ARDA OZCELIK", 100.0, CYAN, AMBER, "AI:CYBORG", "bottom", 0.48),
     # 2. Cyber Visor / Optical HUD
-    (int(535 * sx), int(210 * sy), int(845 * sx), int(325 * sy), "NEURAL_HUD_VISOR", 99.8, AMBER, CYAN, "OPTIC"),
+    (int(535 * sx), int(210 * sy), int(845 * sx), int(325 * sy), "NEURAL_HUD_VISOR", 99.8, AMBER, CYAN, "OPTIC", "top", None),
     # 3. UR5 Robot Arm (Left)
-    (int(15 * sx), int(220 * sy), int(420 * sx), int(585 * sy), "ROBOT_ARM_UR5", 98.8, CYAN, GREEN, "ACTUATOR"),
+    (int(15 * sx), int(220 * sy), int(420 * sx), int(585 * sy), "ROBOT_ARM_UR5", 98.8, CYAN, GREEN, "ACTUATOR", "top", None),
     # 4. UAV Drone (Right)
-    (int(970 * sx), int(330 * sy), int(1365 * sx), int(615 * sy), "AUTONOMOUS_UAV", 99.4, CYAN, AMBER, "AERIAL"),
+    (int(970 * sx), int(330 * sy), int(1365 * sx), int(615 * sy), "AUTONOMOUS_UAV", 99.4, CYAN, AMBER, "AERIAL", "top", None),
     # 5. Floating Circuit Hologram (Left-Center)
-    (int(240 * sx), int(75 * sy), int(455 * sx), int(255 * sy), "SCHEMATIC_LOGIC", 99.1, CYAN, AMBER, "HOLO"),
+    (int(240 * sx), int(75 * sy), int(455 * sx), int(255 * sy), "SCHEMATIC_LOGIC", 99.1, CYAN, AMBER, "HOLO", "top", None),
     # 6. Telemetry Monitor (Top-Right)
-    (int(1025 * sx), int(80 * sy), int(1235 * sx), int(200 * sy), "TELEMETRY_GCS", 98.4, GREEN, CYAN, "MONITOR"),
+    (int(1025 * sx), int(80 * sy), int(1235 * sx), int(200 * sy), "TELEMETRY_GCS", 98.4, GREEN, CYAN, "MONITOR", "top", None),
 ]
 
 def generate():
@@ -115,8 +120,8 @@ def generate():
     top_bgr = cv2.cvtColor(np.array(top_1080), cv2.COLOR_RGB2BGR)
 
     top_overlay = np.zeros_like(top_bgr)
-    for px1, py1, px2, py2, label, score, primary, accent, cid in BOX_SPECS:
-        draw_cyber_box(top_overlay, px1, py1, px2, py2, label, score, primary, accent, cid, glow=False)
+    for px1, py1, px2, py2, label, score, primary, accent, cid, tag_pos, fscale in BOX_SPECS:
+        draw_cyber_box(top_overlay, px1, py1, px2, py2, label, score, primary, accent, cid, glow=False, tag_pos=tag_pos, font_scale_custom=fscale)
 
     add_cyber_particles(top_overlay, 50)
     top_blur = cv2.GaussianBlur(top_overlay, (5, 5), 0)
@@ -134,8 +139,8 @@ def generate():
     bot_bgr = cv2.cvtColor(np.array(bot_1080), cv2.COLOR_RGB2BGR)
 
     bot_overlay = np.zeros_like(bot_bgr)
-    for px1, py1, px2, py2, label, score, primary, accent, cid in BOX_SPECS:
-        draw_cyber_box(bot_overlay, px1, py1, px2, py2, label, score, primary, accent, cid, glow=True)
+    for px1, py1, px2, py2, label, score, primary, accent, cid, tag_pos, fscale in BOX_SPECS:
+        draw_cyber_box(bot_overlay, px1, py1, px2, py2, label, score, primary, accent, cid, glow=True, tag_pos=tag_pos, font_scale_custom=fscale)
 
     add_cyber_particles(bot_overlay, 90)
 
