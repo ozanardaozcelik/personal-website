@@ -122,17 +122,29 @@
     <a href="https://www.linkedin.com/in/ozanardaozcelik/" target="_blank" rel="noopener noreferrer" class="channel-pill" id="pillLinkedin">
       <span class="ch-meta">CH 01 // 接続</span>
       <span class="ch-title">LINKEDIN ↗</span>
-      <span class="ch-action">Ağa Bağlan</span>
+      <span class="ch-action">
+        <span class="lang-tr">Ağa Bağlan</span>
+        <span class="lang-en">Connect</span>
+      </span>
     </a>
     <a href="mailto:ozan.a.ozcelik@gmail.com" class="channel-pill" id="pillEmail">
       <span class="ch-meta">CH 02 // 連絡</span>
-      <span class="ch-title">E-POSTA ↗</span>
-      <span class="ch-action">ozan.a.ozcelik@gmail.com</span>
+      <span class="ch-title">
+        <span class="lang-tr">E-POSTA ↗</span>
+        <span class="lang-en">EMAIL ↗</span>
+      </span>
+      <span class="ch-action">
+        <span class="lang-tr">E-posta Gönder</span>
+        <span class="lang-en">Send Email</span>
+      </span>
     </a>
     <a href="https://github.com/ozanardaozcelik" target="_blank" rel="noopener noreferrer" class="channel-pill" id="pillGithub">
       <span class="ch-meta">CH 03 // 開発</span>
       <span class="ch-title">GITHUB ↗</span>
-      <span class="ch-action">Repoları İncele</span>
+      <span class="ch-action">
+        <span class="lang-tr">Repoları İncele</span>
+        <span class="lang-en">View Repos</span>
+      </span>
     </a>
   </div>
 </div>
@@ -348,6 +360,35 @@
     for (let i = 0; i < word.length; i++) x.fillText(word[i], cx, top + i * step);
   }
 
+  function drawHandleBadge(x, text, cx, cy, fontSize) {
+    x.save();
+    x.font = `bold ${fontSize}px "DM Mono", monospace`;
+    x.textAlign = 'center';
+    x.textBaseline = 'middle';
+
+    const metrics = x.measureText(text);
+    const tw = metrics.width;
+    const padX = 14;
+    const padY = 6;
+    const bw = tw + padX * 2;
+    const bh = fontSize + padY * 2;
+
+    // Semi-translucent dark katazome seal capsule for ultra-crisp legibility over cloth fibers
+    x.fillStyle = 'rgba(10, 22, 38, 0.72)';
+    roundRect(x, cx - bw / 2, cy - bh / 2, bw, bh, 6);
+    x.fill();
+
+    x.strokeStyle = 'rgba(243, 236, 224, 0.35)';
+    x.lineWidth = 1.2;
+    roundRect(x, cx - bw / 2, cy - bh / 2, bw, bh, 6);
+    x.stroke();
+
+    // Crisp warm cream handle text
+    x.fillStyle = '#f3ece0';
+    x.fillText(text, cx, cy + 0.5);
+    x.restore();
+  }
+
   function makeClothCanvas() {
     const s = surface(TW, TH), x = s.ctx;
 
@@ -426,12 +467,11 @@
 
     drawLinkedInCrest(x, panelW * 0.5, TH * 0.33, 70);
 
-    x.fillStyle = 'rgba(243,236,224,0.92)';
-    x.font = 'bold 18px "DM Mono", monospace';
-    x.fillText('ozanardaozcelik', panelW * 0.5, TH * 0.44);
+    // Handle placed directly under logo, between logo end and vertical word start
+    drawHandleBadge(x, 'ozanardaozcelik', panelW * 0.5, 442, 17);
 
     x.fillStyle = '#f3ece0';
-    verticalWord(x, 'LINKEDIN', panelW * 0.5, TH * 0.52, 46, 54);
+    verticalWord(x, 'LINKEDIN', panelW * 0.5, 514, 46, 54);
 
     // ---------------- PANEL 1 (CENTER): EMAIL ----------------
     x.fillStyle = 'rgba(243,236,224,0.7)';
@@ -440,12 +480,11 @@
 
     drawMailCrest(x, panelW * 1.5, TH * 0.33, 70);
 
-    x.fillStyle = 'rgba(243,236,224,0.92)';
-    x.font = 'bold 15px "DM Mono", monospace';
-    x.fillText('ozan.a.ozcelik@gmail.com', panelW * 1.5, TH * 0.44);
+    // Handle placed directly under logo, between logo end and vertical word start
+    drawHandleBadge(x, 'ozan.a.ozcelik@gmail.com', panelW * 1.5, 442, 15);
 
     x.fillStyle = '#f3ece0';
-    verticalWord(x, 'EMAIL', panelW * 1.5, TH * 0.53, 52, 60);
+    verticalWord(x, 'EMAIL', panelW * 1.5, 514, 48, 58);
 
     // Vermilion seal stamped at foot of center panel
     const S = 84, sx = panelW * 1.5 - S / 2, sy = TH * 0.81;
@@ -462,16 +501,16 @@
     // ---------------- PANEL 2 (RIGHT): GITHUB ----------------
     x.fillStyle = 'rgba(243,236,224,0.7)';
     x.font = 'bold 22px Georgia, serif';
+    x.textAlign = 'center';
     x.fillText('CH 03 // 開発', panelW * 2.5, TH * 0.22);
 
     drawGitHubCrest(x, panelW * 2.5, TH * 0.33, 70);
 
-    x.fillStyle = 'rgba(243,236,224,0.92)';
-    x.font = 'bold 18px "DM Mono", monospace';
-    x.fillText('ozanardaozcelik', panelW * 2.5, TH * 0.44);
+    // Handle placed directly under logo, between logo end and vertical word start
+    drawHandleBadge(x, 'ozanardaozcelik', panelW * 2.5, 442, 17);
 
     x.fillStyle = '#f3ece0';
-    verticalWord(x, 'GITHUB', panelW * 2.5, TH * 0.52, 46, 54);
+    verticalWord(x, 'GITHUB', panelW * 2.5, 514, 46, 54);
 
     return s;
   }
