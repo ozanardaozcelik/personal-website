@@ -910,34 +910,34 @@ const html = `<!DOCTYPE html>
         }
 
         // Manage Shelf WebGL suspension (active during shelf transition & view)
-        const shouldShelfBeActive = p >= 0.72 && p <= 1.08;
+        const shouldShelfBeActive = p >= 0.70 && p <= 1.08;
         setShelfActiveState(shouldShelfBeActive);
 
         // 1. Story layer (02 Hikayem Sketchbook):
-        // 100% Solid & fully interactive reading zone (p: 0.00 -> 0.38)
-        // Gentle crossfade out to blank closing volume (p: 0.38 -> 0.48)
+        // 100% Solid & fully interactive reading zone (p: 0.00 -> 0.32)
+        // Gentle crossfade out to blank closing volume (p: 0.32 -> 0.44)
         if (flowStoryLayer) {
           let storyOpacity = 1;
-          if (p > 0.38) {
-            storyOpacity = Math.max(0, 1 - (p - 0.38) / 0.10);
+          if (p > 0.32) {
+            storyOpacity = Math.max(0, 1 - (p - 0.32) / 0.12);
           }
           flowStoryLayer.style.opacity = storyOpacity.toFixed(3);
-          flowStoryLayer.style.pointerEvents = (scrollY >= flowTop - 80 && p <= 0.40) ? 'auto' : 'none';
+          flowStoryLayer.style.pointerEvents = (p <= 0.36) ? 'auto' : 'none';
           flowStoryLayer.style.visibility = storyOpacity <= 0 ? 'hidden' : 'visible';
         }
 
         // 2. 3D Closing book layer:
-        // Appears seamlessly on top of active sketchbook (p: 0.38 -> 0.48), folds shut (p: 0.48 -> 0.72), scales & glides (p: 0.68 -> 0.88), fades out (p: 0.84 -> 0.92)
+        // Appears seamlessly on top of active sketchbook (p: 0.32 -> 0.44), folds shut (p: 0.44 -> 0.68), scales & glides (p: 0.68 -> 0.88), fades out (p: 0.84 -> 0.94)
         if (flow3dBookLayer) {
           let bookOpacity = 0;
-          if (p < 0.38) {
+          if (p < 0.32) {
             bookOpacity = 0;
-          } else if (p < 0.48) {
-            bookOpacity = (p - 0.38) / 0.10;
+          } else if (p < 0.44) {
+            bookOpacity = (p - 0.32) / 0.12;
           } else if (p <= 0.84) {
             bookOpacity = 1;
-          } else if (p <= 0.92) {
-            bookOpacity = Math.max(0, 1 - (p - 0.84) / 0.08);
+          } else if (p <= 0.94) {
+            bookOpacity = Math.max(0, 1 - (p - 0.84) / 0.10);
           } else {
             bookOpacity = 0;
           }
@@ -945,10 +945,10 @@ const html = `<!DOCTYPE html>
           flow3dBookLayer.style.visibility = bookOpacity <= 0 ? 'hidden' : 'visible';
         }
 
-        // 3. Right wing cover folding shut in 3D perspective over left page (p: 0.48 -> 0.72):
+        // 3. Right wing cover folding shut in 3D perspective over left page (p: 0.44 -> 0.68):
         let foldP = 0;
-        if (p > 0.48) {
-          foldP = smoothstep((p - 0.48) / 0.24);
+        if (p > 0.44) {
+          foldP = smoothstep((p - 0.44) / 0.24);
         }
         const rightDeg = -foldP * 180;
         sdbWingRight.style.transform = 'rotateY(' + rightDeg.toFixed(2) + 'deg)';
@@ -970,14 +970,14 @@ const html = `<!DOCTYPE html>
           'rotateY(' + rotateY.toFixed(1) + 'deg) ' +
           'rotateX(' + rotateX.toFixed(1) + 'deg)';
 
-        // 5. Background shelf fades in cleanly as the book docks (p: 0.74 -> 0.94):
+        // 5. Background shelf fades in cleanly as the book docks (p: 0.76 -> 0.96):
         if (flowShelfLayer) {
           let shelfFade = 0;
-          if (p > 0.74) {
-            shelfFade = smoothstep((p - 0.74) / 0.20);
+          if (p > 0.76) {
+            shelfFade = smoothstep((p - 0.76) / 0.20);
           }
           flowShelfLayer.style.opacity = shelfFade.toFixed(3);
-          flowShelfLayer.style.pointerEvents = p >= 0.86 ? 'auto' : 'none';
+          flowShelfLayer.style.pointerEvents = p >= 0.88 ? 'auto' : 'none';
           flowShelfLayer.style.visibility = shelfFade <= 0 ? 'hidden' : 'visible';
         }
 
@@ -1065,7 +1065,7 @@ const html = `<!DOCTYPE html>
         }
       }, { passive: true });
 
-      // Handle postMessages from iframes for smooth scrolling
+      // Handle postMessages from iframes for smooth scrolling & navigation
       window.addEventListener('message', (e) => {
         if (e.data && e.data.type === 'SET_LANG' && (e.data.lang === 'tr' || e.data.lang === 'en')) {
           if (currentLang !== e.data.lang) {
@@ -1078,6 +1078,9 @@ const html = `<!DOCTYPE html>
           if (deltaY !== 0) {
             window.scrollBy({ top: deltaY, behavior: 'auto' });
           }
+        }
+        if (e.data && e.data.type === 'NAVIGATE_TO_STORY') {
+          scrollToStory();
         }
       });
 

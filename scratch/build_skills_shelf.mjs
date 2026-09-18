@@ -452,7 +452,7 @@ const BOOKS_EN = [
   }
 ];
 
-let html = sourceHtml;
+let html = sourceHtml.replace(/\r\n/g, '\n');
 
 // 1. Update Title and Meta
 html = html.replace(
@@ -708,6 +708,41 @@ const newOnWheel = `    function forwardScrollToParent(event) {
 
 html = html.replace(oldOnWheel, newOnWheel);
 
+// 8b. Intercept openDetail for Book 0 ("Hikayem"):
+const oldOpenDetail = `    function openDetail(origin = inspectButton) {
+      if (mode !== "hero") return;`;
+
+const newOpenDetail = `    function openDetail(origin = inspectButton) {
+      if (mode !== "hero") return;
+      if (selectedIndex === 0 || (BOOKS[selectedIndex] && BOOKS[selectedIndex].id === "story")) {
+        if (window.parent && window.parent !== window) {
+          try {
+            window.parent.postMessage({ type: 'NAVIGATE_TO_STORY' }, '*');
+            return;
+          } catch(e) {}
+        }
+      }`;
+
+html = html.replace(oldOpenDetail, newOpenDetail);
+
+// 8c. Idle render loop optimization
+const oldShouldContinue = `      const shouldContinue = !reducedMotion
+        || mode === "opening"
+        || mode === "closing"
+        || shelfMoving
+        || themeIsMoving;`;
+
+const newShouldContinue = `      const isHovering = (hoveredIndex >= 0 || (typeof bookIndexAtPointer === 'function' && bookIndexAtPointer() >= 0));
+      const shouldContinue = mode === "opening"
+        || mode === "closing"
+        || mode === "detail"
+        || shelfMoving
+        || isHovering
+        || themeIsMoving
+        || wheelIdle > 0;`;
+
+html = html.replace(oldShouldContinue, newShouldContinue);
+
 // 9. Add language switching functions and postMessage listener
 const langSwitcherLogic = `
     function setShelfLanguage(lang) {
@@ -757,13 +792,28 @@ const langSwitcherLogic = `
     }
 
     window.addEventListener('message', (e) => {
-      if (e.data && e.data.type === 'SET_LANG' && (e.data.lang === 'tr' || e.data.lang === 'en')) {
+      if (!e.data) return;
+      if (e.data.type === 'SET_LANG' && (e.data.lang === 'tr' || e.data.lang === 'en')) {
         setShelfLanguage(e.data.lang);
+      }
+      if (e.data.type === 'SUSPEND_WEBGL') {
+        suspended = true;
+        if (rafId) {
+          cancelAnimationFrame(rafId);
+          rafId = 0;
+        }
+      }
+      if (e.data.type === 'RESUME_WEBGL') {
+        if (suspended) {
+          suspended = false;
+          lastTime = performance.now();
+          requestFrame();
+        }
       }
     });
 `;
 
-html = html.replace('updateSelection(0, false);', `${langSwitcherLogic}\n    updateSelection(0, false);`);
+html = html.replace('updateSelection(0, true);', `${langSwitcherLogic}\n    updateSelection(0, true);`);
 
 fs.writeFileSync('public/landing-pages/skills-shelf.html', html, 'utf8');
 console.log('Successfully wrote public/landing-pages/skills-shelf.html! Bytes:', html.length);

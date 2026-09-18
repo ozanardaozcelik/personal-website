@@ -259,20 +259,17 @@ function initHeroFluid(canvas) {
 
   // Render loop
   function animate() {
-    if (!isHeroVisible) {
-      isAnimating = false;
-      return;
-    }
-    isAnimating = true;
-    requestAnimationFrame(animate);
+    heroAnimId = null;
+    if (!heroActive) return;
+    heroAnimId = requestAnimationFrame(animate);
 
     const now = performance.now();
-    if (isMoving && now - lastMoveTime > CONFIG.stopAfterMs) {
-      isMoving = false;
-    }
-
     const idleTime = now - lastMoveTime;
     const autoActive = idleTime > CONFIG.idleThresholdMs;
+
+    if (isMoving && (now - lastMoveTime > CONFIG.stopAfterMs)) {
+      isMoving = false;
+    }
 
     // Swap ping-pong
     const prevTarget = pingPong[currentTarget];
@@ -312,6 +309,25 @@ function initHeroFluid(canvas) {
     renderer.setRenderTarget(null);
     renderer.render(scene, camera);
   }
+
+  function handleHeroVisibility() {
+    const scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+    const shouldBeActive = scrollY < window.innerHeight * 1.1;
+    if (shouldBeActive && !heroActive) {
+      heroActive = true;
+      if (!heroAnimId) {
+        heroAnimId = requestAnimationFrame(animate);
+      }
+    } else if (!shouldBeActive && heroActive) {
+      heroActive = false;
+      if (heroAnimId) {
+        cancelAnimationFrame(heroAnimId);
+        heroAnimId = null;
+      }
+    }
+  }
+
+  window.addEventListener('scroll', handleHeroVisibility, { passive: true });
 
   // START RENDER LOOP ON INIT
   animate();
