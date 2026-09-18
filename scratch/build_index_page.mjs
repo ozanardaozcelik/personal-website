@@ -909,35 +909,42 @@ const html = `<!DOCTYPE html>
           ensureShelfLoaded();
         }
 
-        // Manage Shelf WebGL suspension (active during shelf transition & view)
-        const shouldShelfBeActive = p >= 0.70 && p <= 1.08;
+        // Manage Shelf WebGL suspension & Snap to Story Book
+        const shouldShelfBeActive = p >= 0.65 && p <= 1.08;
         setShelfActiveState(shouldShelfBeActive);
 
+        // When scrolling back up from shelf towards story, ensure shelf snaps to Book 0 (Hikayem)
+        if (p < 0.78 && shelfIframe && shelfIframe.contentWindow) {
+          try {
+            shelfIframe.contentWindow.postMessage({ type: 'SNAP_TO_STORY_BOOK' }, '*');
+          } catch (e) {}
+        }
+
         // 1. Story layer (02 Hikayem Sketchbook):
-        // 100% Solid & fully interactive reading zone (p: 0.00 -> 0.32)
-        // Gentle crossfade out to blank closing volume (p: 0.32 -> 0.44)
+        // 100% Solid & fully interactive reading zone (p: 0.00 -> 0.28)
+        // Gentle crossfade out to blank closing volume (p: 0.28 -> 0.38)
         if (flowStoryLayer) {
           let storyOpacity = 1;
-          if (p > 0.32) {
-            storyOpacity = Math.max(0, 1 - (p - 0.32) / 0.12);
+          if (p > 0.28) {
+            storyOpacity = Math.max(0, 1 - (p - 0.28) / 0.10);
           }
           flowStoryLayer.style.opacity = storyOpacity.toFixed(3);
-          flowStoryLayer.style.pointerEvents = (p <= 0.36) ? 'auto' : 'none';
+          flowStoryLayer.style.pointerEvents = (p <= 0.32) ? 'auto' : 'none';
           flowStoryLayer.style.visibility = storyOpacity <= 0 ? 'hidden' : 'visible';
         }
 
         // 2. 3D Closing book layer:
-        // Appears seamlessly on top of active sketchbook (p: 0.32 -> 0.44), folds shut (p: 0.44 -> 0.68), scales & glides (p: 0.68 -> 0.88), fades out (p: 0.84 -> 0.94)
+        // Appears seamlessly (p: 0.28 -> 0.38), folds completely shut (p: 0.38 -> 0.58), scales & glides (p: 0.58 -> 0.72), fades out early and cleanly (p: 0.66 -> 0.76)
         if (flow3dBookLayer) {
           let bookOpacity = 0;
-          if (p < 0.32) {
+          if (p < 0.28) {
             bookOpacity = 0;
-          } else if (p < 0.44) {
-            bookOpacity = (p - 0.32) / 0.12;
-          } else if (p <= 0.84) {
+          } else if (p < 0.38) {
+            bookOpacity = (p - 0.28) / 0.10;
+          } else if (p <= 0.66) {
             bookOpacity = 1;
-          } else if (p <= 0.94) {
-            bookOpacity = Math.max(0, 1 - (p - 0.84) / 0.10);
+          } else if (p <= 0.76) {
+            bookOpacity = Math.max(0, 1 - (p - 0.66) / 0.10);
           } else {
             bookOpacity = 0;
           }
@@ -945,19 +952,19 @@ const html = `<!DOCTYPE html>
           flow3dBookLayer.style.visibility = bookOpacity <= 0 ? 'hidden' : 'visible';
         }
 
-        // 3. Right wing cover folding shut in 3D perspective over left page (p: 0.44 -> 0.68):
+        // 3. Right wing cover folding shut in 3D perspective over left page (p: 0.38 -> 0.58):
         let foldP = 0;
-        if (p > 0.44) {
-          foldP = smoothstep((p - 0.44) / 0.24);
+        if (p > 0.38) {
+          foldP = smoothstep(Math.min(1, (p - 0.38) / 0.20));
         }
         const rightDeg = -foldP * 180;
         sdbWingRight.style.transform = 'rotateY(' + rightDeg.toFixed(2) + 'deg)';
         sdbWingRight.style.zIndex = foldP > 0.5 ? 20 : 2;
 
-        // 4. Zoom out in 3D perspective and glide towards shelf slot (p: 0.68 -> 0.88):
+        // 4. Zoom out in 3D perspective and glide towards shelf slot (p: 0.58 -> 0.74):
         let zoomP = 0;
-        if (p > 0.68) {
-          zoomP = smoothstep((p - 0.68) / 0.20);
+        if (p > 0.58) {
+          zoomP = smoothstep(Math.min(1, (p - 0.58) / 0.16));
         }
         const scale = 1 - zoomP * 0.76; // 1.0 down to 0.24
         const translateY = zoomP * 130;
@@ -970,14 +977,14 @@ const html = `<!DOCTYPE html>
           'rotateY(' + rotateY.toFixed(1) + 'deg) ' +
           'rotateX(' + rotateX.toFixed(1) + 'deg)';
 
-        // 5. Background shelf fades in cleanly as the book docks (p: 0.76 -> 0.96):
+        // 5. Background shelf fades in cleanly as the book docks (p: 0.70 -> 0.80):
         if (flowShelfLayer) {
           let shelfFade = 0;
-          if (p > 0.76) {
-            shelfFade = smoothstep((p - 0.76) / 0.20);
+          if (p > 0.70) {
+            shelfFade = smoothstep(Math.min(1, (p - 0.70) / 0.10));
           }
           flowShelfLayer.style.opacity = shelfFade.toFixed(3);
-          flowShelfLayer.style.pointerEvents = p >= 0.88 ? 'auto' : 'none';
+          flowShelfLayer.style.pointerEvents = p >= 0.78 ? 'auto' : 'none';
           flowShelfLayer.style.visibility = shelfFade <= 0 ? 'hidden' : 'visible';
         }
 

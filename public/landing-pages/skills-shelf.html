@@ -5522,6 +5522,88 @@
       const isOverBook = (bookIndexAtPointer() >= 0 || hoveredIndex >= 0);
       if (!isOverBook) {
         forwardScrollToParent(event);
+        // Rapidly snap shelf books back to Book 0 (Hikayem) when scrolling off-book
+        if (Math.abs(targetPosition) > 0.02 || selectedIndex !== 0) {
+          targetPosition = 0;
+          
+    function setShelfLanguage(lang) {
+      currentShelfLang = lang;
+      document.documentElement.lang = lang;
+      document.documentElement.setAttribute('data-lang', lang);
+      localStorage.setItem('site_lang', lang);
+      const source = lang === 'en' ? BOOKS_EN : BOOKS_TR;
+      
+      source.forEach((srcBook, i) => {
+        if (BOOKS[i]) {
+          BOOKS[i].title = srcBook.title;
+          BOOKS[i].discipline = srcBook.discipline;
+          BOOKS[i].note = srcBook.note;
+          BOOKS[i].deck = srcBook.deck;
+          BOOKS[i].binding = srcBook.binding;
+          BOOKS[i].format = srcBook.format;
+          BOOKS[i].theme = srcBook.theme;
+          BOOKS[i].motif = srcBook.motif;
+          BOOKS[i].paletteLabel = srcBook.paletteLabel;
+          BOOKS[i].chapters = [...srcBook.chapters];
+        }
+      });
+
+      const heroWord = document.getElementById('hero-word');
+      if (heroWord) {
+        heroWord.textContent = lang === 'en' ? 'CAPABILITIES' : 'YETENEKLER';
+      }
+
+      if (typeof updateSelection === 'function') {
+        updateSelection(selectedIndex, false);
+      }
+      if (typeof populateDetail === 'function' && BOOKS[selectedIndex]) {
+        populateDetail(BOOKS[selectedIndex]);
+      }
+    }
+
+    const shelfLangBtn = document.getElementById('shelfLangBtn');
+    if (shelfLangBtn) {
+      shelfLangBtn.addEventListener('click', () => {
+        const nextLang = currentShelfLang === 'tr' ? 'en' : 'tr';
+        setShelfLanguage(nextLang);
+        if (window.parent && window.parent !== window) {
+          window.parent.postMessage({ type: 'SET_LANG', lang: nextLang }, '*');
+        }
+      });
+    }
+
+    window.addEventListener('message', (e) => {
+      if (!e.data) return;
+      if (e.data.type === 'SET_LANG' && (e.data.lang === 'tr' || e.data.lang === 'en')) {
+        setShelfLanguage(e.data.lang);
+      }
+      if (e.data.type === 'SNAP_TO_STORY_BOOK') {
+        if (mode === "detail") {
+          try { closeDetail(); } catch(err) {}
+        }
+        targetPosition = 0;
+        updateSelection(0, true);
+        requestFrame();
+      }
+      if (e.data.type === 'SUSPEND_WEBGL') {
+        suspended = true;
+        if (rafId) {
+          cancelAnimationFrame(rafId);
+          rafId = 0;
+        }
+      }
+      if (e.data.type === 'RESUME_WEBGL') {
+        if (suspended) {
+          suspended = false;
+          lastTime = performance.now();
+          requestFrame();
+        }
+      }
+    });
+
+    updateSelection(0, true);
+          requestFrame();
+        }
         return;
       }
       event.preventDefault();
@@ -6213,75 +6295,7 @@
         return rig;
       });
 
-      
-    function setShelfLanguage(lang) {
-      currentShelfLang = lang;
-      document.documentElement.lang = lang;
-      document.documentElement.setAttribute('data-lang', lang);
-      localStorage.setItem('site_lang', lang);
-      const source = lang === 'en' ? BOOKS_EN : BOOKS_TR;
-      
-      source.forEach((srcBook, i) => {
-        if (BOOKS[i]) {
-          BOOKS[i].title = srcBook.title;
-          BOOKS[i].discipline = srcBook.discipline;
-          BOOKS[i].note = srcBook.note;
-          BOOKS[i].deck = srcBook.deck;
-          BOOKS[i].binding = srcBook.binding;
-          BOOKS[i].format = srcBook.format;
-          BOOKS[i].theme = srcBook.theme;
-          BOOKS[i].motif = srcBook.motif;
-          BOOKS[i].paletteLabel = srcBook.paletteLabel;
-          BOOKS[i].chapters = [...srcBook.chapters];
-        }
-      });
-
-      const heroWord = document.getElementById('hero-word');
-      if (heroWord) {
-        heroWord.textContent = lang === 'en' ? 'CAPABILITIES' : 'YETENEKLER';
-      }
-
-      if (typeof updateSelection === 'function') {
-        updateSelection(selectedIndex, false);
-      }
-      if (typeof populateDetail === 'function' && BOOKS[selectedIndex]) {
-        populateDetail(BOOKS[selectedIndex]);
-      }
-    }
-
-    const shelfLangBtn = document.getElementById('shelfLangBtn');
-    if (shelfLangBtn) {
-      shelfLangBtn.addEventListener('click', () => {
-        const nextLang = currentShelfLang === 'tr' ? 'en' : 'tr';
-        setShelfLanguage(nextLang);
-        if (window.parent && window.parent !== window) {
-          window.parent.postMessage({ type: 'SET_LANG', lang: nextLang }, '*');
-        }
-      });
-    }
-
-    window.addEventListener('message', (e) => {
-      if (!e.data) return;
-      if (e.data.type === 'SET_LANG' && (e.data.lang === 'tr' || e.data.lang === 'en')) {
-        setShelfLanguage(e.data.lang);
-      }
-      if (e.data.type === 'SUSPEND_WEBGL') {
-        suspended = true;
-        if (rafId) {
-          cancelAnimationFrame(rafId);
-          rafId = 0;
-        }
-      }
-      if (e.data.type === 'RESUME_WEBGL') {
-        if (suspended) {
-          suspended = false;
-          lastTime = performance.now();
-          requestFrame();
-        }
-      }
-    });
-
-    updateSelection(0, true);
+      updateSelection(0, true);
       resize();
 
       canvas.addEventListener("pointermove", onPointerMove);

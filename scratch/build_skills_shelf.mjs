@@ -697,6 +697,12 @@ const newOnWheel = `    function forwardScrollToParent(event) {
       const isOverBook = (bookIndexAtPointer() >= 0 || hoveredIndex >= 0);
       if (!isOverBook) {
         forwardScrollToParent(event);
+        // Rapidly snap shelf books back to Book 0 (Hikayem) when scrolling off-book
+        if (Math.abs(targetPosition) > 0.02 || selectedIndex !== 0) {
+          targetPosition = 0;
+          updateSelection(0, true);
+          requestFrame();
+        }
         return;
       }
       event.preventDefault();
@@ -795,6 +801,14 @@ const langSwitcherLogic = `
       if (!e.data) return;
       if (e.data.type === 'SET_LANG' && (e.data.lang === 'tr' || e.data.lang === 'en')) {
         setShelfLanguage(e.data.lang);
+      }
+      if (e.data.type === 'SNAP_TO_STORY_BOOK') {
+        if (mode === "detail") {
+          try { closeDetail(); } catch(err) {}
+        }
+        targetPosition = 0;
+        updateSelection(0, true);
+        requestFrame();
       }
       if (e.data.type === 'SUSPEND_WEBGL') {
         suspended = true;
