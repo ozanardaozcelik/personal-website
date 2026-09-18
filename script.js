@@ -176,6 +176,7 @@ function initHeroFluid(canvas) {
     displayMaterial.uniforms.uTopTexture.value = tex;
     displayMaterial.uniforms.uTopTextureSize.value.set(w, h);
     displayMaterial.needsUpdate = true;
+    placeholderTop.dispose(); // Free GPU memory
 
     // Load portrait_bottom right after
     loadTextureDirect('/portrait_bottom.jpg', (botTex, bw, bh) => {
@@ -184,6 +185,7 @@ function initHeroFluid(canvas) {
       displayMaterial.uniforms.uBottomTexture.value = botTex;
       displayMaterial.uniforms.uBottomTextureSize.value.set(bw, bh);
       displayMaterial.needsUpdate = true;
+      placeholderBottom.dispose(); // Free GPU memory
     });
   });
 
@@ -246,15 +248,37 @@ function initHeroFluid(canvas) {
     displayMaterial.uniforms.uDpr.value = currentDpr;
   });
 
-  // Render loop
+  // Render loop with idle pause (saves GPU when user isn't interacting)
+  let idlePauseMs = 4000; // Stop rendering after 4s of no mouse activity
+  let renderPaused = false;
+
+  function wakeRenderer() {
+    if (renderPaused) {
+      renderPaused = false;
+      lastMoveTime = performance.now();
+      if (!heroAnimId && heroActive) {
+        heroAnimId = requestAnimationFrame(animate);
+      }
+    }
+  }
+
+  // Wake on pointer movement
+  window.addEventListener('pointermove', wakeRenderer, { passive: true });
+
   function animate() {
     heroAnimId = null;
     if (!heroActive) return;
-    heroAnimId = requestAnimationFrame(animate);
 
     const now = performance.now();
     const idleTime = now - lastMoveTime;
-    const autoActive = idleTime > CONFIG.idleThresholdMs;
+
+    // Stop rendering after idle period to save GPU
+    if (idleTime > idlePauseMs && !isMoving) {
+      renderPaused = true;
+      return; // Don't schedule next frame
+    }
+
+    heroAnimId = requestAnimationFrame(animate);
 
     if (isMoving && (now - lastMoveTime > CONFIG.stopAfterMs)) {
       isMoving = false;
@@ -267,6 +291,7 @@ function initHeroFluid(canvas) {
 
     trailsMaterial.uniforms.uPrevTrails.value = prevTarget.texture;
 
+    const autoActive = idleTime > CONFIG.idleThresholdMs;
     if (autoActive) {
       const easeIn = Math.min(1, (idleTime - CONFIG.idleThresholdMs) / CONFIG.idleEaseInMs);
       const t = now * 0.001;

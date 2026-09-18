@@ -6,8 +6,8 @@ ARTIFACT_DIR = r"C:\Users\dloozi\.gemini\antigravity-cli\brain\af0d76d1-4e98-424
 OUT_DIR = r"C:\Users\dloozi\Desktop\codes\personal-website\public"
 
 # Source images
-TOP_SRC = ARTIFACT_DIR + r"\ozan_lab_coat_engineer_1789744592835.jpg"
-BOT_SRC = ARTIFACT_DIR + r"\ozan_robot_reveal_1789744622513.jpg"
+TOP_SRC = ARTIFACT_DIR + r"\ozan_exact_angle_lab_1789744856602.jpg"
+BOT_SRC = ARTIFACT_DIR + r"\ozan_robot_exact_angle_1789744889979.jpg"
 
 TARGET_W, TARGET_H = 1920, 1080
 

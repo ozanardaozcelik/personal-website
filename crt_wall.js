@@ -223,16 +223,23 @@ export function initCrtWall() {
     ctx.textAlign = 'left';
   }
 
-  // 3. Render Loop (Only runs when section is visible!)
+  // 3. Render Loop (Only runs when section is visible! Throttled to 24fps for retro CRT feel)
+  let lastRenderTime = 0;
+  const CRT_FRAME_INTERVAL = 1000 / 24; // 24fps for authentic CRT look
+
   function render(time) {
     if (!isVisible) return;
+    animId = requestAnimationFrame(render);
+
+    // Throttle to 24fps — saves massive CPU from fillText calls
+    if (time - lastRenderTime < CRT_FRAME_INTERVAL) return;
+    lastRenderTime = time;
+
     const t = (time - startTime) * 0.001;
 
     drawLinkedin(t);
     drawGithub(t);
     drawEmail(t);
-
-    animId = requestAnimationFrame(render);
   }
 
   function start() {

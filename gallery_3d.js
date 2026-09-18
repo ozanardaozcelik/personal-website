@@ -459,8 +459,8 @@ export function initProjectsGallery() {
       panel.position.y = wrappedY;
     });
 
-    // Raycast for hover & focus
-    if (hostVisible) {
+    // Raycast for hover & focus — skip when mouse is offscreen
+    if (hostVisible && mouseVec.x > -10 && mouseVec.x < 10) {
       raycaster.setFromCamera(mouseVec, camera);
       const intersects = raycaster.intersectObjects(panels);
 

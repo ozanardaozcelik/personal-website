@@ -1026,12 +1026,23 @@
       const projectsSec = document.getElementById('projects-section');
       const contactSec = document.getElementById('contact');
 
-      // Helper to calculate true document-relative Y
+      // Helper to calculate true document-relative Y — cached to prevent layout thrashing
+      let _cachedOffsets = {};
       function getDocTop(el) {
         if (!el) return 999999;
+        return _cachedOffsets[el.id] || _computeDocTop(el);
+      }
+      function _computeDocTop(el) {
         const rect = el.getBoundingClientRect();
         return rect.top + window.scrollY;
       }
+      function _recacheOffsets() {
+        [flowContainer, projectsSec, contactSec].forEach(el => {
+          if (el && el.id) _cachedOffsets[el.id] = _computeDocTop(el);
+        });
+      }
+      _recacheOffsets();
+      window.addEventListener('resize', _recacheOffsets, { passive: true });
 
       function smoothstep(t) {
         const x = Math.max(0, Math.min(1, t));
