@@ -1,7 +1,5 @@
 import * as THREE from 'three';
 import { vertexShader, fluidFragmentShader, displayFragmentShader } from './shaders.js';
-import { initProjectsGallery } from './gallery_3d.js';
-import { initCrtWall } from './crt_wall.js';
 
 const CONFIG = {
   // Simulation render-target size (optimized 256 for silky smooth 60+ FPS without GPU stalls)
@@ -345,18 +343,4 @@ function initHeroFluid(canvas) {
 
   // START RENDER LOOP ON INIT
   animate();
-}
-
-// Initialize 3D Cylindrical Projects Gallery
-try {
-  initProjectsGallery();
-} catch (e) {
-  console.log('Projects gallery init deferred:', e);
-}
-
-// Initialize Section 05 Retro CRT Monitor Wall
-try {
-  initCrtWall();
-} catch (e) {
-  console.log('CRT wall init deferred:', e);
 }
