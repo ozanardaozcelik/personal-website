@@ -19,108 +19,56 @@ const html = `<!DOCTYPE html>
 <body>
 
   <!-- =========================================================================
-       SYSTEM BOOT PRELOADER (BİLGİSAYARLI GÖRÜ, ROBOTİK & UZAMSAL ALGI YÜKLEYİCİ)
+       CINEMATIC SECURE UPLINK LOADER (THREEUI ARCHITECTURE // CYBER DUAL-TONE)
        ========================================================================= -->
-  <div class="site-preloader" id="sitePreloader" aria-label="Görüntü İşleme & Robotik Sistem Yükleniyor / Initializing Vision & Robotics Core">
-    <div class="preloader-grid-bg"></div>
+  <div class="site-preloader" id="sitePreloader" aria-label="Sistem Yükleniyor / Initializing Secure Uplink">
+    <div class="uplink-pool"></div>
 
-    <!-- Computer Vision Multi-Camera Rig & Optical Sensor Core -->
-    <div class="cv-vision-rig">
-      <!-- Orbiting Multi-Camera Sensor Array -->
-      <div class="cv-cam-orbit-track">
-        <div class="cv-cam-node cv-cam-top" title="CAM 01 // RGB">
-          <div class="cam-lens-barrel">
-            <span class="cam-lens-glass"></span>
-            <span class="cam-led-status amber"></span>
-          </div>
-          <span class="cam-label">CAM 01 · RGB</span>
-        </div>
-        <div class="cv-cam-node cv-cam-right" title="CAM 02 // DEPTH">
-          <div class="cam-lens-barrel">
-            <span class="cam-lens-glass"></span>
-            <span class="cam-led-status cyan"></span>
-          </div>
-          <span class="cam-label">CAM 02 · DEPTH</span>
-        </div>
-        <div class="cv-cam-node cv-cam-bottom" title="CAM 03 // IR">
-          <div class="cam-lens-barrel">
-            <span class="cam-lens-glass"></span>
-            <span class="cam-led-status red"></span>
-          </div>
-          <span class="cam-label">CAM 03 · IR/THERMAL</span>
-        </div>
-        <div class="cv-cam-node cv-cam-left" title="CAM 04 // STEREO">
-          <div class="cam-lens-barrel">
-            <span class="cam-lens-glass"></span>
-            <span class="cam-led-status cyan"></span>
-          </div>
-          <span class="cam-label">CAM 04 · STEREO</span>
-        </div>
-      </div>
+    <div class="uplink-scene">
+      <div class="uplink-stage" id="uplinkStage">
 
-      <!-- Central Optical Objective Lens & Aperture Rig -->
-      <div class="cv-optical-lens-unit">
-        <div class="lens-barrel-ring-outer">
-          <span class="lens-spec-text">50mm F/1.2 ED OPTICS</span>
-        </div>
-        <div class="lens-barrel-ring-inner">
-          <div class="lens-iris-blades">
-            <div class="iris-blade blade-1"></div>
-            <div class="iris-blade blade-2"></div>
-            <div class="iris-blade blade-3"></div>
-            <div class="iris-blade blade-4"></div>
-            <div class="iris-blade blade-5"></div>
-            <div class="iris-blade blade-6"></div>
-          </div>
-          <div class="lens-core-pupil">
-            <div class="cv-crosshair-reticle">
-              <span class="reticle-line h-line"></span>
-              <span class="reticle-line v-line"></span>
-              <span class="reticle-dot"></span>
-            </div>
-          </div>
-        </div>
-      </div>
+        <div class="uplink-haze"><i id="uplinkHaze"></i></div>
 
-      <!-- AI Object Detection / YOLO Bounding Box & Target Tracker -->
-      <div class="cv-target-box">
-        <span class="cv-box-corner corner-tl"></span>
-        <span class="cv-box-corner corner-tr"></span>
-        <span class="cv-box-corner corner-bl"></span>
-        <span class="cv-box-corner corner-br"></span>
-        <div class="cv-laser-scan"></div>
-        <div class="cv-box-tag">
-          <span class="tag-title">TARGET: ROBOTIC_CORE</span>
-          <span class="tag-conf">CONF: 0.998</span>
+        <div class="uplink-plate" id="uplinkPlate"></div>
+        <div class="uplink-brk tr"></div><div class="uplink-brk bl"></div>
+        <div class="uplink-readout"><b id="uplinkNum">0</b><u>%</u></div>
+
+        <div class="uplink-barlabel">UPLINK // ROBOTICS &amp; PERCEPTION</div>
+        <div class="uplink-bar" id="uplinkBar"></div>
+        <div class="uplink-status" id="uplinkStatus">INITIALIZING ROBOTICS &amp; VISION CORE<span class="dots" id="uplinkDots">...</span></div>
+
+        <div class="uplink-marker uplink-m-tl"><i class="h a-h"></i><i class="v a-v"></i><i class="h b-h"></i><i class="v b-v"></i><i class="h c-h"></i><i class="v c-v"></i><i class="h d-h"></i><i class="v d-v"></i><i class="dia"></i></div>
+        <div class="uplink-marker uplink-m-tr"><i class="h a-h"></i><i class="v a-v"></i><i class="h b-h"></i><i class="v b-v"></i><i class="h c-h"></i><i class="v c-v"></i><i class="h d-h"></i><i class="v d-v"></i><i class="dia"></i></div>
+        <div class="uplink-marker uplink-m-bl"><i class="h a-h"></i><i class="v a-v"></i><i class="h b-h"></i><i class="v b-v"></i><i class="h c-h"></i><i class="v c-v"></i><i class="h d-h"></i><i class="v d-v"></i><i class="dia"></i></div>
+        <div class="uplink-marker uplink-m-br"><i class="h a-h"></i><i class="v a-v"></i><i class="h b-h"></i><i class="v b-v"></i><i class="h c-h"></i><i class="v c-v"></i><i class="h d-h"></i><i class="v d-v"></i><i class="dia"></i></div>
+
+        <div class="uplink-rail left">
+          <div class="wire"></div><div class="cap a"></div><div class="cap b"></div>
+          <div class="uplink-mod">
+            <div class="hatch"></div>
+            <div class="ret"></div>
+            <div class="dot"></div>
+            <div class="slab"></div>
+            <i class="led"></i><i class="led"></i><i class="led"></i><i class="led"></i>
+          </div>
         </div>
-        <div class="cv-coords-tag">
-          <span>X:+142.8 Y:-64.2 Z:+850.0</span>
+        <div class="uplink-rail right">
+          <div class="wire"></div><div class="cap a"></div><div class="cap b"></div>
+          <div class="uplink-mod">
+            <div class="hatch"></div>
+            <div class="ret"></div>
+            <div class="dot"></div>
+            <div class="slab"></div>
+            <i class="led"></i><i class="led"></i><i class="led"></i><i class="led"></i>
+          </div>
         </div>
+
       </div>
     </div>
 
-    <div class="preloader-content">
-      <div class="preloader-brand">
-        <span class="preloader-brand-title">OZAN ARDA ÖZÇELİK</span>
-        <span class="preloader-brand-sub">BİLGİSAYARLI GÖRÜ, ROBOTİK &amp; YAPAY ZEKA</span>
-      </div>
-
-      <!-- Telemetry Boot Diagnostic Feed -->
-      <div class="preloader-telemetry-feed" id="preloaderTelemetry">
-        <span class="tel-line" id="preloaderStatusText">CALIBRATING STEREO VISION SENSORS &amp; INTRINSIC MATRICES...</span>
-      </div>
-
-      <!-- High-Tech Progress Bar -->
-      <div class="preloader-bar-wrap">
-        <div class="preloader-bar-track">
-          <div class="preloader-bar-fill" id="preloaderBarFill"></div>
-        </div>
-        <div class="preloader-bar-meta">
-          <span class="preloader-tag">SENSOR FUSION // ROS2 CAMERA NODE 60FPS</span>
-          <span class="preloader-percent" id="preloaderPercent">0%</span>
-        </div>
-      </div>
-    </div>
+    <div class="uplink-scan"></div>
+    <div class="uplink-grain mul" id="uplinkGrain"></div>
+    <div class="uplink-grain add" id="uplinkGrain2"></div>
   </div>
 
   <!-- FIXED TOPOGRAPHIC CONTOUR SVG -->
@@ -1616,66 +1564,175 @@ const html = `<!DOCTYPE html>
         revealTargets.forEach((el) => el.classList.add('is-visible'));
       }
 
-      // 8. System Boot Preloader Sequence Controller
+      // 8. Cinematic UplinkLoader Sequence Controller (ThreeUI Architecture)
       const preloader = document.getElementById('sitePreloader');
-      const preloaderBarFill = document.getElementById('preloaderBarFill');
-      const preloaderPercent = document.getElementById('preloaderPercent');
-      const preloaderStatusText = document.getElementById('preloaderStatusText');
+      if (preloader) {
+        const TICKS = 56, MARK_EVERY = 8;
+        const fitUplink = () => {
+          const s = Math.min(innerWidth / 1200, innerHeight / 800);
+          preloader.style.setProperty('--s', s);
+        };
+        window.addEventListener('resize', fitUplink, { passive: true });
+        fitUplink();
 
-      const BOOT_STAGES = [
-        { pct: 20, tr: 'STEREO KAMERA KALİBRASYONU & İNTRİNSİK MATRİSLER HESAPLANIYOR...', en: 'COMPUTING CAMERA INTRINSICS & STEREO RECTIFICATION...' },
-        { pct: 45, tr: 'DERİN ÖĞRENME NESNE ALGILAMA & SEGMENTASYON MOTORU YÜKLENİYOR...', en: 'LOADING DEEP SEGMENTATION & TRACKING INFERENCE...' },
-        { pct: 70, tr: '3D NOKTA BULUTU & ROBOTİK UZAMSAL KİNEMATİK BAŞLATILIYOR...', en: 'INITIALIZING 3D POINT CLOUD & SPATIAL KINEMATICS...' },
-        { pct: 90, tr: 'GERÇEK ZAMANLI ROBOTİK GÖRÜ & SENSÖR ENTEGRASYONU KİLİTLENDİ...', en: 'LOCKING REAL-TIME VISION & SENSOR FUSION PIPELINES...' },
-        { pct: 100, tr: 'GÖRÜNTÜ İŞLEME SİSTEMİ HAZIR // OTONOM ARAYÜZ DEVREDE', en: 'VISION & ROBOTICS PERCEPTION ONLINE // ENGAGING INTERFACE' }
-      ];
-
-      let currentBootPct = 0;
-      let bootStageIdx = 0;
-      let isWindowLoaded = document.readyState === 'complete';
-
-      function updatePreloaderProgress(targetPct) {
-        if (!preloaderBarFill || !preloaderPercent) return;
-        currentBootPct = Math.min(100, Math.max(currentBootPct, targetPct));
-        preloaderBarFill.style.width = currentBootPct + '%';
-        preloaderPercent.textContent = Math.round(currentBootPct) + '%';
-
-        const stage = BOOT_STAGES[bootStageIdx];
-        if (stage && currentBootPct >= stage.pct) {
-          if (preloaderStatusText) {
-            preloaderStatusText.textContent = currentLang === 'en' ? stage.en : stage.tr;
+        /* ---- Bar construction ---- */
+        const uplinkBar = document.getElementById('uplinkBar');
+        const ticks = [];
+        if (uplinkBar) {
+          for (let i = 0; i < TICKS; i++) {
+            const t = document.createElement('i');
+            t.className = 'uplink-tick' + ((i + 1) % MARK_EVERY === 0 ? ' mk' : '');
+            uplinkBar.appendChild(t);
+            ticks.push(t);
           }
-          bootStageIdx = Math.min(BOOT_STAGES.length - 1, bootStageIdx + 1);
         }
-      }
 
-      let bootInterval = setInterval(() => {
-        if (!isWindowLoaded && currentBootPct < 85) {
-          updatePreloaderProgress(currentBootPct + Math.random() * 8 + 4);
-        } else if (isWindowLoaded) {
-          updatePreloaderProgress(currentBootPct + 18);
-          if (currentBootPct >= 100) {
-            clearInterval(bootInterval);
-            setTimeout(() => {
-              if (preloader) {
+        /* ---- Procedural Film Grain Canvas ---- */
+        (function grain() {
+          const N = 160;
+          const make = (fn) => {
+            const c = document.createElement('canvas');
+            c.width = c.height = N;
+            const ctx = c.getContext('2d'), img = ctx.createImageData(N, N), d = img.data;
+            for (let i = 0; i < N * N; i++) fn(d, i * 4);
+            ctx.putImageData(img, 0, 0);
+            return c.toDataURL();
+          };
+          const g = () => (Math.random() + Math.random() + Math.random() + Math.random()) / 4;
+          const g1 = document.getElementById('uplinkGrain');
+          const g2 = document.getElementById('uplinkGrain2');
+          if (g1) {
+            g1.style.backgroundImage = 'url(' + make((d, o) => {
+              const v = 128 + (g() - 0.5) * 300;
+              d[o] = d[o + 1] = d[o + 2] = Math.max(0, Math.min(255, v));
+              d[o + 3] = 255;
+            }) + ')';
+          }
+          if (g2) {
+            g2.style.backgroundImage = 'url(' + make((d, o) => {
+              const v = Math.random();
+              d[o] = d[o + 1] = d[o + 2] = 255;
+              d[o + 3] = v < 0.86 ? 0 : Math.round(((v - 0.86) / 0.14) * 190);
+            }) + ')';
+          }
+        })();
+
+        /* ---- Progress Timeline & Hardware Telemetry ---- */
+        const PHASES = [
+          [0, { tr: 'SİSTEM & DONANIM ÇEKİRDEĞİ BAŞLATILIYOR', en: 'INITIALIZING CORE SYSTEMS' }],
+          [24, { tr: 'GÜVENLİ VERİ BAĞLANTISI KURULUYOR', en: 'ESTABLISHING SECURE UPLINK' }],
+          [52, { tr: '3D SPATIAL DÜĞÜM DİZİLİMİ SENKRONİZE EDİLİYOR', en: 'SYNCHRONIZING 3D NODE ARRAY' }],
+          [78, { tr: 'DERİN ÖĞRENME TELEMETRİSİ ÇÖZÜLÜYOR', en: 'DECRYPTING PAYLOAD STREAM' }],
+          [100, { tr: 'BAĞLANTI TAMAMLANDI // SİSTEM ÇEVRİMİÇİ', en: 'UPLINK ESTABLISHED' }]
+        ];
+
+        const phaseFor = (p) => {
+          let t = PHASES[0][1];
+          for (const [k, v] of PHASES) {
+            if (p >= k) t = v;
+          }
+          return currentLang === 'en' ? t.en : t.tr;
+        };
+
+        const uplinkNum = document.getElementById('uplinkNum');
+        const uplinkDots = document.getElementById('uplinkDots');
+        const uplinkHaze = document.getElementById('uplinkHaze');
+        const uplinkPlate = document.getElementById('uplinkPlate');
+        const uplinkStatus = document.getElementById('uplinkStatus');
+
+        const barW = 604, tickW = 5.4, gap = (barW - TICKS * tickW) / (TICKS - 1), pitch = tickW + gap;
+        let currentPct = 0;
+        let lastLit = -1, lastPct = -1, lastDots = -1, lastPhase = '';
+        let isWindowLoaded = document.readyState === 'complete';
+        let isDone = false;
+
+        function updateProgressDisplay(pct) {
+          const shown = Math.min(100, Math.round(pct));
+          if (shown !== lastPct && uplinkNum) {
+            uplinkNum.textContent = String(shown);
+            lastPct = shown;
+            const ph = phaseFor(shown);
+            if (ph !== lastPhase && uplinkStatus) {
+              lastPhase = ph;
+              uplinkStatus.firstChild.nodeValue = ph;
+            }
+          }
+
+          const lit = Math.round((pct / 100) * TICKS);
+          if (lit !== lastLit) {
+            for (let i = 0; i < TICKS; i++) {
+              const on = i < lit;
+              if (ticks[i] && ticks[i].classList.contains('on') !== on) {
+                ticks[i].classList.toggle('on', on);
+              }
+            }
+            if (lit > lastLit && lastLit >= 0 && lit > 0) {
+              const h = ticks[lit - 1];
+              if (h) {
+                h.classList.remove('flash');
+                void h.offsetWidth;
+                h.classList.add('flash');
+              }
+              if (uplinkHaze) {
+                uplinkHaze.classList.remove('pulse');
+                void uplinkHaze.offsetWidth;
+                uplinkHaze.classList.add('pulse');
+              }
+            }
+            if (uplinkHaze) {
+              uplinkHaze.style.setProperty('--lit-w', (lit > 0 ? (lit - 1) * pitch + tickW + gap / 2 : 0) + 'px');
+            }
+            if (lit >= TICKS && uplinkPlate) {
+              uplinkPlate.classList.remove('hit');
+              void uplinkPlate.offsetWidth;
+              uplinkPlate.classList.add('hit');
+            }
+            lastLit = lit;
+          }
+        }
+
+        let dotCounter = 0;
+        const loaderInterval = setInterval(() => {
+          dotCounter++;
+          const d = currentPct >= 100 ? 0 : (dotCounter % 4);
+          if (d !== lastDots && uplinkDots) {
+            uplinkDots.textContent = '...'.slice(0, d);
+            lastDots = d;
+          }
+
+          if (!isWindowLoaded && currentPct < 85) {
+            currentPct += Math.random() * 4.5 + 2.2;
+          } else if (isWindowLoaded && currentPct < 100) {
+            currentPct += Math.random() * 12 + 8;
+          }
+
+          if (currentPct >= 100) {
+            currentPct = 100;
+            updateProgressDisplay(100);
+            if (!isDone) {
+              isDone = true;
+              clearInterval(loaderInterval);
+              setTimeout(() => {
                 preloader.classList.add('is-loaded');
                 setTimeout(() => {
                   preloader.style.display = 'none';
                 }, 600);
-              }
-            }, 250);
+              }, 400);
+            }
+          } else {
+            updateProgressDisplay(currentPct);
           }
-        }
-      }, 40);
+        }, 50);
 
-      window.addEventListener('load', () => {
-        isWindowLoaded = true;
-      });
+        window.addEventListener('load', () => {
+          isWindowLoaded = true;
+        });
 
-      // Safety fallback to prevent hanging
-      setTimeout(() => {
-        isWindowLoaded = true;
-      }, 2200);
+        // Safety fallback to guarantee dismissal
+        setTimeout(() => {
+          isWindowLoaded = true;
+        }, 2200);
+      }
     })();
   </script>
 </body>
