@@ -91,12 +91,12 @@ spreads_data = [
         'illus': 'plate06_cozum_makina_1789635755334.jpg',
         'kicker': 'BÖLÜM 06 // ÇÖZÜM MAKİNA AR-GE · ISEE VISION',
         'plate_num': 'LEVHA 06',
-        'title': 'Çözüm Makina: ISEE Vision Kalite Kontrol',
-        'subtitle': 'Endüstriyel Görüntü İşleme & Sıfır Hata Anomali',
-        'lead': 'Çözüm Makina Ar-Ge bünyesinde ISEE Vision ile endüstriyel üretim hatlarında görüntü işlemeyle sıfır hata kalite kontrol modelleri geliştirdim.',
-        'body': 'Konveyör bantlar üzerinde mikrometre düzeyindeki yüzey anomalilerini yakalamak için PatchCore ve DINO Vision Transformers mimarilerini kullandım. Denetimsiz (unsupervised) derin öznitelik haritalaması sayesinde eğitim verisinde bulunmayan beklenmedik üretim kusurlarını gerçek zamanlı yakalayan endüstriyel yapay zeka sistemini hayata geçirdim.',
-        'note': '✦ "Fabrika hattında sıfır hata toleransı: Vision Transformers ile derin anomali segmentasyonu."',
-        'signature': '[Çözüm Makina ISEE Vision — PatchCore & DINO Anomaly Segmentation]'
+        'title': 'Çözüm Makina: ISEE Vision',
+        'subtitle': 'Endüstriyel Görüntü İşleme, İSG Denetimi & Kalite Kontrol',
+        'lead': 'Çözüm Makina Ar-Ge bünyesinde ISEE Vision ile üretim hatlarında sıfır hata kalite kontrol ve sahalarda yapay zeka tabanlı İSG denetim sistemleri geliştirdim.',
+        'body': 'Fabrika, hastane ve ofis ortamlarında kameralar üzerinden gerçek zamanlı nesne tespitiyle çalışanlara yönelik İSG (İş Sağlığı ve Güvenliği) kontrolleri gerçekleştiren görüntü işleme yazılımlarını sahada kurdum, inceledim ve optimize ettim. Ayrıca konveyör hatlarındaki mikrometre düzeyindeki yüzey anomalilerini yakalamak için PatchCore ve DINO Vision Transformers mimarilerini kullanarak beklenmedik üretim kusurlarını sıfır hatayla tespit eden derin öğrenme modelleri geliştirdim.',
+        'note': '✦ "Sahadan üretim hattına: Gerçek zamanlı nesne tespiti, İSG denetimi ve derin vizyon modelleri."',
+        'signature': '[Çözüm Makina ISEE Vision — Gerçek Zamanlı Nesne Tespiti, İSG Kontrolü & Anomali]'
     },
     {
         'file': 'singapore-river.png',
