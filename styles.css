@@ -501,52 +501,14 @@ html.menu-open {
   font-size: clamp(0.88rem, 1.3vw, 1.05rem);
   line-height: 1.65;
   color: var(--ink-soft);
-  max-width: 580px;
-}
-
-.hero-home-specs {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin-top: 0.5rem;
-}
-
-.spec-card {
-  background: rgba(20, 24, 32, 0.80);
-  border: 1px solid var(--rule-strong);
-  padding: 10px 14px;
-  border-radius: 4px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
-}
-
-.spec-label {
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  letter-spacing: 0.16em;
-  color: var(--accent);
-  text-transform: uppercase;
-}
-
-.spec-val {
-  font-family: var(--font-mono);
-  font-size: 0.82rem;
-  color: var(--ink);
-  font-weight: 500;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  max-width: 620px;
 }
 
 .hero-home-actions {
   display: flex;
   align-items: center;
   gap: 1.5rem;
-  margin-top: 0.8rem;
+  margin-top: 1.5rem;
   flex-wrap: wrap;
 }
 
@@ -590,12 +552,6 @@ html.menu-open {
   font-size: 0.72rem;
   letter-spacing: 0.12em;
   color: var(--ink-soft);
-}
-
-@media (max-width: 768px) {
-  .hero-home-specs {
-    grid-template-columns: 1fr;
-  }
 }
 
 /* ==========================================================================

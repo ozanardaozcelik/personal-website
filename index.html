@@ -405,8 +405,8 @@
         <div class="hero-home-left">
           <div class="hero-home-badge">
             <span class="dot-live"></span>
-            <span class="lang-tr">ÇEVRİMİÇİ // SİHA YAZILIM EKİP LİDERİ</span>
-            <span class="lang-en">ONLINE // AUTONOMOUS UAV SOFTWARE LEAD</span>
+            <span class="lang-tr">ÇEVRİMİÇİ // BİLGİSAYAR MÜHENDİSİ</span>
+            <span class="lang-en">ONLINE // COMPUTER ENGINEER</span>
           </div>
 
           <h1 class="hero-home-title">
@@ -415,28 +415,13 @@
           </h1>
 
           <p class="hero-home-desc">
-            <span class="lang-tr">Şahi Otonom SİHA Takımı Yazılım Lideri · Bilgisayarlı Görü, Endüstriyel Robotik (ROS 2 &amp; Gazebo) ve Derin Öğrenme Sistemleri.</span>
-            <span class="lang-en">Autonomous UAV Software Lead · Computer Vision, Industrial Robotics (ROS 2 &amp; Gazebo) and Deep Learning Architectures.</span>
+            <span class="lang-tr">Bilgisayarlı görü ve yapay zeka mimarilerine odaklanan bir Bilgisayar Mühendisliği 4. sınıf öğrencisiyim. Nesne tespiti, anomali tespiti ve OCR tabanlı görüntü işleme modelleri geliştiriyor, bunları gömülü donanımlarda gerçek zamanlı çalışacak şekilde optimize ediyorum. Bu çözümleri endüstriyel kalite kontrol süreçlerine ve ROS 2/Gazebo destekli otonom robotik sistemlere entegre ederek uygulanabilir yazılım çözümleri üretiyorum.</span>
+            <span class="lang-en">I am a senior Computer Engineering student focused on computer vision and artificial intelligence architectures. I develop object detection, anomaly detection, and OCR-based image processing models, optimizing them to run in real-time on embedded hardware. I produce applicable software solutions by integrating these solutions into industrial quality control processes and ROS 2/Gazebo-supported autonomous robotic systems.</span>
           </p>
-
-          <div class="hero-home-specs">
-            <div class="spec-card">
-              <span class="spec-label"><span class="lang-tr">GÖREV</span><span class="lang-en">ROLE</span></span>
-              <span class="spec-val"><span class="lang-tr">Yazılım Ekip Lideri</span><span class="lang-en">Software Team Lead</span></span>
-            </div>
-            <div class="spec-card">
-              <span class="spec-label"><span class="lang-tr">TAKIM</span><span class="lang-en">TEAM</span></span>
-              <span class="spec-val">Şahi SİHA (Teknofest)</span>
-            </div>
-            <div class="spec-card">
-              <span class="spec-label"><span class="lang-tr">ODAK</span><span class="lang-en">FOCUS</span></span>
-              <span class="spec-val">CV · ROS 2 · Gazebo · AI</span>
-            </div>
-          </div>
 
           <div class="hero-home-actions">
             <button type="button" class="hero-cta-btn" id="btnExploreStory">
-              <span><span class="lang-tr">02 / HİKAYEMİ AÇ</span><span class="lang-en">02 / OPEN MY STORY</span></span>
+              <span><span class="lang-tr">HİKAYEM İÇİN AŞAĞI KAYDIRIN</span><span class="lang-en">SCROLL DOWN FOR MY STORY</span></span>
               <span class="hero-cta-arrow">↓</span>
             </button>
             <span class="hero-interactive-hint">
@@ -1465,7 +1450,12 @@
 
       const btnExploreStory = document.getElementById('btnExploreStory');
       if (btnExploreStory) {
-        btnExploreStory.addEventListener('click', navigateToStory);
+        btnExploreStory.addEventListener('click', (e) => {
+          e.preventDefault();
+          ensureStoryLoaded();
+          const { storyY } = getSnapTargets();
+          window.scrollTo({ top: storyY, behavior: 'smooth' });
+        });
       }
 
       // Menu Panel Navigation Links
