@@ -158,8 +158,8 @@ def wrap_text(text, font, max_width, draw):
 
 for s in spreads_data:
     dest_file = s['file']
-    if dest_file == 'marina-bay-sands.png':
-        # Managed with custom high-fidelity retro photo pipeline in scratch/build_spread_01_retro.py
+    if dest_file in ['marina-bay-sands.png', 'gardens-by-the-bay.png']:
+        # Managed with custom high-fidelity pipelines in scratch/build_spread_01_retro.py & build_spread_02_modern.py
         continue
     illus_file = s['illus']
     dest_path = os.path.join(out_dir, dest_file)
