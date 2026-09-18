@@ -19,29 +19,95 @@ const html = `<!DOCTYPE html>
 <body>
 
   <!-- =========================================================================
-       SYSTEM BOOT PRELOADER (OTONOM SİSTEMLER BAŞLATMA & TELEMETRİ YÜKLEYİCİ)
+       SYSTEM BOOT PRELOADER (BİLGİSAYARLI GÖRÜ, ROBOTİK & UZAMSAL ALGI YÜKLEYİCİ)
        ========================================================================= -->
-  <div class="site-preloader" id="sitePreloader" aria-label="Sistem Yükleniyor / Initializing System">
+  <div class="site-preloader" id="sitePreloader" aria-label="Görüntü İşleme & Robotik Sistem Yükleniyor / Initializing Vision & Robotics Core">
     <div class="preloader-grid-bg"></div>
-    <div class="preloader-radar-wrap">
-      <div class="preloader-radar-circle outer"></div>
-      <div class="preloader-radar-circle middle"></div>
-      <div class="preloader-radar-circle inner"></div>
-      <div class="preloader-radar-sweep"></div>
-      <div class="preloader-core-gem">
-        <span class="gem-pulse"></span>
+
+    <!-- Computer Vision Multi-Camera Rig & Optical Sensor Core -->
+    <div class="cv-vision-rig">
+      <!-- Orbiting Multi-Camera Sensor Array -->
+      <div class="cv-cam-orbit-track">
+        <div class="cv-cam-node cv-cam-top" title="CAM 01 // RGB">
+          <div class="cam-lens-barrel">
+            <span class="cam-lens-glass"></span>
+            <span class="cam-led-status amber"></span>
+          </div>
+          <span class="cam-label">CAM 01 · RGB</span>
+        </div>
+        <div class="cv-cam-node cv-cam-right" title="CAM 02 // DEPTH">
+          <div class="cam-lens-barrel">
+            <span class="cam-lens-glass"></span>
+            <span class="cam-led-status cyan"></span>
+          </div>
+          <span class="cam-label">CAM 02 · DEPTH</span>
+        </div>
+        <div class="cv-cam-node cv-cam-bottom" title="CAM 03 // IR">
+          <div class="cam-lens-barrel">
+            <span class="cam-lens-glass"></span>
+            <span class="cam-led-status red"></span>
+          </div>
+          <span class="cam-label">CAM 03 · IR/THERMAL</span>
+        </div>
+        <div class="cv-cam-node cv-cam-left" title="CAM 04 // STEREO">
+          <div class="cam-lens-barrel">
+            <span class="cam-lens-glass"></span>
+            <span class="cam-led-status cyan"></span>
+          </div>
+          <span class="cam-label">CAM 04 · STEREO</span>
+        </div>
+      </div>
+
+      <!-- Central Optical Objective Lens & Aperture Rig -->
+      <div class="cv-optical-lens-unit">
+        <div class="lens-barrel-ring-outer">
+          <span class="lens-spec-text">50mm F/1.2 ED OPTICS</span>
+        </div>
+        <div class="lens-barrel-ring-inner">
+          <div class="lens-iris-blades">
+            <div class="iris-blade blade-1"></div>
+            <div class="iris-blade blade-2"></div>
+            <div class="iris-blade blade-3"></div>
+            <div class="iris-blade blade-4"></div>
+            <div class="iris-blade blade-5"></div>
+            <div class="iris-blade blade-6"></div>
+          </div>
+          <div class="lens-core-pupil">
+            <div class="cv-crosshair-reticle">
+              <span class="reticle-line h-line"></span>
+              <span class="reticle-line v-line"></span>
+              <span class="reticle-dot"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AI Object Detection / YOLO Bounding Box & Target Tracker -->
+      <div class="cv-target-box">
+        <span class="cv-box-corner corner-tl"></span>
+        <span class="cv-box-corner corner-tr"></span>
+        <span class="cv-box-corner corner-bl"></span>
+        <span class="cv-box-corner corner-br"></span>
+        <div class="cv-laser-scan"></div>
+        <div class="cv-box-tag">
+          <span class="tag-title">TARGET: ROBOTIC_CORE</span>
+          <span class="tag-conf">CONF: 0.998</span>
+        </div>
+        <div class="cv-coords-tag">
+          <span>X:+142.8 Y:-64.2 Z:+850.0</span>
+        </div>
       </div>
     </div>
 
     <div class="preloader-content">
       <div class="preloader-brand">
         <span class="preloader-brand-title">OZAN ARDA ÖZÇELİK</span>
-        <span class="preloader-brand-sub">OTONOM SİSTEMLER &amp; MAKİNE MANTIĞI</span>
+        <span class="preloader-brand-sub">BİLGİSAYARLI GÖRÜ, ROBOTİK &amp; YAPAY ZEKA</span>
       </div>
 
       <!-- Telemetry Boot Diagnostic Feed -->
       <div class="preloader-telemetry-feed" id="preloaderTelemetry">
-        <span class="tel-line" id="preloaderStatusText">INITIALIZING 3D ROBOTICS &amp; VISION CORE...</span>
+        <span class="tel-line" id="preloaderStatusText">CALIBRATING STEREO VISION SENSORS &amp; INTRINSIC MATRICES...</span>
       </div>
 
       <!-- High-Tech Progress Bar -->
@@ -50,7 +116,7 @@ const html = `<!DOCTYPE html>
           <div class="preloader-bar-fill" id="preloaderBarFill"></div>
         </div>
         <div class="preloader-bar-meta">
-          <span class="preloader-tag">TELEMETRY LOCK // 60FPS</span>
+          <span class="preloader-tag">SENSOR FUSION // ROS2 CAMERA NODE 60FPS</span>
           <span class="preloader-percent" id="preloaderPercent">0%</span>
         </div>
       </div>
@@ -1557,11 +1623,11 @@ const html = `<!DOCTYPE html>
       const preloaderStatusText = document.getElementById('preloaderStatusText');
 
       const BOOT_STAGES = [
-        { pct: 20, tr: 'DONANIM HIZLANDIRMA ÇEKİRDEĞİ BAĞLANDI...', en: 'MOUNTING HARDWARE ACCELERATION KERNEL...' },
-        { pct: 45, tr: '3D DOKUNSAL HİKAYE ESKİZ DEFTERİ DERLENDİ...', en: '3D TACTILE STORYBOOK COMPILED...' },
-        { pct: 75, tr: '3D SİLİNDİRİK PROJE MATRİSİ ÇEVRİMİÇİ...', en: '3D CYLINDRICAL PROJECT MATRICES ONLINE...' },
-        { pct: 90, tr: 'RETRO CRT KONTROL İSTASYONU KİLİTLENDİ...', en: 'RETRO CRT CARRIER SIGNALS LOCKED...' },
-        { pct: 100, tr: 'SİSTEM HAZIR // TÜM TELEMETRİ AKTİF', en: 'SYSTEM READY // ALL TELEMETRY ACTIVE' }
+        { pct: 20, tr: 'STEREO KAMERA KALİBRASYONU & İNTRİNSİK MATRİSLER HESAPLANIYOR...', en: 'COMPUTING CAMERA INTRINSICS & STEREO RECTIFICATION...' },
+        { pct: 45, tr: 'DERİN ÖĞRENME NESNE ALGILAMA & SEGMENTASYON MOTORU YÜKLENİYOR...', en: 'LOADING DEEP SEGMENTATION & TRACKING INFERENCE...' },
+        { pct: 70, tr: '3D NOKTA BULUTU & ROBOTİK UZAMSAL KİNEMATİK BAŞLATILIYOR...', en: 'INITIALIZING 3D POINT CLOUD & SPATIAL KINEMATICS...' },
+        { pct: 90, tr: 'GERÇEK ZAMANLI ROBOTİK GÖRÜ & SENSÖR ENTEGRASYONU KİLİTLENDİ...', en: 'LOCKING REAL-TIME VISION & SENSOR FUSION PIPELINES...' },
+        { pct: 100, tr: 'GÖRÜNTÜ İŞLEME SİSTEMİ HAZIR // OTONOM ARAYÜZ DEVREDE', en: 'VISION & ROBOTICS PERCEPTION ONLINE // ENGAGING INTERFACE' }
       ];
 
       let currentBootPct = 0;
