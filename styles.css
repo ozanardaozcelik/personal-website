@@ -3175,12 +3175,13 @@ html.menu-open {
 
 /* ==========================================================================
    THREEUI VOID FIELD PRELOADER (MINIMALIST RAW-WEBGL // ZERO-LAG 60-120FPS)
+   Site Color Palette Matched: Obsidian Dark Slate + Electric Cyan + Cybernetic Amber
    ========================================================================== */
 .site-preloader {
   position: fixed;
   inset: 0;
   z-index: 1000000;
-  background: #08030c;
+  background: var(--bg-dark, #07090c);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -3211,7 +3212,7 @@ html.menu-open {
   font-weight: 200;
   font-family: var(--font-mono);
   letter-spacing: -0.05em;
-  color: rgba(192, 132, 252, 0.025);
+  color: rgba(0, 210, 255, 0.03);
   pointer-events: none;
   line-height: 1;
   z-index: 0;
@@ -3223,15 +3224,15 @@ html.menu-open {
   width: 100%;
   max-width: 960px;
   aspect-ratio: 2.1 / 1;
-  background: #130a1c;
+  background: #0f131a;
   border-radius: 2.5rem;
   padding: 1rem;
   display: flex;
   flex-direction: column;
   box-shadow:
-    0 10px 40px rgba(0, 0, 0, 0.8),
-    0 20px 80px rgba(0, 0, 0, 0.6),
-    inset 0 0 0 1px rgba(216, 180, 254, 0.15);
+    0 10px 40px rgba(0, 0, 0, 0.85),
+    0 20px 80px rgba(0, 0, 0, 0.7),
+    inset 0 0 0 1px rgba(0, 210, 255, 0.16);
   z-index: 10;
 }
 
@@ -3249,8 +3250,9 @@ html.menu-open {
   position: absolute;
   width: 6px;
   height: 6px;
-  background: #d8b4fe;
-  border: 1px solid #6b21a8;
+  background: var(--accent-cyan, #00d2ff);
+  border: 1px solid var(--accent, #ff8c37);
+  box-shadow: 0 0 8px rgba(0, 210, 255, 0.8);
   z-index: 20;
 }
 .void-node-tl { top: -3px; left: -3px; }
@@ -3262,7 +3264,7 @@ html.menu-open {
   position: absolute;
   width: 16px;
   height: 16px;
-  border-color: rgba(216, 180, 254, 0.35);
+  border-color: rgba(0, 210, 255, 0.38);
   pointer-events: none;
   z-index: 20;
 }
@@ -3276,11 +3278,11 @@ html.menu-open {
   position: relative;
   width: 100%;
   height: 100%;
-  background: #0a0510;
+  background: #06080c;
   border-radius: 1.8rem;
   overflow: hidden;
   box-shadow: inset 0 5px 25px rgba(0, 0, 0, 0.95);
-  border: 1px solid rgba(216, 180, 254, 0.12);
+  border: 1px solid rgba(0, 210, 255, 0.14);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -3292,7 +3294,7 @@ html.menu-open {
   inset: 0;
   width: 100%;
   height: 100%;
-  opacity: 0.88;
+  opacity: 0.92;
   mix-blend-mode: screen;
   pointer-events: none;
   z-index: 1;
@@ -3303,7 +3305,7 @@ html.menu-open {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0.35;
+  opacity: 0.30;
   background-image: repeating-linear-gradient(to bottom, transparent, transparent 18px, rgba(0, 0, 0, 0.9) 18px, rgba(0, 0, 0, 0.9) 20px);
   z-index: 2;
 }
@@ -3315,10 +3317,10 @@ html.menu-open {
   top: 0;
   height: 100%;
   width: 60%;
-  opacity: 0.12;
+  opacity: 0.16;
   pointer-events: none;
   z-index: 2;
-  color: #c084fc;
+  color: var(--accent-cyan, #00d2ff);
 }
 
 /* Minimal HUD Overlay (Textless & Clean) */
@@ -3330,7 +3332,7 @@ html.menu-open {
   justify-content: space-between;
   height: 100%;
   padding: clamp(1.2rem, 3vw, 2.5rem);
-  color: #e9d5ff;
+  color: var(--ink, #f0f4f8);
 }
 
 .void-hud-top {
@@ -3342,18 +3344,19 @@ html.menu-open {
 .void-pill {
   width: 4px;
   height: 18px;
-  background: #c084fc;
+  background: var(--accent, #ff8c37);
   border-radius: 2px;
-  box-shadow: 0 0 10px rgba(192, 132, 252, 0.8);
+  box-shadow: 0 0 10px rgba(255, 140, 55, 0.85);
 }
 
 .void-code {
   font-family: var(--font-mono);
   font-size: 0.95rem;
   letter-spacing: 0.25em;
-  font-weight: 300;
-  color: #c084fc;
-  opacity: 0.85;
+  font-weight: 400;
+  color: var(--accent-cyan, #00d2ff);
+  opacity: 0.90;
+  text-shadow: 0 0 8px rgba(0, 210, 255, 0.5);
 }
 
 .void-hud-bottom {
@@ -3373,25 +3376,26 @@ html.menu-open {
 .void-num {
   font-family: var(--font-mono);
   font-size: clamp(3.5rem, 9vw, 6.5rem);
-  font-weight: 200;
+  font-weight: 300;
   letter-spacing: -0.02em;
-  color: #f3e8ff;
-  text-shadow: 0 0 25px rgba(216, 180, 254, 0.4);
+  color: var(--light, #ffffff);
+  text-shadow: 0 0 25px rgba(0, 210, 255, 0.5), 0 0 50px rgba(255, 140, 55, 0.3);
 }
 
 .void-unit {
   font-family: var(--font-mono);
   font-size: clamp(1.1rem, 2vw, 1.8rem);
-  font-weight: 300;
-  color: #c084fc;
-  opacity: 0.75;
+  font-weight: 400;
+  color: var(--accent, #ff8c37);
+  opacity: 0.95;
+  text-shadow: 0 0 10px rgba(255, 140, 55, 0.7);
 }
 
 .void-progress-track {
   flex: 1;
   max-width: 320px;
   height: 2px;
-  background: rgba(216, 180, 254, 0.15);
+  background: rgba(0, 210, 255, 0.15);
   border-radius: 1px;
   overflow: hidden;
   margin-bottom: clamp(1rem, 2vw, 1.8rem);
@@ -3400,8 +3404,8 @@ html.menu-open {
 .void-progress-bar {
   width: 0%;
   height: 100%;
-  background: linear-gradient(90deg, #a855f7, #e879f9, #ffffff);
-  box-shadow: 0 0 12px rgba(232, 121, 249, 0.9);
+  background: linear-gradient(90deg, #00d2ff, #38bdf8, #ff8c37);
+  box-shadow: 0 0 12px rgba(0, 210, 255, 0.85), 0 0 20px rgba(255, 140, 55, 0.4);
   transition: width 0.08s ease-out;
 }
 

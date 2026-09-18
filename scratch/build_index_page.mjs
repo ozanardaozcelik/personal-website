@@ -1633,10 +1633,15 @@ const html = `<!DOCTYPE html>
                 float scanline = sin(uv.y * 800.0) * 0.03;
                 float flicker = rand(vec2(iTime, id.y)) > 0.98 ? 0.4 : 1.0;
 
+                // Perceptual color grading matching site's Electric Cyan & Cybernetic Amber
+                vec3 cyanCol = vec3(0.0, 0.82, 1.0);
+                vec3 amberCol = vec3(1.0, 0.55, 0.22);
+                vec3 dotTint = mix(amberCol, cyanCol, smoothstep(0.08, 0.55, dist));
+
                 vec3 col = vec3(circle * pulse * flicker);
                 col -= scanline;
-                col *= vec3(0.68, 0.42, 1.0);
-                col *= smoothstep(0.8, 0.2, dist);
+                col *= dotTint;
+                col *= smoothstep(0.85, 0.15, dist);
 
                 gl_FragColor = vec4(col, 1.0);
               }
