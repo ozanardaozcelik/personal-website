@@ -28,13 +28,13 @@ out_dir = os.path.join('public', 'landing-pages', 'meng-to-sketchbook')
 spreads_data = [
     {
         'file': 'marina-bay-sands.png',
-        'illus': 'plate01_first_pc_1789636973056.jpg',
+        'illus': 'childhood_retro',
         'kicker': 'BÖLÜM 01 // İLK KIVILCIM · 3 YAŞINDA İLK BİLGİSAYAR',
         'plate_num': 'LEVHA 01',
         'title': '3 Yaş: İlk Bilgisayar & Oyunlar',
-        'subtitle': '90\'ların Sonu · Dijital Dünyayla İlk Karşılaşma',
-        'lead': 'Bilgisayarla aslında henüz 3 yaşımdayken tanıştım; eve gelen ilk bilgisayar ve ekrandaki renkli pikseller dijital dünyaya açılan ilk kapım oldu.',
-        'body': '90\'ların sonunda eve ilk masaüstü bilgisayarın alınmasıyla başlayan bu serüven; saatlerce başında oturduğum retro oyunlar, disketler ve CRT monitörün karşısındaki saf çocukluk merakıyla filizlendi. Klavyenin tuşlarına basarak ekranda bir şeyleri hareket ettirebilmek, komutlar vermek ve sanal dünyalarda dolaşmak bende makinelerin nasıl çalıştığına dair silinmez bir merak uyandırdı.',
+        'subtitle': 'Dijital Dünyayla İlk Karşılaşma',
+        'lead': '',
+        'body': 'Henüz 3 yaşımdayken eve ilk masaüstü bilgisayarımın alınmasıyla başlayan bu serüven; saatlerce başında oturduğum oyunlar ile monitörün karşısındaki saf çocukluk merakıyla filizlendi. Klavyenin tuşlarına basarak ekranda bir şeyleri hareket ettirebilmek, komutlar vermek ve sanal dünyada dolaşabilmek bana makinelerin nasıl çalıştığına dair silinmez bir merak uyandırdı.',
         'note': '✦ "Makinelere duyulan tutku, bir çocuğun ekrandaki ilk pikselleri hareket ettirdiği an başlar."',
         'signature': '[Ozan Arda Özçelik — 3 Yaş & İlk Bilgisayar Deneyimi]'
     },
@@ -158,6 +158,9 @@ def wrap_text(text, font, max_width, draw):
 
 for s in spreads_data:
     dest_file = s['file']
+    if dest_file == 'marina-bay-sands.png':
+        # Managed with custom high-fidelity retro photo pipeline in scratch/build_spread_01_retro.py
+        continue
     illus_file = s['illus']
     dest_path = os.path.join(out_dir, dest_file)
     illus_path = os.path.join(artifacts_dir, illus_file)
