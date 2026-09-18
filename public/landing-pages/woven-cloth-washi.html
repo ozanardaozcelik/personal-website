@@ -96,6 +96,9 @@
     .ch-title { font-size: 11px; }
     .ch-meta, .ch-action { display: none; }
   }
+
+  html[data-lang="tr"] .lang-en { display: none !important; }
+  html[data-lang="en"] .lang-tr { display: none !important; }
 </style>
 </head>
 <body>
@@ -106,10 +109,12 @@
   <div class="noren-header">
     <div class="noren-title-tag">
       <span class="dot"></span>
-      <span>WOVEN CLOTH · WASHI NOREN // İLETİŞİM</span>
+      <span class="lang-tr">YENİ FIRSATLARA VE PROJELERE AÇIK</span>
+      <span class="lang-en">OPEN TO NEW OPPORTUNITIES &amp; PROJECTS</span>
     </div>
     <div class="noren-hint">
-      <span>✦ FLAMALARI SÜRÜKLEYİN VEYA TIKLAYIN</span>
+      <span class="lang-tr">✦ İSTANBUL, TÜRKİYE</span>
+      <span class="lang-en">✦ ISTANBUL, TURKEY</span>
     </div>
   </div>
 
@@ -417,28 +422,30 @@
     x.fillStyle = 'rgba(243,236,224,0.7)';
     x.font = 'bold 22px Georgia, serif';
     x.textAlign = 'center';
-    x.fillText('CH 01 // 接続', panelW * 0.5, TH * 0.23);
+    x.fillText('CH 01 // 接続', panelW * 0.5, TH * 0.22);
 
-    drawLinkedInCrest(x, panelW * 0.5, TH * 0.36, 78);
+    drawLinkedInCrest(x, panelW * 0.5, TH * 0.33, 70);
+
+    x.fillStyle = 'rgba(243,236,224,0.92)';
+    x.font = 'bold 18px "DM Mono", monospace';
+    x.fillText('ozanardaozcelik', panelW * 0.5, TH * 0.44);
+
     x.fillStyle = '#f3ece0';
-    verticalWord(x, 'LINKEDIN', panelW * 0.5, TH * 0.50, 48, 56);
-
-    x.fillStyle = 'rgba(243,236,224,0.85)';
-    x.font = 'bold 20px "DM Mono", monospace';
-    x.fillText('ozanardaozcelik', panelW * 0.5, TH * 0.86);
+    verticalWord(x, 'LINKEDIN', panelW * 0.5, TH * 0.52, 46, 54);
 
     // ---------------- PANEL 1 (CENTER): EMAIL ----------------
     x.fillStyle = 'rgba(243,236,224,0.7)';
     x.font = 'bold 22px Georgia, serif';
-    x.fillText('CH 02 // 連絡', panelW * 1.5, TH * 0.23);
+    x.fillText('CH 02 // 連絡', panelW * 1.5, TH * 0.22);
 
-    drawMailCrest(x, panelW * 1.5, TH * 0.36, 78);
+    drawMailCrest(x, panelW * 1.5, TH * 0.33, 70);
+
+    x.fillStyle = 'rgba(243,236,224,0.92)';
+    x.font = 'bold 15px "DM Mono", monospace';
+    x.fillText('ozan.a.ozcelik@gmail.com', panelW * 1.5, TH * 0.44);
+
     x.fillStyle = '#f3ece0';
-    verticalWord(x, 'EMAIL', panelW * 1.5, TH * 0.51, 54, 62);
-
-    x.fillStyle = 'rgba(243,236,224,0.9)';
-    x.font = 'bold 18px "DM Mono", monospace';
-    x.fillText('ozan.a.ozcelik@gmail.com', panelW * 1.5, TH * 0.74);
+    verticalWord(x, 'EMAIL', panelW * 1.5, TH * 0.53, 52, 60);
 
     // Vermilion seal stamped at foot of center panel
     const S = 84, sx = panelW * 1.5 - S / 2, sy = TH * 0.81;
@@ -455,15 +462,16 @@
     // ---------------- PANEL 2 (RIGHT): GITHUB ----------------
     x.fillStyle = 'rgba(243,236,224,0.7)';
     x.font = 'bold 22px Georgia, serif';
-    x.fillText('CH 03 // 開発', panelW * 2.5, TH * 0.23);
+    x.fillText('CH 03 // 開発', panelW * 2.5, TH * 0.22);
 
-    drawGitHubCrest(x, panelW * 2.5, TH * 0.36, 78);
+    drawGitHubCrest(x, panelW * 2.5, TH * 0.33, 70);
+
+    x.fillStyle = 'rgba(243,236,224,0.92)';
+    x.font = 'bold 18px "DM Mono", monospace';
+    x.fillText('ozanardaozcelik', panelW * 2.5, TH * 0.44);
+
     x.fillStyle = '#f3ece0';
-    verticalWord(x, 'GITHUB', panelW * 2.5, TH * 0.50, 48, 56);
-
-    x.fillStyle = 'rgba(243,236,224,0.85)';
-    x.font = 'bold 20px "DM Mono", monospace';
-    x.fillText('ozanardaozcelik', panelW * 2.5, TH * 0.86);
+    verticalWord(x, 'GITHUB', panelW * 2.5, TH * 0.52, 46, 54);
 
     return s;
   }
@@ -828,6 +836,19 @@
     start();
     document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
   }
+
+  // Synchronize language with parent page
+  try {
+    const pLang = (window.parent && window.parent.document && window.parent.document.documentElement.lang) || 'tr';
+    document.documentElement.setAttribute('data-lang', pLang);
+  } catch (e) {
+    document.documentElement.setAttribute('data-lang', 'tr');
+  }
+  window.addEventListener('message', (e) => {
+    if (e.data && e.data.type === 'SET_LANG' && (e.data.lang === 'tr' || e.data.lang === 'en')) {
+      document.documentElement.setAttribute('data-lang', e.data.lang);
+    }
+  });
 })();
 </script>
 </body>

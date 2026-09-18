@@ -556,95 +556,24 @@
           </div>
         </div>
 
-        <!-- RIGHT COLUMN: Flowing Stream of Topic Headings (Konu Başlıkları) -->
+        <!-- RIGHT COLUMN: 3D Rotating Stream of Topic Headings (Three.js Helical Waterfall) -->
         <div class="projects-topics-stream-wrap">
           <div class="topics-stream-header">
             <div class="tsh-badge">
               <span class="tsh-dot"></span>
-              <span class="lang-tr">UZMANLIK ALANLARI AKIŞI</span>
-              <span class="lang-en">DOMAIN STREAMS</span>
+              <span class="lang-tr">3D DÖNEN KONU BAŞLIKLARI</span>
+              <span class="lang-en">3D TOPIC STREAM</span>
             </div>
-            <span class="tsh-hint"><span class="lang-tr">✦ Konu seçmek için tıklayın</span><span class="lang-en">✦ Click topic to inspect</span></span>
+            <span class="tsh-hint"><span class="lang-tr">✦ Tıklayarak Seçin &amp; Döndürün</span><span class="lang-en">✦ Click to Select &amp; Drag</span></span>
           </div>
 
-          <div class="projects-topics-stream" id="projectsTopicsStream" role="tablist">
-            <!-- Topic 1 -->
-            <button type="button" class="topic-stream-card is-active" data-topic-id="uav" role="tab" aria-selected="true">
-              <div class="tsc-head">
-                <span class="tsc-code">01 // UAV</span>
-                <span class="tsc-count">2 Proje</span>
-              </div>
-              <h4 class="tsc-title">Havacılık &amp; Savaşan SİHA Otonomisi</h4>
-              <p class="tsc-desc">Şahi Otonom SİHA Takımı Yazılım Ekip Liderliği · YOLOv8 &amp; ArduPilot Güdüm</p>
-              <div class="tsc-tags">
-                <span>YOLOv8</span><span>ArduPilot</span><span>ROS 2</span><span>Gazebo</span>
-              </div>
-            </button>
-
-            <!-- Topic 2 -->
-            <button type="button" class="topic-stream-card" data-topic-id="vision" role="tab" aria-selected="false">
-              <div class="tsc-head">
-                <span class="tsc-code">02 // VISION</span>
-                <span class="tsc-count">2 Proje</span>
-              </div>
-              <h4 class="tsc-title">Endüstriyel Görüntü İşleme &amp; İSG Güvenlik</h4>
-              <p class="tsc-desc">Çözüm Makina ISEE Vision · Fabrika/Hastane/Ofis İSG Kameraları &amp; Optik Kalite</p>
-              <div class="tsc-tags">
-                <span>İSG Kameraları</span><span>PatchCore</span><span>CUDA</span><span>C++</span>
-              </div>
-            </button>
-
-            <!-- Topic 3 -->
-            <button type="button" class="topic-stream-card" data-topic-id="robotics" role="tab" aria-selected="false">
-              <div class="tsc-head">
-                <span class="tsc-code">03 // ROBOTICS</span>
-                <span class="tsc-count">2 Proje</span>
-              </div>
-              <h4 class="tsc-title">Robotik Sistemler, AMR &amp; Simülasyon</h4>
-              <p class="tsc-desc">Çözüm Makina ISEE Robotics · 6-Eksen Robot Kol, M20 AMR, Tron 1 &amp; Gazebo</p>
-              <div class="tsc-tags">
-                <span>M20 AMR</span><span>Tron 1</span><span>Robot Kol</span><span>Gazebo Harmonic</span>
-              </div>
-            </button>
-
-            <!-- Topic 4 -->
-            <button type="button" class="topic-stream-card" data-topic-id="agentic_ai" role="tab" aria-selected="false">
-              <div class="tsc-head">
-                <span class="tsc-code">04 // AGENTIC AI</span>
-                <span class="tsc-count">1 Proje</span>
-              </div>
-              <h4 class="tsc-title">Kurumsal Yapay Zeka &amp; Multi-Agent</h4>
-              <p class="tsc-desc">Martur Fompak International · Otomotiv Fabrikası Çoklu Ajan Otomasyonu</p>
-              <div class="tsc-tags">
-                <span>Agentic AI</span><span>Multi-Agent LLM</span><span>RAG</span><span>FastAPI</span>
-              </div>
-            </button>
-
-            <!-- Topic 5 -->
-            <button type="button" class="topic-stream-card" data-topic-id="hmi" role="tab" aria-selected="false">
-              <div class="tsc-head">
-                <span class="tsc-code">05 // HMI &amp; UI</span>
-                <span class="tsc-count">2 Proje</span>
-              </div>
-              <h4 class="tsc-title">Arayüz Tasarımı, Web Panel &amp; HMI</h4>
-              <p class="tsc-desc">ISEE Vision Dokunmatik HMI, ISEE Robotics Takip &amp; SİHA Yer İstasyonu</p>
-              <div class="tsc-tags">
-                <span>Dokunmatik HMI</span><span>Web Panel</span><span>Telemetri</span><span>WebSocket</span>
-              </div>
-            </button>
-
-            <!-- Topic 6 -->
-            <button type="button" class="topic-stream-card" data-topic-id="embedded" role="tab" aria-selected="false">
-              <div class="tsc-head">
-                <span class="tsc-code">06 // EMBEDDED</span>
-                <span class="tsc-count">2 Proje</span>
-              </div>
-              <h4 class="tsc-title">Gömülü Sistemler &amp; GNC Donanım Köprüsü</h4>
-              <p class="tsc-desc">ArduPilot &amp; MAVLink Telemetri, Jetson CUDA Optik Akış Donanımı</p>
-              <div class="tsc-tags">
-                <span>MAVLink</span><span>Jetson CUDA</span><span>UART</span><span>TensorRT</span>
-              </div>
-            </button>
+          <div class="topics-3d-stage-container" id="topics3dContainer">
+            <canvas id="topics-3d-canvas" class="topics-3d-canvas"></canvas>
+            <div class="topics-3d-hint-pill">
+              <span class="t3d-pulse"></span>
+              <span class="lang-tr">DÖNEN 3D AKIŞ // TIKLA &amp; İNCELE</span>
+              <span class="lang-en">ROTATING 3D STREAM // CLICK &amp; INSPECT</span>
+            </div>
           </div>
         </div>
 
@@ -666,16 +595,11 @@
           ></iframe>
         </div>
 
-        <!-- Sleek Minimal Bottom Status Bar (Location, Title, Status) -->
+        <!-- Sleek Minimal Bottom Status Bar (Location, Status) -->
         <div class="contact-minimal-footer">
           <div class="cmf-item">
             <span class="cmf-label"><span class="lang-tr">KONUM</span><span class="lang-en">LOCATION</span></span>
             <span class="cmf-value">İstanbul &amp; Tekirdağ, Türkiye</span>
-          </div>
-          <div class="cmf-divider"></div>
-          <div class="cmf-item">
-            <span class="cmf-label"><span class="lang-tr">ÜNVAN</span><span class="lang-en">TITLE</span></span>
-            <span class="cmf-value"><span class="lang-tr">Yapay Zeka, Bilgisayarlı Görü &amp; Robotik Mühendisi</span><span class="lang-en">AI, Computer Vision &amp; Robotics Engineer</span></span>
           </div>
           <div class="cmf-divider"></div>
           <div class="cmf-item">
@@ -721,6 +645,7 @@
 
       const shelfIframe = document.getElementById('shelf-interactive-frame');
       const sbIframe = document.getElementById('sketchbook-interactive-frame');
+      const wovenClothFrame = document.getElementById('wovenClothFrame');
 
       function setLanguage(lang) {
         currentLang = lang;
@@ -731,7 +656,11 @@
           window.__renderCurrentTopic();
         }
 
-        [shelfIframe, sbIframe].forEach(iframe => {
+        if (typeof window.__updateTopics3DLang === 'function') {
+          window.__updateTopics3DLang(lang);
+        }
+
+        [shelfIframe, sbIframe, wovenClothFrame].forEach(iframe => {
           if (iframe && iframe.contentWindow) {
             try {
               iframe.contentWindow.postMessage({ type: 'SET_LANG', lang: lang }, '*');
@@ -742,7 +671,7 @@
 
       setLanguage(currentLang);
 
-      [shelfIframe, sbIframe].forEach(iframe => {
+      [shelfIframe, sbIframe, wovenClothFrame].forEach(iframe => {
         if (iframe) {
           iframe.addEventListener('load', () => {
             if (iframe.contentWindow) {
@@ -1556,22 +1485,16 @@
         hydrateGitHubData();
       }
 
+      // Global hook for 3D topic stream selection
+      window.__selectTopic = function(topicId) {
+        renderTopicProjects(topicId);
+        if (typeof window.__updateTopics3DSelection === 'function') {
+          window.__updateTopics3DSelection(topicId);
+        }
+      };
+
       // Initialize default topic
       renderTopicProjects('uav');
-
-      topicStreamCards.forEach(btn => {
-        btn.addEventListener('click', () => {
-          topicStreamCards.forEach(b => {
-            b.classList.remove('is-active');
-            b.setAttribute('aria-selected', 'false');
-          });
-          btn.classList.add('is-active');
-          btn.setAttribute('aria-selected', 'true');
-
-          const topicId = btn.getAttribute('data-topic-id');
-          renderTopicProjects(topicId);
-        });
-      });
 
 
       // 6. Live GitHub Repositories Hydration

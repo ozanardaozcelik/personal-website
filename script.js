@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { vertexShader, fluidFragmentShader, displayFragmentShader } from './shaders.js';
+import { initTopics3DStream } from './gallery_3d.js';
 
 const CONFIG = {
   // Simulation render-target size (optimized 256 for silky smooth 60+ FPS without GPU stalls)
@@ -343,4 +344,17 @@ function initHeroFluid(canvas) {
 
   // START RENDER LOOP ON INIT
   animate();
+}
+
+// Initialize 3D Rotating Downward Topic Stream in Projects section
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('topics-3d-canvas')) {
+      initTopics3DStream('topics-3d-canvas');
+    }
+  });
+} else {
+  if (document.getElementById('topics-3d-canvas')) {
+    initTopics3DStream('topics-3d-canvas');
+  }
 }

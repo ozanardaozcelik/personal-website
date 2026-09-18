@@ -1,677 +1,505 @@
 import * as THREE from 'three';
 
-// 16 Flagship & Live GitHub Projects for the Cylindrical Ribbon Gallery
-const DEFAULT_PROJECTS = [
+// 6 Core Domains matching user's real projects & experience
+export const TOPICS_DATA = [
   {
-    id: 'sahi-uav',
-    name: 'Şahi Otonom Savaşan SİHA',
-    repoName: 'Sahi-Otonom-Savasan-IHA',
-    tag: 'TEKNOFEST // SAVAŞAN İHA',
-    desc: 'YOLOv8 + ByteTrack + Kalman filtreleme ile 120 FPS gerçek zamanlı hava hedef takibi ve MAVLink otonom güdüm.',
-    category: 'uav',
-    lang: 'C++ / Python',
-    tech: ['YOLOv8', 'ByteTrack', 'Kalman', 'MAVLink'],
-    stars: 18,
-    forks: 6,
-    url: 'https://github.com/ozanardaozcelik'
+    key: 'uav',
+    code: '01 // UAV',
+    titleTr: 'Savaşan SİHA Otonomisi',
+    titleEn: 'Autonomous Combat UAV',
+    subTr: 'Şahi Otonom SİHA Takımı · YOLOv8 & ArduPilot',
+    subEn: 'Şahi UAV Team Lead · YOLOv8 & ArduPilot',
+    countTr: '2 Proje',
+    countEn: '2 Projects',
+    tags: ['YOLOv8', 'ArduPilot', 'ROS 2', 'Gazebo'],
+    accent: '#ff8c37'
   },
   {
-    id: 'isee-vision',
-    name: 'Çözüm Makina: ISEE Vision',
-    repoName: 'ISEE-Vision-Core',
-    tag: 'ENDÜSTRİYEL AR-GE',
-    desc: 'Endüstriyel üretim hatları için mikron hassasiyetinde optik kalite kontrol ve yüzey hata tespit mimarisi.',
-    category: 'vision',
-    lang: 'C++',
-    tech: ['OpenCV', 'CUDA', 'Optik Muayene', 'C++'],
-    stars: 14,
-    forks: 4,
-    url: 'https://github.com/ozanardaozcelik'
+    key: 'vision',
+    code: '02 // VISION',
+    titleTr: 'Endüstriyel Görü & İSG',
+    titleEn: 'Computer Vision & OHS',
+    subTr: 'Çözüm Makina ISEE Vision · İSG & Anomali',
+    subEn: 'ISEE Vision · OHS Inspection & Anomaly',
+    countTr: '2 Proje',
+    countEn: '2 Projects',
+    tags: ['İSG Kameraları', 'PatchCore', 'CUDA', 'C++'],
+    accent: '#00d2ff'
   },
   {
-    id: 'gazebo-digital-twin',
-    name: 'Gazebo Harmonic 3D Digital Twin',
-    repoName: 'Gazebo-ROS2-DigitalTwin',
-    tag: 'ROBOTİK SİMÜLASYONU',
-    desc: 'ROS 2 entegrasyonlu 3D fizik simülasyonu, LiDAR nokta bulutu haritalama ve otonom navigasyon test ortamı.',
-    category: 'robotics',
-    lang: 'C++',
-    tech: ['Gazebo', 'ROS 2', 'LiDAR 3D', 'Nav2'],
-    stars: 12,
-    forks: 3,
-    url: 'https://github.com/ozanardaozcelik'
+    key: 'robotics',
+    code: '03 // ROBOTICS',
+    titleTr: 'Robotik, AMR & Simülasyon',
+    titleEn: 'Robotics, AMR & Gazebo',
+    subTr: 'ISEE Robotics · Robot Kol, M20 & Tron 1',
+    subEn: 'Robotic Arm, M20 AMR & Tron 1 Platforms',
+    countTr: '2 Proje',
+    countEn: '2 Projects',
+    tags: ['M20 AMR', 'Tron 1', 'Robot Kol', 'Gazebo Harmonic'],
+    accent: '#2ecc71'
   },
   {
-    id: 'martur-ai',
-    name: 'Martur AI: Çoklu-Ajan Orkestrasyonu',
-    repoName: 'Martur-AI-Agent-Orchestrator',
-    tag: 'KURUMSAL YAPAY ZEKA',
-    desc: 'Otomotiv parça üretim hatları için RAG destekli, mikroservis mimarili otonom LLM ajan karar destek sistemi.',
-    category: 'ai',
-    lang: 'Python',
-    tech: ['LangChain', 'RAG', 'FastAPI', 'PostgreSQL'],
-    stars: 16,
-    forks: 5,
-    url: 'https://github.com/ozanardaozcelik'
+    key: 'agentic_ai',
+    code: '04 // AGENTIC AI',
+    titleTr: 'Kurumsal Yapay Zeka',
+    titleEn: 'Enterprise Agentic AI',
+    subTr: 'Martur Fompak · Multi-Agent LLM İş Akışları',
+    subEn: 'Martur Fompak · Multi-Agent LLM Workflows',
+    countTr: '1 Proje',
+    countEn: '1 Project',
+    tags: ['Agentic AI', 'Multi-Agent', 'RAG', 'PyTorch'],
+    accent: '#c084fc'
   },
   {
-    id: 'uav-gcs',
-    name: 'SİHA Telemetri & Yer Kontrol İstasyonu',
-    repoName: 'UAV-GroundControl-Station',
-    tag: 'TELEMETRİ & GCS',
-    desc: '433/868 MHz RF telemetri veri ayrıştırma, gerçek zamanlı yapay ufuk ve MAVLink telemetri arayüzü.',
-    category: 'uav',
-    lang: 'Qt / C++',
-    tech: ['Qt/C++', 'MAVLink', 'RF Telemetry', 'Python'],
-    stars: 9,
-    forks: 2,
-    url: 'https://github.com/ozanardaozcelik'
+    key: 'hmi',
+    code: '05 // HMI & UI',
+    titleTr: 'Arayüz Tasarımı & HMI',
+    titleEn: 'Interface Design & HMI',
+    subTr: 'Web Paneller & Endüstriyel Dokunmatik HMI',
+    subEn: 'Web Dashboards & Touchscreen Industrial HMI',
+    countTr: '2 Proje',
+    countEn: '2 Projects',
+    tags: ['Dokunmatik HMI', 'Web Panel', 'Telemetri', 'WebSocket'],
+    accent: '#fbbf24'
   },
   {
-    id: 'cuda-optical-flow',
-    name: 'CUDA Hızlandırmalı Optik Akış',
-    repoName: 'ArduPilot-MAVLink-GNC-Bridge',
-    tag: 'GPGPU HIZLANDIRMA',
-    desc: 'NVIDIA Jetson mimarisinde sıfır gecikmeli Lucas-Kanade optik akış ve hareket vektör kestirimi.',
-    category: 'vision',
-    lang: 'CUDA C++',
-    tech: ['CUDA C++', 'Jetson Orin', 'TensorRT', 'OpenCV'],
-    stars: 16,
-    forks: 4,
-    url: 'https://github.com/ozanardaozcelik'
-  },
-  {
-    id: 'turtle-aimbot',
-    name: 'TurtleAimBot: Realtime CV Tracking',
-    repoName: 'TurtleAimBot',
-    tag: 'BİLGİSAYARLI GÖRÜ',
-    desc: 'Ekran görüntüsü ayrıştırma ve gerçek zamanlı hedef tespiti yapan otonom görüş algoritması.',
-    category: 'vision',
-    lang: 'Python',
-    tech: ['OpenCV', 'PyAutoGUI', 'Win32API'],
-    stars: 1,
-    forks: 0,
-    url: 'https://github.com/ozanardaozcelik/TurtleAimBot'
-  },
-  {
-    id: 'sawblades',
-    name: 'SAWBLADES: Industrial Edge AI',
-    repoName: 'SAWBLADES',
-    tag: 'ENDÜSTRİYEL YAPAY ZEKA',
-    desc: 'Sensör verileri üzerinden endüstriyel testere ve kesici uç aşınma tespiti yapan uç bilişim modeli.',
-    category: 'ai',
-    lang: 'Python',
-    tech: ['PyTorch', 'Edge AI', 'Signal Processing'],
-    stars: 1,
-    forks: 0,
-    url: 'https://github.com/ozanardaozcelik/SAWBLADES'
-  },
-  {
-    id: 'tensile-forge',
-    name: 'TensileForge: Material Simulation',
-    repoName: 'TensileForge',
-    tag: 'MALZEME SİMÜLASYONU',
-    desc: 'Metallerin çekme deneyi gerilim-şekil değiştirme eğrilerini hesaplayan sonlu elemanlar simülasyonu.',
-    category: 'embedded',
-    lang: 'Python',
-    tech: ['NumPy', 'SciPy', 'FEM', 'Matplotlib'],
-    stars: 0,
-    forks: 0,
-    url: 'https://github.com/ozanardaozcelik/TensileForge'
-  },
-  {
-    id: 'comp2laint-box',
-    name: 'Comp2laintBox: NLP Sentiment Engine',
-    repoName: 'Comp2laintBox',
-    tag: 'DOĞAL DİL İŞLEME',
-    desc: 'Müşteri geri bildirimlerini çok sınıflı duygu analizine tabi tutan BERT tabanlı NLP mimarisi.',
-    category: 'ai',
-    lang: 'Python',
-    tech: ['Transformers', 'BERT', 'FastAPI'],
-    stars: 1,
-    forks: 0,
-    url: 'https://github.com/ozanardaozcelik/Comp2laintBox'
-  },
-  {
-    id: 'employee-loss',
-    name: 'EmployeeLoss: Retention Forecasting',
-    repoName: 'EmployeeLoss',
-    tag: 'MAKİNE ÖĞRENMESİ',
-    desc: 'Çalışan ayrılma olasılıklarını öngören açıklanabilir yapay zeka ve Random Forest modeli.',
-    category: 'ai',
-    lang: 'Python',
-    tech: ['Scikit-Learn', 'XGBoost', 'SHAP'],
-    stars: 1,
-    forks: 0,
-    url: 'https://github.com/ozanardaozcelik/EmployeeLoss'
-  },
-  {
-    id: 'hand-detector',
-    name: 'Hand-Detector: MediaPipe Landmark Fusion',
-    repoName: 'Hand-Detector-',
-    tag: 'BİLGİSAYARLI GÖRÜ',
-    desc: 'Gerçek zamanlı 21-eklem el haritalama ve temassız hareket tabanlı kontrol arayüzü.',
-    category: 'vision',
-    lang: 'Python',
-    tech: ['MediaPipe', 'OpenCV', 'Landmarks'],
-    stars: 0,
-    forks: 0,
-    url: 'https://github.com/ozanardaozcelik/Hand-Detector-'
-  },
-  {
-    id: 'akilli-takvim',
-    name: 'Akıllı Takvim: Autonomous Planner',
-    repoName: 'akilli-takvim',
-    tag: 'YAZILIM MİMARİSİ',
-    desc: 'Zaman kısıtlarını optimize ederek otonom takvim ve etkinlik dağıtımı yapan planlama algoritması.',
-    category: 'ai',
-    lang: 'JavaScript',
-    tech: ['Node.js', 'Algorithms', 'Full-Stack'],
-    stars: 0,
-    forks: 0,
-    url: 'https://github.com/ozanardaozcelik/akilli-takvim'
-  },
-  {
-    id: 'mavlink-bridge',
-    name: 'MAVLink Autonomous GNC Bridge',
-    repoName: 'ArduPilot-MAVLink-GNC-Bridge',
-    tag: 'OTONOM SİHA / UAV',
-    desc: 'Uçuş kontrol bilgisayarı ile görev işlemcisi arasında sıfır kayıplı telemetri ve rota köprüsü.',
-    category: 'uav',
-    lang: 'C++',
-    tech: ['MAVLink', 'ArduPilot', 'POSIX C++'],
-    stars: 8,
-    forks: 2,
-    url: 'https://github.com/ozanardaozcelik'
-  },
-  {
-    id: 'yolo-uav-tracker',
-    name: 'Realtime Aerial Target Tracker',
-    repoName: 'Sahi-Otonom-Savasan-IHA',
-    tag: 'DERİN ÖĞRENME',
-    desc: 'Geniş açı kamera görüntülerinde minyatür İHA hedeflerini yüksek doğrulukla tespit ve takip eden model.',
-    category: 'uav',
-    lang: 'Python / CUDA',
-    tech: ['PyTorch', 'TensorRT', 'Kalman'],
-    stars: 12,
-    forks: 3,
-    url: 'https://github.com/ozanardaozcelik'
-  },
-  {
-    id: 'swarm-ai',
-    name: 'Distributed Multi-Agent Swarm Logic',
-    repoName: 'Martur-AI-Agent-Orchestrator',
-    tag: 'DAĞITIK SİSTEMLER',
-    desc: 'Birden fazla otonom ajanın ortak görev hedefinde dinamik rol paylaşımı yapmasını sağlayan konsensüs mimarisi.',
-    category: 'ai',
-    lang: 'Python / ROS 2',
-    tech: ['Multi-Agent', 'ROS 2', 'ZeroMQ'],
-    stars: 15,
-    forks: 4,
-    url: 'https://github.com/ozanardaozcelik'
+    key: 'embedded',
+    code: '06 // EMBEDDED',
+    titleTr: 'Gömülü Sistemler & GNC',
+    titleEn: 'Embedded Systems & GNC',
+    subTr: 'ArduPilot MAVLink & Jetson CUDA Donanımı',
+    subEn: 'ArduPilot MAVLink & Jetson CUDA Acceleration',
+    countTr: '2 Proje',
+    countEn: '2 Projects',
+    tags: ['MAVLink', 'Jetson CUDA', 'UART', 'TensorRT'],
+    accent: '#f472b6'
   }
 ];
 
-export function initProjectsGallery() {
-  const canvas = document.getElementById('gallery-3d-canvas');
+// Helper to draw high-tech blueprint canvas texture for 3D ribbon panels
+function createTopicPlateTexture(topic, isSelected, lang) {
+  const c = document.createElement('canvas');
+  c.width = 512;
+  c.height = 256;
+  const ctx = c.getContext('2d');
+  const isEn = (lang === 'en');
+
+  // 1. Deep Technical Slate Background
+  const bgGrad = ctx.createLinearGradient(0, 0, c.width, c.height);
+  if (isSelected) {
+    bgGrad.addColorStop(0, '#261b12');
+    bgGrad.addColorStop(0.5, '#1b130c');
+    bgGrad.addColorStop(1, '#110b06');
+  } else {
+    bgGrad.addColorStop(0, '#1a1916');
+    bgGrad.addColorStop(0.5, '#131210');
+    bgGrad.addColorStop(1, '#0d0c0a');
+  }
+  ctx.fillStyle = bgGrad;
+  ctx.fillRect(0, 0, c.width, c.height);
+
+  // 2. Technical Blueprint Grid Lines
+  ctx.strokeStyle = isSelected ? 'rgba(255, 140, 55, 0.16)' : 'rgba(255, 255, 255, 0.05)';
+  ctx.lineWidth = 1;
+  for (let x = 0; x < c.width; x += 24) {
+    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, c.height); ctx.stroke();
+  }
+  for (let y = 0; y < c.height; y += 24) {
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(c.width, y); ctx.stroke();
+  }
+
+  // 3. Cyber Outer Border
+  ctx.strokeStyle = isSelected ? topic.accent : 'rgba(243, 236, 224, 0.35)';
+  ctx.lineWidth = isSelected ? 3.5 : 1.5;
+  ctx.strokeRect(6, 6, c.width - 12, c.height - 12);
+
+  // Corner crosshairs
+  ctx.fillStyle = topic.accent;
+  ctx.fillRect(5, 5, 10, 2.5);
+  ctx.fillRect(5, 5, 2.5, 10);
+  ctx.fillRect(c.width - 15, 5, 10, 2.5);
+  ctx.fillRect(c.width - 7.5, 5, 2.5, 10);
+  ctx.fillRect(5, c.height - 7.5, 10, 2.5);
+  ctx.fillRect(5, c.height - 15, 2.5, 10);
+  ctx.fillRect(c.width - 15, c.height - 7.5, 10, 2.5);
+  ctx.fillRect(c.width - 7.5, c.height - 15, 2.5, 10);
+
+  // 4. Header Tag Bar
+  ctx.fillStyle = isSelected ? 'rgba(255, 140, 55, 0.22)' : 'rgba(243, 236, 224, 0.08)';
+  ctx.fillRect(14, 14, c.width - 28, 28);
+
+  ctx.fillStyle = topic.accent;
+  ctx.font = 'bold 13px "DM Mono", monospace';
+  ctx.textAlign = 'left';
+  ctx.fillText(topic.code, 24, 33);
+
+  // Project count pill
+  ctx.fillStyle = isSelected ? '#ffedd5' : '#cbd5e1';
+  ctx.font = '600 11px "DM Mono", monospace';
+  ctx.textAlign = 'right';
+  ctx.fillText(isEn ? topic.countEn : topic.countTr, c.width - 24, 33);
+  ctx.textAlign = 'left';
+
+  // 5. Main Topic Title
+  ctx.fillStyle = '#ffffff';
+  ctx.font = 'bold 22px "Chakra Petch", -apple-system, sans-serif';
+  const title = isEn ? topic.titleEn : topic.titleTr;
+  ctx.fillText(title, 22, 78);
+
+  // 6. Subtitle / Domain Scope
+  ctx.fillStyle = isSelected ? '#fed7aa' : '#b9b4ae';
+  ctx.font = '12px "DM Mono", monospace';
+  const sub = isEn ? topic.subEn : topic.subTr;
+  ctx.fillText(sub.length > 44 ? sub.substring(0, 44) + '…' : sub, 22, 108);
+
+  // 7. Tech Pills
+  let pillX = 22;
+  const pillY = 136;
+  topic.tags.slice(0, 4).forEach(t => {
+    ctx.font = '500 10.5px "DM Mono", monospace';
+    const textW = ctx.measureText(t).width;
+    ctx.fillStyle = isSelected ? 'rgba(255, 140, 55, 0.18)' : 'rgba(43, 39, 33, 0.85)';
+    ctx.fillRect(pillX, pillY, textW + 12, 22);
+    ctx.strokeStyle = isSelected ? topic.accent : 'rgba(243, 236, 224, 0.25)';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(pillX, pillY, textW + 12, 22);
+    ctx.fillStyle = isSelected ? '#fff' : '#ece7dc';
+    ctx.fillText(t, pillX + 6, pillY + 15);
+    pillX += textW + 16;
+  });
+
+  // 8. Bottom Action / Status Strip
+  ctx.fillStyle = isSelected ? 'rgba(255, 140, 55, 0.28)' : 'rgba(15, 14, 12, 0.85)';
+  ctx.fillRect(14, 186, c.width - 28, 46);
+  ctx.strokeStyle = isSelected ? topic.accent : 'rgba(243, 236, 224, 0.15)';
+  ctx.lineWidth = 1;
+  ctx.strokeRect(14, 186, c.width - 28, 46);
+
+  if (isSelected) {
+    ctx.fillStyle = '#ff8c37';
+    ctx.beginPath();
+    ctx.arc(32, 209, 5, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 12px "DM Mono", monospace';
+    ctx.fillText(isEn ? 'ACTIVE TOPIC // VIEWING ON LEFT' : 'SEÇİLİ ALAN // SOL PANELDE AÇIK', 46, 213);
+
+    ctx.fillStyle = '#ff8c37';
+    ctx.textAlign = 'right';
+    ctx.fillText('● AÇIK', c.width - 24, 213);
+  } else {
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '500 11.5px "DM Mono", monospace';
+    ctx.fillText(isEn ? 'CLICK TO INSPECT TOPIC' : 'KONUYU İNCELEMEK İÇİN TIKLA', 24, 213);
+
+    ctx.fillStyle = topic.accent;
+    ctx.textAlign = 'right';
+    ctx.fillText('SEÇ ↗', c.width - 24, 213);
+  }
+  ctx.textAlign = 'left';
+
+  const tex = new THREE.CanvasTexture(c);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.minFilter = THREE.LinearFilter;
+  tex.magFilter = THREE.LinearFilter;
+  tex.generateMipmaps = false;
+  return { texture: tex, canvas: c };
+}
+
+// MAIN EXPORT: 3D Rotating Downward Topic Stream
+export function initTopics3DStream(canvasId = 'topics-3d-canvas') {
+  const canvas = document.getElementById(canvasId);
   if (!canvas) return;
 
   const host = canvas.parentElement;
   if (!host) return;
 
-  // ThreeUI Perspective Setup
-  const renderer = new THREE.WebGLRenderer({
-    canvas,
-    alpha: true,
-    antialias: true,
-    powerPreference: 'high-performance'
-  });
+  let renderer;
+  try {
+    renderer = new THREE.WebGLRenderer({
+      canvas,
+      alpha: true,
+      antialias: true,
+      powerPreference: 'high-performance'
+    });
+  } catch (err) {
+    console.error('Three.js topics stream WebGL init error:', err);
+    return;
+  }
+
   renderer.setClearColor(0x000000, 0);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
 
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
-  camera.position.z = 18;
+  const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 60);
+  camera.position.set(0, 0, 11);
 
   const gallery = new THREE.Group();
   scene.add(gallery);
 
-  // Exact Symmetrical ThreeUI Gallery Geometry: Symmetrically centered arc
-  const geometry = new THREE.CylinderGeometry(5, 5, 1.8, 64, 1, true, -Math.PI * 0.2, Math.PI * 0.4);
+  // Exact curved cylindrical panel geometry
+  const geometry = new THREE.CylinderGeometry(4.3, 4.3, 1.48, 48, 1, true, -Math.PI * 0.22, Math.PI * 0.44);
 
-  const projects = [...DEFAULT_PROJECTS];
+  // 12 Panels: Two cycles of the 6 topics for a seamless infinite vertical loop
+  const totalPanels = 12;
+  const spacingY = 1.55;
+  const totalSpan = totalPanels * spacingY;
+  const halfSpan = totalSpan / 2;
+
+  let currentSelectedKey = 'uav';
+  let currentLang = document.documentElement.lang || 'tr';
+
   const panels = [];
-  const materials = [];
-  const textures = [];
 
-  // Helper to draw editorial technical project plate canvas texture (512 x 256 px - optimal power-of-two)
-  function createProjectCanvasTexture(item, index) {
-    const c = document.createElement('canvas');
-    c.width = 512;
-    c.height = 256;
-    const ctx = c.getContext('2d');
-
-    // 1. Deep Technical Slate Background
-    const bgGrad = ctx.createLinearGradient(0, 0, c.width, c.height);
-    bgGrad.addColorStop(0, '#1c1b18');
-    bgGrad.addColorStop(0.5, '#141310');
-    bgGrad.addColorStop(1, '#0e0d0b');
-    ctx.fillStyle = bgGrad;
-    ctx.fillRect(0, 0, c.width, c.height);
-
-    // 2. Blueprint Grid Lines
-    ctx.strokeStyle = 'rgba(217, 107, 39, 0.08)';
-    ctx.lineWidth = 1;
-    const gridSize = 24;
-    for (let x = 0; x < c.width; x += gridSize) {
-      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, c.height); ctx.stroke();
-    }
-    for (let y = 0; y < c.height; y += gridSize) {
-      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(c.width, y); ctx.stroke();
-    }
-
-    // 3. Cyber Gold Accent Outer Border
-    ctx.strokeStyle = 'rgba(217, 107, 39, 0.55)';
-    ctx.lineWidth = 1.5;
-    ctx.strokeRect(6, 6, c.width - 12, c.height - 12);
-
-    // Corner crosshairs
-    ctx.fillStyle = '#d96b27';
-    ctx.fillRect(5, 5, 8, 2);
-    ctx.fillRect(5, 5, 2, 8);
-    ctx.fillRect(c.width - 13, 5, 8, 2);
-    ctx.fillRect(c.width - 7, 5, 2, 8);
-    ctx.fillRect(5, c.height - 7, 8, 2);
-    ctx.fillRect(5, c.height - 13, 2, 8);
-    ctx.fillRect(c.width - 13, c.height - 7, 8, 2);
-    ctx.fillRect(c.width - 7, c.height - 13, 2, 8);
-
-    // 4. Header Bar
-    const numStr = (index + 1 < 10 ? '0' : '') + (index + 1);
-    ctx.fillStyle = 'rgba(217, 107, 39, 0.18)';
-    ctx.fillRect(14, 14, c.width - 28, 26);
-
-    ctx.fillStyle = '#d96b27';
-    ctx.font = '600 12px "DM Mono", monospace';
-    ctx.fillText(`PROJ // ${numStr}`, 22, 31);
-
-    ctx.fillStyle = '#f4eee6';
-    ctx.font = '500 10px "DM Mono", monospace';
-    ctx.textAlign = 'right';
-    ctx.fillText(item.tag || 'GITHUB REPO', c.width - 22, 31);
-    ctx.textAlign = 'left';
-
-    // 5. Large Project Title
-    ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 20px "Chakra Petch", sans-serif';
-    ctx.fillText(item.name.length > 32 ? item.name.substring(0, 32) + '…' : item.name, 22, 72);
-
-    // 6. Project Description (2 lines wrapped)
-    ctx.fillStyle = '#b9b4ae';
-    ctx.font = '11px "DM Mono", monospace';
-    const words = item.desc.split(' ');
-    let line1 = '', line2 = '';
-    for (let w of words) {
-      if ((line1 + w).length < 44) line1 += w + ' ';
-      else if ((line2 + w).length < 44) line2 += w + ' ';
-    }
-    ctx.fillText(line1.trim(), 22, 102);
-    if (line2) ctx.fillText(line2.trim() + (words.length > 14 ? '…' : ''), 22, 120);
-
-    // 7. Tech Pills
-    let pillX = 22;
-    const pillY = 150;
-    (item.tech || [item.lang || 'Code']).slice(0, 4).forEach(t => {
-      ctx.font = '500 10px "DM Mono", monospace';
-      const textW = ctx.measureText(t).width;
-      ctx.fillStyle = 'rgba(43, 39, 33, 0.85)';
-      ctx.fillRect(pillX, pillY, textW + 12, 20);
-      ctx.strokeStyle = 'rgba(217, 107, 39, 0.4)';
-      ctx.strokeRect(pillX, pillY, textW + 12, 20);
-      ctx.fillStyle = '#ece7dc';
-      ctx.fillText(t, pillX + 6, pillY + 14);
-      pillX += textW + 20;
-    });
-
-    // 8. Bottom Stats Strip (Stars & Forks & GitHub Link)
-    ctx.fillStyle = 'rgba(15, 14, 12, 0.9)';
-    ctx.fillRect(14, 196, c.width - 28, 42);
-    ctx.strokeStyle = 'rgba(217, 107, 39, 0.2)';
-    ctx.strokeRect(14, 196, c.width - 28, 42);
-
-    ctx.fillStyle = '#f1c40f';
-    ctx.font = 'bold 12px "DM Mono", monospace';
-    ctx.fillText(`★ ${item.stars || 0} Stars`, 24, 222);
-
-    ctx.fillStyle = '#9b59b6';
-    ctx.fillText(`⑂ ${item.forks || 0} Forks`, 116, 222);
-
-    ctx.fillStyle = '#d96b27';
-    ctx.font = '600 11px "DM Mono", monospace';
-    ctx.textAlign = 'right';
-    ctx.fillText(`GitHub ↗`, c.width - 24, 222);
-    ctx.textAlign = 'left';
-
-    const tex = new THREE.CanvasTexture(c);
-    tex.colorSpace = THREE.SRGBColorSpace;
-    tex.minFilter = THREE.LinearFilter;
-    tex.magFilter = THREE.LinearFilter;
-    tex.generateMipmaps = false;
-    return { texture: tex, canvas: c };
-  }
-
-  // Generate 16 Panels along Cylindrical Rail (Evenly distributed around cylinder)
-  projects.slice(0, 16).forEach((item, index) => {
-    const { texture } = createProjectCanvasTexture(item, index);
-    textures.push(texture);
+  // Build panels
+  for (let i = 0; i < totalPanels; i++) {
+    const topic = TOPICS_DATA[i % TOPICS_DATA.length];
+    const isSel = (topic.key === currentSelectedKey);
+    const { texture } = createTopicPlateTexture(topic, isSel, currentLang);
 
     const material = new THREE.MeshBasicMaterial({
       map: texture,
-      opacity: 0.90,
+      opacity: isSel ? 1.0 : 0.88,
       side: THREE.DoubleSide,
       toneMapped: false,
       transparent: true
     });
-    materials.push(material);
 
     const panel = new THREE.Mesh(geometry, material);
-    panel.position.y = (index - 8) * 2.4;
-    panel.rotation.y = (index / 16) * Math.PI * 4;
-    panel.userData = { project: item, index, baseIndex: index };
+    panel.rotation.y = (i / totalPanels) * Math.PI * 2;
+    panel.position.y = (i - totalPanels / 2) * spacingY;
+    panel.userData = {
+      index: i,
+      topicKey: topic.key,
+      topic: topic
+    };
 
     gallery.add(panel);
     panels.push(panel);
-  });
+  }
 
-  // State
-  let disposed = false;
-  let frame = 0;
+  function refreshPanelTextures() {
+    panels.forEach(p => {
+      const isSel = (p.userData.topicKey === currentSelectedKey);
+      const { texture } = createTopicPlateTexture(p.userData.topic, isSel, currentLang);
+      p.material.map.dispose();
+      p.material.map = texture;
+      p.material.opacity = isSel ? 1.0 : 0.88;
+      p.material.needsUpdate = true;
+    });
+  }
+
+  // Animation & Drag state
+  let running = false;
+  let rafId = 0;
   let elapsed = 0;
   let previousTime = 0;
-  let hostVisible = true;
-  let documentVisible = !document.hidden;
-  let speedMultiplier = 1.0;
-  let isAutoOrbit = true;
-
   let isDragging = false;
-  let startPointerX = 0;
-  let startPointerY = 0;
-  let dragRotY = 0;
-  let targetDragRotY = 0;
-  let dragScrollY = 0;
-  let targetDragScrollY = 0;
-
+  let startX = 0, startY = 0;
+  let totalDragDist = 0;
+  let dragRotY = 0, targetDragRotY = 0;
+  let dragScrollY = 0, targetDragScrollY = 0;
   let hoveredPanel = null;
+  let isHostVisible = true;
+
   const raycaster = new THREE.Raycaster();
   const mouseVec = new THREE.Vector2(-999, -999);
 
-  // HUD Elements
-  const spotlightCard = document.getElementById('gallerySpotlightCard');
-  const gscTag = document.getElementById('gscTag');
-  const gscStars = document.getElementById('gscStars');
-  const gscTitle = document.getElementById('gscTitle');
-  const gscDesc = document.getElementById('gscDesc');
-  const gscLink = document.getElementById('gscLink');
-  const btnGalleryAuto = document.getElementById('btnGalleryAuto');
-  const btnGallerySpeed = document.getElementById('btnGallerySpeed');
-
-  function updateSpotlight(item) {
-    if (!spotlightCard || !item) return;
-    if (gscTag) gscTag.textContent = item.tag || 'GITHUB';
-    if (gscStars) gscStars.textContent = `★ ${item.stars || 0}  ⑂ ${item.forks || 0}`;
-    if (gscTitle) gscTitle.textContent = item.name;
-    if (gscDesc) gscDesc.textContent = item.desc;
-    if (gscLink) {
-      gscLink.href = item.url || 'https://github.com/ozanardaozcelik';
-      gscLink.textContent = `GitHub (${item.lang || 'Code'}) ↗`;
-    }
-    spotlightCard.style.opacity = '1';
-    spotlightCard.style.transform = 'translateY(0)';
+  // Resize Handler
+  function resize() {
+    if (!canvas || !host) return;
+    const w = host.clientWidth || 360;
+    const h = host.clientHeight || 560;
+    renderer.setSize(w, h, false);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
   }
 
-  // Show initial flagship in spotlight
-  updateSpotlight(projects[0]);
+  // Select a topic cleanly
+  function selectTopic(key) {
+    if (!key) return;
+    currentSelectedKey = key;
+    refreshPanelTextures();
+    if (typeof window.__renderCurrentTopic === 'function') {
+      window.__renderCurrentTopic(key);
+    }
+  }
 
-  // Render Loop
-  const render = (time = performance.now()) => {
+  // Pointer Events on canvas
+  canvas.addEventListener('pointerdown', (e) => {
+    isDragging = true;
+    startX = e.clientX;
+    startY = e.clientY;
+    totalDragDist = 0;
+    try { canvas.setPointerCapture(e.pointerId); } catch (err) {}
+  });
+
+  window.addEventListener('pointermove', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    if (e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom) {
+      mouseVec.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      mouseVec.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+    } else {
+      mouseVec.x = -999;
+      mouseVec.y = -999;
+    }
+
+    if (!isDragging) return;
+    const dx = e.clientX - startX;
+    const dy = e.clientY - startY;
+    startX = e.clientX;
+    startY = e.clientY;
+    totalDragDist += Math.hypot(dx, dy);
+
+    targetDragRotY += dx * 0.0055;
+    targetDragScrollY += dy * 0.009;
+  });
+
+  function onPointerUp(e) {
+    if (!isDragging) return;
+    isDragging = false;
+    try { canvas.releasePointerCapture(e.pointerId); } catch (err) {}
+
+    // Tap / Click detection: moved less than 7px
+    if (totalDragDist < 7) {
+      const rect = canvas.getBoundingClientRect();
+      const clickVec = new THREE.Vector2(
+        ((e.clientX - rect.left) / rect.width) * 2 - 1,
+        -((e.clientY - rect.top) / rect.height) * 2 + 1
+      );
+      raycaster.setFromCamera(clickVec, camera);
+      const hits = raycaster.intersectObjects(panels);
+      if (hits.length > 0) {
+        const hitPanel = hits[0].object;
+        if (hitPanel.userData && hitPanel.userData.topicKey) {
+          selectTopic(hitPanel.userData.topicKey);
+        }
+      }
+    }
+  }
+
+  canvas.addEventListener('pointerup', onPointerUp);
+  canvas.addEventListener('pointercancel', () => { isDragging = false; });
+
+  // Main Render Loop
+  function tick(time = performance.now()) {
+    if (!running) return;
+    rafId = requestAnimationFrame(tick);
+
     if (previousTime) {
       const dt = Math.min((time - previousTime) / 1000, 0.05);
-      if (isAutoOrbit) {
-        elapsed += dt * speedMultiplier;
-      }
+      elapsed += dt;
     }
     previousTime = time;
 
-    // Smooth drag interpolation
-    dragRotY += (targetDragRotY - dragRotY) * 0.1;
-    dragScrollY += (targetDragScrollY - dragScrollY) * 0.1;
+    // Smooth drag lerping
+    dragRotY += (targetDragRotY - dragRotY) * 0.12;
+    dragScrollY += (targetDragScrollY - dragScrollY) * 0.12;
 
-    // Horizontal rotation (1.5x faster dynamic flow: 0.27)
-    gallery.rotation.y = -elapsed * 0.27 + dragRotY;
+    // Continuous Horizontal Orbital Rotation
+    gallery.rotation.y = -elapsed * 0.24 + dragRotY;
 
-    // Downward waterfall flow of panels (Dynamic 1.5x flow: 1.50)
-    const totalSpan = 16 * 2.4; // 38.4
+    // Downward Waterfall Flow
+    const moveY = (elapsed * 1.15) + dragScrollY;
     panels.forEach((panel) => {
-      const basePos = (panel.userData.baseIndex - 8) * 2.4;
-      const moveY = (elapsed * 1.50) + dragScrollY;
+      const basePos = (panel.userData.index - totalPanels / 2) * spacingY;
       const rawY = basePos - moveY;
-      const wrappedY = ((rawY + 19.2) % totalSpan + totalSpan) % totalSpan - 19.2;
+      const wrappedY = ((rawY + halfSpan) % totalSpan + totalSpan) % totalSpan - halfSpan;
       panel.position.y = wrappedY;
     });
 
-    // Raycast for hover & focus — skip when mouse is offscreen
-    if (hostVisible && mouseVec.x > -10 && mouseVec.x < 10) {
+    // Raycast for Hover
+    if (mouseVec.x > -10 && mouseVec.x < 10) {
       raycaster.setFromCamera(mouseVec, camera);
-      const intersects = raycaster.intersectObjects(panels);
-
-      if (intersects.length > 0) {
-        const hit = intersects[0].object;
+      const hits = raycaster.intersectObjects(panels);
+      if (hits.length > 0) {
+        const hit = hits[0].object;
         if (hoveredPanel !== hit) {
           if (hoveredPanel) {
-            hoveredPanel.material.opacity = 0.88;
             hoveredPanel.scale.set(1, 1, 1);
+            hoveredPanel.material.opacity = (hoveredPanel.userData.topicKey === currentSelectedKey) ? 1.0 : 0.88;
           }
           hoveredPanel = hit;
-          hoveredPanel.material.opacity = 1.0;
           hoveredPanel.scale.set(1.04, 1.04, 1.04);
+          hoveredPanel.material.opacity = 1.0;
           canvas.style.cursor = 'pointer';
-          updateSpotlight(hit.userData.project);
         }
       } else {
         if (hoveredPanel) {
-          hoveredPanel.material.opacity = 0.88;
           hoveredPanel.scale.set(1, 1, 1);
+          hoveredPanel.material.opacity = (hoveredPanel.userData.topicKey === currentSelectedKey) ? 1.0 : 0.88;
           hoveredPanel = null;
-          canvas.style.cursor = isDragging ? 'grabbing' : 'grab';
+          canvas.style.cursor = 'grab';
         }
       }
     }
 
     renderer.render(scene, camera);
-  };
-
-  const tick = (time) => {
-    if (disposed || !hostVisible || !documentVisible) {
-      frame = 0;
-      previousTime = 0;
-      return;
-    }
-    render(time);
-    frame = window.requestAnimationFrame(tick);
-  };
-
-  const start = () => {
-    if (!frame && hostVisible && documentVisible) {
-      previousTime = performance.now();
-      frame = window.requestAnimationFrame(tick);
-    }
-  };
-
-  const stop = () => {
-    if (frame) window.cancelAnimationFrame(frame);
-    frame = 0;
-    previousTime = 0;
-  };
-
-  const resize = () => {
-    const bounds = host.getBoundingClientRect();
-    const width = Math.max(1, Math.round(bounds.width));
-    const height = Math.max(1, Math.round(bounds.height));
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.25));
-    renderer.setSize(width, height, false);
-    camera.aspect = width / height;
-    camera.updateProjectionMatrix();
-    render();
-  };
-
-  // Pointer & Drag Interactions
-  function getPointerPos(e) {
-    const rect = canvas.getBoundingClientRect();
-    return {
-      x: ((e.clientX - rect.left) / rect.width) * 2 - 1,
-      y: -(((e.clientY - rect.top) / rect.height) * 2 - 1),
-      clientX: e.clientX,
-      clientY: e.clientY
-    };
   }
 
-  canvas.addEventListener('pointerdown', (e) => {
-    isDragging = true;
-    startPointerX = e.clientX;
-    startPointerY = e.clientY;
-    canvas.setPointerCapture(e.pointerId);
-    canvas.style.cursor = 'grabbing';
-  });
-
-  canvas.addEventListener('pointermove', (e) => {
-    const pos = getPointerPos(e);
-    mouseVec.x = pos.x;
-    mouseVec.y = pos.y;
-
-    if (isDragging) {
-      const dx = e.clientX - startPointerX;
-      const dy = e.clientY - startPointerY;
-      targetDragRotY += dx * 0.005;
-      targetDragScrollY += dy * 0.02;
-      startPointerX = e.clientX;
-      startPointerY = e.clientY;
-    }
-  });
-
-  canvas.addEventListener('pointerup', (e) => {
-    if (isDragging) {
-      const dist = Math.hypot(e.clientX - startPointerX, e.clientY - startPointerY);
-      isDragging = false;
-      canvas.releasePointerCapture(e.pointerId);
-      canvas.style.cursor = hoveredPanel ? 'pointer' : 'grab';
-
-      // Click detected
-      if (dist < 5 && hoveredPanel && hoveredPanel.userData.project) {
-        const url = hoveredPanel.userData.project.url;
-        if (url) window.open(url, '_blank', 'noopener,noreferrer');
-      }
-    }
-  });
-
-  canvas.addEventListener('pointerleave', () => {
-    mouseVec.set(-999, -999);
-  });
-
-  // HUD Controls
-  if (btnGalleryAuto) {
-    btnGalleryAuto.addEventListener('click', () => {
-      isAutoOrbit = !isAutoOrbit;
-      btnGalleryAuto.classList.toggle('is-active', isAutoOrbit);
-    });
+  function start() {
+    if (running) return;
+    running = true;
+    previousTime = performance.now();
+    rafId = requestAnimationFrame(tick);
   }
 
-  if (btnGallerySpeed) {
-    btnGallerySpeed.addEventListener('click', () => {
-      if (speedMultiplier === 1.0) {
-        speedMultiplier = 1.5;
-        btnGallerySpeed.innerHTML = '<span><span class="lang-tr">Hız: 1.5x</span><span class="lang-en">Speed: 1.5x</span></span>';
-      } else if (speedMultiplier === 1.5) {
-        speedMultiplier = 0.5;
-        btnGallerySpeed.innerHTML = '<span><span class="lang-tr">Hız: 0.5x</span><span class="lang-en">Speed: 0.5x</span></span>';
-      } else {
-        speedMultiplier = 1.0;
-        btnGallerySpeed.innerHTML = '<span><span class="lang-tr">Hız: 1.0x</span><span class="lang-en">Speed: 1.0x</span></span>';
-      }
-    });
-  }
-
-  // Live GitHub Hydration
-  async function hydrateFromGitHub() {
-    try {
-      const res = await fetch('https://api.github.com/users/ozanardaozcelik/repos?per_page=100');
-      if (!res.ok) return;
-      const repos = await res.json();
-      if (!Array.isArray(repos)) return;
-
-      repos.forEach(repo => {
-        panels.forEach(p => {
-          if (p.userData && p.userData.project) {
-            const pr = p.userData.project;
-            if (
-              pr.repoName === repo.name ||
-              pr.name.toLowerCase().includes(repo.name.toLowerCase()) ||
-              repo.name.toLowerCase().includes(pr.name.toLowerCase())
-            ) {
-              pr.stars = repo.stargazers_count;
-              pr.forks = repo.forks_count;
-              pr.url = repo.html_url;
-
-              // Redraw texture with live GitHub data
-              const { texture } = createProjectCanvasTexture(pr, p.userData.index);
-              p.material.map.dispose();
-              p.material.map = texture;
-              p.material.needsUpdate = true;
-            }
-          }
-        });
-      });
-    } catch (e) {
-      console.log('GitHub live hydration fallback active.');
+  function stop() {
+    running = false;
+    if (rafId) {
+      cancelAnimationFrame(rafId);
+      rafId = 0;
     }
   }
 
-  hydrateFromGitHub();
+  // Lifecycle & Intersection Observer
+  const resizeObserver = new ResizeObserver(() => resize());
+  resizeObserver.observe(host);
 
-  // Observers
-  const resizeObserver = new ResizeObserver(resize);
   const intersectionObserver = new IntersectionObserver(([entry]) => {
-    hostVisible = entry?.isIntersecting ?? false;
-    if (hostVisible) {
+    isHostVisible = entry?.isIntersecting ?? false;
+    if (isHostVisible && !document.hidden) {
       resize();
       start();
     } else {
       stop();
     }
-  }, { threshold: 0.02, rootMargin: '120px' });
+  }, { threshold: 0.05, rootMargin: '120px' });
+  intersectionObserver.observe(host);
 
-  const handleVisibility = () => {
-    documentVisible = !document.hidden;
-    if (documentVisible && hostVisible) start();
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && isHostVisible) start();
     else stop();
+  });
+
+  // Global hooks for language and external selection
+  window.__updateTopics3DSelection = (key) => {
+    currentSelectedKey = key;
+    refreshPanelTextures();
   };
 
-  resizeObserver.observe(host);
-  intersectionObserver.observe(host);
-  document.addEventListener('visibilitychange', handleVisibility);
+  window.__updateTopics3DLang = (lang) => {
+    currentLang = lang;
+    refreshPanelTextures();
+  };
 
   resize();
   start();
 
-  return () => {
-    disposed = true;
-    stop();
-    resizeObserver.disconnect();
-    intersectionObserver.disconnect();
-    document.removeEventListener('visibilitychange', handleVisibility);
-    gallery.clear();
-    geometry.dispose();
-    materials.forEach((m) => m.dispose());
-    textures.forEach((t) => t.dispose());
-    renderer.dispose();
+  return {
+    selectTopic,
+    destroy() {
+      stop();
+      resizeObserver.disconnect();
+      intersectionObserver.disconnect();
+      geometry.dispose();
+      panels.forEach(p => {
+        p.material.map.dispose();
+        p.material.dispose();
+      });
+      renderer.dispose();
+    }
   };
 }
