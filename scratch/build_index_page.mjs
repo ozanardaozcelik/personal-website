@@ -36,105 +36,223 @@ const html = `<!DOCTYPE html>
     <path d="M-50,970 C300,1030 830,910 1240,1000 C1460,1050 1580,950 1650,980" />
   </svg>
 
-  <!-- CINEMATIC 3D DEEP-DIVE FILM REEL TUNNEL OVERLAY -->
+  <!-- CINEMATIC 3D OPTICAL LENS & LIFE STORY PLATES VORTEX TRANSITION OVERLAY -->
   <div class="film-dive-overlay" id="filmDiveOverlay" aria-hidden="true">
     <div class="film-warp-lines"></div>
+
+    <!-- Optical Lens Barrel Rig -->
+    <div class="lens-barrel-rig">
+      <div class="lens-ring-outer"></div>
+      <div class="lens-ring-inner"></div>
+      <div class="lens-aperture-iris"></div>
+    </div>
+
     <div class="film-dive-viewport">
       <div class="film-dive-scene" id="filmDiveScene">
-        <!-- Deep background negative cells (staggered in Z depth) -->
-        <div class="film-dive-cell cell-deep-4" style="--cell-z: -1100px; --cell-rot: -6deg; opacity: 0.35;">
-          <div class="cell-sprocket-top">
-            <span class="cell-edge-num">KODAK 500T // #004</span>
-            <div class="sp-dot"></div><div class="sp-dot"></div><div class="sp-dot"></div>
-            <span class="cell-edge-num">24 FPS</span>
-          </div>
-          <div class="cell-negative-window"><div class="cell-grid"></div><div class="cell-badge">05</div></div>
-          <div class="cell-sprocket-bot">
-            <span class="cell-edge-num">DEPTH: -1100M</span>
-            <div class="sp-dot"></div><div class="sp-dot"></div><div class="sp-dot"></div>
-            <span class="cell-edge-num">REEL GATE</span>
-          </div>
-        </div>
+        
+        <!-- 3D Scattered Life Story Photo Plates (Flowing from Left, Right, Top, Bottom) -->
+        <div class="story-flight-matrix">
 
-        <div class="film-dive-cell cell-deep-3" style="--cell-z: -800px; --cell-rot: 5deg; opacity: 0.5;">
-          <div class="cell-sprocket-top">
-            <span class="cell-edge-num">VISION-3 35MM</span>
-            <div class="sp-dot"></div><div class="sp-dot"></div><div class="sp-dot"></div>
-            <span class="cell-edge-num">#003</span>
-          </div>
-          <div class="cell-negative-window"><div class="cell-grid"></div><div class="cell-badge">04</div></div>
-          <div class="cell-sprocket-bot">
-            <span class="cell-edge-num">EXP: +1.5EV</span>
-            <div class="sp-dot"></div><div class="sp-dot"></div><div class="sp-dot"></div>
-            <span class="cell-edge-num">SCENE CUT</span>
-          </div>
-        </div>
-
-        <div class="film-dive-cell cell-deep-2" style="--cell-z: -450px; --cell-rot: -3deg; opacity: 0.75;">
-          <div class="cell-sprocket-top">
-            <span class="cell-edge-num">TELEMETRY FRAME</span>
-            <div class="sp-dot"></div><div class="sp-dot"></div><div class="sp-dot"></div>
-            <span class="cell-edge-num">#002</span>
-          </div>
-          <div class="cell-negative-window"><div class="cell-grid"></div><div class="cell-badge">03</div></div>
-          <div class="cell-sprocket-bot">
-            <span class="cell-edge-num">DEPTH: -450M</span>
-            <div class="sp-dot"></div><div class="sp-dot"></div><div class="sp-dot"></div>
-            <span class="cell-edge-num">ROBOTICS</span>
-          </div>
-        </div>
-
-        <!-- FOCAL TARGET CELL (The active section frame we dive directly through) -->
-        <div class="film-dive-cell cell-target" style="--cell-z: 0px; --cell-rot: 0deg;">
-          <div class="cell-sprocket-top">
-            <span class="cell-edge-num" id="filmDiveEdgeL">OZAN ARDA // 35MM REEL</span>
-            <div class="sp-dot"></div><div class="sp-dot"></div><div class="sp-dot"></div><div class="sp-dot"></div><div class="sp-dot"></div>
-            <span class="cell-edge-num" id="filmDiveEdgeR">ISO 500 · 24FPS</span>
-          </div>
-
-          <div class="cell-negative-window target-window">
-            <div class="cell-grid"></div>
-            <div class="cell-telemetry-corner tl">REC ● 00:00:20:26</div>
-            <div class="cell-telemetry-corner tr" id="filmDiveFps">LOCK // 60FPS</div>
-            <div class="cell-crosshairs"></div>
-
-            <div class="film-target-card" id="filmTargetCard">
-              <div class="film-target-tag">
-                <span class="film-dive-dot"></span>
-                <span id="filmTargetTag">REEL SCENE // 02</span>
-              </div>
-              <h3 class="film-target-title" id="filmTargetTitle">02 HİKAYEM</h3>
-              <div class="film-target-sub" id="filmTargetSub">FRAME: #0180 · 3D TACTILE SKETCHBOOK</div>
+          <!-- Plate 1: 3 Yaş İlk Bilgisayar (Top-Left) -->
+          <div class="story-fly-plate story-plate-1">
+            <div class="plate-sprocket">
+              <span>2008 // KODAK 500T</span>
+              <div class="plate-sprocket-holes"><div class="p-hole"></div><div class="p-hole"></div><div class="p-hole"></div></div>
+              <span>#01</span>
             </div>
-
-            <div class="cell-telemetry-corner bl" id="filmDiveRes">GATE: 4096x2160</div>
-            <div class="cell-telemetry-corner br">WARP DIVE ACTIVE</div>
+            <div class="plate-photo-wrap">
+              <img src="/landing-pages/meng-to-sketchbook/marina-bay-sands.png" alt="İlk Bilgisayar" class="plate-photo-img" loading="eager" />
+              <div class="plate-photo-overlay">
+                <span class="plate-title-tag">3 YAŞ: İLK BİLGİSAYAR &amp; XP</span>
+              </div>
+            </div>
+            <div class="plate-sprocket bot">
+              <span>DIGITAL AWAKENING</span>
+              <div class="plate-sprocket-holes"><div class="p-hole"></div><div class="p-hole"></div><div class="p-hole"></div></div>
+              <span>DEPTH: -550M</span>
+            </div>
           </div>
 
-          <div class="cell-sprocket-bot">
-            <span class="cell-edge-num">KODAK VISION-3 500T</span>
-            <div class="sp-dot"></div><div class="sp-dot"></div><div class="sp-dot"></div><div class="sp-dot"></div><div class="sp-dot"></div>
-            <span class="cell-edge-num">LATENCY: 0.00ms</span>
+          <!-- Plate 2: Kırımlı Fazilet Olcay Lisesi (Top-Right) -->
+          <div class="story-plate-2 story-fly-plate">
+            <div class="plate-sprocket">
+              <span>LİSE YILLARI // 35MM</span>
+              <div class="plate-sprocket-holes"><div class="p-hole"></div><div class="p-hole"></div><div class="p-hole"></div></div>
+              <span>#02</span>
+            </div>
+            <div class="plate-photo-wrap">
+              <img src="/landing-pages/meng-to-sketchbook/gardens-by-the-bay.png" alt="Lise Yılları" class="plate-photo-img" loading="eager" />
+              <div class="plate-photo-overlay">
+                <span class="plate-title-tag">KIRIMLI FAZİLET OLCAY A.L.</span>
+              </div>
+            </div>
+            <div class="plate-sprocket bot">
+              <span>MAKİNE MERAKI</span>
+              <div class="plate-sprocket-holes"><div class="p-hole"></div><div class="p-hole"></div><div class="p-hole"></div></div>
+              <span>DEPTH: -800M</span>
+            </div>
+          </div>
+
+          <!-- Plate 3: Namık Kemal Üniversitesi (Bottom-Left) -->
+          <div class="story-plate-3 story-fly-plate">
+            <div class="plate-sprocket">
+              <span>MÜHENDİSLİK // YÜKSEK ONUR</span>
+              <div class="plate-sprocket-holes"><div class="p-hole"></div><div class="p-hole"></div><div class="p-hole"></div></div>
+              <span>#03</span>
+            </div>
+            <div class="plate-photo-wrap">
+              <img src="/landing-pages/meng-to-sketchbook/merlion.png" alt="Bilgisayar Mühendisliği" class="plate-photo-img" loading="eager" />
+              <div class="plate-photo-overlay">
+                <span class="plate-title-tag">BİLGİSAYAR MÜHENDİSLİĞİ</span>
+              </div>
+            </div>
+            <div class="plate-sprocket bot">
+              <span>HIGH HONORS DEGREE</span>
+              <div class="plate-sprocket-holes"><div class="p-hole"></div><div class="p-hole"></div><div class="p-hole"></div></div>
+              <span>DEPTH: -950M</span>
+            </div>
+          </div>
+
+          <!-- Plate 4: Martur Fompak AI (Bottom-Right) -->
+          <div class="story-plate-4 story-fly-plate">
+            <div class="plate-sprocket">
+              <span>KURUMSAL // LLM AJANLARI</span>
+              <div class="plate-sprocket-holes"><div class="p-hole"></div><div class="p-hole"></div><div class="p-hole"></div></div>
+              <span>#04</span>
+            </div>
+            <div class="plate-photo-wrap">
+              <img src="/landing-pages/meng-to-sketchbook/buddha-tooth.png" alt="Martur AI" class="plate-photo-img" loading="eager" />
+              <div class="plate-photo-overlay">
+                <span class="plate-title-tag">MARTUR FOMPAK AI AJANLARI</span>
+              </div>
+            </div>
+            <div class="plate-sprocket bot">
+              <span>RAG ORCHESTRATION</span>
+              <div class="plate-sprocket-holes"><div class="p-hole"></div><div class="p-hole"></div><div class="p-hole"></div></div>
+              <span>DEPTH: -480M</span>
+            </div>
+          </div>
+
+          <!-- Plate 5: Gazebo Harmonic 3D (Far Top-Center) -->
+          <div class="story-plate-5 story-fly-plate">
+            <div class="plate-sprocket">
+              <span>ROS 2 // 3D DIGITAL TWIN</span>
+              <div class="plate-sprocket-holes"><div class="p-hole"></div><div class="p-hole"></div><div class="p-hole"></div></div>
+              <span>#05</span>
+            </div>
+            <div class="plate-photo-wrap">
+              <img src="/landing-pages/meng-to-sketchbook/joo-chiat.png" alt="Gazebo Harmonic" class="plate-photo-img" loading="eager" />
+              <div class="plate-photo-overlay">
+                <span class="plate-title-tag">GAZEBO HARMONIC &amp; CV</span>
+              </div>
+            </div>
+            <div class="plate-sprocket bot">
+              <span>SIMULATION MATRIX</span>
+              <div class="plate-sprocket-holes"><div class="p-hole"></div><div class="p-hole"></div><div class="p-hole"></div></div>
+              <span>DEPTH: -1200M</span>
+            </div>
+          </div>
+
+          <!-- Plate 6: Şahi Otonom SİHA Takımı (Mid-Left Highlight) -->
+          <div class="story-plate-6 story-fly-plate">
+            <div class="plate-sprocket">
+              <span>TEKNOFEST // SAVAŞAN İHA</span>
+              <div class="plate-sprocket-holes"><div class="p-hole"></div><div class="p-hole"></div><div class="p-hole"></div></div>
+              <span>#06 ★</span>
+            </div>
+            <div class="plate-photo-wrap">
+              <img src="/landing-pages/meng-to-sketchbook/lau-pa-sat.png" alt="Şahi SİHA" class="plate-photo-img" loading="eager" />
+              <div class="plate-photo-overlay">
+                <span class="plate-title-tag">ŞAHİ OTONOM SİHA LİDERİ</span>
+              </div>
+            </div>
+            <div class="plate-sprocket bot">
+              <span>120 FPS CV + MAVLINK</span>
+              <div class="plate-sprocket-holes"><div class="p-hole"></div><div class="p-hole"></div><div class="p-hole"></div></div>
+              <span>DEPTH: -680M</span>
+            </div>
+          </div>
+
+          <!-- Plate 7: Çözüm Makina ISEE Vision (Mid-Right) -->
+          <div class="story-plate-7 story-fly-plate">
+            <div class="plate-sprocket">
+              <span>ENDÜSTRİYEL GÖRÜ // CUDA</span>
+              <div class="plate-sprocket-holes"><div class="p-hole"></div><div class="p-hole"></div><div class="p-hole"></div></div>
+              <span>#07</span>
+            </div>
+            <div class="plate-photo-wrap">
+              <img src="/landing-pages/meng-to-sketchbook/marina-bay-skyline.png" alt="ISEE Vision" class="plate-photo-img" loading="eager" />
+              <div class="plate-photo-overlay">
+                <span class="plate-title-tag">ÇÖZÜM MAKİNA: ISEE VISION</span>
+              </div>
+            </div>
+            <div class="plate-sprocket bot">
+              <span>MICRON ACCURACY CV</span>
+              <div class="plate-sprocket-holes"><div class="p-hole"></div><div class="p-hole"></div><div class="p-hole"></div></div>
+              <span>DEPTH: -900M</span>
+            </div>
+          </div>
+
+          <!-- Plate 8: Çözüm Makina ISEE Robotics (Far Bottom-Center) -->
+          <div class="story-plate-8 story-fly-plate">
+            <div class="plate-sprocket">
+              <span>ROBOTİK // ROS &amp; MQTT</span>
+              <div class="plate-sprocket-holes"><div class="p-hole"></div><div class="p-hole"></div><div class="p-hole"></div></div>
+              <span>#08</span>
+            </div>
+            <div class="plate-photo-wrap">
+              <img src="/landing-pages/meng-to-sketchbook/singapore-river.png" alt="ISEE Robotics" class="plate-photo-img" loading="eager" />
+              <div class="plate-photo-overlay">
+                <span class="plate-title-tag">ÇÖZÜM MAKİNA: ISEE ROBOTICS</span>
+              </div>
+            </div>
+            <div class="plate-sprocket bot">
+              <span>INDUSTRIAL AUTOMATION</span>
+              <div class="plate-sprocket-holes"><div class="p-hole"></div><div class="p-hole"></div><div class="p-hole"></div></div>
+              <span>DEPTH: -1150M</span>
+            </div>
+          </div>
+
+          <!-- Plate 9: İnsan Formu — Makine Mantığı (Deep Focal Core) -->
+          <div class="story-plate-9 story-fly-plate">
+            <div class="plate-sprocket">
+              <span>MANIFESTO // SÜRÜ ZEKA</span>
+              <div class="plate-sprocket-holes"><div class="p-hole"></div><div class="p-hole"></div><div class="p-hole"></div></div>
+              <span>#09</span>
+            </div>
+            <div class="plate-photo-wrap">
+              <img src="/landing-pages/meng-to-sketchbook/botanic-gardens.png" alt="Makine Mantığı" class="plate-photo-img" loading="eager" />
+              <div class="plate-photo-overlay">
+                <span class="plate-title-tag">İNSAN FORMU — MAKİNE MANTIĞI</span>
+              </div>
+            </div>
+            <div class="plate-sprocket bot">
+              <span>AUTONOMOUS FUTURE</span>
+              <div class="plate-sprocket-holes"><div class="p-hole"></div><div class="p-hole"></div><div class="p-hole"></div></div>
+              <span>DEPTH: -1450M</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Central Focal Target Card in Lens Reticle -->
+        <div class="central-target-aperture">
+          <div class="film-target-card" id="filmTargetCard">
+            <div class="film-target-tag">
+              <span class="film-dive-dot"></span>
+              <span id="filmTargetTag">REEL SCENE // 02</span>
+            </div>
+            <h3 class="film-target-title" id="filmTargetTitle">02 HİKAYEM</h3>
+            <div class="film-target-sub" id="filmTargetSub">FRAME: #0180 · 3D TACTILE SKETCHBOOK</div>
           </div>
         </div>
 
-        <!-- Foreground cell rushing past camera -->
-        <div class="film-dive-cell cell-lead-1" style="--cell-z: 420px; --cell-rot: 4deg; opacity: 0.9;">
-          <div class="cell-sprocket-top">
-            <span class="cell-edge-num">PREV FRAME</span>
-            <div class="sp-dot"></div><div class="sp-dot"></div><div class="sp-dot"></div>
-            <span class="cell-edge-num">#001</span>
-          </div>
-          <div class="cell-negative-window"><div class="cell-grid"></div><div class="cell-badge">01</div></div>
-          <div class="cell-sprocket-bot">
-            <span class="cell-edge-num">DEPTH: +420M</span>
-            <div class="sp-dot"></div><div class="sp-dot"></div><div class="sp-dot"></div>
-            <span class="cell-edge-num">LEAD OUT</span>
-          </div>
-        </div>
       </div>
     </div>
+
+    <!-- Anamorphic Lens Flare & Shutter Flash -->
     <div class="film-dive-flash"></div>
+    <div class="anamorphic-streak"></div>
     <div class="film-dive-vignette"></div>
   </div>
 
@@ -1165,7 +1283,7 @@ const html = `<!DOCTYPE html>
 
         filmDiveOverlay.classList.add('is-active', 'is-diving');
 
-        // Midpoint (330ms): When camera dives into center of focal frame and shutter flash blooms
+        // Midpoint (360ms): When camera plunges through the optical lens focal plane and shutter flash bursts
         setTimeout(() => {
           window.scrollTo({ top: targetY, behavior: 'auto' });
           onScrollHeroFlow();
@@ -1173,13 +1291,13 @@ const html = `<!DOCTYPE html>
           if (typeof onMidpoint === 'function') {
             onMidpoint();
           }
-        }, 330);
+        }, 360);
 
-        // Completion (680ms): When frame has rushed past camera and flare has fully faded out
+        // Completion (720ms): When optical flare disperses outward and destination is fully revealed
         setTimeout(() => {
           filmDiveOverlay.classList.remove('is-diving', 'is-active');
           isFilmTransitioning = false;
-        }, 680);
+        }, 720);
       }
 
       function navigateToHome() {

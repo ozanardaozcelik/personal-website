@@ -2747,7 +2747,7 @@ html.menu-open {
 }
 
 /* ==========================================================================
-   CINEMATIC 3D DEEP-DIVE FILM REEL TUNNEL (DİBE DALAN FİLM ŞERİDİ GEÇİŞİ)
+   CINEMATIC 3D OPTICAL LENS & LIFE STORY PLATES VORTEX TRANSITION
    ========================================================================== */
 .film-dive-overlay {
   position: fixed;
@@ -2758,7 +2758,7 @@ html.menu-open {
   background: #020305;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.18s ease, visibility 0.18s ease;
+  transition: opacity 0.16s ease, visibility 0.16s ease;
 }
 
 .film-dive-overlay.is-active {
@@ -2767,170 +2767,284 @@ html.menu-open {
   visibility: visible;
 }
 
+/* 3D Master Perspective Viewport */
 .film-dive-viewport {
   position: absolute;
   inset: 0;
-  perspective: 900px;
+  perspective: 1000px;
   perspective-origin: 50% 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  transform-style: preserve-3d;
 }
 
-/* Master 3D Tunnel Scene that dives towards and past camera */
+/* Optical Lens Barrel Rig (Concentric Cine Rings) */
+.lens-barrel-rig {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-style: preserve-3d;
+}
+
+.lens-ring-outer {
+  position: absolute;
+  width: min(1200px, 95vw);
+  height: min(1200px, 95vw);
+  border-radius: 50%;
+  border: 1px dashed rgba(255, 140, 55, 0.25);
+  box-shadow: 0 0 80px rgba(0, 210, 255, 0.1), inset 0 0 80px rgba(255, 140, 55, 0.1);
+  transform: translateZ(-200px);
+}
+
+.lens-ring-inner {
+  position: absolute;
+  width: min(700px, 75vw);
+  height: min(700px, 75vw);
+  border-radius: 50%;
+  border: 2px solid rgba(0, 210, 255, 0.35);
+  box-shadow: 0 0 40px rgba(0, 210, 255, 0.25), inset 0 0 50px rgba(0, 0, 0, 0.9);
+  transform: translateZ(0px);
+}
+
+.lens-aperture-iris {
+  position: absolute;
+  width: min(520px, 60vw);
+  height: min(520px, 60vw);
+  border-radius: 50%;
+  border: 1px solid rgba(255, 140, 55, 0.6);
+  background: radial-gradient(circle at center, transparent 35%, rgba(4, 7, 12, 0.65) 70%, rgba(2, 3, 5, 0.95) 100%);
+  transform: translateZ(100px);
+}
+
+/* Master 3D Vortex Scene */
 .film-dive-scene {
-  position: relative;
-  width: min(920px, 90vw);
-  height: min(580px, 75vh);
+  position: absolute;
+  inset: 0;
   transform-style: preserve-3d;
   will-change: transform, opacity;
-  transform: translateZ(-800px) scale(0.6) rotateZ(4deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateZ(-900px) scale(0.65);
 }
 
-/* Dive in animation phases */
 .film-dive-overlay.is-diving .film-dive-scene {
-  animation: filmDeepDiveMotion 0.68s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: filmLensVortexDive 0.72s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-@keyframes filmDeepDiveMotion {
+@keyframes filmLensVortexDive {
   0% {
-    transform: translateZ(-1400px) scale(0.35) rotateZ(6deg);
-    opacity: 0.2;
+    transform: translateZ(-1600px) scale(0.32) rotateZ(8deg);
+    opacity: 0.15;
   }
   35% {
-    transform: translateZ(-200px) scale(0.85) rotateZ(1deg);
+    transform: translateZ(-200px) scale(0.9) rotateZ(1deg);
     opacity: 1;
   }
-  55% {
-    transform: translateZ(100px) scale(1.08) rotateZ(0deg);
+  50% {
+    transform: translateZ(250px) scale(1.15) rotateZ(0deg);
     opacity: 1;
   }
-  85% {
-    transform: translateZ(900px) scale(2.4) rotateZ(-2deg);
+  80% {
+    transform: translateZ(1200px) scale(2.6) rotateZ(-3deg);
     opacity: 0.85;
   }
   100% {
-    transform: translateZ(1600px) scale(3.8) rotateZ(-4deg);
+    transform: translateZ(2200px) scale(4.4) rotateZ(-5deg);
     opacity: 0;
   }
 }
 
-/* 3D Film Cells / Frames */
-.film-dive-cell {
+/* 3D Story Flight Matrix Container */
+.story-flight-matrix {
   position: absolute;
   inset: 0;
-  background: #06080c;
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+
+/* Individual Story Photo Plate / Film Negative Card */
+.story-fly-plate {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(320px, 32vw);
+  height: min(220px, 22vw);
+  margin-top: calc(-1 * min(220px, 22vw) / 2);
+  margin-left: calc(-1 * min(320px, 32vw) / 2);
+  background: #070a0f;
   border-radius: 8px;
-  border: 1px solid rgba(255, 140, 55, 0.35);
-  box-shadow: 
-    0 0 50px rgba(0, 0, 0, 0.9),
-    0 0 25px rgba(255, 140, 55, 0.15),
-    inset 0 0 30px rgba(0, 0, 0, 0.95);
+  border: 1px solid rgba(255, 140, 55, 0.4);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.85), 0 0 20px rgba(255, 140, 55, 0.2);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  padding: 12px 16px;
-  transform: translateZ(var(--cell-z, 0px)) rotateZ(var(--cell-rot, 0deg));
+  overflow: hidden;
   transform-style: preserve-3d;
+  transform: translate3d(var(--plate-x, 0px), var(--plate-y, 0px), var(--plate-z, 0px)) rotateX(var(--plate-rx, 0deg)) rotateY(var(--plate-ry, 0deg)) rotateZ(var(--plate-rz, 0deg));
+  transition: transform 0.1s linear;
   will-change: transform, opacity;
 }
 
-/* Sprocket Bars on Top & Bottom of each cell */
-.cell-sprocket-top,
-.cell-sprocket-bot {
-  height: 38px;
+/* Sprocket Bars on Story Plate */
+.plate-sprocket {
+  height: 22px;
   background: #020305;
-  border-radius: 4px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 16px;
-  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.9);
-}
-
-.sp-dot {
-  width: 16px;
-  height: 22px;
-  background: #000;
-  border-radius: 3px;
-  border: 1px solid rgba(255, 140, 55, 0.4);
-  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.95);
-  flex-shrink: 0;
-  margin: 0 6px;
-}
-
-.cell-edge-num {
+  padding: 0 10px;
   font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.22em;
+  font-size: 8px;
   color: #ff8c37;
+  letter-spacing: 0.16em;
   font-weight: 700;
-  text-shadow: 0 0 8px rgba(255, 140, 55, 0.6);
+}
+.plate-sprocket.bot {
+  border-bottom: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+.plate-sprocket-holes {
+  display: flex;
+  gap: 6px;
+}
+.p-hole {
+  width: 10px;
+  height: 14px;
+  background: #000;
+  border-radius: 2px;
+  border: 1px solid rgba(255, 140, 55, 0.35);
 }
 
-/* Negative Window Interior */
-.cell-negative-window {
+/* Story Plate Photo Thumbnail Window */
+.plate-photo-wrap {
   flex: 1;
-  margin: 8px 0;
-  background: 
-    radial-gradient(ellipse at center, rgba(14, 20, 30, 0.85) 0%, rgba(4, 6, 10, 0.95) 100%),
-    linear-gradient(90deg, rgba(255, 140, 55, 0.05) 0%, transparent 50%, rgba(0, 210, 255, 0.05) 100%);
-  border-radius: 6px;
-  border: 1px solid rgba(255, 140, 55, 0.25);
-  display: flex;
-  align-items: center;
-  justify-content: center;
   position: relative;
   overflow: hidden;
+  background: #000;
 }
-
-.cell-grid {
+.plate-photo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: contrast(1.15) brightness(0.92) saturate(1.1);
+}
+.plate-photo-overlay {
   position: absolute;
   inset: 0;
-  background-image: 
-    linear-gradient(rgba(255, 140, 55, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 140, 55, 0.08) 1px, transparent 1px);
-  background-size: 32px 32px;
+  background: linear-gradient(180deg, transparent 40%, rgba(2, 4, 8, 0.85) 100%);
+  display: flex;
+  align-items: flex-end;
+  padding: 6px 10px;
 }
-
-.cell-badge {
-  font-family: var(--font-display);
-  font-size: 32px;
-  color: rgba(255, 255, 255, 0.25);
-  letter-spacing: 0.1em;
-}
-
-/* Target Focal Window with Telemetry */
-.target-window {
-  border: 1px solid rgba(255, 140, 55, 0.65);
-  box-shadow: 
-    inset 0 0 40px rgba(0, 0, 0, 0.8),
-    0 0 40px rgba(255, 140, 55, 0.2);
-}
-
-.cell-telemetry-corner {
-  position: absolute;
+.plate-title-tag {
   font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  color: #00d2ff;
-  padding: 8px 12px;
-  font-weight: 600;
-  pointer-events: none;
+  font-size: 9px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.12em;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
+  text-transform: uppercase;
 }
-.cell-telemetry-corner.tl { top: 0; left: 0; }
-.cell-telemetry-corner.tr { top: 0; right: 0; color: #ff8c37; }
-.cell-telemetry-corner.bl { bottom: 0; left: 0; color: rgba(255, 255, 255, 0.7); }
-.cell-telemetry-corner.br { bottom: 0; right: 0; }
 
-.cell-crosshairs {
-  position: absolute;
-  inset: 12px;
-  border: 1px dashed rgba(255, 140, 55, 0.3);
-  border-radius: 4px;
-  pointer-events: none;
+/* Specific 3D Placement Coordinates for Story Plates */
+/* Plate 1: Top-Left (3 Yaş İlk Bilgisayar) */
+.story-plate-1 {
+  --plate-x: -38vw;
+  --plate-y: -26vh;
+  --plate-z: -550px;
+  --plate-rx: 12deg;
+  --plate-ry: 18deg;
+  --plate-rz: -10deg;
+}
+/* Plate 2: Top-Right (Kırımlı Fazilet Olcay Lisesi) */
+.story-plate-2 {
+  --plate-x: 38vw;
+  --plate-y: -28vh;
+  --plate-z: -800px;
+  --plate-rx: 14deg;
+  --plate-ry: -20deg;
+  --plate-rz: 12deg;
+}
+/* Plate 3: Bottom-Left (Namık Kemal Bilgisayar Müh.) */
+.story-plate-3 {
+  --plate-x: -40vw;
+  --plate-y: 24vh;
+  --plate-z: -950px;
+  --plate-rx: -12deg;
+  --plate-ry: 22deg;
+  --plate-rz: 8deg;
+}
+/* Plate 4: Bottom-Right (Martur Fompak AI) */
+.story-plate-4 {
+  --plate-x: 39vw;
+  --plate-y: 26vh;
+  --plate-z: -480px;
+  --plate-rx: -14deg;
+  --plate-ry: -18deg;
+  --plate-rz: -9deg;
+}
+/* Plate 5: Far Top-Center (Gazebo Harmonic 3D) */
+.story-plate-5 {
+  --plate-x: -6vw;
+  --plate-y: -36vh;
+  --plate-z: -1200px;
+  --plate-rx: 20deg;
+  --plate-ry: 4deg;
+  --plate-rz: -4deg;
+}
+/* Plate 6: Mid Left (Şahi Otonom SİHA Takımı) */
+.story-plate-6 {
+  --plate-x: -44vw;
+  --plate-y: -2vh;
+  --plate-z: -680px;
+  --plate-rx: 4deg;
+  --plate-ry: 26deg;
+  --plate-rz: -6deg;
+  border-color: rgba(255, 140, 55, 0.85);
+  box-shadow: 0 0 35px rgba(255, 140, 55, 0.4);
+}
+/* Plate 7: Mid Right (Çözüm Makina ISEE Vision) */
+.story-plate-7 {
+  --plate-x: 43vw;
+  --plate-y: 1vh;
+  --plate-z: -900px;
+  --plate-rx: -2deg;
+  --plate-ry: -24deg;
+  --plate-rz: 7deg;
+}
+/* Plate 8: Far Bottom-Center (Çözüm Makina ISEE Robotics) */
+.story-plate-8 {
+  --plate-x: 4vw;
+  --plate-y: 35vh;
+  --plate-z: -1150px;
+  --plate-rx: -18deg;
+  --plate-ry: -6deg;
+  --plate-rz: 5deg;
+}
+/* Plate 9: Deep Focal Core (İnsan Formu — Makine Mantığı) */
+.story-plate-9 {
+  --plate-x: 0;
+  --plate-y: 0;
+  --plate-z: -1450px;
+  --plate-rx: 0deg;
+  --plate-ry: 0deg;
+  --plate-rz: 0deg;
+  opacity: 0.7;
+}
+
+/* Central Focal Target Aperture */
+.central-target-aperture {
+  position: relative;
+  z-index: 10;
+  transform-style: preserve-3d;
+  transform: translateZ(0px);
 }
 
 /* Central Target Card */
@@ -2942,11 +3056,11 @@ html.menu-open {
   align-items: center;
   gap: 8px;
   padding: 24px 44px;
-  background: rgba(6, 9, 14, 0.88);
-  border: 1px solid rgba(255, 140, 55, 0.5);
+  background: rgba(6, 9, 14, 0.92);
+  border: 1px solid rgba(255, 140, 55, 0.55);
   border-radius: 8px;
-  box-shadow: 0 0 50px rgba(0, 0, 0, 0.9), 0 0 25px rgba(255, 140, 55, 0.25);
-  backdrop-filter: blur(10px);
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.95), 0 0 30px rgba(255, 140, 55, 0.3);
+  backdrop-filter: blur(12px);
 }
 
 .film-target-tag {
@@ -2995,33 +3109,56 @@ html.menu-open {
   position: absolute;
   inset: -50%;
   background: 
-    radial-gradient(circle at center, transparent 30%, rgba(255, 140, 55, 0.08) 60%, rgba(0, 210, 255, 0.12) 80%),
+    radial-gradient(circle at center, transparent 25%, rgba(255, 140, 55, 0.08) 60%, rgba(0, 210, 255, 0.12) 80%),
     repeating-conic-gradient(from 0deg, transparent 0deg, transparent 15deg, rgba(255, 140, 55, 0.03) 16deg, transparent 17deg);
   pointer-events: none;
   transform: translateZ(-600px);
 }
 
-/* Shutter Flash / Lens Flare Bloom */
+/* Anamorphic Lens Flare & Shutter Flash */
 .film-dive-flash {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at center, rgba(255, 180, 100, 0.7) 0%, rgba(0, 210, 255, 0.4) 40%, transparent 75%);
+  background: radial-gradient(circle at center, rgba(255, 200, 120, 0.95) 0%, rgba(0, 210, 255, 0.6) 35%, rgba(255, 140, 55, 0.3) 60%, transparent 80%);
   mix-blend-mode: screen;
   pointer-events: none;
   opacity: 0;
-  transform: scale(0.6);
-  transition: opacity 0.2s ease, transform 0.25s ease;
+  transform: scale(0.5);
 }
 
 .film-dive-overlay.is-diving .film-dive-flash {
-  animation: filmFlashBloom 0.68s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: lensShutterFlash 0.72s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-@keyframes filmFlashBloom {
-  0% { opacity: 0; transform: scale(0.4); }
-  45% { opacity: 0.85; transform: scale(1.1); }
-  65% { opacity: 1; transform: scale(1.4); }
-  100% { opacity: 0; transform: scale(2.2); }
+@keyframes lensShutterFlash {
+  0% { opacity: 0; transform: scale(0.3); }
+  45% { opacity: 0.9; transform: scale(1.15); }
+  60% { opacity: 1; transform: scale(1.5); }
+  100% { opacity: 0; transform: scale(2.6); }
+}
+
+.anamorphic-streak {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, rgba(0, 210, 255, 0.8) 25%, #fff 50%, rgba(0, 210, 255, 0.8) 75%, transparent 100%);
+  box-shadow: 0 0 20px rgba(0, 210, 255, 0.9), 0 0 40px #00d2ff;
+  transform: translateY(-50%) scaleX(0);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.film-dive-overlay.is-diving .anamorphic-streak {
+  animation: anamorphicStreakAnim 0.72s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes anamorphicStreakAnim {
+  0% { opacity: 0; transform: translateY(-50%) scaleX(0); }
+  45% { opacity: 1; transform: translateY(-50%) scaleX(1.4); }
+  65% { opacity: 1; transform: translateY(-50%) scaleX(1.8); }
+  100% { opacity: 0; transform: translateY(-50%) scaleX(2.5); }
 }
 
 @keyframes filmTallyBlink {
