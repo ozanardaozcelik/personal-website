@@ -3386,6 +3386,58 @@ html.menu-open {
   }
 }
 
+@media (max-width: 768px) {
+  .projects-unified-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .projects-topics-stream-wrap {
+    order: -1;
+    padding: 14px 12px;
+    border-radius: 12px;
+  }
+  .topics-stream-header {
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+  }
+  .topics-3d-stage-container {
+    height: 380px;
+    min-height: 330px;
+  }
+  .topics-3d-hint-pill {
+    font-size: 0.55rem;
+    padding: 4px 10px;
+    bottom: 10px;
+  }
+  .projects-display-pane {
+    padding: 18px 14px;
+    border-radius: 12px;
+  }
+  .display-pane-header {
+    padding-bottom: 14px;
+    margin-bottom: 16px;
+  }
+  .project-deck-card {
+    padding: 16px 14px;
+  }
+  .pdc-header {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .pdc-footer {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .topics-3d-stage-container {
+    height: 340px;
+    min-height: 300px;
+  }
+}
+
 /* LEFT PANE: Selected Topic's Projects Deck */
 .projects-display-pane {
   background: rgba(18, 14, 11, 0.75);
@@ -3846,6 +3898,10 @@ html.menu-open {
 }
 
 @media (max-width: 768px) {
+  .washi-stage-container {
+    height: clamp(480px, 72vh, 620px);
+    border-radius: 14px;
+  }
   .contact-minimal-footer {
     flex-direction: column;
     gap: 12px;
@@ -3854,6 +3910,16 @@ html.menu-open {
   }
   .cmf-divider {
     display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .washi-stage-container {
+    height: 480px;
+    border-radius: 12px;
+  }
+  .contact-minimal-footer {
+    padding: 12px 14px;
   }
 }
 

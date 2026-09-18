@@ -90,11 +90,23 @@
   }
 
   @media (max-width: 768px) {
-    .noren-hud { padding: 16px; }
-    .noren-channels { gap: 8px; }
-    .channel-pill { padding: 8px 10px; }
+    .noren-hud { padding: 14px 16px; }
+    .noren-header { gap: 8px; flex-wrap: wrap; }
+    .noren-title-tag { font-size: 9.5px; padding: 4px 10px; }
+    .noren-hint { font-size: 9px; padding: 4px 10px; }
+    .noren-channels { gap: 8px; margin-bottom: 4px; }
+    .channel-pill { padding: 8px 6px; }
     .ch-title { font-size: 11px; }
     .ch-meta, .ch-action { display: none; }
+  }
+
+  @media (max-width: 480px) {
+    .noren-hud { padding: 10px 12px; }
+    .noren-title-tag { font-size: 8.5px; padding: 3px 8px; }
+    .noren-hint { font-size: 8px; padding: 3px 8px; }
+    .noren-channels { gap: 6px; margin-bottom: 2px; }
+    .channel-pill { padding: 6px 4px; border-radius: 8px; }
+    .ch-title { font-size: 9.5px; }
   }
 
   html[data-lang="tr"] .lang-en { display: none !important; }
