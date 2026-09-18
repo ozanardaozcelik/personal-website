@@ -9,7 +9,7 @@ const BOOKS_TR = [
     roman: "0",
     discipline: "Eskiz Defteri & 9 Dönüm Noktası",
     note: "2008 retro bilgisayardan gökyüzünde otonom SİHA'lara uzanan dokunsal eskiz defteri.",
-    deck: "Ozan Arda Özçelik'in kişisel ve akademik serüvenini ölümsüzleştiren dokuz levhalık dokunsal eskiz defteri. 2008 yılında 3 yaşında ilk bilgisayarla tanışma, Kırımlı Fazilet Olcay Anadolu Lisesi'nde algoritmik düşünceye uyanış, Tekirdağ Namık Kemal Üniversitesi'nde Yüksek Onur derecesi, Şahi SİHA Takımı yazılım liderliği, Çözüm Makina ISEE Vision / Robotics saha Ar-Ge'si ve Martur Fompak kurumsal yapay zekasına uzanan yaşayan bir mühendislik kaydı.",
+    deck: "2008'de 3 yaşında ilk bilgisayarla başlayan dijital merak; Kırımlı Fazilet Olcay A.L., Namık Kemal Üniversitesi Bilgisayar Mühendisliği, Şahi SİHA yazılım liderliği, Çözüm Makina ISEE Vision & Robotics saha Ar-Ge'si ve Martur Fompak kurumsal yapay zekasına uzanan yaşayan bir mühendislik kaydıdır.",
     binding: "Pamuk Kağıt · 18 Şeritli Sayfa Fiziği",
     format: "ThreeUI Dokunsal Eskiz Defteri · Etkileşimli Büyüteç",
     theme: "2008'den Gökyüzüne Uzanan Mühendislik Yolculuğu",
@@ -44,12 +44,12 @@ const BOOKS_TR = [
     id: "vision",
     title: "Bilgisayarlı Görü",
     roman: "I",
-    discipline: "Endüstriyel Muayene, Anomali & OCR",
-    note: "Çözüm Makina ISEE Vision, üniversite Ar-Ge, Şahi SİHA, nesne tespiti, OCR ve anomali tespiti.",
-    deck: "Çözüm Makina bünyesinde ISEE Vision departmanında sanayi tipi ana projelerimi yürüttüm; temellerini üniversite yıllarımda attığım bilgisayarlı görü vizyonumu Şahi SİHA Takımı'nda hava-hava muharebe ortamına taşıdım. Nesne tespiti (Object Detection), optik karakter tanıma (OCR) ve görsel anomali tespiti (Anomaly Detection) üzerine çok sayıda endüstriyel ve otonom sistem geliştirdim. PaddleOCR, DINO, PatchCore, YOLO ve OpenCV başta olmak üzere geniş bir derin öğrenme ve görüntü işleme yığını üzerinde yetkinim.",
-    binding: "Çözüm Makina ISEE Vision · Şahi SİHA · Üniversite",
-    format: "PaddleOCR · DINO · PatchCore · YOLO · OpenCV",
-    theme: "Sıfır Hata Anomali Tespiti, Nesne Tespiti & Endüstriyel OCR",
+    discipline: "İSG Denetimi, Anomali & HMI Paneller",
+    note: "Çözüm Makina ISEE Vision, İSG denetimi, Web/HMI paneller, PatchCore & YOLOv8.",
+    deck: "Çözüm Makina ISEE Vision bünyesinde fabrikalarda, hastanelerde ve ofislerde kameralarla İSG kontrolleri yapan nesne tespiti yazılımları kurup optimize ettim; Web kontrol panelleri ve dokunmatik HMI arayüzleri tasarladım. PatchCore ve DINO ViT ile sıfır hata anomali tespiti ve Şahi SİHA'da YOLOv8 hava muharebe vizyonu geliştirdim.",
+    binding: "Çözüm Makina ISEE Vision · Şahi SİHA",
+    format: "YOLOv8 · PatchCore · DINO ViT · HMI · Web UI",
+    theme: "Gerçek Zamanlı İSG Kontrolü, Anomali & Dokunmatik HMI",
     motif: "İç İçe Parantezler",
     motifKey: "brackets",
     paletteLabel: "Gece Mavisi · Kemik · Bakır",
@@ -71,9 +71,9 @@ const BOOKS_TR = [
     height: 1.62,
     depth: 0.26,
     chapters: [
-      "Çözüm Makina ISEE Vision & Anomali (PatchCore, DINO)",
-      "Şahi SİHA: Nesne Tespiti & Hava-Hava Optik Takip (YOLO, OpenCV)",
-      "Endüstriyel OCR & Yapılandırılmış Metin Okuma (PaddleOCR)"
+      "ISEE Vision: İSG Denetimi, Web Paneli & Dokunmatik HMI",
+      "Endüstriyel Anomali Tespiti (PatchCore, DINO ViT)",
+      "Şahi SİHA: YOLOv8 Nesne Tespiti & Optik Kilitlenme"
     ],
     seed: 11
   },
@@ -81,12 +81,12 @@ const BOOKS_TR = [
     id: "robotics",
     title: "Robotik & Otonom Sistemler",
     roman: "II",
-    discipline: "ROS 2, GNC & Çoklu Robotik Simülasyon",
-    note: "Şahi SİHA ve Çözüm Makina ISEE Robotics; ROS 2, MQTT, MAVLink, ArduPilot & Gazebo Harmonic.",
-    deck: "Şahi Otonom SİHA Takımı ve Çözüm Makina (ISEE Robotics) bünyesinde hem havada hem fabrika zemininde otonom robotik mimarileri geliştirdim. ROS 2 (Robot Operating System) dağıtık hesaplama düğümleri, endüstriyel MQTT IoT telemetrisi, ArduPilot otonom uçuş kontrolcüleri ve MAVLink seyrüsefer protokolleriyle çalıştım. Algoritmaları fiziksel donanıma indirmeden önce Gazebo Harmonic üzerinde 3D dinamik fizik ve sensör simülasyonları inşa ederek kapalı çevrim test altyapıları kurdum.",
-    binding: "Şahi SİHA · Çözüm Makina ISEE Robotics",
-    format: "ROS 2 · Gazebo Harmonic · MAVLink · ArduPilot · MQTT",
-    theme: "Otonom Uçuş Güdümü, Robotik Düğümler & 3D Simülasyon",
+    discipline: "Robot Kol, M20, Tron 1, Gazebo & UI",
+    note: "Robot kol, M20, Tron 1, Gazebo Harmonic simülasyonu, ROS 2 & kontrol arayüzleri.",
+    deck: "Endüstriyel robot kolları, M20 otonom mobil platformu ve Tron 1 dinamik robotik sistemleri üzerinde çalıştım. Gazebo Harmonic fizik simülasyonu, ROS / ROS 2 düğümleri ve MQTT hatlarıyla uçtan uca kontrol mimarileri kurdum; operatörler için gerçek zamanlı robot kontrol ve telemetri takip arayüzleri geliştirdim.",
+    binding: "Robot Kol · M20 AMR · Tron 1 · Şahi SİHA",
+    format: "ROS 2 · Gazebo Harmonic · MQTT · Kontrol & Takip UI",
+    theme: "Çoklu Robotik Platformlar, 3D Simülasyon & Telemetri UI",
     motif: "Kesişen Yollar",
     motifKey: "paths",
     paletteLabel: "Orman Yeşili · Pirinç · Krem",
@@ -108,9 +108,9 @@ const BOOKS_TR = [
     height: 1.50,
     depth: 0.28,
     chapters: [
-      "Çözüm Makina: ISEE Robotics (ROS 2 & Endüstriyel Robotlar)",
-      "Şahi Otonom SİHA (ArduPilot & MAVLink GNC Güdüm)",
-      "3D Dinamik Simülasyon (Gazebo Harmonic & MQTT Telemetri)"
+      "Endüstriyel Robot Kolu, M20 AMR & Tron 1 Sistemleri",
+      "Gazebo Harmonic 3D Fizik Simülasyonu & Dijital İkiz",
+      "Robot Kontrol & Telemetri Takip Arayüzleri (HMI)"
     ],
     seed: 22
   },
@@ -118,12 +118,12 @@ const BOOKS_TR = [
     id: "ai",
     title: "Yapay Zeka",
     roman: "III",
-    discipline: "PyTorch, Agentic AI, LLM & Hugging Face",
-    note: "Martur Fompak şirket içi AI, ekipler arası akıllı sistemler, PyTorch, Agentic AI & Hugging Face.",
-    deck: "Küresel otomotiv lideri Martur Fompak International bünyesinde şirket içi yapay zeka sistemleri ve Agentic AI mimarileri geliştirdim; Ar-Ge, üretim ve planlama departmanlarındaki diğer ekiplerin iş akışlarını hızlandıran akıllı sistemler kurdum. PyTorch derin öğrenme çatısı, Hugging Face açık kaynak model havuzu ve LLM tabanlı çoklu ajan (multi-agent) orkestrasyonlarıyla kurumsal üretken zeka ve karar destek boru hatları inşa ediyorum.",
-    binding: "Martur Fompak International · Kurumsal Yapay Zeka",
-    format: "PyTorch · Hugging Face · Agentic AI · LLMs · RAG",
-    theme: "Şirket İçi Kurumsal Zeka & Çoklu Ajan Orkestrasyonu",
+    discipline: "Agentic AI, LLM Otomasyonu & PyTorch",
+    note: "Martur Fompak kurumsal yapay zeka, departman ihtiyaçları & Agentic AI iş akışları.",
+    deck: "Martur Fompak International otomotiv fabrikasında şirket içi departmanların ihtiyaçları doğrultusunda yapay zeka modelleri geliştirdim; üretimi ve verimliliği artıran LLM destekli çoklu ajan (Agentic AI) otomasyon iş akışlarını hayata geçirdim. PyTorch ve Hugging Face açık kaynak ekosistemiyle kurumsal karar zekası üretiyorum.",
+    binding: "Martur Fompak International · Kurumsal AI",
+    format: "Agentic AI · Multi-Agent LLM · PyTorch · Hugging Face",
+    theme: "Departman İhtiyaçları, Çoklu Ajanlar & Otomasyon",
     motif: "Katlanmış Çerçeveler",
     motifKey: "frames",
     paletteLabel: "Kobalt Mavisi · Şampanya Altın · Kum",
@@ -145,9 +145,9 @@ const BOOKS_TR = [
     height: 1.62,
     depth: 0.25,
     chapters: [
-      "Martur Fompak: Şirket İçi Yapay Zeka & Ekip Sistemleri",
-      "Agentic AI & LLM Tabanlı Çoklu Ajan Orkestrasyonu",
-      "PyTorch & Hugging Face Açık Kaynak Modelleri"
+      "Martur Fompak: Departman İhtiyaçları & Kurumsal AI",
+      "Agentic AI & LLM Tabanlı Çoklu Ajan Otomasyonu",
+      "PyTorch & Hugging Face Açık Kaynak Çözümleri"
     ],
     seed: 66
   },
@@ -155,12 +155,12 @@ const BOOKS_TR = [
     id: "languages-tooling",
     title: "Diller & Araçlar",
     roman: "IV",
-    discipline: "Programlama, Veri Tabanı & AI Model Araçları",
-    note: "Türkçe (Anadil), İngilizce (B2), Python, C++, Docker, Git, PostgreSQL, Claude & AGY CLI.",
-    deck: "Modern yazılım mühendisliğinde çok yönlü dil ve araç yetkinliği: İletişimde Türkçe (Anadil) ve İngilizce (B2 Profesyonel Yetkinlik). Yazılım geliştirmede yüksek performanslı Python ve C++. Altyapı ve veri yönetiminde Docker konteynerizasyonu, Git sürüm kontrolü ve PostgreSQL ilişkisel veritabanları. Ayrıca yazılım ve araştırma süreçlerimi katbekat hızlandıran Claude ve Google Antigravity (AGY) CLI gibi gelişmiş yapay zeka modelleri ve otonom ajanik geliştirme araçları.",
+    discipline: "Mühendislik Dilleri, Robotik & AI Araçları",
+    note: "Türkçe (Anadil), İngilizce (B2), Python, C++, ROS 2, Gazebo, Docker, Git & AGY CLI.",
+    deck: "Çok yönlü mühendislik ve geliştirme yetkinliği: İletişimde Türkçe (Anadil) ve İngilizce (B2 Profesyonel). Yazılımda Python ve C++. Robotik ve vizyonda ROS 2, Gazebo Harmonic, ArduPilot, YOLOv8 ve PatchCore. Altyapıda Docker, Git, PostgreSQL ve MQTT; üretkenlikte Claude ve Google Antigravity (AGY) CLI.",
     binding: "Türkçe (Anadil) · İngilizce (B2)",
-    format: "Python · C++ · Docker · Git · PostgreSQL · Claude · AGY",
-    theme: "Programlama Dilleri, Veri Altyapısı & AI Geliştirme Araçları",
+    format: "Python · C++ · ROS 2 · Gazebo · Docker · Git · AGY",
+    theme: "Programlama Dilleri, Robotik Altyapısı & AI Araçları",
     motif: "Bağlantılı Modüller",
     motifKey: "modules",
     paletteLabel: "Kraliyet Mürdümü · Gül Altın · Leylak",
@@ -182,9 +182,9 @@ const BOOKS_TR = [
     height: 1.54,
     depth: 0.27,
     chapters: [
-      "İletişim Dilleri: Türkçe (Anadil) & İngilizce (B2)",
-      "Mühendislik Dilleri: Python & C++",
-      "Altyapı & AI: Docker, Git, PostgreSQL, Claude & AGY"
+      "İletişim: Türkçe (Anadil) & İngilizce (B2)",
+      "Mühendislik Dilleri: Python, C++ & Web UI",
+      "Altyapı & AI: ROS 2, Gazebo, Docker, Git & AGY CLI"
     ],
     seed: 55
   },
@@ -194,7 +194,7 @@ const BOOKS_TR = [
     roman: "V",
     discipline: "Vizyon, Strateji, Sanat & Zihin",
     note: "Görüntü işleme, otonom sistemler, yapay zeka etiği, e-spor, satranç ve müzik.",
-    deck: "Mühendislik merakını besleyen entelektüel, stratejik ve yaratıcı ilgi alanları: Akademik ve teknik dünyada Bilgisayarlı Görü, Otonom Sistemler ve Yapay Zeka Etiği; makinelerin karar alma mekanizmalarının insani ve felsefi boyutları. Zihinsel dinamizmde E-Spor (hızlı karar alma ve refleksler) ile Satranç (derin taktiksel planlama ve pozisyonel analiz). Zihni dengeleyen ve odaklanmayı artıran Müzik.",
+    deck: "Mühendislik merakını besleyen entelektüel, stratejik ve yaratıcı ilgi alanları: Akademik ve teknik dünyada Bilgisayarlı Görü, Otonom Sistemler ve Yapay Zeka Etiği. Zihinsel dinamizmde E-Spor (hızlı karar alma) ile Satranç (derin taktiksel planlama). Zihni dengeleyen ve odaklanmayı artıran Müzik.",
     binding: "Görüntü İşleme · Otonom Sistemler · AI Etiği",
     format: "E-Spor · Satranç · Müzik",
     theme: "Yüksek Odak, Strateji, Teknoloji Felsefesi & Yaratıcılık",
@@ -234,7 +234,7 @@ const BOOKS_EN = [
     roman: "0",
     discipline: "Sketchbook & 9 Milestones",
     note: "Tactile sketchbook journeying from 2008 retro computing to autonomous combat UAV guidance.",
-    deck: "A nine-plate tactile sketchbook chronicling Ozan Arda Özçelik's personal and academic engineering evolution. From 2008 childhood computing at age 3, awakening to algorithmic philosophy at Kırımlı Fazilet Olcay High School, High Honors in Computer Engineering at Tekirdağ Namık Kemal University, directing software for Şahi Autonomous UAV Team, to field R&D at Çözüm Makina and enterprise AI at Martur Fompak.",
+    deck: "A digital journey sparked in 2008 at age 3: Kırımlı Fazilet Olcay High School, Computer Engineering at Namık Kemal University, software team lead for Şahi Autonomous UAV, Çözüm Makina ISEE Vision & Robotics R&D, and enterprise AI systems at Martur Fompak.",
     binding: "Cotton Paper · 18-Strip Leaf Physics",
     format: "ThreeUI Tactile Sketchbook · Interactive Loupe",
     theme: "Engineering Odyssey from 2008 to the Skies",
@@ -269,12 +269,12 @@ const BOOKS_EN = [
     id: "vision",
     title: "Computer Vision",
     roman: "I",
-    discipline: "Industrial Inspection, Anomaly & OCR",
-    note: "Çözüm Makina ISEE Vision, university R&D, Şahi UAV, object detection, OCR & anomaly detection.",
-    deck: "Engineered primary industrial vision systems at Çözüm Makina (ISEE Vision), rooted in university academic research and deployed in aerial combat autonomy with Şahi UAV Team. Spearheaded multiple high-throughput implementations across Object Detection, Optical Character Recognition (OCR), and Anomaly Detection utilizing PaddleOCR, DINO, PatchCore, YOLO (v8/v11), and OpenCV.",
-    binding: "Çözüm Makina ISEE Vision · Şahi UAV · Academia",
-    format: "PaddleOCR · DINO · PatchCore · YOLO · OpenCV",
-    theme: "Zero-Defect Anomaly Detection, Target Detection & Industrial OCR",
+    discipline: "OHS Safety, Anomaly & HMI Panels",
+    note: "Çözüm Makina ISEE Vision, OHS safety, Web/HMI panels, PatchCore & YOLOv8.",
+    deck: "Deployed real-time object detection software for OHS (occupational health and safety) monitoring across factories, hospitals, and offices at Çözüm Makina ISEE Vision. Designed intuitive web control panels and touch HMI interfaces, alongside micron-accuracy anomaly detection via PatchCore and DINO ViT.",
+    binding: "Çözüm Makina ISEE Vision · Şahi UAV",
+    format: "YOLOv8 · PatchCore · DINO ViT · HMI · Web UI",
+    theme: "Real-Time OHS Monitoring, Anomaly & Touch HMI",
     motif: "Nested Brackets",
     motifKey: "brackets",
     paletteLabel: "Midnight Navy · Bone · Copper",
@@ -296,9 +296,9 @@ const BOOKS_EN = [
     height: 1.62,
     depth: 0.26,
     chapters: [
-      "Çözüm Makina: ISEE Vision & Anomaly (PatchCore, DINO)",
-      "Şahi UAV: Target Detection & Optical Tracking (YOLO, OpenCV)",
-      "Industrial Character Recognition (PaddleOCR)"
+      "ISEE Vision: OHS Inspection, Web Panel & Touch HMI",
+      "Industrial Surface Anomaly Detection (PatchCore, DINO)",
+      "Şahi UAV: YOLOv8 Combat Target Detection & Tracking"
     ],
     seed: 11
   },
@@ -306,12 +306,12 @@ const BOOKS_EN = [
     id: "robotics",
     title: "Robotics & Autonomous Systems",
     roman: "II",
-    discipline: "ROS 2, GNC & Multi-Robot Simulation",
-    note: "Şahi UAV & Çözüm Makina ISEE Robotics; ROS 2, MQTT, MAVLink, ArduPilot & Gazebo Harmonic.",
-    deck: "Architected autonomous robotics systems across dual frontiers: aerial combat autonomy with Şahi UAV and factory robotics at Çözüm Makina (ISEE Robotics). Deep hands-on engineering across ROS 2 nodes, industrial MQTT IoT telemetry, ArduPilot flight controllers, MAVLink navigation protocols, and high-fidelity Gazebo Harmonic 3D physics simulation.",
-    binding: "Şahi UAV · Çözüm Makina ISEE Robotics",
-    format: "ROS 2 · Gazebo Harmonic · MAVLink · ArduPilot · MQTT",
-    theme: "Autonomous Flight Guidance, Robotics Nodes & 3D Simulation",
+    discipline: "Robot Arm, M20, Tron 1, Gazebo & UI",
+    note: "Robotic arms, M20, Tron 1, Gazebo Harmonic simulation, ROS 2 & control UI.",
+    deck: "Engineered multi-modal robotics spanning industrial 6-axis arms, M20 autonomous mobile robots, and Tron 1 agile biped/wheeled platforms. Developed end-to-end control architectures via Gazebo Harmonic 3D physics simulation, ROS 2, and MQTT, designing dedicated operator control and telemetry dashboards.",
+    binding: "Robot Arm · M20 AMR · Tron 1 · Şahi UAV",
+    format: "ROS 2 · Gazebo Harmonic · MQTT · Control & Telemetry UI",
+    theme: "Multi-Robot Platforms, 3D Simulation & Telemetry UI",
     motif: "Crossing Paths",
     motifKey: "paths",
     paletteLabel: "Forest Green · Brass · Cream",
@@ -333,9 +333,9 @@ const BOOKS_EN = [
     height: 1.50,
     depth: 0.28,
     chapters: [
-      "Çözüm Makina: ISEE Robotics (ROS 2 & Industrial Robots)",
-      "Şahi Autonomous UAV (ArduPilot & MAVLink GNC Guidance)",
-      "3D Physics Simulation (Gazebo Harmonic & MQTT Telemetry)"
+      "Industrial Robotic Arm, M20 AMR & Tron 1 Systems",
+      "Gazebo Harmonic 3D Physics Simulation & Digital Twin",
+      "Robot Control & Telemetry Tracking Interfaces (HMI)"
     ],
     seed: 22
   },
@@ -343,12 +343,12 @@ const BOOKS_EN = [
     id: "ai",
     title: "Artificial Intelligence",
     roman: "III",
-    discipline: "PyTorch, Agentic AI, LLMs & Hugging Face",
-    note: "Martur Fompak internal AI, cross-team intelligent systems, PyTorch, Agentic AI & Hugging Face.",
-    deck: "Developed enterprise internal AI solutions and Agentic AI workflows at automotive manufacturer Martur Fompak International, building intelligent systems to empower cross-functional engineering teams. Specialized in PyTorch neural architectures, Hugging Face open-source models, and LLM-driven multi-agent orchestration for enterprise decision intelligence.",
+    discipline: "Agentic AI, LLM Automation & PyTorch",
+    note: "Martur Fompak enterprise AI, department workflows & Agentic AI automation.",
+    deck: "Developed internal enterprise AI models addressing departmental requirements at automotive manufacturer Martur Fompak International, implementing LLM-powered Multi-Agent (Agentic AI) automation workflows that boost production efficiency. Delivering enterprise decision intelligence with PyTorch and Hugging Face.",
     binding: "Martur Fompak International · Enterprise AI",
-    format: "PyTorch · Hugging Face · Agentic AI · LLMs · RAG",
-    theme: "Internal Enterprise Intelligence & Multi-Agent Orchestration",
+    format: "Agentic AI · Multi-Agent LLM · PyTorch · Hugging Face",
+    theme: "Department Workflows, Multi-Agent AI & Automation",
     motif: "Folded Frames",
     motifKey: "frames",
     paletteLabel: "Cobalt Blue · Champagne Gold · Sand",
@@ -370,9 +370,9 @@ const BOOKS_EN = [
     height: 1.62,
     depth: 0.25,
     chapters: [
-      "Martur Fompak: Enterprise Internal AI & Cross-Team Systems",
+      "Martur Fompak: Department Solutions & Enterprise AI",
       "Agentic AI & Multi-Agent LLM Orchestration",
-      "PyTorch & Hugging Face Open-Source Model Pipelines"
+      "PyTorch & Hugging Face Open-Source Pipelines"
     ],
     seed: 66
   },
@@ -380,12 +380,12 @@ const BOOKS_EN = [
     id: "languages-tooling",
     title: "Languages & Tooling",
     roman: "IV",
-    discipline: "Programming, Database & AI Model Tooling",
-    note: "Turkish (Native), English (B2), Python, C++, Docker, Git, PostgreSQL, Claude & AGY CLI.",
-    deck: "Comprehensive linguistic, programming, and tooling versatility: Turkish (Native) and English (B2 Professional Working Proficiency). Core programming in Python and C++. Infrastructure and data management with Docker, Git, and PostgreSQL. Augmented by next-generation autonomous AI models and coding agents including Claude and Google Antigravity (AGY) CLI.",
+    discipline: "Engineering Languages, Robotics & AI Tools",
+    note: "Turkish (Native), English (B2), Python, C++, ROS 2, Gazebo, Docker, Git & AGY CLI.",
+    deck: "Versatile engineering and development stack: Turkish (Native) and English (B2 Professional). High-performance programming in Python and C++. Robotics and vision with ROS 2, Gazebo Harmonic, ArduPilot, YOLOv8, and PatchCore. Infrastructure via Docker, Git, PostgreSQL, and MQTT, supercharged by Claude and Google Antigravity CLI.",
     binding: "Turkish (Native) · English (B2)",
-    format: "Python · C++ · Docker · Git · PostgreSQL · Claude · AGY",
-    theme: "Programming Languages, Data Infra & AI Development Tools",
+    format: "Python · C++ · ROS 2 · Gazebo · Docker · Git · AGY",
+    theme: "Programming Languages, Robotics Infra & AI Tooling",
     motif: "Linked Modules",
     motifKey: "modules",
     paletteLabel: "Royal Plum · Rose Gold · Lilac",
@@ -408,8 +408,8 @@ const BOOKS_EN = [
     depth: 0.27,
     chapters: [
       "Communication: Turkish (Native) & English (B2)",
-      "Core Engineering Languages: Python & C++",
-      "Infra & AI Tooling: Docker, Git, PostgreSQL, Claude & AGY"
+      "Engineering Languages: Python, C++ & Web UI",
+      "Infra & AI: ROS 2, Gazebo, Docker, Git & AGY CLI"
     ],
     seed: 55
   },
@@ -419,7 +419,7 @@ const BOOKS_EN = [
     roman: "V",
     discipline: "Vision, Strategy, Art & Mind",
     note: "Computer vision, autonomous systems, AI ethics, esports, chess and music.",
-    deck: "Intellectual, strategic, and creative pursuits fueling engineering excellence: Advanced Computer Vision, Autonomous Systems, and AI Ethics exploring the philosophical impact of machine autonomy. Dynamic decision-making through Esports and positional tactical depth through Chess, harmonized by Music for mental focus and creative rhythm.",
+    deck: "Intellectual and creative pursuits fueling engineering excellence: Advanced Computer Vision, Autonomous Systems, and AI Ethics exploring machine logic. High-speed decision-making through Esports, deep positional tactics through Chess, and mental clarity through Music.",
     binding: "Computer Vision · Autonomous Systems · AI Ethics",
     format: "Esports · Chess · Music",
     theme: "High Focus, Strategy, Philosophy of Tech & Creativity",
@@ -464,7 +464,7 @@ html = html.replace(
   '<span class="lang-tr">Eskiz Defterim &amp; 5 Temel Yetkinlik Cildi</span><span class="lang-en">My Sketchbook &amp; 5 Core Capabilities</span>'
 );
 
-// 2. Add bilingual CSS helper and drawer open button
+// 2. Add bilingual CSS helper and compact no-scroll .detail-panel CSS
 const bilingualCss = `
     html[data-lang="tr"] .lang-en { display: none !important; }
     html[data-lang="en"] .lang-tr { display: none !important; }
@@ -506,6 +506,101 @@ const bilingualCss = `
       background: var(--accent, #e09f67);
       color: #121212;
     }
+
+    /* Compact No-Scroll Story/Detail Panel: Readable at single glance without scrolling */
+    .detail-panel {
+      position: absolute !important;
+      top: 50% !important;
+      right: clamp(24px, 5vw, 84px) !important;
+      z-index: 9 !important;
+      width: min(42vw, 480px) !important;
+      max-height: calc(100vh - 40px) !important;
+      padding: clamp(18px, 2.2vw, 26px) !important;
+      overflow: hidden !important;
+      border: 1px solid rgba(49, 38, 28, 0.22) !important;
+      background:
+        linear-gradient(90deg, rgba(84, 58, 37, 0.055), transparent 6%, transparent 94%, rgba(84, 58, 37, 0.045)),
+        rgba(244, 237, 220, 0.94) !important;
+      box-shadow:
+        0 24px 64px rgba(56, 36, 21, 0.16),
+        inset 0 0 36px rgba(113, 79, 46, 0.055) !important;
+      opacity: 0;
+      transform: translateY(-50%) scale(0.96) !important;
+      transition: opacity 520ms var(--ease-out), transform 520ms var(--ease-out) !important;
+      pointer-events: none;
+      backdrop-filter: blur(16px) !important;
+    }
+
+    .mode-detail .detail-panel {
+      opacity: 1 !important;
+      transform: translateY(-50%) scale(1) !important;
+      transition-delay: 0ms, 150ms !important;
+      pointer-events: auto !important;
+    }
+
+    .detail-title {
+      margin: 0 0 6px 0 !important;
+      font-size: clamp(1.35rem, 2.1vw, 2rem) !important;
+      line-height: 1.05 !important;
+    }
+
+    .detail-deck {
+      margin: 6px 0 10px 0 !important;
+      font-size: clamp(0.82rem, 1.05vw, 0.9rem) !important;
+      line-height: 1.42 !important;
+      color: var(--ink-soft) !important;
+    }
+
+    .meta-list {
+      display: grid !important;
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      gap: 5px 14px !important;
+      margin: 0 0 8px 0 !important;
+      padding-top: 6px !important;
+      border-top: 1px solid var(--rule) !important;
+    }
+
+    .meta-list dt {
+      margin: 0 0 2px 0 !important;
+      font-size: 0.58rem !important;
+    }
+
+    .meta-list dd {
+      margin: 0 !important;
+      font-size: 0.74rem !important;
+      line-height: 1.25 !important;
+      font-weight: 500 !important;
+    }
+
+    .page-navigation {
+      margin: 6px 0 !important;
+      padding-top: 6px !important;
+      border-top: 1px solid var(--rule) !important;
+    }
+
+    .page-status strong {
+      font-size: 0.8rem !important;
+    }
+
+    .page-status span {
+      font-size: 0.65rem !important;
+    }
+
+    .detail-controls {
+      margin-top: 6px !important;
+      padding-top: 6px !important;
+      border-top: 1px solid var(--rule) !important;
+    }
+
+    .detail-controls .microcopy {
+      margin: 0 0 4px 0 !important;
+      font-size: 0.58rem !important;
+    }
+
+    .reset-button {
+      padding: 5px 12px !important;
+      font-size: 0.72rem !important;
+    }
 `;
 html = html.replace('</style>', `${bilingualCss}\n  </style>`);
 
@@ -528,7 +623,6 @@ const newEditorialHeader = `
       </div>
     </header>
 `;
-
 html = html.replace(/<header class="editorial-header"[\s\S]*?<\/header>/, newEditorialHeader);
 
 // 4. Update hero word
@@ -565,13 +659,182 @@ const newBooksScript = `
 
     let BOOKS = (currentShelfLang === 'en' ? BOOKS_EN : BOOKS_TR).map(b => ({ ...b }));
 `;
-
 html = html.slice(0, booksSearchStart) + newBooksScript + html.slice(booksSearchEnd);
 
-// 7. Ensure coverAtlasReady stays false so it generates authentic foiled cloth covers procedurally
+// 7. Limit book inside pages to maximum 2-3 pages / spreads!
+// PAGINATED_LEAF_COUNT = 2 (which gives SPREAD_COUNT = 3: Spread 0, Spread 1, Spread 2)
+html = html.replace('const PAGINATED_LEAF_COUNT = 4;', 'const PAGINATED_LEAF_COUNT = 2;');
+
+// Update leafOrder bounds in book model builder
+html = html.replace(
+  'const frontPageMaterial = leafOrder < 4\n          ? interiorPageMaterials[leafOrder * 2]\n          : blankPageMaterial;',
+  'const frontPageMaterial = leafOrder < PAGINATED_LEAF_COUNT\n          ? interiorPageMaterials[leafOrder * 2]\n          : blankPageMaterial;'
+);
+html = html.replace(
+  'const backPageMaterial = leafOrder < 4\n          ? interiorPageMaterials[leafOrder * 2 + 1]\n          : blankPageMaterial;',
+  'const backPageMaterial = leafOrder < PAGINATED_LEAF_COUNT\n          ? interiorPageMaterials[leafOrder * 2 + 1]\n          : blankPageMaterial;'
+);
+
+// 8. Update getSpreadLabels for 3 spreads
+const oldGetSpreadLabels = `    function getSpreadLabels(book) {
+      return [
+        "Title page",
+        \`\${book.chapters[0]} · Plate\`,
+        \`\${book.chapters[1]} · Notes\`,
+        \`\${book.chapters[2]} · System\`,
+        "Colophon"
+      ];
+    }`;
+
+const newGetSpreadLabels = `    function getSpreadLabels(book) {
+      const isTr = (document.documentElement.lang || 'tr') === 'tr';
+      if (isTr) {
+        return [
+          "Giriş · Yetkinlik Özeti",
+          \`\${book.chapters[0] || 'Temel Alan'} · Detaylar\`,
+          "Sistem Mimarisi & Künye"
+        ];
+      }
+      return [
+        "Overview & Capabilities",
+        \`\${book.chapters[0] || 'Core Domain'} · Details\`,
+        "System Architecture & Colophon"
+      ];
+    }`;
+html = html.replace(oldGetSpreadLabels, newGetSpreadLabels);
+
+// 9. Update makeInteriorPageTextures for 4 pages (2 leaves = 4 pages, covering 3 spreads)
+const oldMakeInteriorStart = html.indexOf('function makeInteriorPageTextures(book) {');
+const oldMakeInteriorEnd = html.indexOf('return texture;\n      });\n    }', oldMakeInteriorStart) + 'return texture;\n      });\n    }'.length;
+
+const newMakeInteriorFunction = `function makeInteriorPageTextures(book) {
+      const pageCount = 4;
+      const inkColor = new THREE.Color(book.color).lerp(new THREE.Color(0x211b16), 0.62);
+      const ink = \`#\${inkColor.getHexString()}\`;
+
+      return Array.from({ length: pageCount }, (_, pageIndex) => {
+        const canvas = document.createElement("canvas");
+        const logicalWidth = 512;
+        const logicalHeight = 768;
+        canvas.width = 384;
+        canvas.height = 576;
+        const ctx = canvas.getContext("2d");
+        ctx.scale(0.75, 0.75);
+        const random = seededRandom(hashSeed(\`\${book.id}-leaf-\${pageIndex}\`) + book.seed);
+        drawPaperSurface(ctx, logicalWidth, logicalHeight, random);
+        ctx.fillStyle = ink;
+        ctx.strokeStyle = ink;
+        ctx.textAlign = "left";
+        ctx.textBaseline = "alphabetic";
+
+        ctx.globalAlpha = 0.58;
+        ctx.font = '500 10px Inter, "Helvetica Neue", Arial, sans-serif';
+        ctx.letterSpacing = "1.8px";
+        ctx.fillText(\`YETKİNLİK KİTAPLIĞI  /  \${book.roman}\`, 48, 48);
+        ctx.textAlign = "right";
+        ctx.fillText(pad(pageIndex + 1), logicalWidth - 48, 48);
+        ctx.textAlign = "left";
+        ctx.fillRect(48, 64, logicalWidth - 96, 1);
+        ctx.globalAlpha = 1;
+
+        if (pageIndex === 0) {
+          // Page 0: Title & Core Overview
+          ctx.font = '500 12px Inter, "Helvetica Neue", Arial, sans-serif';
+          ctx.letterSpacing = "2.3px";
+          ctx.fillText(book.discipline.toUpperCase(), 54, 160);
+          ctx.font = \`400 \${book.title.length > 10 ? 46 : 56}px "Iowan Old Style", Baskerville, Georgia, serif\`;
+          ctx.letterSpacing = "0px";
+          drawWrappedCanvasText(ctx, book.title, 52, 230, 18, 54, 2);
+          ctx.globalAlpha = 0.65;
+          ctx.font = '400 20px "Iowan Old Style", Baskerville, Georgia, serif';
+          drawWrappedCanvasText(ctx, book.note, 54, 380, 36, 28, 4);
+          ctx.globalAlpha = 0.45;
+          ctx.font = '500 11px Inter, "Helvetica Neue", Arial, sans-serif';
+          ctx.letterSpacing = "1.8px";
+          ctx.fillText(\`CİLT \${book.roman}  ·  ODAK ALANI\`, 54, 560);
+          ctx.font = '400 18px "Iowan Old Style", Baskerville, Georgia, serif';
+          drawWrappedCanvasText(ctx, book.theme, 54, 600, 36, 26, 3);
+        } else if (pageIndex === 1) {
+          // Page 1: Chapter 1 - Sektörel / Saha Ar-Ge
+          ctx.font = '500 11px Inter, "Helvetica Neue", Arial, sans-serif';
+          ctx.letterSpacing = "2px";
+          ctx.fillText("BÖLÜM 01  /  SAHA UYGULAMASI", 54, 150);
+          ctx.font = '400 40px "Iowan Old Style", Baskerville, Georgia, serif';
+          ctx.letterSpacing = "0px";
+          drawWrappedCanvasText(ctx, book.chapters[0], 52, 220, 18, 46, 3);
+          ctx.globalAlpha = 0.58;
+          ctx.font = '400 19px "Iowan Old Style", Baskerville, Georgia, serif';
+          drawWrappedCanvasText(ctx, book.deck, 54, 380, 38, 28, 6);
+          ctx.globalAlpha = 0.45;
+          ctx.font = '500 10px Inter, "Helvetica Neue", Arial, sans-serif';
+          ctx.letterSpacing = "1.5px";
+          ctx.fillText(\`UYGULAMA: \${book.binding.toUpperCase()}\`, 54, 620);
+        } else if (pageIndex === 2) {
+          // Page 2: Chapter 2 - Sistem Mimarisi & Teknik Çözüm
+          ctx.font = '500 11px Inter, "Helvetica Neue", Arial, sans-serif';
+          ctx.letterSpacing = "2px";
+          ctx.fillText("BÖLÜM 02  /  TEKNİK MİMARİ", 54, 150);
+          ctx.font = '400 40px "Iowan Old Style", Baskerville, Georgia, serif';
+          ctx.letterSpacing = "0px";
+          drawWrappedCanvasText(ctx, book.chapters[1] || book.chapters[0], 52, 220, 18, 46, 3);
+          ctx.save();
+          ctx.globalAlpha = 0.55;
+          drawMotif(ctx, { ...book, foil: ink }, logicalWidth, logicalHeight * 0.72);
+          ctx.restore();
+          ctx.globalAlpha = 0.58;
+          ctx.font = '400 18px "Iowan Old Style", Baskerville, Georgia, serif';
+          drawWrappedCanvasText(ctx, book.chapters[2] || book.format, 54, 560, 38, 26, 3);
+        } else {
+          // Page 3: Colophon & Technical Specimen
+          ctx.font = '500 11px Inter, "Helvetica Neue", Arial, sans-serif';
+          ctx.letterSpacing = "2px";
+          ctx.fillText("KÜNYE & SİSTEM ÖZETİ", 54, 150);
+          ctx.font = '400 32px "Iowan Old Style", Baskerville, Georgia, serif';
+          ctx.letterSpacing = "0px";
+          ctx.fillText(book.title, 54, 215);
+          ctx.globalAlpha = 0.58;
+          ctx.font = '400 18px "Iowan Old Style", Baskerville, Georgia, serif';
+          drawWrappedCanvasText(
+            ctx,
+            \`\${book.binding}. Format: \${book.format}. Ozan Arda Özçelik portföy yetkinlikleri ve saha mühendisliği dokümanı.\`,
+            54,
+            280,
+            40,
+            26,
+            6
+          );
+          ctx.save();
+          ctx.translate(logicalWidth * 0.5, 520);
+          ctx.globalAlpha = 0.45;
+          for (let ring = 0; ring < 3; ring += 1) {
+            ctx.beginPath();
+            ctx.arc(0, 0, 24 + ring * 22, 0, Math.PI * 2);
+            ctx.stroke();
+          }
+          ctx.restore();
+          ctx.globalAlpha = 0.74;
+          ctx.font = '500 10px Inter, "Helvetica Neue", Arial, sans-serif';
+          ctx.letterSpacing = "1.8px";
+          ctx.fillText(\`CİLT \${book.roman}  ·  OZAN ARDA ÖZÇELİK  ·  2026\`, 54, 660);
+        }
+
+        ctx.globalAlpha = 0.62;
+        ctx.fillRect(48, logicalHeight - 48, logicalWidth - 96, 1);
+        ctx.globalAlpha = 1;
+        const texture = configureCanvasTexture(new THREE.CanvasTexture(canvas), {
+          anisotropy: 16
+        });
+        texture.name = \`\${book.id}-interior-page-\${pageIndex + 1}\`;
+        return texture;
+      });
+    }`;
+
+html = html.slice(0, oldMakeInteriorStart) + newMakeInteriorFunction + html.slice(oldMakeInteriorEnd);
+
+// 10. Ensure coverAtlasReady stays false so it generates authentic foiled cloth covers procedurally
 html = html.replace('coverAtlasReady = true;', 'coverAtlasReady = false;');
 
-// 7b. Multiline title rendering helper for covers
+// 11. Multiline title rendering helper for covers
 const drawCoverTitleHelper = `
     function drawCoverTitle(ctx, title, x, y, maxWidth, isCenter = true) {
       let lines = [title];
@@ -666,7 +929,7 @@ const newBackFoilTitleBlock = `      const titleSize = book.title.length > 18 ? 
 
 html = html.replace(oldBackFoilTitleBlock, newBackFoilTitleBlock);
 
-// 8. Custom onWheel handler: Only slide books when cursor is hovering over a book; otherwise scroll parent page!
+// 12. Custom onWheel handler: Only slide books when cursor is hovering over a book; otherwise scroll parent page!
 const oldOnWheel = `    function onWheel(event) {
       if (mode !== "hero") return;
       event.preventDefault();
@@ -714,7 +977,7 @@ const newOnWheel = `    function forwardScrollToParent(event) {
 
 html = html.replace(oldOnWheel, newOnWheel);
 
-// 8b. Intercept openDetail for Book 0 ("Hikayem"):
+// 13. Intercept openDetail for Book 0 ("Hikayem"):
 const oldOpenDetail = `    function openDetail(origin = inspectButton) {
       if (mode !== "hero") return;`;
 
@@ -731,7 +994,7 @@ const newOpenDetail = `    function openDetail(origin = inspectButton) {
 
 html = html.replace(oldOpenDetail, newOpenDetail);
 
-// 8c. Idle render loop optimization
+// 14. Idle render loop optimization
 const oldShouldContinue = `      const shouldContinue = !reducedMotion
         || mode === "opening"
         || mode === "closing"
@@ -749,7 +1012,7 @@ const newShouldContinue = `      const isHovering = (hoveredIndex >= 0 || (typeo
 
 html = html.replace(oldShouldContinue, newShouldContinue);
 
-// 9. Add language switching functions and postMessage listener
+// 15. Add language switching functions and postMessage listener
 const langSwitcherLogic = `
     function setShelfLanguage(lang) {
       currentShelfLang = lang;
