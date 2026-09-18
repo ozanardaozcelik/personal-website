@@ -69,10 +69,10 @@ spreads_data = [
         'plate_num': 'LEVHA 04',
         'title': 'Şirket İçi Kurumsal Yapay Zeka',
         'subtitle': 'Martur Fompak International Stajı & Projeleri',
-        'lead': 'Küresel otomotiv devi Martur Fompak International bünyesinde şirket içi yapay zeka sistemleri ve karar mimarileri geliştirdim.',
-        'body': 'Otomotiv koltuk ve iç donanım üretim süreçlerinin karmaşık operasyonel akışlarını optimize etmek amacıyla kurumsal yapay zeka modelleri inşa ettim. Şirket içi bilgi akışını, kalite kontrol denetimlerini ve üretim verimliliğini artıran LLM destekli çoklu ajan (Agentic AI) otomasyon iş akışlarını hayata geçirdim.',
-        'note': '✦ "Endüstriyel devlerde otonomi: Veri akışlarının kurumsal yapay zeka ajanlarıyla hızlandırılması."',
-        'signature': '[Martur Fompak International — Şirket İçi Kurumsal Yapay Zeka]'
+        'lead': 'Otomotiv fabrikası Martur Fompak International bünyesinde şirket içi yapay zeka sistemleri ve karar mimarileri geliştirdim.',
+        'body': 'Şirket içindeki farklı departmanların operasyonel ihtiyaçları doğrultusunda yapay zeka modelleri geliştirdim. Üretim süreçlerini ve operasyonel verimliliği artıran LLM destekli çoklu ajan (Agentic AI) otomasyon iş akışlarını hayata geçirdim. Bu süreç benim için kurumsal şirket dinamiklerini sahada deneyimlediğim ve dinamik iş hayatını öğrendiğim güçlü bir başlangıç oldu.',
+        'note': '✦ "Endüstriyel süreçlerde otonomi: Veri akışlarının kurumsal çoklu ajan mimarileriyle hızlandırılması."',
+        'signature': '[Martur Fompak International — Kurumsal Yapay Zeka Stajı & Projeleri]'
     },
     {
         'file': 'joo-chiat.png',
@@ -158,8 +158,8 @@ def wrap_text(text, font, max_width, draw):
 
 for s in spreads_data:
     dest_file = s['file']
-    if dest_file in ['marina-bay-sands.png', 'gardens-by-the-bay.png', 'merlion.png']:
-        # Managed with custom high-fidelity pipelines in scratch/build_spread_01_retro.py, build_spread_02_modern.py & build_spread_03_university.py
+    if dest_file in ['marina-bay-sands.png', 'gardens-by-the-bay.png', 'merlion.png', 'buddha-tooth.png']:
+        # Managed with custom high-fidelity pipelines in scratch/build_spread_01_retro.py, 02_modern.py, 03_university.py & 04_martur.py
         continue
     illus_file = s['illus']
     dest_path = os.path.join(out_dir, dest_file)
