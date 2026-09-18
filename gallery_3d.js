@@ -446,14 +446,14 @@ export function initProjectsGallery() {
     dragRotY += (targetDragRotY - dragRotY) * 0.1;
     dragScrollY += (targetDragScrollY - dragScrollY) * 0.1;
 
-    // Horizontal rotation (Natural gentle 1x speed)
-    gallery.rotation.y = -elapsed * 0.09 + dragRotY;
+    // Horizontal rotation (Fast 2x dynamic flow)
+    gallery.rotation.y = -elapsed * 0.18 + dragRotY;
 
-    // Downward waterfall flow of panels (Natural gentle 1x speed)
+    // Downward waterfall flow of panels (Fast 2x dynamic flow)
     const totalSpan = 16 * 2.4; // 38.4
     panels.forEach((panel) => {
       const basePos = (panel.userData.baseIndex - 8) * 2.4;
-      const moveY = (elapsed * 0.60) + dragScrollY;
+      const moveY = (elapsed * 1.20) + dragScrollY;
       const rawY = basePos - moveY;
       const wrappedY = ((rawY + 19.2) % totalSpan + totalSpan) % totalSpan - 19.2;
       panel.position.y = wrappedY;
