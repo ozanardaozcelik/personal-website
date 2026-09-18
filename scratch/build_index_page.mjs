@@ -36,61 +36,106 @@ const html = `<!DOCTYPE html>
     <path d="M-50,970 C300,1030 830,910 1240,1000 C1460,1050 1580,950 1650,980" />
   </svg>
 
-  <!-- CINEMATIC 35MM FILM STRIP NAVIGATION TRANSITION OVERLAY -->
-  <div class="film-strip-overlay" id="filmStripOverlay" aria-hidden="true">
-    <div class="film-strip-track" id="filmStripTrack">
-      <!-- TOP SPROCKET PERFORATION STRIP -->
-      <div class="film-sprocket-bar">
-        <span class="film-sprocket-edge-text">OZAN ARDA // 35MM VISION-3</span>
-        <div class="film-sprocket-hole"></div>
-        <div class="film-sprocket-hole"></div>
-        <div class="film-sprocket-hole"></div>
-        <span class="film-sprocket-edge-text">REEL ARCHIVE // 24FPS</span>
-        <div class="film-sprocket-hole"></div>
-        <div class="film-sprocket-hole"></div>
-        <div class="film-sprocket-hole"></div>
-        <span class="film-sprocket-edge-text">TIMECODE // 00:00:20:26</span>
-        <div class="film-sprocket-hole"></div>
-        <div class="film-sprocket-hole"></div>
-        <div class="film-sprocket-hole"></div>
-        <span class="film-sprocket-edge-text">KODAK 500T 7219</span>
-      </div>
-
-      <!-- CENTER NEGATIVE APERTURE / HUD BADGE -->
-      <div class="film-gate-center">
-        <div class="film-gate-grain"></div>
-        <div class="film-frame-divider left"></div>
-        <div class="film-frame-divider right"></div>
-
-        <div class="film-hud-badge-card" id="filmHudCard">
-          <div class="film-hud-tag">
-            <span class="film-tally-dot"></span>
-            <span id="filmHudSectionTag">REEL SCENE // 02</span>
+  <!-- CINEMATIC 3D DEEP-DIVE FILM REEL TUNNEL OVERLAY -->
+  <div class="film-dive-overlay" id="filmDiveOverlay" aria-hidden="true">
+    <div class="film-warp-lines"></div>
+    <div class="film-dive-viewport">
+      <div class="film-dive-scene" id="filmDiveScene">
+        <!-- Deep background negative cells (staggered in Z depth) -->
+        <div class="film-dive-cell cell-deep-4" style="--cell-z: -1100px; --cell-rot: -6deg; opacity: 0.35;">
+          <div class="cell-sprocket-top">
+            <span class="cell-edge-num">KODAK 500T // #004</span>
+            <div class="sp-dot"></div><div class="sp-dot"></div><div class="sp-dot"></div>
+            <span class="cell-edge-num">24 FPS</span>
           </div>
-          <h3 class="film-hud-title" id="filmHudTitle">02 HİKAYEM</h3>
-          <div class="film-hud-timecode" id="filmHudTimecode">FRAME: #0180 · 3D TACTILE SKETCHBOOK</div>
+          <div class="cell-negative-window"><div class="cell-grid"></div><div class="cell-badge">05</div></div>
+          <div class="cell-sprocket-bot">
+            <span class="cell-edge-num">DEPTH: -1100M</span>
+            <div class="sp-dot"></div><div class="sp-dot"></div><div class="sp-dot"></div>
+            <span class="cell-edge-num">REEL GATE</span>
+          </div>
         </div>
 
-        <div class="film-light-leak" id="filmLightLeak"></div>
-      </div>
+        <div class="film-dive-cell cell-deep-3" style="--cell-z: -800px; --cell-rot: 5deg; opacity: 0.5;">
+          <div class="cell-sprocket-top">
+            <span class="cell-edge-num">VISION-3 35MM</span>
+            <div class="sp-dot"></div><div class="sp-dot"></div><div class="sp-dot"></div>
+            <span class="cell-edge-num">#003</span>
+          </div>
+          <div class="cell-negative-window"><div class="cell-grid"></div><div class="cell-badge">04</div></div>
+          <div class="cell-sprocket-bot">
+            <span class="cell-edge-num">EXP: +1.5EV</span>
+            <div class="sp-dot"></div><div class="sp-dot"></div><div class="sp-dot"></div>
+            <span class="cell-edge-num">SCENE CUT</span>
+          </div>
+        </div>
 
-      <!-- BOTTOM SPROCKET PERFORATION STRIP -->
-      <div class="film-sprocket-bar">
-        <span class="film-sprocket-edge-text">SAFETY FILM · ISO 500</span>
-        <div class="film-sprocket-hole"></div>
-        <div class="film-sprocket-hole"></div>
-        <div class="film-sprocket-hole"></div>
-        <span class="film-sprocket-edge-text">SCENE CUT // TELEMETRY GATE</span>
-        <div class="film-sprocket-hole"></div>
-        <div class="film-sprocket-hole"></div>
-        <div class="film-sprocket-hole"></div>
-        <span class="film-sprocket-edge-text">AUTONOMOUS ROBOTICS REEL</span>
-        <div class="film-sprocket-hole"></div>
-        <div class="film-sprocket-hole"></div>
-        <div class="film-sprocket-hole"></div>
-        <span class="film-sprocket-edge-text">LATENCY: 0.00ms</span>
+        <div class="film-dive-cell cell-deep-2" style="--cell-z: -450px; --cell-rot: -3deg; opacity: 0.75;">
+          <div class="cell-sprocket-top">
+            <span class="cell-edge-num">TELEMETRY FRAME</span>
+            <div class="sp-dot"></div><div class="sp-dot"></div><div class="sp-dot"></div>
+            <span class="cell-edge-num">#002</span>
+          </div>
+          <div class="cell-negative-window"><div class="cell-grid"></div><div class="cell-badge">03</div></div>
+          <div class="cell-sprocket-bot">
+            <span class="cell-edge-num">DEPTH: -450M</span>
+            <div class="sp-dot"></div><div class="sp-dot"></div><div class="sp-dot"></div>
+            <span class="cell-edge-num">ROBOTICS</span>
+          </div>
+        </div>
+
+        <!-- FOCAL TARGET CELL (The active section frame we dive directly through) -->
+        <div class="film-dive-cell cell-target" style="--cell-z: 0px; --cell-rot: 0deg;">
+          <div class="cell-sprocket-top">
+            <span class="cell-edge-num" id="filmDiveEdgeL">OZAN ARDA // 35MM REEL</span>
+            <div class="sp-dot"></div><div class="sp-dot"></div><div class="sp-dot"></div><div class="sp-dot"></div><div class="sp-dot"></div>
+            <span class="cell-edge-num" id="filmDiveEdgeR">ISO 500 · 24FPS</span>
+          </div>
+
+          <div class="cell-negative-window target-window">
+            <div class="cell-grid"></div>
+            <div class="cell-telemetry-corner tl">REC ● 00:00:20:26</div>
+            <div class="cell-telemetry-corner tr" id="filmDiveFps">LOCK // 60FPS</div>
+            <div class="cell-crosshairs"></div>
+
+            <div class="film-target-card" id="filmTargetCard">
+              <div class="film-target-tag">
+                <span class="film-dive-dot"></span>
+                <span id="filmTargetTag">REEL SCENE // 02</span>
+              </div>
+              <h3 class="film-target-title" id="filmTargetTitle">02 HİKAYEM</h3>
+              <div class="film-target-sub" id="filmTargetSub">FRAME: #0180 · 3D TACTILE SKETCHBOOK</div>
+            </div>
+
+            <div class="cell-telemetry-corner bl" id="filmDiveRes">GATE: 4096x2160</div>
+            <div class="cell-telemetry-corner br">WARP DIVE ACTIVE</div>
+          </div>
+
+          <div class="cell-sprocket-bot">
+            <span class="cell-edge-num">KODAK VISION-3 500T</span>
+            <div class="sp-dot"></div><div class="sp-dot"></div><div class="sp-dot"></div><div class="sp-dot"></div><div class="sp-dot"></div>
+            <span class="cell-edge-num">LATENCY: 0.00ms</span>
+          </div>
+        </div>
+
+        <!-- Foreground cell rushing past camera -->
+        <div class="film-dive-cell cell-lead-1" style="--cell-z: 420px; --cell-rot: 4deg; opacity: 0.9;">
+          <div class="cell-sprocket-top">
+            <span class="cell-edge-num">PREV FRAME</span>
+            <div class="sp-dot"></div><div class="sp-dot"></div><div class="sp-dot"></div>
+            <span class="cell-edge-num">#001</span>
+          </div>
+          <div class="cell-negative-window"><div class="cell-grid"></div><div class="cell-badge">01</div></div>
+          <div class="cell-sprocket-bot">
+            <span class="cell-edge-num">DEPTH: +420M</span>
+            <div class="sp-dot"></div><div class="sp-dot"></div><div class="sp-dot"></div>
+            <span class="cell-edge-num">LEAD OUT</span>
+          </div>
+        </div>
       </div>
     </div>
+    <div class="film-dive-flash"></div>
+    <div class="film-dive-vignette"></div>
   </div>
 
   <!-- NAVIGATION BAR: 5-SECTION SWITCHER -->
@@ -1079,12 +1124,12 @@ const html = `<!DOCTYPE html>
         }
       }
 
-      // 3. Cinematic 35mm Film Strip Navigation Transition Engine
-      const filmOverlay = document.getElementById('filmStripOverlay');
-      const filmTrack = document.getElementById('filmStripTrack');
-      const filmHudSectionTag = document.getElementById('filmHudSectionTag');
-      const filmHudTitle = document.getElementById('filmHudTitle');
-      const filmHudTimecode = document.getElementById('filmHudTimecode');
+      // 3. Cinematic 3D Deep-Dive Film Reel Navigation Transition Engine
+      const filmDiveOverlay = document.getElementById('filmDiveOverlay');
+      const filmTargetTag = document.getElementById('filmTargetTag');
+      const filmTargetTitle = document.getElementById('filmTargetTitle');
+      const filmTargetSub = document.getElementById('filmTargetSub');
+      const filmDiveScene = document.getElementById('filmDiveScene');
       let isFilmTransitioning = false;
       let currentSectionIndex = 0; // 0: Home, 1: Story, 2: Skills, 3: Projects, 4: Contact
 
@@ -1097,7 +1142,7 @@ const html = `<!DOCTYPE html>
       ];
 
       function playFilmStripTransition(targetSectionIndex, targetY, onMidpoint) {
-        if (isFilmTransitioning || !filmOverlay || !filmTrack) {
+        if (isFilmTransitioning || !filmDiveOverlay) {
           window.scrollTo({ top: targetY, behavior: 'auto' });
           if (typeof onMidpoint === 'function') onMidpoint();
           return;
@@ -1107,51 +1152,34 @@ const html = `<!DOCTYPE html>
         interruptAutoScroll();
 
         const info = SECTION_INFO[targetSectionIndex] || SECTION_INFO[0];
-        const isForward = targetSectionIndex >= currentSectionIndex;
         currentSectionIndex = targetSectionIndex;
 
         // Set Film Badge Content
-        if (filmHudSectionTag) filmHudSectionTag.textContent = info.tag;
-        if (filmHudTitle) filmHudTitle.textContent = currentLang === 'en' ? info.titleEn : info.titleTr;
-        if (filmHudTimecode) filmHudTimecode.textContent = info.tc;
+        if (filmTargetTag) filmTargetTag.textContent = info.tag;
+        if (filmTargetTitle) filmTargetTitle.textContent = currentLang === 'en' ? info.titleEn : info.titleTr;
+        if (filmTargetSub) filmTargetSub.textContent = info.tc;
 
-        // Directional film transport start position
-        const startX = isForward ? '-100%' : '100%';
-        const exitX = isForward ? '100%' : '-100%';
+        // Reset and activate dive animation
+        filmDiveOverlay.classList.remove('is-diving');
+        void filmDiveOverlay.offsetHeight; // force reflow
 
-        filmTrack.style.transition = 'none';
-        filmTrack.style.transform = 'translateX(' + startX + ')';
-        filmOverlay.classList.add('is-active');
+        filmDiveOverlay.classList.add('is-active', 'is-diving');
 
-        // Force reflow
-        void filmTrack.offsetHeight;
-
-        // Phase 1: Film Gate sweeps into center (260ms)
-        filmTrack.style.transition = 'transform 260ms cubic-bezier(0.2, 0.9, 0.3, 1)';
-        filmTrack.style.transform = 'translateX(0%)';
-
+        // Midpoint (330ms): When camera dives into center of focal frame and shutter flash blooms
         setTimeout(() => {
-          // Midpoint: Jump to exact target position behind the film gate
           window.scrollTo({ top: targetY, behavior: 'auto' });
           onScrollHeroFlow();
 
           if (typeof onMidpoint === 'function') {
             onMidpoint();
           }
+        }, 330);
 
-          // Phase 2: Film Gate sweeps away revealing destination (280ms)
-          setTimeout(() => {
-            filmTrack.style.transition = 'transform 280ms cubic-bezier(0.4, 0, 0.2, 1)';
-            filmTrack.style.transform = 'translateX(' + exitX + ')';
-
-            setTimeout(() => {
-              filmOverlay.classList.remove('is-active');
-              filmTrack.style.transition = 'none';
-              filmTrack.style.transform = 'translateX(-100%)';
-              isFilmTransitioning = false;
-            }, 290);
-          }, 80);
-        }, 260);
+        // Completion (680ms): When frame has rushed past camera and flare has fully faded out
+        setTimeout(() => {
+          filmDiveOverlay.classList.remove('is-diving', 'is-active');
+          isFilmTransitioning = false;
+        }, 680);
       }
 
       function navigateToHome() {

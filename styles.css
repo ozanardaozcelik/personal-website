@@ -2747,213 +2747,295 @@ html.menu-open {
 }
 
 /* ==========================================================================
-   CINEMATIC 35MM FILM STRIP (FILM ŞERİDİ) NAV TRANSITION OVERLAY
+   CINEMATIC 3D DEEP-DIVE FILM REEL TUNNEL (DİBE DALAN FİLM ŞERİDİ GEÇİŞİ)
    ========================================================================== */
-.film-strip-overlay {
+.film-dive-overlay {
   position: fixed;
   inset: 0;
   z-index: 99999;
   pointer-events: none;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   overflow: hidden;
+  background: #020305;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.15s ease, visibility 0.15s ease;
+  transition: opacity 0.18s ease, visibility 0.18s ease;
 }
 
-.film-strip-overlay.is-active {
+.film-dive-overlay.is-active {
   pointer-events: all;
   opacity: 1;
   visibility: visible;
 }
 
-/* Master Film Carriage Carrier (slides across screen horizontally with 35mm film reels) */
-.film-strip-track {
+.film-dive-viewport {
   position: absolute;
-  top: -30px;
-  bottom: -30px;
-  left: -20vw;
-  right: -20vw;
-  background: #020305;
+  inset: 0;
+  perspective: 900px;
+  perspective-origin: 50% 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Master 3D Tunnel Scene that dives towards and past camera */
+.film-dive-scene {
+  position: relative;
+  width: min(920px, 90vw);
+  height: min(580px, 75vh);
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+  transform: translateZ(-800px) scale(0.6) rotateZ(4deg);
+}
+
+/* Dive in animation phases */
+.film-dive-overlay.is-diving .film-dive-scene {
+  animation: filmDeepDiveMotion 0.68s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes filmDeepDiveMotion {
+  0% {
+    transform: translateZ(-1400px) scale(0.35) rotateZ(6deg);
+    opacity: 0.2;
+  }
+  35% {
+    transform: translateZ(-200px) scale(0.85) rotateZ(1deg);
+    opacity: 1;
+  }
+  55% {
+    transform: translateZ(100px) scale(1.08) rotateZ(0deg);
+    opacity: 1;
+  }
+  85% {
+    transform: translateZ(900px) scale(2.4) rotateZ(-2deg);
+    opacity: 0.85;
+  }
+  100% {
+    transform: translateZ(1600px) scale(3.8) rotateZ(-4deg);
+    opacity: 0;
+  }
+}
+
+/* 3D Film Cells / Frames */
+.film-dive-cell {
+  position: absolute;
+  inset: 0;
+  background: #06080c;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 140, 55, 0.35);
+  box-shadow: 
+    0 0 50px rgba(0, 0, 0, 0.9),
+    0 0 25px rgba(255, 140, 55, 0.15),
+    inset 0 0 30px rgba(0, 0, 0, 0.95);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transform: translateX(-100%);
-  will-change: transform;
-  box-shadow: 0 0 120px rgba(0, 0, 0, 0.98), 0 0 50px rgba(255, 140, 55, 0.15);
+  padding: 12px 16px;
+  transform: translateZ(var(--cell-z, 0px)) rotateZ(var(--cell-rot, 0deg));
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
 }
 
-/* Top & Bottom 35mm Sprocket Hole Perforation Strips */
-.film-sprocket-bar {
-  height: 54px;
-  background: #05070a;
-  border-top: 2px solid rgba(255, 140, 55, 0.4);
-  border-bottom: 2px solid rgba(255, 140, 55, 0.4);
+/* Sprocket Bars on Top & Bottom of each cell */
+.cell-sprocket-top,
+.cell-sprocket-bot {
+  height: 38px;
+  background: #020305;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 clamp(16px, 3vw, 40px);
-  overflow: hidden;
-  position: relative;
-  z-index: 2;
-  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.9);
+  padding: 0 16px;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.9);
 }
 
-.film-sprocket-hole {
-  width: 22px;
-  height: 32px;
+.sp-dot {
+  width: 16px;
+  height: 22px;
   background: #000;
-  border-radius: 4px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.95), 0 0 6px rgba(255, 140, 55, 0.2);
+  border-radius: 3px;
+  border: 1px solid rgba(255, 140, 55, 0.4);
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.95);
   flex-shrink: 0;
-  margin: 0 clamp(8px, 1.5vw, 18px);
-  position: relative;
+  margin: 0 6px;
 }
 
-.film-sprocket-hole::after {
-  content: '';
-  position: absolute;
-  inset: 4px;
-  background: rgba(255, 255, 255, 0.04);
-  border-radius: 2px;
-}
-
-.film-sprocket-edge-text {
+.cell-edge-num {
   font-family: var(--font-mono);
-  font-size: clamp(9px, 1.1vw, 11px);
-  letter-spacing: 0.28em;
+  font-size: 10px;
+  letter-spacing: 0.22em;
   color: #ff8c37;
-  text-transform: uppercase;
   font-weight: 700;
-  white-space: nowrap;
-  opacity: 0.9;
-  text-shadow: 0 0 10px rgba(255, 140, 55, 0.5);
+  text-shadow: 0 0 8px rgba(255, 140, 55, 0.6);
 }
 
-/* Central Film Gate Area (Dark Negative Frame + Lens Flare + Section HUD) */
-.film-gate-center {
+/* Negative Window Interior */
+.cell-negative-window {
   flex: 1;
+  margin: 8px 0;
+  background: 
+    radial-gradient(ellipse at center, rgba(14, 20, 30, 0.85) 0%, rgba(4, 6, 10, 0.95) 100%),
+    linear-gradient(90deg, rgba(255, 140, 55, 0.05) 0%, transparent 50%, rgba(0, 210, 255, 0.05) 100%);
+  border-radius: 6px;
+  border: 1px solid rgba(255, 140, 55, 0.25);
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  background: 
-    radial-gradient(ellipse at center, rgba(14, 18, 26, 0.95) 0%, rgba(3, 4, 6, 0.98) 75%),
-    linear-gradient(90deg, rgba(255, 140, 55, 0.06) 0%, transparent 20%, transparent 80%, rgba(0, 210, 255, 0.06) 100%);
   overflow: hidden;
 }
 
-/* Film Grain & Scanlines */
-.film-gate-grain {
+.cell-grid {
   position: absolute;
   inset: 0;
-  background-image: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.25) 0px, rgba(0, 0, 0, 0.25) 1px, transparent 1px, transparent 3px);
-  pointer-events: none;
-  opacity: 0.65;
+  background-image: 
+    linear-gradient(rgba(255, 140, 55, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 140, 55, 0.08) 1px, transparent 1px);
+  background-size: 32px 32px;
 }
 
-/* Horizontal Frame Border Lines (Separating film frames) */
-.film-frame-divider {
+.cell-badge {
+  font-family: var(--font-display);
+  font-size: 32px;
+  color: rgba(255, 255, 255, 0.25);
+  letter-spacing: 0.1em;
+}
+
+/* Target Focal Window with Telemetry */
+.target-window {
+  border: 1px solid rgba(255, 140, 55, 0.65);
+  box-shadow: 
+    inset 0 0 40px rgba(0, 0, 0, 0.8),
+    0 0 40px rgba(255, 140, 55, 0.2);
+}
+
+.cell-telemetry-corner {
   position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 14px;
-  background: #000;
-  border-left: 2px solid rgba(255, 140, 55, 0.35);
-  border-right: 2px solid rgba(0, 210, 255, 0.35);
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.9);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: #00d2ff;
+  padding: 8px 12px;
+  font-weight: 600;
+  pointer-events: none;
 }
-.film-frame-divider.left { left: 12%; }
-.film-frame-divider.right { right: 12%; }
+.cell-telemetry-corner.tl { top: 0; left: 0; }
+.cell-telemetry-corner.tr { top: 0; right: 0; color: #ff8c37; }
+.cell-telemetry-corner.bl { bottom: 0; left: 0; color: rgba(255, 255, 255, 0.7); }
+.cell-telemetry-corner.br { bottom: 0; right: 0; }
 
-/* Film HUD Destination Badge */
-.film-hud-badge-card {
+.cell-crosshairs {
+  position: absolute;
+  inset: 12px;
+  border: 1px dashed rgba(255, 140, 55, 0.3);
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+/* Central Target Card */
+.film-target-card {
   position: relative;
   z-index: 10;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
-  padding: clamp(20px, 3.5vw, 36px) clamp(30px, 5vw, 60px);
-  background: rgba(10, 14, 20, 0.92);
-  border: 1px solid rgba(255, 140, 55, 0.6);
+  gap: 8px;
+  padding: 24px 44px;
+  background: rgba(6, 9, 14, 0.88);
+  border: 1px solid rgba(255, 140, 55, 0.5);
   border-radius: 8px;
-  box-shadow: 
-    0 0 60px rgba(0, 0, 0, 0.95),
-    0 0 35px rgba(255, 140, 55, 0.25),
-    inset 0 0 25px rgba(255, 140, 55, 0.1);
-  backdrop-filter: blur(14px);
-  transform: scale(0.92);
-  opacity: 0;
-  transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.24s ease;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.9), 0 0 25px rgba(255, 140, 55, 0.25);
+  backdrop-filter: blur(10px);
 }
 
-.film-strip-overlay.is-active .film-hud-badge-card {
-  transform: scale(1);
-  opacity: 1;
-}
-
-.film-hud-tag {
+.film-target-tag {
   font-family: var(--font-mono);
-  font-size: clamp(10px, 1.2vw, 12px);
+  font-size: 11px;
   letter-spacing: 0.24em;
   color: #00d2ff;
   display: flex;
   align-items: center;
   gap: 8px;
   text-transform: uppercase;
-  font-weight: 600;
+  font-weight: 700;
 }
 
-.film-hud-tag .film-tally-dot {
-  width: 8px;
-  height: 8px;
+.film-dive-dot {
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
   background: #ff8c37;
-  box-shadow: 0 0 12px #ff8c37;
-  animation: filmTallyBlink 0.3s infinite alternate;
+  box-shadow: 0 0 14px #ff8c37;
+  animation: filmTallyBlink 0.25s infinite alternate;
 }
 
-@keyframes filmTallyBlink {
-  from { opacity: 0.3; transform: scale(0.85); }
-  to { opacity: 1; transform: scale(1.15); }
-}
-
-.film-hud-title {
+.film-target-title {
   font-family: var(--font-display);
-  font-size: clamp(26px, 4.2vw, 48px);
+  font-size: clamp(28px, 4.5vw, 50px);
   letter-spacing: 0.08em;
   color: #fff;
-  text-shadow: 0 0 25px rgba(255, 140, 55, 0.5), 0 0 50px rgba(0, 210, 255, 0.2);
+  text-shadow: 0 0 30px rgba(255, 140, 55, 0.6), 0 0 60px rgba(0, 210, 255, 0.3);
   text-transform: uppercase;
   margin: 0;
   text-align: center;
 }
 
-.film-hud-timecode {
+.film-target-sub {
   font-family: var(--font-mono);
-  font-size: clamp(10px, 1.1vw, 12px);
-  letter-spacing: 0.18em;
-  color: rgba(255, 255, 255, 0.65);
+  font-size: clamp(10px, 1.2vw, 12px);
+  letter-spacing: 0.2em;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
   text-align: center;
 }
 
-/* Light Leak / Shutter Exposure Flash */
-.film-light-leak {
+/* 3D Warp Speed Tunnel Lines */
+.film-warp-lines {
+  position: absolute;
+  inset: -50%;
+  background: 
+    radial-gradient(circle at center, transparent 30%, rgba(255, 140, 55, 0.08) 60%, rgba(0, 210, 255, 0.12) 80%),
+    repeating-conic-gradient(from 0deg, transparent 0deg, transparent 15deg, rgba(255, 140, 55, 0.03) 16deg, transparent 17deg);
+  pointer-events: none;
+  transform: translateZ(-600px);
+}
+
+/* Shutter Flash / Lens Flare Bloom */
+.film-dive-flash {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at center, rgba(255, 160, 80, 0.45) 0%, rgba(0, 210, 255, 0.25) 45%, transparent 75%);
+  background: radial-gradient(circle at center, rgba(255, 180, 100, 0.7) 0%, rgba(0, 210, 255, 0.4) 40%, transparent 75%);
   mix-blend-mode: screen;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.15s ease;
+  transform: scale(0.6);
+  transition: opacity 0.2s ease, transform 0.25s ease;
 }
 
-.film-strip-overlay.is-active .film-light-leak {
-  opacity: 1;
+.film-dive-overlay.is-diving .film-dive-flash {
+  animation: filmFlashBloom 0.68s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
+
+@keyframes filmFlashBloom {
+  0% { opacity: 0; transform: scale(0.4); }
+  45% { opacity: 0.85; transform: scale(1.1); }
+  65% { opacity: 1; transform: scale(1.4); }
+  100% { opacity: 0; transform: scale(2.2); }
+}
+
+@keyframes filmTallyBlink {
+  0% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0.3; transform: scale(0.85); }
+}
+
+.film-dive-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, transparent 40%, rgba(0, 0, 0, 0.85) 100%);
+  pointer-events: none;
+}
+
+
 
 
