@@ -17,13 +17,33 @@
 <body>
 
   <!-- =========================================================================
-       CINEMATIC SECURE UPLINK LOADER (THREEUI ARCHITECTURE // CYBER DUAL-TONE)
+       CINEMATIC SECURE UPLINK LOADER (OZAN ARDA ÖZÇELİK // ROBOTICS & CV PERCEPTION)
        ========================================================================= -->
-  <div class="site-preloader" id="sitePreloader" aria-label="Sistem Yükleniyor / Initializing Secure Uplink">
+  <div class="site-preloader" id="sitePreloader" aria-label="Sistem Yükleniyor / Initializing Perception Matrix">
     <div class="uplink-pool"></div>
 
     <div class="uplink-scene">
       <div class="uplink-stage" id="uplinkStage">
+
+        <!-- Personal Brand & Engineering Identity -->
+        <div class="uplink-brand">
+          <div class="uplink-brand-badge">
+            <span class="badge-dot"></span>
+            <span>SYSTEM // PERCEPTION MATRIX V2.4</span>
+          </div>
+          <span class="uplink-brand-title">OZAN ARDA ÖZÇELİK</span>
+          <span class="uplink-brand-sub">BİLGİSAYARLI GÖRÜ • ROBOTİK • YAPAY ZEKA</span>
+        </div>
+
+        <!-- Telemetry Corner Metadata -->
+        <div class="uplink-corner-meta left">
+          <div>DEV // <span class="meta-hi">OZAN ARDA</span></div>
+          <div>CORE // <span class="meta-hi">ROS2 • OPENCV • PYTORCH</span></div>
+        </div>
+        <div class="uplink-corner-meta right">
+          <div>NODE // <span class="meta-hi">SPATIAL_PERCEPTION</span></div>
+          <div>FPS // <span class="meta-hi">60.0 LOCKED</span></div>
+        </div>
 
         <div class="uplink-haze"><i id="uplinkHaze"></i></div>
 
@@ -31,9 +51,9 @@
         <div class="uplink-brk tr"></div><div class="uplink-brk bl"></div>
         <div class="uplink-readout"><b id="uplinkNum">0</b><u>%</u></div>
 
-        <div class="uplink-barlabel">UPLINK // ROBOTICS &amp; PERCEPTION</div>
+        <div class="uplink-barlabel">OZAN_PERCEPTION_CORE // ROBOTICS MATRIX</div>
         <div class="uplink-bar" id="uplinkBar"></div>
-        <div class="uplink-status" id="uplinkStatus">INITIALIZING ROBOTICS &amp; VISION CORE<span class="dots" id="uplinkDots">...</span></div>
+        <div class="uplink-status" id="uplinkStatus">BAŞLATILIYOR: OZAN ARDA PORTFOLYO ÇEKİRDEĞİ<span class="dots" id="uplinkDots">...</span></div>
 
         <div class="uplink-marker uplink-m-tl"><i class="h a-h"></i><i class="v a-v"></i><i class="h b-h"></i><i class="v b-v"></i><i class="h c-h"></i><i class="v c-v"></i><i class="h d-h"></i><i class="v d-v"></i><i class="dia"></i></div>
         <div class="uplink-marker uplink-m-tr"><i class="h a-h"></i><i class="v a-v"></i><i class="h b-h"></i><i class="v b-v"></i><i class="h c-h"></i><i class="v c-v"></i><i class="h d-h"></i><i class="v d-v"></i><i class="dia"></i></div>
@@ -49,6 +69,7 @@
             <div class="slab"></div>
             <i class="led"></i><i class="led"></i><i class="led"></i><i class="led"></i>
           </div>
+          <span class="rail-tag">ROS2 :: STEREO_NODE</span>
         </div>
         <div class="uplink-rail right">
           <div class="wire"></div><div class="cap a"></div><div class="cap b"></div>
@@ -59,6 +80,7 @@
             <div class="slab"></div>
             <i class="led"></i><i class="led"></i><i class="led"></i><i class="led"></i>
           </div>
+          <span class="rail-tag">CUDA :: 60FPS_MODEL</span>
         </div>
 
       </div>
@@ -1617,11 +1639,11 @@
 
         /* ---- Progress Timeline & Hardware Telemetry ---- */
         const PHASES = [
-          [0, { tr: 'SİSTEM & DONANIM ÇEKİRDEĞİ BAŞLATILIYOR', en: 'INITIALIZING CORE SYSTEMS' }],
-          [24, { tr: 'GÜVENLİ VERİ BAĞLANTISI KURULUYOR', en: 'ESTABLISHING SECURE UPLINK' }],
-          [52, { tr: '3D SPATIAL DÜĞÜM DİZİLİMİ SENKRONİZE EDİLİYOR', en: 'SYNCHRONIZING 3D NODE ARRAY' }],
-          [78, { tr: 'DERİN ÖĞRENME TELEMETRİSİ ÇÖZÜLÜYOR', en: 'DECRYPTING PAYLOAD STREAM' }],
-          [100, { tr: 'BAĞLANTI TAMAMLANDI // SİSTEM ÇEVRİMİÇİ', en: 'UPLINK ESTABLISHED' }]
+          [0, { tr: 'BAŞLATILIYOR: OZAN ARDA PORTFOLYO ÇEKİRDEĞİ', en: 'INITIALIZING: OZAN ARDA PORTFOLIO CORE' }],
+          [24, { tr: 'ROBOTİK KİNEMATİK & SENSÖR ENTEGRASYONU YÜKLENİYOR', en: 'CALIBRATING ROBOTIC SENSORS & STEREO CAMERAS' }],
+          [52, { tr: 'BİLGİSAYARLI GÖRÜ & DERİN ÖĞRENME MODELLERİ AKTİF', en: 'LOADING OPENCV & PYTORCH PERCEPTION ENGINES' }],
+          [78, { tr: '3D ETKİLEŞİMLİ PROJELER & KİTAPLIK SENKRONİZE EDİLİYOR', en: 'SYNCHRONIZING 3D THREE.JS SPATIAL MATRICES' }],
+          [100, { tr: 'TÜM SİSTEMLER HAZIR // ARAYÜZE GİRİŞ YAPILIYOR', en: 'ALL SYSTEMS OPERATIONAL // ENGAGING INTERFACE' }]
         ];
 
         const phaseFor = (p) => {

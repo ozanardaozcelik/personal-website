@@ -3234,6 +3234,105 @@ html.menu-open {
   position: absolute;
 }
 
+/* Personal Brand Header & Telemetry Meta for Ozan Arda Özçelik */
+.uplink-brand {
+  left: 0;
+  top: 135px;
+  width: 1200px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  pointer-events: none;
+}
+
+.uplink-brand-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.22em;
+  color: var(--amber);
+  background: rgba(255, 140, 55, 0.1);
+  border: 1px solid rgba(255, 140, 55, 0.35);
+  padding: 3px 12px;
+  border-radius: 999px;
+  text-shadow: 0 0 8px rgba(255, 140, 55, 0.6);
+}
+
+.uplink-brand-badge .badge-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 6px var(--cyan);
+}
+
+.uplink-brand-title {
+  font-family: var(--font-display);
+  font-size: 32px;
+  letter-spacing: 0.16em;
+  color: #ffffff;
+  text-shadow: 0 0 20px rgba(0, 210, 255, 0.6), 0 0 40px rgba(255, 140, 55, 0.4);
+}
+
+.uplink-brand-sub {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.26em;
+  color: var(--cyan);
+  text-shadow: 0 0 10px rgba(0, 210, 255, 0.7);
+}
+
+.uplink-corner-meta {
+  position: absolute;
+  top: 236px;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.16em;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.6);
+  pointer-events: none;
+}
+
+.uplink-corner-meta.left {
+  left: 204px;
+  text-align: left;
+}
+
+.uplink-corner-meta.right {
+  right: 204px;
+  text-align: right;
+}
+
+.uplink-corner-meta .meta-hi {
+  color: var(--cyan);
+  font-weight: 700;
+}
+
+.rail-tag {
+  position: absolute;
+  top: 480px;
+  left: 175px;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: rgba(255, 255, 255, 0.75);
+  background: rgba(4, 12, 20, 0.85);
+  padding: 2px 6px;
+  border: 1px solid rgba(0, 210, 255, 0.3);
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+.uplink-rail.right .rail-tag {
+  transform: scaleX(-1);
+}
+
 /* Readout plate */
 .uplink-plate {
   left: 530px;
