@@ -261,14 +261,14 @@ export function initTopics3DStream(canvasId = 'topics-3d-canvas') {
     const material = new THREE.MeshBasicMaterial({
       map: texture,
       opacity: isSel ? 1.0 : 0.88,
-      side: THREE.DoubleSide,
+      side: THREE.FrontSide, // Always face front out - never show mirrored backface text
       toneMapped: false,
       transparent: true
     });
 
     const panel = new THREE.Mesh(geometry, material);
     panel.rotation.y = (i / totalPanels) * Math.PI * 2;
-    panel.position.y = (i - totalPanels / 2) * spacingY;
+    panel.position.y = i * spacingY;
     panel.userData = {
       index: i,
       topicKey: topic.key,
@@ -404,17 +404,21 @@ export function initTopics3DStream(canvasId = 'topics-3d-canvas') {
     dragRotY += (targetDragRotY - dragRotY) * 0.12;
     dragScrollY += (targetDragScrollY - dragScrollY) * 0.12;
 
-    // Continuous Horizontal Orbital Rotation
-    gallery.rotation.y = -elapsed * 0.24 + dragRotY;
-
     // Downward Waterfall Flow
-    const moveY = (elapsed * 1.15) + dragScrollY;
+    const speedY = 1.10;
+    const moveY = (elapsed * speedY) + dragScrollY;
     panels.forEach((panel) => {
-      const basePos = (panel.userData.index - totalPanels / 2) * spacingY;
+      const basePos = panel.userData.index * spacingY;
       const rawY = basePos - moveY;
       const wrappedY = ((rawY + halfSpan) % totalSpan + totalSpan) % totalSpan - halfSpan;
       panel.position.y = wrappedY;
     });
+
+    // Continuous Horizontal Orbital Rotation - synchronized with waterfall
+    // As each card moves into y = 0, its FRONT faces directly forward at the camera
+    const dTheta = (Math.PI * 2) / totalPanels;
+    const rotSpeed = dTheta / (spacingY / speedY);
+    gallery.rotation.y = -(elapsed * rotSpeed) + dragRotY;
 
     // Raycast for Hover
     if (mouseVec.x > -10 && mouseVec.x < 10) {
