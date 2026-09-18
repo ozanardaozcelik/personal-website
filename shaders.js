@@ -49,11 +49,11 @@ export const displayFragmentShader = `
     vec2 s = uResolution / ts;
     float scale = max(s.x, s.y);
     vec2 scaled = ts * scale;
-    // Align horizontally with a slight right shift on desktop (0.12) so text on the left and portrait on the right are cleanly separated
-    float shiftX = uResolution.x > 800.0 ? uResolution.x * 0.12 : 0.0;
+    // Align horizontally with a slight right shift on desktop (0.04) for clean separation with left text
+    float shiftX = uResolution.x > 800.0 ? uResolution.x * 0.04 : 0.0;
     float offsetX = (uResolution.x - scaled.x) * 0.5 - shiftX;
-    // Vertically anchor towards top (0.85) so hair, safety glasses, eyes & full face are centered and 100% visible
-    float offsetY = (uResolution.y - scaled.y) * 0.85;
+    // Vertically anchor towards top (0.70) so head, hair, and face are centered and 100% visible
+    float offsetY = (uResolution.y - scaled.y) * 0.70;
     return (uv * uResolution - vec2(offsetX, offsetY)) / scaled;
   }
 

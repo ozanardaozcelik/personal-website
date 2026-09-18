@@ -32,15 +32,15 @@ if (!canvas) {
 }
 
 function initHeroFluid(canvas) {
-  // 2. Create WebGLRenderer with optimal settings
+  // 2. Create WebGLRenderer with optimal HD settings
   const renderer = new THREE.WebGLRenderer({
     canvas,
-    antialias: false,
+    antialias: true,
     alpha: true,
     powerPreference: 'high-performance',
-    precision: 'mediump'
+    precision: 'highp'
   });
-  const dpr = Math.min(window.devicePixelRatio || 1, 1.0);
+  const dpr = Math.min(window.devicePixelRatio || 1, 2.0);
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setPixelRatio(dpr);
 
@@ -110,8 +110,8 @@ function initHeroFluid(canvas) {
     uTopTexture: { value: placeholderTop },
     uBottomTexture: { value: placeholderBottom },
     uResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
-    uTopTextureSize: { value: new THREE.Vector2(1600, 1200) },
-    uBottomTextureSize: { value: new THREE.Vector2(1600, 1200) },
+    uTopTextureSize: { value: new THREE.Vector2(1920, 1080) },
+    uBottomTextureSize: { value: new THREE.Vector2(1920, 1080) },
     uDpr: { value: dpr }
   };
 
@@ -140,19 +140,21 @@ function initHeroFluid(canvas) {
   const displayMesh = new THREE.Mesh(quadGeom, displayMaterial);
   scene.add(displayMesh);
 
-  // 8. Direct, high-speed texture loader (Zero-memory-copy pipeline)
+  // 8. Direct, high-speed texture loader with Ultra HD mipmapping & anisotropic filtering
   function loadTextureDirect(url, onLoaded) {
     const img = new Image();
     img.crossOrigin = 'Anonymous';
     img.decoding = 'async';
     img.onload = () => {
       const tex = new THREE.Texture(img);
-      tex.minFilter = THREE.LinearFilter;
+      tex.minFilter = THREE.LinearMipmapLinearFilter;
       tex.magFilter = THREE.LinearFilter;
+      tex.generateMipmaps = true;
+      tex.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
       tex.flipY = true;
       tex.needsUpdate = true;
-      const w = img.naturalWidth || img.width || 1600;
-      const h = img.naturalHeight || img.height || 1200;
+      const w = img.naturalWidth || img.width || 1920;
+      const h = img.naturalHeight || img.height || 1080;
       onLoaded(tex, w, h);
     };
     img.onerror = () => {
@@ -232,7 +234,7 @@ function initHeroFluid(canvas) {
   window.addEventListener('resize', () => {
     const w = window.innerWidth;
     const h = window.innerHeight;
-    const currentDpr = Math.min(window.devicePixelRatio || 1, 1.0);
+    const currentDpr = Math.min(window.devicePixelRatio || 1, 2.0);
     renderer.setSize(w, h);
     renderer.setPixelRatio(currentDpr);
     displayUniforms.uResolution.value.set(w, h);
