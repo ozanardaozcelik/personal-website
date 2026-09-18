@@ -591,15 +591,15 @@ html[data-lang="en"] .lang-tr { display: none !important; }
   <!-- TOP HEADER STREAMLINED (Subtle tactical pill, no overlap) -->
   <div class="sb-top-tag" id="sbTopTag">
     <span class="motto-tag">
-      <span class="lang-tr">02 · HİKAYEM // 9 DÖNÜM NOKTASI ESKİZ DEFTERİ</span>
-      <span class="lang-en">02 · MY STORY // 9 MILESTONES SKETCHBOOK</span>
+      <span class="lang-tr">02 · HİKAYEM // 8 DÖNÜM NOKTASI ESKİZ DEFTERİ</span>
+      <span class="lang-en">02 · MY STORY // 8 MILESTONES SKETCHBOOK</span>
     </span>
   </div>
 
   <section id="sketchbook" class="hero">
     <p class="hero-kicker" id="heroKicker">
-      <span class="lang-tr">02 · HİKAYEM — 9 DÖNÜM NOKTASI ESKİZ DEFTERİ<br><span style="opacity:0.85;font-size:0.88em;letter-spacing:0.18em;color:var(--earth);">ŞAHİ OTONOM SİHA YAZILIM LİDERİ · BİLGİSAYARLI GÖRÜ &amp; ROBOTİK AR-GE</span></span>
-      <span class="lang-en">02 · MY STORY — 9 MILESTONES SKETCHBOOK<br><span style="opacity:0.85;font-size:0.88em;letter-spacing:0.18em;color:var(--earth);">AUTONOMOUS UAV SOFTWARE LEAD · COMPUTER VISION &amp; ROBOTICS R&amp;D</span></span>
+      <span class="lang-tr">02 · HİKAYEM — 8 DÖNÜM NOKTASI ESKİZ DEFTERİ<br><span style="opacity:0.85;font-size:0.88em;letter-spacing:0.18em;color:var(--earth);">ŞAHİ OTONOM SİHA YAZILIM LİDERİ · BİLGİSAYARLI GÖRÜ &amp; ROBOTİK AR-GE</span></span>
+      <span class="lang-en">02 · MY STORY — 8 MILESTONES SKETCHBOOK<br><span style="opacity:0.85;font-size:0.88em;letter-spacing:0.18em;color:var(--earth);">AUTONOMOUS UAV SOFTWARE LEAD · COMPUTER VISION &amp; ROBOTICS R&amp;D</span></span>
     </p>
 
     <div class="sb-wrap" id="sbWrap">
@@ -671,27 +671,25 @@ const Q=new URLSearchParams(location.search);
 const DIR='meng-to-sketchbook/';
 
 const PAGES_TR=[
-  {file:'marina-bay-sands.png',   title:'3 Yaş: İlk Bilgisayar & Oyunlar',     place:'Dijital Dünyayla İlk Karşılaşma'},
-  {file:'gardens-by-the-bay.png', title:'Kırımlı Fazilet Olcay A.L.',          place:'Lise Yılları · Makinelerin Derin Yetenekleri'},
-  {file:'merlion.png',            title:'Tekirdağ Namık Kemal Üniversitesi',   place:'Bilgisayar Mühendisliği'},
-  {file:'buddha-tooth.png',       title:'Martur Fompak International',         place:'Şirket İçi Kurumsal Yapay Zeka Sistemleri'},
-  {file:'joo-chiat.png',          title:'Görüntü İşleme & Gazebo Harmonic',    place:'Piksel Mimarileri, OpenCV & 3D Simülasyon'},
-  {file:'lau-pa-sat.png',         title:'Şahi Otonom SİHA Takımı',            place:'TEKNOFEST Savaşan İHA · Yazılım Ekip Lideri'},
-  {file:'marina-bay-skyline.png', title:'Çözüm Makina: ISEE Vision',           place:'Endüstriyel Görüntü İşleme & Kalite Kontrol'},
-  {file:'singapore-river.png',    title:'Çözüm Makina: ISEE Robotics',         place:'Endüstriyel Robotik, ROS, MQTT & Gazebo'},
+  {file:'marina-bay-sands.png',   title:'3 Yaş: İlk Bilgisayar & Oyunlar',         place:'Dijital Dünyayla İlk Karşılaşma'},
+  {file:'gardens-by-the-bay.png', title:'Kırımlı Fazilet Olcay A.L.',              place:'Lise Yılları · Makinelerin Derin Yetenekleri'},
+  {file:'merlion.png',            title:'Tekirdağ Namık Kemal Üniversitesi',       place:'Bilgisayar Mühendisliği'},
+  {file:'buddha-tooth.png',       title:'Martur Fompak International',             place:'Şirket İçi Kurumsal Yapay Zeka Sistemleri'},
+  {file:'lau-pa-sat.png',         title:'Şahi SİHA: Muharebe Otonomisi',           place:'TEKNOFEST Savaşan İHA · Yazılım Ekip Lideri'},
+  {file:'marina-bay-skyline.png', title:'Çözüm Makina: ISEE Vision',               place:'Endüstriyel Görüntü İşleme & Kalite Kontrol'},
+  {file:'singapore-river.png',    title:'Çözüm Makina: ISEE Robotics',             place:'Endüstriyel Robotik, ROS, MQTT & Gazebo'},
   {file:'botanic-gardens.png',    title:'Teorik bilgilerimi pratiğe çeviriyorum.', place:'Gelecek Vizyonu'}
 ];
 
 const PAGES_EN=[
-  {file:'marina-bay-sands.png',   title:'Age 3: First PC & Games',             place:'First Digital Encounter'},
-  {file:'gardens-by-the-bay.png', title:'Kırımlı Fazilet Olcay High School',   place:'Awakening to Deep Machine Capabilities'},
-  {file:'merlion.png',            title:'Tekirdağ Namık Kemal University',     place:'Computer Engineering'},
-  {file:'buddha-tooth.png',       title:'Martur Fompak International',         place:'Internal Enterprise AI & Multi-Agent Systems'},
-  {file:'joo-chiat.png',          title:'Computer Vision & Gazebo Harmonic',   place:'Pixel Tensors, OpenCV & 3D Simulation'},
-  {file:'lau-pa-sat.png',         title:'Şahi Autonomous UAV Team',            place:'TEKNOFEST Fighting UAV · Software Team Lead'},
-  {file:'marina-bay-skyline.png', title:'Çözüm Makina: ISEE Vision',           place:'Industrial Computer Vision & Zero-Defect'},
-  {file:'singapore-river.png',    title:'Çözüm Makina: ISEE Robotics',         place:'Industrial Robotics, ROS, MQTT & Gazebo'},
-  {file:'botanic-gardens.png',    title:'Transforming theory into practice.',  place:'Future Vision'}
+  {file:'marina-bay-sands.png',   title:'Age 3: First PC & Games',                 place:'First Digital Encounter'},
+  {file:'gardens-by-the-bay.png', title:'Kırımlı Fazilet Olcay High School',       place:'Awakening to Deep Machine Capabilities'},
+  {file:'merlion.png',            title:'Tekirdağ Namık Kemal University',         place:'Computer Engineering'},
+  {file:'buddha-tooth.png',       title:'Martur Fompak International',             place:'Internal Enterprise AI & Multi-Agent Systems'},
+  {file:'lau-pa-sat.png',         title:'Şahi UAV: Combat Autonomy',               place:'TEKNOFEST Fighting UAV · Software Team Lead'},
+  {file:'marina-bay-skyline.png', title:'Çözüm Makina: ISEE Vision',               place:'Industrial Computer Vision & Zero-Defect'},
+  {file:'singapore-river.png',    title:'Çözüm Makina: ISEE Robotics',             place:'Industrial Robotics, ROS, MQTT & Gazebo'},
+  {file:'botanic-gardens.png',    title:'Transforming theory into practice.',      place:'Future Vision'}
 ];
 
 let currentSbLang = localStorage.getItem('site_lang') || 'tr';

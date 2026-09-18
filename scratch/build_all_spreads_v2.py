@@ -75,34 +75,22 @@ spreads_data = [
         'signature': '[Martur Fompak International — Kurumsal Yapay Zeka Stajı & Projeleri]'
     },
     {
-        'file': 'joo-chiat.png',
-        'illus': 'plate05_gazebo_cv_1789637005941.jpg',
-        'kicker': 'BÖLÜM 05 // BİLGİSAYARLI GÖRÜ & GAZEBO HARMONIC',
-        'plate_num': 'LEVHA 05',
-        'title': 'Pikseller ve Simülasyon: Gazebo Harmonic',
-        'subtitle': 'Piksel Mimarileri, OpenCV & 3D Simülasyon',
-        'lead': 'Yazılımı ekrandan çıkarıp fiziksel dünyayı algılayan bir göze dönüştürmek için Görüntü İşleme ve Gazebo Harmonic simülasyonlarına odaklandım.',
-        'body': 'Kamera sensörlerinden gelen ham piksel matrislerini derin öğrenme modelleriyle işlerken; algoritmaları gerçek dünyaya indirmeden önce Gazebo Harmonic üzerinde 3D fiziksel simülasyon ortamları kurdum. Işın izleme, sanal kamera optiği, çarpışma testleri ve tensör matrislerini simülasyonda doğrulayarak kusursuz bir test hattı inşa ettim.',
-        'note': '✦ "Gerçek dünya fiziğini sanal ortamda Gazebo Harmonic ile simüle etmek; sahada sıfır hata demektir."',
-        'signature': '[Gazebo Harmonic 3D World Simulation & OpenCV Vision Tensors]'
-    },
-    {
         'file': 'lau-pa-sat.png',
         'illus': 'plate05_sahi_uav_1789635730454.jpg',
-        'kicker': 'BÖLÜM 06 // TEKNOFEST SAVAŞAN İHA · YAZILIM LİDERİ',
-        'plate_num': 'LEVHA 06',
-        'title': 'Şahi SİHA: Gökyüzünde Muharebe Otonomisi',
-        'subtitle': 'Şahi Otonom SİHA Takımı Yazılım Ekip Liderliği',
-        'lead': 'Görüntü işleme ve otonomi vizyonumun en üst sahaya yansıması, Şahi Otonom SİHA Takımı Yazılım Ekip Liderliği oldu.',
-        'body': 'TEKNOFEST Savaşan İHA yarışması kapsamında; yüksek hızlı hava-hava muharebe senaryolarında gerçek zamanlı YOLOv8 nesne tespiti, ByteTrack yörünge kestirimi ve oransal seyrüsefer (Proportional Navigation) kamikaze dalış güdüm mimarilerini uçtan uca yönettim. Milisaniyeler mertebesinde hedef kilitlenmesi yapan otonom durum makineleri geliştirdik.',
-        'note': '✦ "Hava muharebesinde saliseler her şeydir; oransal seyrüsefer ve hedef takibi kusursuz işlemelidir."',
-        'signature': '[Şahi SİHA Yazılım Liderliği — YOLOv8, ByteTrack & Proportional Nav]'
+        'kicker': 'BÖLÜM 05 // TEKNOFEST SAVAŞAN İHA · YAZILIM LİDERİ',
+        'plate_num': 'LEVHA 05',
+        'title': 'Şahi SİHA: Muharebe Otonomisi & Simülasyon',
+        'subtitle': 'Şahi Otonom SİHA Takımı — Yazılım Ekip Liderliği',
+        'lead': 'Görüntü işlemeye duyduğum derin ilgi ve geliştirdiğim projelerimin ardından, Şahi Otonom SİHA Takımına Yazılım Ekip Lideri olarak katıldım.',
+        'body': 'TEKNOFEST Savaşan İHA yarışması kapsamında; yüksek hızlı hava-hava muharebe senaryolarında gerçek zamanlı YOLOv8 nesne tespiti modellerini sahaya entegre ettim. ArduPilot, ROS 2 ve Gazebo Harmonic kullanarak telemetri haberleşmesini ve simülasyon test hattını kurdum. Milisaniyeler mertebesinde kilitlenen kamikaze dalış güdüm mimarilerini ve otonom durum makinelerini uçtan uca yönettim.',
+        'note': '✦ "Simülasyondan gökyüzüne: ArduPilot, ROS 2, Gazebo Harmonic ve gerçek zamanlı YOLOv8 ile hava otonomisi."',
+        'signature': '[Şahi Otonom SİHA Yazılım Liderliği — YOLOv8, ArduPilot, ROS 2, Gazebo & Güdüm]'
     },
     {
         'file': 'marina-bay-skyline.png',
         'illus': 'plate06_cozum_makina_1789635755334.jpg',
-        'kicker': 'BÖLÜM 07 // ÇÖZÜM MAKİNA AR-GE · ISEE VISION',
-        'plate_num': 'LEVHA 07',
+        'kicker': 'BÖLÜM 06 // ÇÖZÜM MAKİNA AR-GE · ISEE VISION',
+        'plate_num': 'LEVHA 06',
         'title': 'Çözüm Makina: ISEE Vision Kalite Kontrol',
         'subtitle': 'Endüstriyel Görüntü İşleme & Sıfır Hata Anomali',
         'lead': 'Çözüm Makina Ar-Ge bünyesinde ISEE Vision ile endüstriyel üretim hatlarında görüntü işlemeyle sıfır hata kalite kontrol modelleri geliştirdim.',
@@ -113,8 +101,8 @@ spreads_data = [
     {
         'file': 'singapore-river.png',
         'illus': 'plate04_robotics_1789635708664.jpg',
-        'kicker': 'BÖLÜM 08 // ÇÖZÜM MAKİNA · ISEE ROBOTICS',
-        'plate_num': 'LEVHA 08',
+        'kicker': 'BÖLÜM 07 // ÇÖZÜM MAKİNA · ISEE ROBOTICS',
+        'plate_num': 'LEVHA 07',
         'title': 'Çözüm Makina: ISEE Robotics',
         'subtitle': 'Endüstriyel Robotik, ROS, MQTT & Gazebo',
         'lead': 'Çözüm Makina bünyesinde ISEE Robotics çatısı altında endüstriyel robotlarla çalıştım; ROS ve MQTT ile otonom operasyonlar kurdum.',
@@ -125,8 +113,8 @@ spreads_data = [
     {
         'file': 'botanic-gardens.png',
         'illus': 'plate09_manifesto_1789635835947.jpg',
-        'kicker': 'BÖLÜM 09 // GELECEK VİZYONU & MANİFESTO',
-        'plate_num': 'LEVHA 09',
+        'kicker': 'BÖLÜM 08 // GELECEK VİZYONU & MANİFESTO',
+        'plate_num': 'LEVHA 08',
         'title': 'İnsan Formu — Makine Mantığı',
         'subtitle': 'Otonom Sürü Zekası & Gelecek Vizyonu',
         'lead': 'İnsan sezgisi, makine mantığıyla birleştiğinde; donanımın soğuk metalleri otonom bir zekaya dönüşür.',
@@ -158,8 +146,8 @@ def wrap_text(text, font, max_width, draw):
 
 for s in spreads_data:
     dest_file = s['file']
-    if dest_file in ['marina-bay-sands.png', 'gardens-by-the-bay.png', 'merlion.png', 'buddha-tooth.png']:
-        # Managed with custom high-fidelity pipelines in scratch/build_spread_01_retro.py, 02_modern.py, 03_university.py & 04_martur.py
+    if dest_file in ['marina-bay-sands.png', 'gardens-by-the-bay.png', 'merlion.png', 'buddha-tooth.png', 'lau-pa-sat.png']:
+        # Managed with custom high-fidelity pipelines in scratch/build_spread_01_retro.py, 02_modern.py, 03_university.py, 04_martur.py & 05_sahi.py
         continue
     illus_file = s['illus']
     dest_path = os.path.join(out_dir, dest_file)
