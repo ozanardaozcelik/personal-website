@@ -899,12 +899,17 @@
         }
       }
 
-      // Preload story iframe when flowContainer is near viewport
+      // Preload story iframe when flowContainer is near viewport, and preload shelf on idle
       if (flowContainer && 'IntersectionObserver' in window) {
         const flowObserver = new IntersectionObserver((entries) => {
           if (entries[0].isIntersecting) {
             flowObserver.disconnect();
             ensureStoryLoaded();
+            if ('requestIdleCallback' in window) {
+              requestIdleCallback(() => ensureShelfLoaded(), { timeout: 2000 });
+            } else {
+              setTimeout(ensureShelfLoaded, 1200);
+            }
           }
         }, { rootMargin: '300px' });
         flowObserver.observe(flowContainer);
@@ -912,6 +917,7 @@
 
       // Scroll Handler with Generous Dedicated Reading Buffer & Cinematic Pacing
       let lastRenderedP = -999;
+      let hasSnappedToStory = true;
 
       function onScrollHeroFlow() {
         if (!flowContainer || !scrollDockBook || !sdbWingRight) return;
@@ -946,8 +952,11 @@
         const shouldShelfBeActive = p >= 0.65 && p <= 1.08;
         setShelfActiveState(shouldShelfBeActive);
 
-        // When scrolling back up from shelf towards story, ensure shelf snaps to Book 0 (Hikayem)
-        if (p < 0.78 && shelfIframe && shelfIframe.contentWindow) {
+        // When scrolling back up from shelf towards story, ensure shelf snaps to Book 0 (Hikayem) once
+        if (p >= 0.85) {
+          hasSnappedToStory = false;
+        } else if (p < 0.75 && !hasSnappedToStory && shelfIframe && shelfIframe.contentWindow) {
+          hasSnappedToStory = true;
           try {
             shelfIframe.contentWindow.postMessage({ type: 'SNAP_TO_STORY_BOOK' }, '*');
           } catch (e) {}

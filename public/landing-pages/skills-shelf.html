@@ -18,9 +18,9 @@
   <style>
     :root {
       color-scheme: dark;
-      --paper: #171a24;
-      --paper-deep: #10131b;
-      --paper-pale: #f1eadf;
+      --paper: #161310;
+      --paper-deep: #0f0d0b;
+      --paper-pale: #221d18;
       --ink: #f4eee6;
       --ink-soft: #b9b4ae;
       --walnut: #3a2118;
@@ -1909,16 +1909,16 @@
             "color": "#4a3020",
             "foil": "#e89f66",
             "palette": {
-                  "paper": "#faf8f5",
-                  "paperDeep": "#f0eae0",
-                  "paperPale": "#ffffff",
-                  "ink": "#2b2721",
-                  "inkSoft": "#6b6255",
-                  "wall": "#faf8f5",
-                  "shelf": "#442416",
-                  "shelfDark": "#21100a",
-                  "light": "#fff6eb",
-                  "fill": "#b5785a"
+                  "paper": "#161310",
+                  "paperDeep": "#0f0d0b",
+                  "paperPale": "#221d18",
+                  "ink": "#f5efe6",
+                  "inkSoft": "#baa794",
+                  "wall": "#161310",
+                  "shelf": "#381f14",
+                  "shelfDark": "#1a0e09",
+                  "light": "#ffeacc",
+                  "fill": "#6b422a"
             },
             "width": 1.08,
             "height": 1.56,
@@ -2134,16 +2134,16 @@
             "color": "#4a3020",
             "foil": "#e89f66",
             "palette": {
-                  "paper": "#faf8f5",
-                  "paperDeep": "#f0eae0",
-                  "paperPale": "#ffffff",
-                  "ink": "#2b2721",
-                  "inkSoft": "#6b6255",
-                  "wall": "#faf8f5",
-                  "shelf": "#442416",
-                  "shelfDark": "#21100a",
-                  "light": "#fff6eb",
-                  "fill": "#b5785a"
+                  "paper": "#161310",
+                  "paperDeep": "#0f0d0b",
+                  "paperPale": "#221d18",
+                  "ink": "#f5efe6",
+                  "inkSoft": "#baa794",
+                  "wall": "#161310",
+                  "shelf": "#381f14",
+                  "shelfDark": "#1a0e09",
+                  "light": "#ffeacc",
+                  "fill": "#6b422a"
             },
             "width": 1.08,
             "height": 1.56,
@@ -5649,7 +5649,9 @@
           try { closeDetail(); } catch(err) {}
         }
         targetPosition = 0;
-        updateSelection(0, true);
+        if (selectedIndex !== 0) {
+          updateSelection(0, false);
+        }
         requestFrame();
       }
       if (e.data.type === 'SUSPEND_WEBGL') {
@@ -6120,7 +6122,7 @@
       viewHeight = window.innerHeight;
       configureResponsiveTargets();
       renderer.setSize(viewWidth, viewHeight, false);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, viewWidth < 820 ? 1.5 : 2));
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
       camera.aspect = viewWidth / viewHeight;
       camera.updateProjectionMatrix();
 
@@ -6322,7 +6324,7 @@
       renderer.setClearColor(0x000000, 0);
 
       scene = new THREE.Scene();
-      scene.fog = new THREE.FogExp2(0xe9dfcb, 0.027);
+      scene.fog = new THREE.FogExp2(0x161310, 0.027);
       const pmremGenerator = new THREE.PMREMGenerator(renderer);
       environmentTarget = pmremGenerator.fromScene(new RoomEnvironment(), 0.04);
       scene.environment = environmentTarget.texture;

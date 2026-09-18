@@ -104,6 +104,8 @@ button{font:inherit}
   -webkit-tap-highlight-color:transparent;
   z-index:1000;
   margin:0 14px;
+  pointer-events: auto !important;
+  cursor: pointer !important;
 }
 .sb-arrow:hover:not(:disabled):not(.is-disabled){
   background:rgba(32,40,52,.98);
@@ -1151,24 +1153,33 @@ function goTo(i){
 const btnLeft = document.getElementById('sbLeft');
 const btnRight = document.getElementById('sbRight');
 
-if(btnLeft){
-  btnLeft.addEventListener('pointerdown', e => e.stopPropagation());
-  btnLeft.addEventListener('mousedown', e => e.stopPropagation());
-  btnLeft.addEventListener('click', e => {
-    e.preventDefault();
-    e.stopPropagation();
-    step('prev');
-  });
+let isStepping = false;
+function turnPage(dir, e) {
+  if (e) {
+    try { e.preventDefault(); } catch (err) {}
+    try { e.stopPropagation(); } catch (err) {}
+  }
+  if (isStepping) return;
+  isStepping = true;
+  if (typeof hideHint === 'function') hideHint();
+  step(dir);
+  setTimeout(() => { isStepping = false; }, 260);
 }
 
-if(btnRight){
-  btnRight.addEventListener('pointerdown', e => e.stopPropagation());
-  btnRight.addEventListener('mousedown', e => e.stopPropagation());
-  btnRight.addEventListener('click', e => {
-    e.preventDefault();
-    e.stopPropagation();
-    step('next');
+if (btnLeft) {
+  btnLeft.addEventListener('click', (e) => turnPage('prev', e));
+  btnLeft.addEventListener('pointerup', (e) => {
+    if (e.button === 0) turnPage('prev', e);
   });
+  btnLeft.addEventListener('touchend', (e) => turnPage('prev', e));
+}
+
+if (btnRight) {
+  btnRight.addEventListener('click', (e) => turnPage('next', e));
+  btnRight.addEventListener('pointerup', (e) => {
+    if (e.button === 0) turnPage('next', e);
+  });
+  btnRight.addEventListener('touchend', (e) => turnPage('next', e));
 }
 
 const rewindBtn=document.getElementById('rewindBtn');
