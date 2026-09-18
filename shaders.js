@@ -49,10 +49,11 @@ export const displayFragmentShader = `
     vec2 s = uResolution / ts;
     float scale = max(s.x, s.y);
     vec2 scaled = ts * scale;
-    // Centered horizontally since composition is already right-shifted for editorial layout
-    float offsetX = (uResolution.x - scaled.x) * 0.5;
-    // Vertically anchor towards top (0.75) so head, hair, and ENGINEER box are 100% visible
-    float offsetY = (uResolution.y - scaled.y) * 0.75;
+    // Shift slightly to the right on desktop for clean separation with left editorial text
+    float shiftX = uResolution.x > 850.0 ? uResolution.x * 0.06 : 0.0;
+    float offsetX = (uResolution.x - scaled.x) * 0.5 + shiftX;
+    // Vertically anchor towards top (0.80) so head, hair, and ENGINEER box are 100% visible
+    float offsetY = (uResolution.y - scaled.y) * 0.80;
     return (uv * uResolution - vec2(offsetX, offsetY)) / scaled;
   }
 
