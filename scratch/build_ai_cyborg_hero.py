@@ -17,10 +17,59 @@ GREEN   = (80, 235, 80)     # #50eb50
 WHITE   = (250, 250, 250)
 DARK_BG = (10, 12, 16)
 
-def build_composite_bottom():
-    top = cv2.imread(TOP_SRC)
+def retouch_face(img):
+    inpaint_mask = np.zeros(img.shape[:2], dtype=np.uint8)
+
+    # Specific moles and blemishes to remove:
+    spots = [
+        (796, 420, 6), # Prominent mole on left cheek/jaw
+        (780, 460, 5), # Lower left cheek
+        (715, 495, 6), # Chin center blemish
+        (710, 508, 5), # Neck/chin
+        (730, 490, 4), # Chin right
+        (595, 425, 4), # Right cheek
+        (790, 398, 4), # Mid left cheek
+        (750, 440, 4), # Lower cheek
+        (680, 485, 4), # Chin
+        (640, 450, 4), # Right jawline
+    ]
+
+    for x, y, r in spots:
+        cv2.circle(inpaint_mask, (x, y), r, 255, -1)
+
+    # Seamless inpainting of moles/spots
+    cleaned = cv2.inpaint(img, inpaint_mask, 5, cv2.INPAINT_TELEA)
+
+    # Edge-preserving skin smoothing for natural human realism
+    smoothed = cv2.edgePreservingFilter(cleaned, flags=1, sigma_s=35, sigma_r=0.22)
+    bilateral = cv2.bilateralFilter(cleaned, d=7, sigmaColor=30, sigmaSpace=30)
+    smooth_skin = cv2.addWeighted(smoothed, 0.5, bilateral, 0.5, 0)
+
+    # Face mask excluding mustache, lips, cyber lines, and visor
+    h, w = img.shape[:2]
+    face_mask = np.zeros((h, w), dtype=np.float32)
+    cv2.ellipse(face_mask, (690, 350), (145, 170), 0, 0, 360, 1.0, -1)
+
+    # Exclude mustache and lips to keep facial hair and lips 100% sharp
+    mustache_lip_mask = np.zeros((h, w), dtype=np.float32)
+    cv2.ellipse(mustache_lip_mask, (690, 425), (65, 30), 0, 0, 360, 1.0, -1)
+
+    # Exclude visor
+    visor_mask = np.zeros((h, w), dtype=np.float32)
+    cv2.rectangle(visor_mask, (500, 150), (880, 335), 1.0, -1)
+
+    skin_mask = np.clip(face_mask - mustache_lip_mask * 0.9 - visor_mask * 0.9, 0, 1.0)
+    skin_mask = cv2.GaussianBlur(skin_mask, (21, 21), 0)
+    skin_mask_3ch = np.repeat(skin_mask[:, :, np.newaxis], 3, axis=2)
+
+    # Blend: 60% smoothed, 40% natural skin texture for natural human smoothness
+    retouched_face = cv2.addWeighted(smooth_skin, 0.60, cleaned, 0.40, 0)
+    final_img = (retouched_face * skin_mask_3ch + cleaned * (1.0 - skin_mask_3ch)).astype(np.uint8)
+    return final_img
+
+def build_composite_bottom(top_retouched):
     bot_src = cv2.imread(ROBOT_FACE_SRC)
-    h, w = top.shape[:2]
+    h, w = top_retouched.shape[:2]
 
     # Shift robot skull from x=865 to x=690 (dx = -175, dy = -25)
     M = np.float32([[1, 0, -175], [0, 1, -25]])
@@ -32,7 +81,7 @@ def build_composite_bottom():
     mask = cv2.GaussianBlur(mask, (35, 35), 0)
     mask_3ch = np.repeat(mask[:, :, np.newaxis], 3, axis=2)
 
-    composite = (bot_aligned * mask_3ch + top * (1.0 - mask_3ch)).astype(np.uint8)
+    composite = (bot_aligned * mask_3ch + top_retouched * (1.0 - mask_3ch)).astype(np.uint8)
     return composite
 
 def draw_cyber_box(overlay, px1, py1, px2, py2, label, score, primary=CYAN, accent=AMBER, class_id=None, glow=False, tag_pos="top", font_scale_custom=None):
@@ -114,18 +163,20 @@ BOX_SPECS = [
 ]
 
 def generate():
-    # 1. TOP LAYER: AI Cyborg Engineer (Clean, Futuristic, Cybernetic)
-    top_raw = Image.open(TOP_SRC).convert("RGB")
-    top_1080 = top_raw.resize((TARGET_W, TARGET_H), Image.Resampling.LANCZOS)
-    top_bgr = cv2.cvtColor(np.array(top_1080), cv2.COLOR_RGB2BGR)
+    # Load 1376x768 base
+    top_base = cv2.imread(TOP_SRC)
+    # Retouch face: remove moles/blemishes, natural human skin smoothing
+    top_retouched_768 = retouch_face(top_base)
 
-    top_overlay = np.zeros_like(top_bgr)
+    # 1. TOP LAYER: AI Cyborg Engineer (Clean, smooth skin, mole-free, cybernetic)
+    top_1080 = cv2.resize(top_retouched_768, (TARGET_W, TARGET_H), interpolation=cv2.INTER_LANCZOS4)
+    top_overlay = np.zeros_like(top_1080)
     for px1, py1, px2, py2, label, score, primary, accent, cid, tag_pos, fscale in BOX_SPECS:
         draw_cyber_box(top_overlay, px1, py1, px2, py2, label, score, primary, accent, cid, glow=False, tag_pos=tag_pos, font_scale_custom=fscale)
 
     add_cyber_particles(top_overlay, 50)
     top_blur = cv2.GaussianBlur(top_overlay, (5, 5), 0)
-    top_final = cv2.addWeighted(top_bgr, 1.0, top_overlay, 0.95, 0)
+    top_final = cv2.addWeighted(top_1080, 1.0, top_overlay, 0.95, 0)
     top_final = cv2.addWeighted(top_final, 1.0, top_blur, 0.35, 0)
 
     top_path = OUT_DIR + r"\portrait_top.jpg"
@@ -133,12 +184,10 @@ def generate():
     print(f"[OK] Saved {top_path}")
 
     # 2. BOTTOM LAYER: Full Terminator Robot Skull Reveal
-    bot_composite_768 = build_composite_bottom()
-    bot_raw = Image.fromarray(cv2.cvtColor(bot_composite_768, cv2.COLOR_BGR2RGB))
-    bot_1080 = bot_raw.resize((TARGET_W, TARGET_H), Image.Resampling.LANCZOS)
-    bot_bgr = cv2.cvtColor(np.array(bot_1080), cv2.COLOR_RGB2BGR)
+    bot_composite_768 = build_composite_bottom(top_retouched_768)
+    bot_1080 = cv2.resize(bot_composite_768, (TARGET_W, TARGET_H), interpolation=cv2.INTER_LANCZOS4)
 
-    bot_overlay = np.zeros_like(bot_bgr)
+    bot_overlay = np.zeros_like(bot_1080)
     for px1, py1, px2, py2, label, score, primary, accent, cid, tag_pos, fscale in BOX_SPECS:
         draw_cyber_box(bot_overlay, px1, py1, px2, py2, label, score, primary, accent, cid, glow=True, tag_pos=tag_pos, font_scale_custom=fscale)
 
@@ -158,7 +207,7 @@ def generate():
         cv2.line(bot_overlay, (ex, ey + 20), (ex, ey + 36), CYAN, 1, cv2.LINE_AA)
 
     bot_blur = cv2.GaussianBlur(bot_overlay, (7, 7), 0)
-    bot_final = cv2.addWeighted(bot_bgr, 1.0, bot_overlay, 0.95, 0)
+    bot_final = cv2.addWeighted(bot_1080, 1.0, bot_overlay, 0.95, 0)
     bot_final = cv2.addWeighted(bot_final, 1.0, bot_blur, 0.50, 0)
 
     bot_path = OUT_DIR + r"\portrait_bottom.jpg"
