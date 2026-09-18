@@ -1306,22 +1306,8 @@
           if (btnNavSkills) btnNavSkills.classList.add('is-active');
         } else if (scrollY >= flowTop - 120) {
           if (btnNavStory) btnNavStory.classList.add('is-active');
-          if (!storyRiffled) {
-            storyRiffled = true;
-            triggerStoryRiffle();
-          }
         } else {
           if (btnNavHome) btnNavHome.classList.add('is-active');
-          storyRiffled = false;
-        }
-      }
-
-      let storyRiffled = false;
-      function triggerStoryRiffle() {
-        if (sbIframe && sbIframe.contentWindow) {
-          try {
-            sbIframe.contentWindow.postMessage({ type: 'TRIGGER_RIFFLE' }, '*');
-          } catch (e) {}
         }
       }
 
@@ -1390,9 +1376,7 @@
       function navigateToStory() {
         ensureStoryLoaded();
         const { storyY } = getSnapTargets();
-        playFilmStripTransition(1, storyY, () => {
-          triggerStoryRiffle();
-        });
+        playFilmStripTransition(1, storyY);
       }
 
       function navigateToShelf() {

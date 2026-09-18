@@ -1303,7 +1303,7 @@ window.addEventListener('message', (e)=>{
     setSbLanguage(e.data.lang);
   }
   if(e.data && e.data.type === 'TRIGGER_RIFFLE'){
-    startIntro(true);
+    // Disabled to protect against scroll conflict and visual glitching
   }
 });
 setSbLanguage(currentSbLang);
@@ -1378,7 +1378,7 @@ function startIntro(force){
     if(Q.has('t')){startTurn(Q.get('dir')||'next',parseFloat(Q.get('t')));}
     return;
   }
-  setTimeout(()=>startIntro(false),150);
+  // Start cleanly and stably on page 0 without chaotic automatic page flipping
 })();
 </script>
 </body>
