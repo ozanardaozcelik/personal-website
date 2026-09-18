@@ -388,7 +388,7 @@ export function initProjectsGallery() {
   let frame = 0;
   let elapsed = 0;
   let previousTime = 0;
-  let hostVisible = false;
+  let hostVisible = true;
   let documentVisible = !document.hidden;
   let speedMultiplier = 1.0;
   let isAutoOrbit = true;
@@ -660,6 +660,7 @@ export function initProjectsGallery() {
   document.addEventListener('visibilitychange', handleVisibility);
 
   resize();
+  start();
 
   return () => {
     disposed = true;

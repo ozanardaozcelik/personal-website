@@ -1,5 +1,7 @@
 import * as THREE from 'three';
 import { vertexShader, fluidFragmentShader, displayFragmentShader } from './shaders.js';
+import { initProjectsGallery } from './gallery_3d.js';
+import { initCrtWall } from './crt_wall.js';
 
 const CONFIG = {
   // Simulation render-target size (optimized 256 for silky smooth 60+ FPS without GPU stalls)
@@ -32,6 +34,9 @@ if (!canvas) {
 }
 
 function initHeroFluid(canvas) {
+  let heroActive = true;
+  let heroAnimId = null;
+
   // 2. Create WebGLRenderer with optimal HD settings
   const renderer = new THREE.WebGLRenderer({
     canvas,
@@ -75,7 +80,7 @@ function initHeroFluid(canvas) {
   const mouse = new THREE.Vector2(0.5, 0.5);
   const prevMouse = new THREE.Vector2(0.5, 0.5);
   let isMoving = false;
-  let lastMoveTime = 0;
+  let lastMoveTime = performance.now();
 
   // 6. Fast 1x1 placeholder texture
   function createPlaceholderTexture(color) {
@@ -140,17 +145,16 @@ function initHeroFluid(canvas) {
   const displayMesh = new THREE.Mesh(quadGeom, displayMaterial);
   scene.add(displayMesh);
 
-  // 8. Direct, high-speed texture loader with Ultra HD mipmapping & anisotropic filtering
+  // 8. Direct, high-speed texture loader
   function loadTextureDirect(url, onLoaded) {
     const img = new Image();
     img.crossOrigin = 'Anonymous';
     img.decoding = 'async';
     img.onload = () => {
       const tex = new THREE.Texture(img);
-      tex.minFilter = THREE.LinearMipmapLinearFilter;
+      tex.minFilter = THREE.LinearFilter;
       tex.magFilter = THREE.LinearFilter;
-      tex.generateMipmaps = true;
-      tex.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
+      tex.generateMipmaps = false;
       tex.flipY = true;
       tex.needsUpdate = true;
       const w = img.naturalWidth || img.width || 1920;
@@ -158,7 +162,6 @@ function initHeroFluid(canvas) {
       onLoaded(tex, w, h);
     };
     img.onerror = () => {
-      // Fallback to png if jpg not present
       if (url.endsWith('.jpg')) {
         loadTextureDirect(url.replace('.jpg', '.png'), onLoaded);
       }
@@ -243,22 +246,6 @@ function initHeroFluid(canvas) {
     displayMaterial.uniforms.uDpr.value = currentDpr;
   });
 
-  let isHeroVisible = true;
-  let isAnimating = false;
-
-  function checkHeroVisibility() {
-    const visible = window.scrollY < window.innerHeight * 1.05;
-    if (visible !== isHeroVisible) {
-      isHeroVisible = visible;
-      if (isHeroVisible && !isAnimating) {
-        isAnimating = true;
-        lastMoveTime = performance.now();
-        requestAnimationFrame(animate);
-      }
-    }
-  }
-  window.addEventListener('scroll', checkHeroVisibility, { passive: true });
-
   // Render loop
   function animate() {
     heroAnimId = null;
@@ -335,48 +322,16 @@ function initHeroFluid(canvas) {
   animate();
 }
 
-// 3D Projects Cylindrical Ribbon Gallery: Lazy loaded on scroll near #projects-section
-const projSection = document.getElementById('projects-section');
-if (projSection && 'IntersectionObserver' in window) {
-  const projObserver = new IntersectionObserver((entries) => {
-    if (entries[0].isIntersecting) {
-      projObserver.disconnect();
-      import('./gallery_3d.js').then(({ initProjectsGallery }) => {
-        initProjectsGallery();
-      }).catch(err => {
-        console.log('3D Projects Gallery init deferred or skipped:', err);
-      });
-    }
-  }, { rootMargin: '350px' });
-  projObserver.observe(projSection);
-} else {
-  // Graceful fallback for non-IO environments
-  setTimeout(() => {
-    import('./gallery_3d.js').then(({ initProjectsGallery }) => {
-      initProjectsGallery();
-    }).catch(() => {});
-  }, 2500);
+// Initialize 3D Cylindrical Projects Gallery
+try {
+  initProjectsGallery();
+} catch (e) {
+  console.log('Projects gallery init deferred:', e);
 }
 
-// Retro CRT Monitor Wall (Section 05 Contact): Lazy loaded on scroll near #contact
-const contactSection = document.getElementById('contact');
-if (contactSection && 'IntersectionObserver' in window) {
-  const contactObserver = new IntersectionObserver((entries) => {
-    if (entries[0].isIntersecting) {
-      contactObserver.disconnect();
-      import('./crt_wall.js').then(({ initCrtWall }) => {
-        initCrtWall();
-      }).catch(err => {
-        console.log('CRT Wall init deferred or skipped:', err);
-      });
-    }
-  }, { rootMargin: '350px' });
-  contactObserver.observe(contactSection);
-} else {
-  setTimeout(() => {
-    import('./crt_wall.js').then(({ initCrtWall }) => {
-      initCrtWall();
-    }).catch(() => {});
-  }, 3000);
+// Initialize Section 05 Retro CRT Monitor Wall
+try {
+  initCrtWall();
+} catch (e) {
+  console.log('CRT wall init deferred:', e);
 }
-
