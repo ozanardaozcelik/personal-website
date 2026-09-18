@@ -232,18 +232,18 @@ export function initTopics3DStream(canvasId = 'topics-3d-canvas') {
   renderer.outputColorSpace = THREE.SRGBColorSpace;
 
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 60);
-  camera.position.set(0, 0, 11);
+  const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 80);
+  camera.position.set(0, 0, 16.5);
 
   const gallery = new THREE.Group();
   scene.add(gallery);
 
-  // Exact curved cylindrical panel geometry
-  const geometry = new THREE.CylinderGeometry(4.3, 4.3, 1.48, 48, 1, true, -Math.PI * 0.22, Math.PI * 0.44);
+  // Exact curved cylindrical panel geometry: balanced radius & arc for comfortable viewing distance
+  const geometry = new THREE.CylinderGeometry(3.8, 3.8, 1.38, 48, 1, true, -Math.PI * 0.20, Math.PI * 0.40);
 
   // 12 Panels: Two cycles of the 6 topics for a seamless infinite vertical loop
   const totalPanels = 12;
-  const spacingY = 1.55;
+  const spacingY = 1.48;
   const totalSpan = totalPanels * spacingY;
   const halfSpan = totalSpan / 2;
 
@@ -313,7 +313,13 @@ export function initTopics3DStream(canvasId = 'topics-3d-canvas') {
     const h = host.clientHeight || 560;
     renderer.setSize(w, h, false);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
-    camera.aspect = w / h;
+    const aspect = w / h;
+    camera.aspect = aspect;
+
+    // Responsive camera distance: comfortably framed with margins on both desktop and mobile
+    const targetZ = aspect < 0.82 ? 16.0 + (0.82 - aspect) * 7.5 : 15.2;
+    camera.position.set(0, 0, targetZ);
+    camera.lookAt(0, 0, 0);
     camera.updateProjectionMatrix();
   }
 
