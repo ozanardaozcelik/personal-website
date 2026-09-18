@@ -472,7 +472,7 @@
                   <div class="sdb-sub">OZAN ARDA ÖZÇELİK</div>
                 </div>
                 <div class="sdb-rule"></div>
-                <div class="sdb-meta"><span class="lang-tr">VOL. 00 // 9 DÖNÜM NOKTASI</span><span class="lang-en">VOL. 00 // 9 MILESTONES</span></div>
+                <div class="sdb-meta"><span class="lang-tr">VOL. 00 // 8 DÖNÜM NOKTASI</span><span class="lang-en">VOL. 00 // 8 MILESTONES</span></div>
               </div>
             </div>
           </div>
@@ -1385,7 +1385,25 @@
         if (['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' '].includes(e.key)) {
           interruptAutoScroll();
         }
-      }, { passive: true });
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+          if (e.metaKey || e.ctrlKey || e.altKey) return;
+          const t = e.target;
+          if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+
+          const sbIframe = document.getElementById('sketchbook-interactive-frame');
+          const flowStoryLayer = document.getElementById('flowStoryLayer');
+          const { storyY, shelfY } = (typeof getSnapTargets === 'function') ? getSnapTargets() : { storyY: 0, shelfY: 9999 };
+          const curY = window.pageYOffset || document.documentElement.scrollTop || 0;
+          const midY = (storyY + shelfY) / 2;
+
+          const isStoryVisible = (curY < midY) || (flowStoryLayer && flowStoryLayer.style.visibility !== 'hidden' && parseFloat(flowStoryLayer.style.opacity || '0') > 0.2);
+
+          if (isStoryVisible && sbIframe && sbIframe.contentWindow) {
+            e.preventDefault();
+            sbIframe.contentWindow.postMessage({ type: 'KEY_ARROW', key: e.key }, '*');
+          }
+        }
+      });
 
       // Handle postMessages from iframes for smooth scrolling & navigation
       window.addEventListener('message', (e) => {
