@@ -13,6 +13,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Righteous&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="/styles.css" />
+  <script>
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+  </script>
 </head>
 <body>
 
@@ -965,6 +971,23 @@
   <script>
     (function () {
       'use strict';
+      
+      // Force return to top / home section on refresh
+      if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+      }
+      window.scrollTo(0, 0);
+
+      window.addEventListener('beforeunload', function () {
+        window.scrollTo(0, 0);
+      });
+
+      window.addEventListener('load', function () {
+        window.scrollTo(0, 0);
+        if (window.location.hash) {
+          history.replaceState(null, '', window.location.pathname);
+        }
+      });
 
       // 1. Language Toggle Logic
       const langBtn = document.getElementById('lang-toggle-btn');
