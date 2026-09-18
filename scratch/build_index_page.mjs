@@ -18,6 +18,45 @@ const html = `<!DOCTYPE html>
 </head>
 <body>
 
+  <!-- =========================================================================
+       SYSTEM BOOT PRELOADER (OTONOM SİSTEMLER BAŞLATMA & TELEMETRİ YÜKLEYİCİ)
+       ========================================================================= -->
+  <div class="site-preloader" id="sitePreloader" aria-label="Sistem Yükleniyor / Initializing System">
+    <div class="preloader-grid-bg"></div>
+    <div class="preloader-radar-wrap">
+      <div class="preloader-radar-circle outer"></div>
+      <div class="preloader-radar-circle middle"></div>
+      <div class="preloader-radar-circle inner"></div>
+      <div class="preloader-radar-sweep"></div>
+      <div class="preloader-core-gem">
+        <span class="gem-pulse"></span>
+      </div>
+    </div>
+
+    <div class="preloader-content">
+      <div class="preloader-brand">
+        <span class="preloader-brand-title">OZAN ARDA ÖZÇELİK</span>
+        <span class="preloader-brand-sub">OTONOM SİSTEMLER &amp; MAKİNE MANTIĞI</span>
+      </div>
+
+      <!-- Telemetry Boot Diagnostic Feed -->
+      <div class="preloader-telemetry-feed" id="preloaderTelemetry">
+        <span class="tel-line" id="preloaderStatusText">INITIALIZING 3D ROBOTICS &amp; VISION CORE...</span>
+      </div>
+
+      <!-- High-Tech Progress Bar -->
+      <div class="preloader-bar-wrap">
+        <div class="preloader-bar-track">
+          <div class="preloader-bar-fill" id="preloaderBarFill"></div>
+        </div>
+        <div class="preloader-bar-meta">
+          <span class="preloader-tag">TELEMETRY LOCK // 60FPS</span>
+          <span class="preloader-percent" id="preloaderPercent">0%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- FIXED TOPOGRAPHIC CONTOUR SVG -->
   <svg class="contour-bg" viewBox="0 0 1600 1000" preserveAspectRatio="none" aria-hidden="true">
     <path d="M-50,60 C350,110 750,20 1200,90 C1450,130 1550,40 1650,70" />
@@ -1283,7 +1322,7 @@ const html = `<!DOCTYPE html>
 
         filmDiveOverlay.classList.add('is-active', 'is-diving');
 
-        // Midpoint (360ms): When camera plunges through the optical lens focal plane and shutter flash bursts
+        // Midpoint (480ms): When camera plunges through the optical lens focal plane and shutter flash bursts
         setTimeout(() => {
           window.scrollTo({ top: targetY, behavior: 'auto' });
           onScrollHeroFlow();
@@ -1291,13 +1330,13 @@ const html = `<!DOCTYPE html>
           if (typeof onMidpoint === 'function') {
             onMidpoint();
           }
-        }, 360);
+        }, 480);
 
-        // Completion (720ms): When optical flare disperses outward and destination is fully revealed
+        // Completion (950ms): When optical flare disperses outward and destination is fully revealed
         setTimeout(() => {
           filmDiveOverlay.classList.remove('is-diving', 'is-active');
           isFilmTransitioning = false;
-        }, 720);
+        }, 950);
       }
 
       function navigateToHome() {
@@ -1510,6 +1549,67 @@ const html = `<!DOCTYPE html>
       } else {
         revealTargets.forEach((el) => el.classList.add('is-visible'));
       }
+
+      // 8. System Boot Preloader Sequence Controller
+      const preloader = document.getElementById('sitePreloader');
+      const preloaderBarFill = document.getElementById('preloaderBarFill');
+      const preloaderPercent = document.getElementById('preloaderPercent');
+      const preloaderStatusText = document.getElementById('preloaderStatusText');
+
+      const BOOT_STAGES = [
+        { pct: 20, tr: 'DONANIM HIZLANDIRMA ÇEKİRDEĞİ BAĞLANDI...', en: 'MOUNTING HARDWARE ACCELERATION KERNEL...' },
+        { pct: 45, tr: '3D DOKUNSAL HİKAYE ESKİZ DEFTERİ DERLENDİ...', en: '3D TACTILE STORYBOOK COMPILED...' },
+        { pct: 75, tr: '3D SİLİNDİRİK PROJE MATRİSİ ÇEVRİMİÇİ...', en: '3D CYLINDRICAL PROJECT MATRICES ONLINE...' },
+        { pct: 90, tr: 'RETRO CRT KONTROL İSTASYONU KİLİTLENDİ...', en: 'RETRO CRT CARRIER SIGNALS LOCKED...' },
+        { pct: 100, tr: 'SİSTEM HAZIR // TÜM TELEMETRİ AKTİF', en: 'SYSTEM READY // ALL TELEMETRY ACTIVE' }
+      ];
+
+      let currentBootPct = 0;
+      let bootStageIdx = 0;
+      let isWindowLoaded = document.readyState === 'complete';
+
+      function updatePreloaderProgress(targetPct) {
+        if (!preloaderBarFill || !preloaderPercent) return;
+        currentBootPct = Math.min(100, Math.max(currentBootPct, targetPct));
+        preloaderBarFill.style.width = currentBootPct + '%';
+        preloaderPercent.textContent = Math.round(currentBootPct) + '%';
+
+        const stage = BOOT_STAGES[bootStageIdx];
+        if (stage && currentBootPct >= stage.pct) {
+          if (preloaderStatusText) {
+            preloaderStatusText.textContent = currentLang === 'en' ? stage.en : stage.tr;
+          }
+          bootStageIdx = Math.min(BOOT_STAGES.length - 1, bootStageIdx + 1);
+        }
+      }
+
+      let bootInterval = setInterval(() => {
+        if (!isWindowLoaded && currentBootPct < 85) {
+          updatePreloaderProgress(currentBootPct + Math.random() * 8 + 4);
+        } else if (isWindowLoaded) {
+          updatePreloaderProgress(currentBootPct + 18);
+          if (currentBootPct >= 100) {
+            clearInterval(bootInterval);
+            setTimeout(() => {
+              if (preloader) {
+                preloader.classList.add('is-loaded');
+                setTimeout(() => {
+                  preloader.style.display = 'none';
+                }, 600);
+              }
+            }, 250);
+          }
+        }
+      }, 40);
+
+      window.addEventListener('load', () => {
+        isWindowLoaded = true;
+      });
+
+      // Safety fallback to prevent hanging
+      setTimeout(() => {
+        isWindowLoaded = true;
+      }, 2200);
     })();
   </script>
 </body>
