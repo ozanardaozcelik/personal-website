@@ -446,14 +446,14 @@ export function initProjectsGallery() {
     dragRotY += (targetDragRotY - dragRotY) * 0.1;
     dragScrollY += (targetDragScrollY - dragScrollY) * 0.1;
 
-    // Horizontal rotation (Natural direction)
-    gallery.rotation.y = -elapsed * 0.18 + dragRotY;
+    // Horizontal rotation (Natural gentle 1x speed)
+    gallery.rotation.y = -elapsed * 0.09 + dragRotY;
 
-    // Downward waterfall flow of panels ("aşşağı doğru geçsin")
+    // Downward waterfall flow of panels (Natural gentle 1x speed)
     const totalSpan = 16 * 2.4; // 38.4
     panels.forEach((panel) => {
       const basePos = (panel.userData.baseIndex - 8) * 2.4;
-      const moveY = (elapsed * 1.25) + dragScrollY;
+      const moveY = (elapsed * 0.60) + dragScrollY;
       const rawY = basePos - moveY;
       const wrappedY = ((rawY + 19.2) % totalSpan + totalSpan) % totalSpan - 19.2;
       panel.position.y = wrappedY;
@@ -588,14 +588,14 @@ export function initProjectsGallery() {
   if (btnGallerySpeed) {
     btnGallerySpeed.addEventListener('click', () => {
       if (speedMultiplier === 1.0) {
-        speedMultiplier = 2.0;
-        btnGallerySpeed.querySelector('span').textContent = 'Hız: 2.0x';
-      } else if (speedMultiplier === 2.0) {
+        speedMultiplier = 1.5;
+        btnGallerySpeed.innerHTML = '<span><span class="lang-tr">Hız: 1.5x</span><span class="lang-en">Speed: 1.5x</span></span>';
+      } else if (speedMultiplier === 1.5) {
         speedMultiplier = 0.5;
-        btnGallerySpeed.querySelector('span').textContent = 'Hız: 0.5x';
+        btnGallerySpeed.innerHTML = '<span><span class="lang-tr">Hız: 0.5x</span><span class="lang-en">Speed: 0.5x</span></span>';
       } else {
         speedMultiplier = 1.0;
-        btnGallerySpeed.querySelector('span').textContent = 'Hız: 1.0x';
+        btnGallerySpeed.innerHTML = '<span><span class="lang-tr">Hız: 1.0x</span><span class="lang-en">Speed: 1.0x</span></span>';
       }
     });
   }
