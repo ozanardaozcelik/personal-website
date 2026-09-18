@@ -19,76 +19,54 @@ const html = `<!DOCTYPE html>
 <body>
 
   <!-- =========================================================================
-       CINEMATIC SECURE UPLINK LOADER (OZAN ARDA ÖZÇELİK // ROBOTICS & CV PERCEPTION)
+       THREEUI VOID FIELD PRELOADER (MINIMALIST & TEXTLESS // 60-120FPS RAW WEBGL)
        ========================================================================= -->
-  <div class="site-preloader" id="sitePreloader" aria-label="Sistem Yükleniyor / Initializing Perception Matrix">
-    <div class="uplink-pool"></div>
+  <div class="site-preloader" id="sitePreloader" aria-label="Loading">
+    <!-- Void Field Hardware Housing -->
+    <div class="void-housing">
+      <!-- Precision Outer Corner Nodes & Brackets -->
+      <div class="void-node void-node-tl"></div>
+      <div class="void-node void-node-tr"></div>
+      <div class="void-node void-node-bl"></div>
+      <div class="void-node void-node-br"></div>
+      <div class="void-bracket void-bracket-tl"></div>
+      <div class="void-bracket void-bracket-tr"></div>
+      <div class="void-bracket void-bracket-bl"></div>
+      <div class="void-bracket void-bracket-br"></div>
 
-    <div class="uplink-scene">
-      <div class="uplink-stage" id="uplinkStage">
+      <!-- Main Screen Stage -->
+      <div class="void-screen">
+        <!-- Raw WebGL Dot Matrix Canvas -->
+        <canvas id="voidMatrixCanvas" class="void-canvas"></canvas>
+        
+        <!-- Subtle Screen Corrugation Overlay -->
+        <div class="void-corrugation"></div>
 
-        <!-- Personal Brand & Engineering Identity -->
-        <div class="uplink-brand">
-          <div class="uplink-brand-badge">
-            <span class="badge-dot"></span>
-            <span>SYSTEM // PERCEPTION MATRIX V2.4</span>
+        <!-- Faint Geometric Wireframe -->
+        <svg class="void-wireframe" viewBox="0 0 800 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M400 50 L550 150 L550 350 L400 450 L250 350 L250 150 Z" stroke="currentColor" stroke-width="1.5"></path>
+          <path d="M400 50 L400 250 M250 150 L400 250 M550 150 L400 250 M400 450 L400 250 M250 350 L400 250 M550 350 L400 250" stroke="currentColor" stroke-width="0.8" opacity="0.6"></path>
+          <circle cx="550" cy="150" r="32" stroke="currentColor" stroke-width="1.2"></circle>
+        </svg>
+
+        <!-- Minimal Clean HUD (Textless & Clean) -->
+        <div class="void-hud">
+          <div class="void-hud-top">
+            <span class="void-pill"></span>
+            <span class="void-code">042</span>
           </div>
-          <span class="uplink-brand-title">OZAN ARDA ÖZÇELİK</span>
-          <span class="uplink-brand-sub">BİLGİSAYARLI GÖRÜ • ROBOTİK • YAPAY ZEKA</span>
-        </div>
-
-        <!-- Telemetry Corner Metadata -->
-        <div class="uplink-corner-meta left">
-          <div>DEV // <span class="meta-hi">OZAN ARDA</span></div>
-          <div>CORE // <span class="meta-hi">ROS2 • OPENCV • PYTORCH</span></div>
-        </div>
-        <div class="uplink-corner-meta right">
-          <div>NODE // <span class="meta-hi">SPATIAL_PERCEPTION</span></div>
-          <div>FPS // <span class="meta-hi">60.0 LOCKED</span></div>
-        </div>
-
-        <div class="uplink-haze"><i id="uplinkHaze"></i></div>
-
-        <div class="uplink-plate" id="uplinkPlate"></div>
-        <div class="uplink-brk tr"></div><div class="uplink-brk bl"></div>
-        <div class="uplink-readout"><b id="uplinkNum">0</b><u>%</u></div>
-
-        <div class="uplink-barlabel">OZAN_PERCEPTION_CORE // ROBOTICS MATRIX</div>
-        <div class="uplink-bar" id="uplinkBar"></div>
-        <div class="uplink-status" id="uplinkStatus">BAŞLATILIYOR: OZAN ARDA PORTFOLYO ÇEKİRDEĞİ<span class="dots" id="uplinkDots">...</span></div>
-
-        <div class="uplink-marker uplink-m-tl"><i class="h a-h"></i><i class="v a-v"></i><i class="h b-h"></i><i class="v b-v"></i><i class="h c-h"></i><i class="v c-v"></i><i class="h d-h"></i><i class="v d-v"></i><i class="dia"></i></div>
-        <div class="uplink-marker uplink-m-tr"><i class="h a-h"></i><i class="v a-v"></i><i class="h b-h"></i><i class="v b-v"></i><i class="h c-h"></i><i class="v c-v"></i><i class="h d-h"></i><i class="v d-v"></i><i class="dia"></i></div>
-        <div class="uplink-marker uplink-m-bl"><i class="h a-h"></i><i class="v a-v"></i><i class="h b-h"></i><i class="v b-v"></i><i class="h c-h"></i><i class="v c-v"></i><i class="h d-h"></i><i class="v d-v"></i><i class="dia"></i></div>
-        <div class="uplink-marker uplink-m-br"><i class="h a-h"></i><i class="v a-v"></i><i class="h b-h"></i><i class="v b-v"></i><i class="h c-h"></i><i class="v c-v"></i><i class="h d-h"></i><i class="v d-v"></i><i class="dia"></i></div>
-
-        <div class="uplink-rail left">
-          <div class="wire"></div><div class="cap a"></div><div class="cap b"></div>
-          <div class="uplink-mod">
-            <div class="hatch"></div>
-            <div class="ret"></div>
-            <div class="dot"></div>
-            <div class="slab"></div>
-            <i class="led"></i><i class="led"></i><i class="led"></i><i class="led"></i>
+          <div class="void-hud-bottom">
+            <div class="void-counter-wrap">
+              <span class="void-num" id="voidNum">0</span>
+              <span class="void-unit">%</span>
+            </div>
+            <div class="void-progress-track">
+              <div class="void-progress-bar" id="voidProgressBar"></div>
+            </div>
           </div>
-          <span class="rail-tag">ROS2 :: STEREO_NODE</span>
         </div>
-        <div class="uplink-rail right">
-          <div class="wire"></div><div class="cap a"></div><div class="cap b"></div>
-          <div class="uplink-mod">
-            <div class="hatch"></div>
-            <div class="ret"></div>
-            <div class="dot"></div>
-            <div class="slab"></div>
-            <i class="led"></i><i class="led"></i><i class="led"></i><i class="led"></i>
-          </div>
-          <span class="rail-tag">CUDA :: 60FPS_MODEL</span>
-        </div>
-
       </div>
     </div>
-
-    <div class="uplink-grid"></div>
   </div>
 
   <!-- FIXED TOPOGRAPHIC CONTOUR SVG -->
@@ -1584,119 +1562,175 @@ const html = `<!DOCTYPE html>
         revealTargets.forEach((el) => el.classList.add('is-visible'));
       }
 
-      // 8. Ultra-Fast High-Performance UplinkLoader Controller (Zero-Lag 60-120FPS)
+      // 8. ThreeUI Void Field (PredictiveArcCanvas) Raw-WebGL Dot-Matrix Preloader (Zero-Lag 60-120FPS)
       const preloader = document.getElementById('sitePreloader');
       if (preloader) {
-        const TICKS = 56, MARK_EVERY = 8;
-        const fitUplink = () => {
-          const s = Math.min(innerWidth / 1200, innerHeight / 800);
-          preloader.style.setProperty('--s', s);
-        };
-        window.addEventListener('resize', fitUplink, { passive: true });
-        fitUplink();
+        const canvas = document.getElementById('voidMatrixCanvas');
+        const voidNum = document.getElementById('voidNum');
+        const voidProgressBar = document.getElementById('voidProgressBar');
 
-        /* ---- Construct Ticks with DocumentFragment ---- */
-        const uplinkBar = document.getElementById('uplinkBar');
-        const ticks = [];
-        if (uplinkBar) {
-          const frag = document.createDocumentFragment();
-          for (let i = 0; i < TICKS; i++) {
-            const t = document.createElement('i');
-            t.className = 'uplink-tick' + ((i + 1) % MARK_EVERY === 0 ? ' mk' : '');
-            frag.appendChild(t);
-            ticks.push(t);
+        let gl = null;
+        let animId = null;
+
+        if (canvas) {
+          gl = canvas.getContext('webgl', { alpha: true, antialias: false, powerPreference: 'high-performance' });
+          if (gl) {
+            const resize = () => {
+              const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+              canvas.width = Math.floor(canvas.clientWidth * dpr);
+              canvas.height = Math.floor(canvas.clientHeight * dpr);
+              gl.viewport(0, 0, canvas.width, canvas.height);
+            };
+            window.addEventListener('resize', resize, { passive: true });
+            resize();
+
+            const vsSource = \`
+              attribute vec2 position;
+              void main() {
+                gl_Position = vec4(position, 0.0, 1.0);
+              }
+            \`;
+
+            const fsSource = \`
+              precision highp float;
+              uniform vec2 iResolution;
+              uniform float iTime;
+              uniform vec2 uMouse;
+
+              vec2 barrel(vec2 uv, float amt) {
+                vec2 cc = uv - 0.5;
+                float r = dot(cc, cc);
+                return uv + cc * r * amt;
+              }
+
+              float rand(vec2 co) {
+                return fract(sin(dot(co, vec2(12.9898,78.233))) * 43758.5453);
+              }
+
+              void main() {
+                vec2 uv = gl_FragCoord.xy / iResolution.xy;
+                vec2 mouseOffset = (uMouse - 0.5) * 0.05;
+                uv += mouseOffset;
+                uv = barrel(uv, 0.2);
+
+                if(uv.x < 0.0 || uv.x > 1.0 || uv.y < 0.0 || uv.y > 1.0) {
+                  gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+                  return;
+                }
+
+                vec2 gridCount = vec2(100.0, 100.0 * (iResolution.y / iResolution.x));
+                vec2 gridUv = fract(uv * gridCount);
+                vec2 id = floor(uv * gridCount);
+
+                vec2 cc = id / gridCount - 0.5;
+                float dist = length(cc);
+                float pulse = sin(iTime * 1.5 - dist * 10.0) * 0.5 + 0.5;
+
+                float dotSize = 0.35 * pulse;
+                float d = length(gridUv - 0.5);
+                float circle = smoothstep(dotSize, dotSize - 0.05, d);
+
+                float scanline = sin(uv.y * 800.0) * 0.03;
+                float flicker = rand(vec2(iTime, id.y)) > 0.98 ? 0.4 : 1.0;
+
+                vec3 col = vec3(circle * pulse * flicker);
+                col -= scanline;
+                col *= vec3(0.68, 0.42, 1.0);
+                col *= smoothstep(0.8, 0.2, dist);
+
+                gl_FragColor = vec4(col, 1.0);
+              }
+            \`;
+
+            const createShader = (type, src) => {
+              const s = gl.createShader(type);
+              gl.shaderSource(s, src);
+              gl.compileShader(s);
+              return s;
+            };
+
+            const prog = gl.createProgram();
+            gl.attachShader(prog, createShader(gl.VERTEX_SHADER, vsSource));
+            gl.attachShader(prog, createShader(gl.FRAGMENT_SHADER, fsSource));
+            gl.linkProgram(prog);
+            gl.useProgram(prog);
+
+            const buf = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+              -1, -1,  1, -1, -1,  1,
+              -1,  1,  1, -1,  1,  1
+            ]), gl.STATIC_DRAW);
+
+            const posLoc = gl.getAttribLocation(prog, "position");
+            gl.enableVertexAttribArray(posLoc);
+            gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
+
+            const resLoc = gl.getUniformLocation(prog, "iResolution");
+            const timeLoc = gl.getUniformLocation(prog, "iTime");
+            const mouseLoc = gl.getUniformLocation(prog, "uMouse");
+
+            let mouseX = 0.5, mouseY = 0.5;
+            window.addEventListener('pointermove', (e) => {
+              mouseX = e.clientX / window.innerWidth;
+              mouseY = 1.0 - (e.clientY / window.innerHeight);
+            }, { passive: true });
+
+            const startTime = performance.now();
+            const render = (time) => {
+              const elapsed = (time - startTime) / 1000.0;
+              gl.uniform2f(resLoc, canvas.width, canvas.height);
+              gl.uniform1f(timeLoc, elapsed);
+              gl.uniform2f(mouseLoc, mouseX, mouseY);
+              gl.drawArrays(gl.TRIANGLES, 0, 6);
+              animId = requestAnimationFrame(render);
+            };
+            animId = requestAnimationFrame(render);
           }
-          uplinkBar.appendChild(frag);
         }
 
-        /* ---- Telemetry Phases ---- */
-        const PHASES = [
-          [0, { tr: 'BAŞLATILIYOR: OZAN ARDA PORTFOLYO ÇEKİRDEĞİ', en: 'INITIALIZING: OZAN ARDA PORTFOLIO CORE' }],
-          [24, { tr: 'ROBOTİK KİNEMATİK & SENSÖR ENTEGRASYONU YÜKLENİYOR', en: 'CALIBRATING ROBOTIC SENSORS & STEREO CAMERAS' }],
-          [52, { tr: 'BİLGİSAYARLI GÖRÜ & DERİN ÖĞRENME MODELLERİ AKTİF', en: 'LOADING OPENCV & PYTORCH PERCEPTION ENGINES' }],
-          [78, { tr: '3D ETKİLEŞİMLİ PROJELER & KİTAPLIK SENKRONİZE EDİLİYOR', en: 'SYNCHRONIZING 3D THREE.JS SPATIAL MATRICES' }],
-          [100, { tr: 'TÜM SİSTEMLER HAZIR // ARAYÜZE GİRİŞ YAPILIYOR', en: 'ALL SYSTEMS OPERATIONAL // ENGAGING INTERFACE' }]
-        ];
-
-        const phaseFor = (p) => {
-          let t = PHASES[0][1];
-          for (const [k, v] of PHASES) {
-            if (p >= k) t = v;
-          }
-          return currentLang === 'en' ? t.en : t.tr;
-        };
-
-        const uplinkNum = document.getElementById('uplinkNum');
-        const uplinkDots = document.getElementById('uplinkDots');
-        const uplinkPlate = document.getElementById('uplinkPlate');
-        const uplinkStatus = document.getElementById('uplinkStatus');
-
+        // Smooth loading progression
         let currentPct = 0;
-        let lastLit = -1, lastPct = -1, lastPhase = '', lastDot = -1;
         let isWindowLoaded = document.readyState === 'complete';
         let isDone = false;
-        let startTime = performance.now();
+        const loadStart = performance.now();
 
-        function renderFrame(now) {
+        function updateProgress(now) {
           if (isDone) return;
-          const elapsed = now - startTime;
+          const elapsed = now - loadStart;
 
-          // Natural progressive acceleration
           if (!isWindowLoaded) {
-            currentPct = Math.min(88, elapsed / 12);
+            currentPct = Math.min(88, elapsed / 10);
           } else {
             currentPct = Math.min(100, currentPct + 4.5);
           }
 
           const shown = Math.min(100, Math.round(currentPct));
-          if (shown !== lastPct) {
-            lastPct = shown;
-            if (uplinkNum) uplinkNum.textContent = String(shown);
-            const ph = phaseFor(shown);
-            if (ph !== lastPhase && uplinkStatus) {
-              lastPhase = ph;
-              uplinkStatus.firstChild.nodeValue = ph;
-            }
-          }
-
-          const dotStep = Math.floor(elapsed / 280) % 4;
-          if (dotStep !== lastDot && uplinkDots) {
-            lastDot = dotStep;
-            uplinkDots.textContent = '...'.slice(0, dotStep);
-          }
-
-          const lit = Math.round((shown / 100) * TICKS);
-          if (lit !== lastLit) {
-            for (let i = Math.max(0, lastLit); i < lit; i++) {
-              if (ticks[i]) ticks[i].classList.add('on');
-            }
-            lastLit = lit;
-            if (lit >= TICKS && uplinkPlate) {
-              uplinkPlate.classList.add('hit');
-            }
-          }
+          if (voidNum) voidNum.textContent = String(shown);
+          if (voidProgressBar) voidProgressBar.style.width = shown + '%';
 
           if (shown >= 100) {
             isDone = true;
             setTimeout(() => {
               preloader.classList.add('is-loaded');
               setTimeout(() => {
+                if (animId) cancelAnimationFrame(animId);
                 preloader.style.display = 'none';
               }, 450);
-            }, 200);
+            }, 150);
             return;
           }
 
-          requestAnimationFrame(renderFrame);
+          requestAnimationFrame(updateProgress);
         }
 
-        requestAnimationFrame(renderFrame);
+        requestAnimationFrame(updateProgress);
 
         window.addEventListener('load', () => {
           isWindowLoaded = true;
         });
 
-        // Fast safety fallback: max 1.3s so the site opens smoothly with zero wait
+        // Fast safety fallback: max 1.2s
         setTimeout(() => {
           isWindowLoaded = true;
         }, 1200);
