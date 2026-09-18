@@ -88,9 +88,7 @@ const html = `<!DOCTYPE html>
       </div>
     </div>
 
-    <div class="uplink-scan"></div>
-    <div class="uplink-grain mul" id="uplinkGrain"></div>
-    <div class="uplink-grain add" id="uplinkGrain2"></div>
+    <div class="uplink-grid"></div>
   </div>
 
   <!-- FIXED TOPOGRAPHIC CONTOUR SVG -->
@@ -1586,7 +1584,7 @@ const html = `<!DOCTYPE html>
         revealTargets.forEach((el) => el.classList.add('is-visible'));
       }
 
-      // 8. Cinematic UplinkLoader Sequence Controller (ThreeUI Architecture)
+      // 8. Ultra-Fast High-Performance UplinkLoader Controller (Zero-Lag 60-120FPS)
       const preloader = document.getElementById('sitePreloader');
       if (preloader) {
         const TICKS = 56, MARK_EVERY = 8;
@@ -1597,49 +1595,21 @@ const html = `<!DOCTYPE html>
         window.addEventListener('resize', fitUplink, { passive: true });
         fitUplink();
 
-        /* ---- Bar construction ---- */
+        /* ---- Construct Ticks with DocumentFragment ---- */
         const uplinkBar = document.getElementById('uplinkBar');
         const ticks = [];
         if (uplinkBar) {
+          const frag = document.createDocumentFragment();
           for (let i = 0; i < TICKS; i++) {
             const t = document.createElement('i');
             t.className = 'uplink-tick' + ((i + 1) % MARK_EVERY === 0 ? ' mk' : '');
-            uplinkBar.appendChild(t);
+            frag.appendChild(t);
             ticks.push(t);
           }
+          uplinkBar.appendChild(frag);
         }
 
-        /* ---- Procedural Film Grain Canvas ---- */
-        (function grain() {
-          const N = 160;
-          const make = (fn) => {
-            const c = document.createElement('canvas');
-            c.width = c.height = N;
-            const ctx = c.getContext('2d'), img = ctx.createImageData(N, N), d = img.data;
-            for (let i = 0; i < N * N; i++) fn(d, i * 4);
-            ctx.putImageData(img, 0, 0);
-            return c.toDataURL();
-          };
-          const g = () => (Math.random() + Math.random() + Math.random() + Math.random()) / 4;
-          const g1 = document.getElementById('uplinkGrain');
-          const g2 = document.getElementById('uplinkGrain2');
-          if (g1) {
-            g1.style.backgroundImage = 'url(' + make((d, o) => {
-              const v = 128 + (g() - 0.5) * 300;
-              d[o] = d[o + 1] = d[o + 2] = Math.max(0, Math.min(255, v));
-              d[o + 3] = 255;
-            }) + ')';
-          }
-          if (g2) {
-            g2.style.backgroundImage = 'url(' + make((d, o) => {
-              const v = Math.random();
-              d[o] = d[o + 1] = d[o + 2] = 255;
-              d[o + 3] = v < 0.86 ? 0 : Math.round(((v - 0.86) / 0.14) * 190);
-            }) + ')';
-          }
-        })();
-
-        /* ---- Progress Timeline & Hardware Telemetry ---- */
+        /* ---- Telemetry Phases ---- */
         const PHASES = [
           [0, { tr: 'BAŞLATILIYOR: OZAN ARDA PORTFOLYO ÇEKİRDEĞİ', en: 'INITIALIZING: OZAN ARDA PORTFOLIO CORE' }],
           [24, { tr: 'ROBOTİK KİNEMATİK & SENSÖR ENTEGRASYONU YÜKLENİYOR', en: 'CALIBRATING ROBOTIC SENSORS & STEREO CAMERAS' }],
@@ -1658,21 +1628,30 @@ const html = `<!DOCTYPE html>
 
         const uplinkNum = document.getElementById('uplinkNum');
         const uplinkDots = document.getElementById('uplinkDots');
-        const uplinkHaze = document.getElementById('uplinkHaze');
         const uplinkPlate = document.getElementById('uplinkPlate');
         const uplinkStatus = document.getElementById('uplinkStatus');
 
-        const barW = 604, tickW = 5.4, gap = (barW - TICKS * tickW) / (TICKS - 1), pitch = tickW + gap;
         let currentPct = 0;
-        let lastLit = -1, lastPct = -1, lastDots = -1, lastPhase = '';
+        let lastLit = -1, lastPct = -1, lastPhase = '', lastDot = -1;
         let isWindowLoaded = document.readyState === 'complete';
         let isDone = false;
+        let startTime = performance.now();
 
-        function updateProgressDisplay(pct) {
-          const shown = Math.min(100, Math.round(pct));
-          if (shown !== lastPct && uplinkNum) {
-            uplinkNum.textContent = String(shown);
+        function renderFrame(now) {
+          if (isDone) return;
+          const elapsed = now - startTime;
+
+          // Natural progressive acceleration
+          if (!isWindowLoaded) {
+            currentPct = Math.min(88, elapsed / 12);
+          } else {
+            currentPct = Math.min(100, currentPct + 4.5);
+          }
+
+          const shown = Math.min(100, Math.round(currentPct));
+          if (shown !== lastPct) {
             lastPct = shown;
+            if (uplinkNum) uplinkNum.textContent = String(shown);
             const ph = phaseFor(shown);
             if (ph !== lastPhase && uplinkStatus) {
               lastPhase = ph;
@@ -1680,80 +1659,47 @@ const html = `<!DOCTYPE html>
             }
           }
 
-          const lit = Math.round((pct / 100) * TICKS);
+          const dotStep = Math.floor(elapsed / 280) % 4;
+          if (dotStep !== lastDot && uplinkDots) {
+            lastDot = dotStep;
+            uplinkDots.textContent = '...'.slice(0, dotStep);
+          }
+
+          const lit = Math.round((shown / 100) * TICKS);
           if (lit !== lastLit) {
-            for (let i = 0; i < TICKS; i++) {
-              const on = i < lit;
-              if (ticks[i] && ticks[i].classList.contains('on') !== on) {
-                ticks[i].classList.toggle('on', on);
-              }
-            }
-            if (lit > lastLit && lastLit >= 0 && lit > 0) {
-              const h = ticks[lit - 1];
-              if (h) {
-                h.classList.remove('flash');
-                void h.offsetWidth;
-                h.classList.add('flash');
-              }
-              if (uplinkHaze) {
-                uplinkHaze.classList.remove('pulse');
-                void uplinkHaze.offsetWidth;
-                uplinkHaze.classList.add('pulse');
-              }
-            }
-            if (uplinkHaze) {
-              uplinkHaze.style.setProperty('--lit-w', (lit > 0 ? (lit - 1) * pitch + tickW + gap / 2 : 0) + 'px');
-            }
-            if (lit >= TICKS && uplinkPlate) {
-              uplinkPlate.classList.remove('hit');
-              void uplinkPlate.offsetWidth;
-              uplinkPlate.classList.add('hit');
+            for (let i = Math.max(0, lastLit); i < lit; i++) {
+              if (ticks[i]) ticks[i].classList.add('on');
             }
             lastLit = lit;
+            if (lit >= TICKS && uplinkPlate) {
+              uplinkPlate.classList.add('hit');
+            }
           }
+
+          if (shown >= 100) {
+            isDone = true;
+            setTimeout(() => {
+              preloader.classList.add('is-loaded');
+              setTimeout(() => {
+                preloader.style.display = 'none';
+              }, 450);
+            }, 200);
+            return;
+          }
+
+          requestAnimationFrame(renderFrame);
         }
 
-        let dotCounter = 0;
-        const loaderInterval = setInterval(() => {
-          dotCounter++;
-          const d = currentPct >= 100 ? 0 : (dotCounter % 4);
-          if (d !== lastDots && uplinkDots) {
-            uplinkDots.textContent = '...'.slice(0, d);
-            lastDots = d;
-          }
-
-          if (!isWindowLoaded && currentPct < 85) {
-            currentPct += Math.random() * 4.5 + 2.2;
-          } else if (isWindowLoaded && currentPct < 100) {
-            currentPct += Math.random() * 12 + 8;
-          }
-
-          if (currentPct >= 100) {
-            currentPct = 100;
-            updateProgressDisplay(100);
-            if (!isDone) {
-              isDone = true;
-              clearInterval(loaderInterval);
-              setTimeout(() => {
-                preloader.classList.add('is-loaded');
-                setTimeout(() => {
-                  preloader.style.display = 'none';
-                }, 600);
-              }, 400);
-            }
-          } else {
-            updateProgressDisplay(currentPct);
-          }
-        }, 50);
+        requestAnimationFrame(renderFrame);
 
         window.addEventListener('load', () => {
           isWindowLoaded = true;
         });
 
-        // Safety fallback to guarantee dismissal
+        // Fast safety fallback: max 1.3s so the site opens smoothly with zero wait
         setTimeout(() => {
           isWindowLoaded = true;
-        }, 2200);
+        }, 1200);
       }
     })();
   </script>
