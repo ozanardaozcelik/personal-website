@@ -171,49 +171,67 @@ for s in spreads_data:
     LY = 285
     MAX_W = 670
     
-    # Kicker & Plate Number
-    draw.text((LX, LY), s['kicker'], font=font_kicker, fill=EARTH)
-    draw.text((LX + MAX_W - 70, LY), s['plate_num'], font=font_kicker, fill=INK_FAINT)
+    is_last_page = (s['file'] == 'botanic-gardens.png')
     
-    # Hairline divider
-    draw.line([(LX, LY + 22), (LX + MAX_W, LY + 22)], fill=RULE_COLOR, width=1)
-    
-    # Title & Subtitle (Larger, more readable)
-    draw.text((LX, LY + 32), s['title'], font=font_title, fill=INK_DEEP)
-    draw.text((LX, LY + 68), s['subtitle'], font=font_sub, fill=EARTH)
-    
-    curr_y = LY + 102
-    
-    # Lead text (Italic, size 17)
-    for line in wrap_text(s['lead'], font_italic, MAX_W, draw):
-        if line == '':
-            curr_y += 8
-        else:
-            draw.text((LX, curr_y), line, font=font_italic, fill=EARTH)
-            curr_y += 24
+    if is_last_page:
+        # Vision page: ONLY write "Teorik bilgilerimi pratiğe çeviriyorum." — NOTHING ELSE!
+        vision_lines = ["Teorik bilgilerimi", "pratiğe çeviriyorum."]
+        font_vision = ImageFont.truetype(r'C:\Windows\Fonts\georgiab.ttf', 36)
+        
+        line_height = 56
+        total_h = len(vision_lines) * line_height
+        start_y = LY + (660 - total_h) // 2
+        
+        for i, vline in enumerate(vision_lines):
+            bbox = draw.textbbox((0, 0), vline, font=font_vision)
+            lw = bbox[2] - bbox[0]
+            lx = LX + (MAX_W - lw) // 2
+            ly = start_y + i * line_height
+            draw.text((lx, ly), vline, font=font_vision, fill=INK_DEEP)
             
-    curr_y += 10
-    draw.line([(LX, curr_y), (LX + 120, curr_y)], fill=EARTH, width=1)
-    curr_y += 14
-    
-    # Body text (Size 19, crisp and easily readable!)
-    for line in wrap_text(s['body'], font_body, MAX_W, draw):
-        if line == '':
-            curr_y += 10
-        else:
-            draw.text((LX, curr_y), line, font=font_body, fill=INK_DEEP)
-            curr_y += 27
-            
-    curr_y += 16
-    draw.text((LX, curr_y), s['note'], font=font_note, fill=INK_FAINT)
-    curr_y += 20
+        # Subtle elegant accent divider line beneath
+        acc_y = start_y + total_h + 20
+        draw.line([(LX + MAX_W // 2 - 40, acc_y), (LX + MAX_W // 2 + 40, acc_y)], fill=EARTH, width=2)
+    else:
+        # Kicker & Plate Number
+        draw.text((LX, LY), s['kicker'], font=font_kicker, fill=EARTH)
+        draw.text((LX + MAX_W - 70, LY), s['plate_num'], font=font_kicker, fill=INK_FAINT)
+        
+        # Hairline divider
+        draw.line([(LX, LY + 22), (LX + MAX_W, LY + 22)], fill=RULE_COLOR, width=1)
+        
+        # Title & Subtitle (Larger, more readable)
+        draw.text((LX, LY + 32), s['title'], font=font_title, fill=INK_DEEP)
+        draw.text((LX, LY + 68), s['subtitle'], font=font_sub, fill=EARTH)
+        
+        curr_y = LY + 102
+        
+        # Lead text (Italic, size 17)
+        for line in wrap_text(s['lead'], font_italic, MAX_W, draw):
+            if line == '':
+                curr_y += 8
+            else:
+                draw.text((LX, curr_y), line, font=font_italic, fill=EARTH)
+                curr_y += 24
+                
+        curr_y += 10
+        draw.line([(LX, curr_y), (LX + 120, curr_y)], fill=EARTH, width=1)
+        curr_y += 14
+        
+        # Body text (Size 19, crisp and easily readable!)
+        for line in wrap_text(s['body'], font_body, MAX_W, draw):
+            if line == '':
+                curr_y += 10
+            else:
+                draw.text((LX, curr_y), line, font=font_body, fill=INK_DEEP)
+                curr_y += 27
+                
+        curr_y += 16
+        draw.text((LX, curr_y), s['note'], font=font_note, fill=INK_FAINT)
+        curr_y += 20
 
-    # User's core motto prominently featured on the left page!
-    draw.text((LX, curr_y), '✦ "Teorik bilgilerimi pratiğe çeviriyorum."', font=font_motto, fill=EARTH)
-    curr_y += 20
-
-    # Signature / Provenance
-    draw.text((LX, curr_y), s['signature'], font=font_signature, fill=INK_FAINT)
+        # Signature / Provenance
+        draw.text((LX, curr_y), s['signature'], font=font_signature, fill=INK_FAINT)
     
     # 2. Right page: place illustration (X: 925 to 1645, Y: 285 to 945)
     if os.path.exists(illus_path):
