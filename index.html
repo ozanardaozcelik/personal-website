@@ -753,6 +753,20 @@
 
       // Preload story iframe immediately; shelf loads on-demand or after boot
       ensureStoryLoaded();
+
+      // Preload sketchbook spread images into browser cache so page turning is instantaneous
+      const SB_PRELOAD_FILES = [
+        'marina-bay-sands.png', 'gardens-by-the-bay.png', 'merlion.png', 'buddha-tooth.png',
+        'lau-pa-sat.png', 'marina-bay-skyline.png', 'singapore-river.png', 'botanic-gardens.png',
+        'marina-bay-sands-en.png', 'gardens-by-the-bay-en.png', 'merlion-en.png', 'buddha-tooth-en.png',
+        'lau-pa-sat-en.png', 'marina-bay-skyline-en.png', 'singapore-river-en.png', 'botanic-gardens-en.png'
+      ];
+      SB_PRELOAD_FILES.forEach(f => {
+        const img = new Image();
+        img.src = `./landing-pages/meng-to-sketchbook/${f}`;
+        if (img.decode) img.decode().catch(() => {});
+      });
+
       const isMobileClient = window.innerWidth < 768 || navigator.maxTouchPoints > 1;
       if (!isMobileClient) {
         if ('requestIdleCallback' in window) {
