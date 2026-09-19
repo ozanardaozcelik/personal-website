@@ -24,12 +24,27 @@ const CONFIG = {
   stopAfterMs: 50,
 };
 
-// 1. Select <canvas> from the DOM
-const canvas = document.querySelector('#hero-fluid-canvas') || document.querySelector('.hero-home canvas') || document.querySelector('.hero canvas');
-if (!canvas) {
-  console.log('Portrait hero canvas is inactive.');
-} else {
+function startHeroFluid() {
+  const canvas = document.querySelector('#hero-fluid-canvas') || document.querySelector('.hero-home canvas') || document.querySelector('.hero canvas');
+  if (!canvas) {
+    // Retry once on next frame in case DOM is still parsing
+    requestAnimationFrame(() => {
+      const c = document.querySelector('#hero-fluid-canvas') || document.querySelector('.hero-home canvas') || document.querySelector('.hero canvas');
+      if (c) {
+        initHeroFluid(c);
+      } else {
+        console.warn('Portrait hero canvas is inactive / not found in DOM.');
+      }
+    });
+    return;
+  }
   initHeroFluid(canvas);
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', startHeroFluid);
+} else {
+  startHeroFluid();
 }
 
 function initHeroFluid(canvas) {
@@ -144,32 +159,85 @@ function initHeroFluid(canvas) {
   const displayMesh = new THREE.Mesh(quadGeom, displayMaterial);
   scene.add(displayMesh);
 
-  // 8. Direct, high-speed texture loader
-  function loadTextureDirect(url, onLoaded) {
-    const img = new Image();
-    img.crossOrigin = 'Anonymous';
-    img.decoding = 'async';
-    img.onload = () => {
-      const tex = new THREE.Texture(img);
-      tex.minFilter = THREE.LinearFilter;
-      tex.magFilter = THREE.LinearFilter;
-      tex.generateMipmaps = false;
-      tex.flipY = true;
-      tex.needsUpdate = true;
-      const w = img.naturalWidth || img.width || 1920;
-      const h = img.naturalHeight || img.height || 1080;
-      onLoaded(tex, w, h);
-    };
-    img.onerror = () => {
-      if (url.endsWith('.jpg')) {
-        loadTextureDirect(url.replace('.jpg', '.png'), onLoaded);
+  // 8. Direct, resilient texture loader with multi-path resolution
+  const basePath = (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.BASE_URL)
+    ? import.meta.env.BASE_URL
+    : './';
+  const cleanBase = basePath.endsWith('/') ? basePath : basePath + '/';
+
+  function loadPortraitTexture(filename, onLoaded) {
+    const candidates = [
+      cleanBase + filename,
+      './' + filename,
+      '/' + filename,
+      filename
+    ];
+    const unique = Array.from(new Set(candidates));
+    let idx = 0;
+
+    function tryCandidate() {
+      if (idx >= unique.length) {
+        // Fallback: try .png versions
+        const pngCandidates = unique.map(u => u.replace(/\.jpg$/, '.png'));
+        let pIdx = 0;
+        function tryPng() {
+          if (pIdx >= pngCandidates.length) {
+            console.error('Failed to load portrait texture:', filename);
+            return;
+          }
+          const pUrl = pngCandidates[pIdx++];
+          const img = new Image();
+          if (pUrl.startsWith('http://') || pUrl.startsWith('https://')) {
+            img.crossOrigin = 'Anonymous';
+          }
+          img.decoding = 'async';
+          img.onload = () => {
+            const tex = new THREE.Texture(img);
+            tex.colorSpace = THREE.SRGBColorSpace;
+            tex.minFilter = THREE.LinearFilter;
+            tex.magFilter = THREE.LinearFilter;
+            tex.generateMipmaps = false;
+            tex.flipY = true;
+            tex.needsUpdate = true;
+            const w = img.naturalWidth || img.width || 1920;
+            const h = img.naturalHeight || img.height || 1080;
+            onLoaded(tex, w, h);
+          };
+          img.onerror = tryPng;
+          img.src = pUrl;
+        }
+        tryPng();
+        return;
       }
-    };
-    img.src = url;
+
+      const url = unique[idx++];
+      const img = new Image();
+      // Only set crossOrigin for remote absolute URLs to avoid CORS failures on static hosting
+      if (url.startsWith('http://') || url.startsWith('https://')) {
+        img.crossOrigin = 'Anonymous';
+      }
+      img.decoding = 'async';
+      img.onload = () => {
+        const tex = new THREE.Texture(img);
+        tex.colorSpace = THREE.SRGBColorSpace;
+        tex.minFilter = THREE.LinearFilter;
+        tex.magFilter = THREE.LinearFilter;
+        tex.generateMipmaps = false;
+        tex.flipY = true;
+        tex.needsUpdate = true;
+        const w = img.naturalWidth || img.width || 1920;
+        const h = img.naturalHeight || img.height || 1080;
+        onLoaded(tex, w, h);
+      };
+      img.onerror = tryCandidate;
+      img.src = url;
+    }
+
+    tryCandidate();
   }
 
   // Load portrait_top first for instant display
-  loadTextureDirect('/portrait_top.jpg', (tex, w, h) => {
+  loadPortraitTexture('portrait_top.jpg', (tex, w, h) => {
     displayUniforms.uTopTexture.value = tex;
     displayUniforms.uTopTextureSize.value.set(w, h);
     displayMaterial.uniforms.uTopTexture.value = tex;
@@ -178,7 +246,7 @@ function initHeroFluid(canvas) {
     placeholderTop.dispose(); // Free GPU memory
 
     // Load portrait_bottom right after
-    loadTextureDirect('/portrait_bottom.jpg', (botTex, bw, bh) => {
+    loadPortraitTexture('portrait_bottom.jpg', (botTex, bw, bh) => {
       displayUniforms.uBottomTexture.value = botTex;
       displayUniforms.uBottomTextureSize.value.set(bw, bh);
       displayMaterial.uniforms.uBottomTexture.value = botTex;

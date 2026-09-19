@@ -476,7 +476,7 @@ export function initTopics3DStream(canvasId = 'topics-3d-canvas') {
     } else {
       stop();
     }
-  }, { threshold: 0.05, rootMargin: '120px' });
+  }, { threshold: 0, rootMargin: '300px' });
   intersectionObserver.observe(host);
 
   document.addEventListener('visibilitychange', () => {
@@ -484,7 +484,13 @@ export function initTopics3DStream(canvasId = 'topics-3d-canvas') {
     else stop();
   });
 
-  // Global hooks for language and external selection
+  // Global hooks for language, external selection and manual activation
+  window.__startTopics3DStream = () => {
+    isHostVisible = true;
+    resize();
+    start();
+  };
+
   window.__updateTopics3DSelection = (key) => {
     currentSelectedKey = key;
     refreshPanelTextures();
