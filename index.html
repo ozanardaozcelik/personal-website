@@ -1197,9 +1197,6 @@
         });
       }
 
-      );
-      }
-
       // 5. Unified Projects Dual-Pane & Topic Stream Controller
       const PROJECT_TOPICS = {
         uav: {
@@ -1917,6 +1914,18 @@
         setTimeout(() => {
           isWindowLoaded = true;
         }, 1200);
+
+        // Absolute safety fallback: guarantees preloader dismisses within 1.8s
+        setTimeout(() => {
+          if (!isDone) {
+            isDone = true;
+            preloader.classList.add('is-loaded');
+            setTimeout(() => {
+              if (animId) cancelAnimationFrame(animId);
+              preloader.style.display = 'none';
+            }, 300);
+          }
+        }, 1800);
       }
     })();
   </script>
