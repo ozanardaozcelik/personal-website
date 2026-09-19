@@ -485,10 +485,10 @@
           id="sketchbook-interactive-frame"
           class="flow-iframe"
           data-src="./landing-pages/meng-to-sketchbook.html"
-          src="about:blank"
+          src="./landing-pages/meng-to-sketchbook.html"
           title="Ozan Arda Özçelik — 02 Hikayem (3D Dokunsal Eskiz Defteri)"
           sandbox="allow-downloads allow-forms allow-modals allow-popups allow-same-origin allow-scripts"
-          loading="lazy"
+          loading="eager"
           allow="fullscreen"
         ></iframe>
       </div>
@@ -800,14 +800,14 @@
         autoScrollAnimId = requestAnimationFrame(step);
       }
 
-      let storyLoaded = false;
+      let storyLoaded = true;
       function ensureStoryLoaded() {
-        if (storyLoaded || !sbIframe) return;
-        const dSrc = sbIframe.getAttribute('data-src');
-        if (dSrc && (!sbIframe.src || sbIframe.src === 'about:blank' || !sbIframe.src.includes('meng-to-sketchbook'))) {
+        if (!sbIframe) return;
+        const dSrc = sbIframe.getAttribute('data-src') || './landing-pages/meng-to-sketchbook.html';
+        if (!sbIframe.src || sbIframe.src === 'about:blank' || !sbIframe.src.includes('meng-to-sketchbook')) {
           sbIframe.src = dSrc;
-          storyLoaded = true;
         }
+        storyLoaded = true;
       }
 
       let isShelfActive = false;
@@ -833,20 +833,12 @@
         }
       }
 
-      // Preload story iframe when flowContainer is near viewport, and preload shelf on idle
-      if (flowContainer && 'IntersectionObserver' in window) {
-        const flowObserver = new IntersectionObserver((entries) => {
-          if (entries[0].isIntersecting) {
-            flowObserver.disconnect();
-            ensureStoryLoaded();
-            if ('requestIdleCallback' in window) {
-              requestIdleCallback(() => ensureShelfLoaded(), { timeout: 2000 });
-            } else {
-              setTimeout(ensureShelfLoaded, 1200);
-            }
-          }
-        }, { rootMargin: '300px' });
-        flowObserver.observe(flowContainer);
+      // Preload story iframe immediately and shelf iframe on idle for seamless 0ms transition
+      ensureStoryLoaded();
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(() => ensureShelfLoaded(), { timeout: 1500 });
+      } else {
+        setTimeout(ensureShelfLoaded, 900);
       }
 
       // Scroll Handler with Generous Dedicated Reading Buffer & Cinematic Pacing
@@ -994,11 +986,11 @@
       let currentSectionIndex = 0; // 0: Home, 1: Story, 2: Skills, 3: Projects, 4: Contact
 
       const SECTION_INFO = [
-        { index: 0, tag: 'REEL SCENE // 01', titleTr: '01 ANA SAYFA', titleEn: '01 HOME', tc: 'FRAME: #0001 · PORTRAIT & HERO ROBOTICS' },
-        { index: 1, tag: 'REEL SCENE // 02', titleTr: '02 HİKAYEM', titleEn: '02 STORY', tc: 'FRAME: #0180 · 3D TACTILE SKETCHBOOK' },
-        { index: 2, tag: 'REEL SCENE // 03', titleTr: '03 YETENEKLERİM', titleEn: '03 CAPABILITIES', tc: 'FRAME: #0360 · 3D THREE.JS VOLUMES' },
-        { index: 3, tag: 'REEL SCENE // 04', titleTr: '04 PROJELERİM', titleEn: '04 PROJECTS', tc: 'FRAME: #0540 · 3D CYLINDRICAL RIBBON' },
-        { index: 4, tag: 'REEL SCENE // 05', titleTr: '05 İLETİŞİM', titleEn: '05 CONTACT', tc: 'FRAME: #0720 · CRT RETRO MONITOR WALL' }
+        { index: 0, tag: 'REEL SCENE // 01', titleTr: '01 ANA SAYFA', titleEn: '01 HOME', tcTr: 'PORTRE & OTONOM ROBOTİK SİSTEMLERİ', tcEn: 'PORTRAIT & AUTONOMOUS ROBOTICS' },
+        { index: 1, tag: 'REEL SCENE // 02', titleTr: '02 HİKAYEM', titleEn: '02 STORY', tcTr: '3D DOKUNSAL ESKİZ DEFTERİ · 8 DÖNÜM NOKTASI', tcEn: '3D TACTILE SKETCHBOOK · 8 MILESTONES' },
+        { index: 2, tag: 'REEL SCENE // 03', titleTr: '03 YETENEKLERİM', titleEn: '03 CAPABILITIES', tcTr: '3D ÇALIŞMA KİTAPLIĞI · THREE.JS & MİMARİ', tcEn: '3D CAPABILITIES SHELF · THREE.JS & STACK' },
+        { index: 3, tag: 'REEL SCENE // 04', titleTr: '04 PROJELERİM', titleEn: '04 PROJECTS', tcTr: '3D SİLİNDİRİK AKIŞ & GITHUB ARŞİVİ', tcEn: '3D CYLINDRICAL STREAM & GITHUB ARCHIVE' },
+        { index: 4, tag: 'REEL SCENE // 05', titleTr: '05 İLETİŞİM', titleEn: '05 CONTACT', tcTr: 'CRT MONİTÖR DUVARI · İLETİŞİM & GÖREV TALEBİ', tcEn: 'CRT RETRO MONITOR WALL · CONTACT & INQUIRY' }
       ];
 
       function playFilmStripTransition(targetSectionIndex, targetY, onMidpoint) {
@@ -1011,21 +1003,25 @@
         isFilmTransitioning = true;
         interruptAutoScroll();
 
+        // Immediately ensure target iframes are ready so content is pre-rendered
+        if (targetSectionIndex === 1) ensureStoryLoaded();
+        if (targetSectionIndex === 2) ensureShelfLoaded();
+
         const info = SECTION_INFO[targetSectionIndex] || SECTION_INFO[0];
         currentSectionIndex = targetSectionIndex;
 
-        // Set Film Badge Content
+        // Set Film Badge Content clearly visible for the user to read
         if (filmTargetTag) filmTargetTag.textContent = info.tag;
         if (filmTargetTitle) filmTargetTitle.textContent = currentLang === 'en' ? info.titleEn : info.titleTr;
-        if (filmTargetSub) filmTargetSub.textContent = info.tc;
+        if (filmTargetSub) filmTargetSub.textContent = currentLang === 'en' ? (info.tcEn || info.tc) : (info.tcTr || info.tc);
 
-        // Reset and activate dive animation
-        filmDiveOverlay.classList.remove('is-diving');
+        // Reset and activate dive animation (Exact 3 seconds duration)
+        filmDiveOverlay.classList.remove('is-diving', 'is-fading-out');
         void filmDiveOverlay.offsetHeight; // force reflow
 
         filmDiveOverlay.classList.add('is-active', 'is-diving');
 
-        // Midpoint (480ms): When camera plunges through the optical lens focal plane and shutter flash bursts
+        // Midpoint (1600ms): Scroll into destination while overlay floats, ensuring underlying book / content is mounted
         setTimeout(() => {
           window.scrollTo({ top: targetY, behavior: 'auto' });
           onScrollHeroFlow();
@@ -1033,13 +1029,18 @@
           if (typeof onMidpoint === 'function') {
             onMidpoint();
           }
-        }, 480);
+        }, 1600);
 
-        // Completion (950ms): When optical flare disperses outward and destination is fully revealed
+        // Dissolve start (2200ms): Overlay dissolves outward revealing destination book / content directly with zero black screen
         setTimeout(() => {
-          filmDiveOverlay.classList.remove('is-diving', 'is-active');
+          filmDiveOverlay.classList.add('is-fading-out');
+        }, 2200);
+
+        // Completion (3000ms - exact 3.0s): Clean up classes
+        setTimeout(() => {
+          filmDiveOverlay.classList.remove('is-diving', 'is-active', 'is-fading-out');
           isFilmTransitioning = false;
-        }, 950);
+        }, 3000);
       }
 
       function navigateToHome() {

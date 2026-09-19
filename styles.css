@@ -2707,16 +2707,21 @@ html.menu-open {
   z-index: 99999;
   pointer-events: none;
   overflow: hidden;
-  background: #020305;
+  background: radial-gradient(circle at center, rgba(14, 18, 26, 0.96) 0%, rgba(6, 9, 14, 0.98) 65%, #020305 100%);
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.16s ease, visibility 0.16s ease;
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.8s ease;
 }
 
 .film-dive-overlay.is-active {
   pointer-events: all;
   opacity: 1;
   visibility: visible;
+}
+
+.film-dive-overlay.is-fading-out {
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
 
 /* 3D Master Perspective Viewport */
@@ -2786,28 +2791,32 @@ html.menu-open {
 }
 
 .film-dive-overlay.is-diving .film-dive-scene {
-  animation: filmLensVortexDive 0.95s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: filmLensVortexDive 3.0s cubic-bezier(0.2, 0.85, 0.25, 1) forwards;
 }
 
 @keyframes filmLensVortexDive {
   0% {
-    transform: translateZ(-1600px) scale(0.32) rotateZ(8deg);
-    opacity: 0.15;
+    transform: translateZ(-1300px) scale(0.42) rotateZ(5deg);
+    opacity: 0.1;
   }
-  35% {
-    transform: translateZ(-150px) scale(0.92) rotateZ(1deg);
+  15% {
+    transform: translateZ(-160px) scale(0.92) rotateZ(1deg);
     opacity: 1;
   }
-  50% {
-    transform: translateZ(280px) scale(1.18) rotateZ(0deg);
+  45% {
+    transform: translateZ(30px) scale(1.02) rotateZ(0deg);
     opacity: 1;
   }
-  78% {
-    transform: translateZ(1300px) scale(2.8) rotateZ(-3deg);
+  65% {
+    transform: translateZ(220px) scale(1.12) rotateZ(-0.5deg);
+    opacity: 1;
+  }
+  82% {
+    transform: translateZ(1050px) scale(2.2) rotateZ(-2deg);
     opacity: 0.85;
   }
   100% {
-    transform: translateZ(2400px) scale(4.6) rotateZ(-5deg);
+    transform: translateZ(2200px) scale(3.6) rotateZ(-3.5deg);
     opacity: 0;
   }
 }
@@ -2825,14 +2834,14 @@ html.menu-open {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: min(320px, 32vw);
-  height: min(220px, 22vw);
-  margin-top: calc(-1 * min(220px, 22vw) / 2);
-  margin-left: calc(-1 * min(320px, 32vw) / 2);
+  width: min(350px, 34vw);
+  height: min(235px, 23vw);
+  margin-top: calc(-1 * min(235px, 23vw) / 2);
+  margin-left: calc(-1 * min(350px, 34vw) / 2);
   background: #070a0f;
   border-radius: 8px;
-  border: 1px solid rgba(255, 140, 55, 0.4);
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.85), 0 0 20px rgba(255, 140, 55, 0.2);
+  border: 1px solid rgba(255, 140, 55, 0.45);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9), 0 0 25px rgba(255, 140, 55, 0.25);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -2844,22 +2853,22 @@ html.menu-open {
 
 /* Sprocket Bars on Story Plate */
 .plate-sprocket {
-  height: 22px;
+  height: 25px;
   background: #020305;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 10px;
+  padding: 0 12px;
   font-family: var(--font-mono);
-  font-size: 8px;
+  font-size: 9.5px;
   color: #ff8c37;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.18em;
   font-weight: 700;
 }
 .plate-sprocket.bot {
   border-bottom: none;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
 }
 .plate-sprocket-holes {
   display: flex;
@@ -2890,18 +2899,23 @@ html.menu-open {
 .plate-photo-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, transparent 40%, rgba(2, 4, 8, 0.85) 100%);
+  background: linear-gradient(180deg, transparent 35%, rgba(2, 4, 8, 0.88) 100%);
   display: flex;
   align-items: flex-end;
-  padding: 6px 10px;
+  padding: 8px 12px;
 }
 .plate-title-tag {
   font-family: var(--font-mono);
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 700;
-  color: #fff;
-  letter-spacing: 0.12em;
-  text-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
+  color: #ffffff;
+  letter-spacing: 0.14em;
+  background: rgba(4, 7, 12, 0.88);
+  padding: 5px 10px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 140, 55, 0.45);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.95);
   text-transform: uppercase;
 }
 
@@ -3006,13 +3020,13 @@ html.menu-open {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  padding: 24px 44px;
-  background: rgba(6, 9, 14, 0.92);
-  border: 1px solid rgba(255, 140, 55, 0.55);
-  border-radius: 8px;
-  box-shadow: 0 0 60px rgba(0, 0, 0, 0.95), 0 0 30px rgba(255, 140, 55, 0.3);
-  backdrop-filter: blur(12px);
+  gap: 10px;
+  padding: 28px 52px;
+  background: rgba(6, 9, 14, 0.94);
+  border: 1.5px solid rgba(255, 140, 55, 0.65);
+  border-radius: 12px;
+  box-shadow: 0 0 70px rgba(0, 0, 0, 0.95), 0 0 35px rgba(255, 140, 55, 0.35);
+  backdrop-filter: blur(14px);
 }
 
 .film-target-tag {
@@ -3038,10 +3052,10 @@ html.menu-open {
 
 .film-target-title {
   font-family: var(--font-display);
-  font-size: clamp(28px, 4.5vw, 50px);
-  letter-spacing: 0.08em;
+  font-size: clamp(30px, 4.8vw, 52px);
+  letter-spacing: 0.1em;
   color: #fff;
-  text-shadow: 0 0 30px rgba(255, 140, 55, 0.6), 0 0 60px rgba(0, 210, 255, 0.3);
+  text-shadow: 0 0 30px rgba(255, 140, 55, 0.7), 0 0 60px rgba(0, 210, 255, 0.35);
   text-transform: uppercase;
   margin: 0;
   text-align: center;
@@ -3049,11 +3063,12 @@ html.menu-open {
 
 .film-target-sub {
   font-family: var(--font-mono);
-  font-size: clamp(10px, 1.2vw, 12px);
-  letter-spacing: 0.2em;
-  color: rgba(255, 255, 255, 0.7);
+  font-size: clamp(11px, 1.3vw, 13.5px);
+  letter-spacing: 0.22em;
+  color: rgba(255, 255, 255, 0.88);
   text-transform: uppercase;
   text-align: center;
+  font-weight: 500;
 }
 
 /* 3D Warp Speed Tunnel Lines */
@@ -3079,13 +3094,15 @@ html.menu-open {
 }
 
 .film-dive-overlay.is-diving .film-dive-flash {
-  animation: lensShutterFlash 0.95s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: lensShutterFlash 3.0s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes lensShutterFlash {
   0% { opacity: 0; transform: scale(0.3); }
-  45% { opacity: 0.92; transform: scale(1.15); }
-  60% { opacity: 1; transform: scale(1.5); }
+  25% { opacity: 0.2; transform: scale(0.8); }
+  55% { opacity: 0.35; transform: scale(1.05); }
+  72% { opacity: 0.92; transform: scale(1.35); }
+  85% { opacity: 0.6; transform: scale(1.8); }
   100% { opacity: 0; transform: scale(2.6); }
 }
 
@@ -3103,14 +3120,16 @@ html.menu-open {
 }
 
 .film-dive-overlay.is-diving .anamorphic-streak {
-  animation: anamorphicStreakAnim 0.95s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: anamorphicStreakAnim 3.0s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes anamorphicStreakAnim {
   0% { opacity: 0; transform: translateY(-50%) scaleX(0); }
-  45% { opacity: 1; transform: translateY(-50%) scaleX(1.4); }
-  65% { opacity: 1; transform: translateY(-50%) scaleX(1.8); }
-  100% { opacity: 0; transform: translateY(-50%) scaleX(2.5); }
+  25% { opacity: 0.35; transform: translateY(-50%) scaleX(0.85); }
+  55% { opacity: 0.55; transform: translateY(-50%) scaleX(1.15); }
+  72% { opacity: 1; transform: translateY(-50%) scaleX(1.6); }
+  85% { opacity: 0.5; transform: translateY(-50%) scaleX(2.1); }
+  100% { opacity: 0; transform: translateY(-50%) scaleX(2.8); }
 }
 
 @keyframes filmTallyBlink {
