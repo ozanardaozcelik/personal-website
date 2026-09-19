@@ -593,33 +593,61 @@
         wovenClothFrame.src = `./landing-pages/woven-cloth-washi.html?lang=${currentLang}`;
       }
 
-      // Language Switch with Cinematic Transition Screen & Instant Clean Reload
+      // Overlay DOM references for Film Transition & Language Switch
+      const filmDiveOverlay = document.getElementById('filmDiveOverlay');
+      const filmTargetTag = document.getElementById('filmTargetTag');
+      const filmTargetTitle = document.getElementById('filmTargetTitle');
+      const filmTargetSub = document.getElementById('filmTargetSub');
+      const filmDiveScene = document.getElementById('filmDiveScene');
+      let isFilmTransitioning = false;
+
+      // In-Place Language Switch (No reload, preserves scroll position & current section)
       const langBtn = document.getElementById('lang-toggle-btn');
       if (langBtn) {
         langBtn.addEventListener('click', (e) => {
           e.preventDefault();
+          if (isFilmTransitioning) return;
           const nextLang = (currentLang === 'tr') ? 'en' : 'tr';
-          localStorage.setItem('site_lang', nextLang);
 
-          const diveOverlay = document.getElementById('filmDiveOverlay');
-          const tTag = document.getElementById('filmTargetTag');
-          const tTitle = document.getElementById('filmTargetTitle');
-          const tSub = document.getElementById('filmTargetSub');
+          if (filmDiveOverlay) {
+            isFilmTransitioning = true;
+            if (nextLang === 'tr') {
+              if (filmTargetTag) filmTargetTag.textContent = 'SİSTEM // YERELLEŞTİRME';
+              if (filmTargetTitle) filmTargetTitle.textContent = 'DİL DEĞİŞTİRİLİYOR...';
+              if (filmTargetSub) filmTargetSub.textContent = 'TÜRKÇEYE GEÇİLİYOR · LÜTFEN BEKLEYİN';
+            } else {
+              if (filmTargetTag) filmTargetTag.textContent = 'SYSTEM // LOCALIZATION';
+              if (filmTargetTitle) filmTargetTitle.textContent = 'SWITCHING LANGUAGE...';
+              if (filmTargetSub) filmTargetSub.textContent = 'SWITCHING TO ENGLISH · PLEASE WAIT';
+            }
 
-          if (diveOverlay) {
-            if (tTag) tTag.textContent = (nextLang === 'en') ? 'SYSTEM // LOCALIZATION' : 'SİSTEM // DİL GÜNCELLEMESİ';
-            if (tTitle) tTitle.textContent = (nextLang === 'en') ? 'DİL DEĞİŞTİRİLİYOR...' : 'DİL DEĞİŞTİRİLİYOR...';
-            if (tSub) tSub.textContent = (nextLang === 'en') ? 'TÜRKÇE ➔ ENGLISH · LÜTFEN BEKLEYİN...' : 'ENGLISH ➔ TÜRKÇE · PLEASE WAIT...';
+            filmDiveOverlay.classList.remove('is-fading-out', 'is-opening');
+            void filmDiveOverlay.offsetHeight;
+            filmDiveOverlay.classList.add('is-active', 'is-diving');
 
-            diveOverlay.classList.remove('is-fading-out', 'is-opening');
-            void diveOverlay.offsetHeight;
-            diveOverlay.classList.add('is-active', 'is-diving');
-
+            // Switch language in-place at peak warp transition (450ms)
             setTimeout(() => {
-              window.location.href = window.location.pathname + '?lang=' + nextLang;
-            }, 650);
+              setLanguage(nextLang);
+              try {
+                history.replaceState(null, '', window.location.pathname + '?lang=' + nextLang);
+              } catch (err) {}
+            }, 450);
+
+            // Dissolve outward revealing content at exact current position (1000ms)
+            setTimeout(() => {
+              filmDiveOverlay.classList.add('is-fading-out');
+            }, 1000);
+
+            // Complete transition and re-enable interaction (1500ms)
+            setTimeout(() => {
+              filmDiveOverlay.classList.remove('is-diving', 'is-active', 'is-fading-out', 'is-opening');
+              isFilmTransitioning = false;
+            }, 1500);
           } else {
-            window.location.href = window.location.pathname + '?lang=' + nextLang;
+            setLanguage(nextLang);
+            try {
+              history.replaceState(null, '', window.location.pathname + '?lang=' + nextLang);
+            } catch (err) {}
           }
         });
       }
@@ -684,6 +712,8 @@
 
       let isAutoScrolling = false;
       let autoScrollAnimId = null;
+      let autoScrollStartTime = 0;
+      let autoScrollDirection = 0;
 
       function customSmoothScrollTo(targetY, duration, onComplete) {
         if (autoScrollAnimId) {
@@ -701,9 +731,11 @@
         }
 
         isAutoScrolling = true;
+        autoScrollStartTime = performance.now();
+        autoScrollDirection = diff > 0 ? 1 : -1;
         const startTime = performance.now();
-        // Luxurious, cinematic 4-5x slower duration (1400ms - 1900ms)
-        const actualDuration = duration || Math.min(1900, Math.max(1350, Math.abs(diff) * 1.15));
+        // Cinematic, comfortable smooth scroll duration
+        const actualDuration = duration || Math.min(1400, Math.max(850, Math.abs(diff) * 0.85));
 
         function step(now) {
           const elapsed = now - startTime;
@@ -723,7 +755,7 @@
             setTimeout(() => {
               isAutoScrolling = false;
               if (typeof onComplete === 'function') onComplete();
-            }, 80);
+            }, 60);
           }
         }
 
@@ -948,12 +980,6 @@
       }
 
       // 3. Cinematic 3D Deep-Dive Film Reel Navigation Transition Engine
-      const filmDiveOverlay = document.getElementById('filmDiveOverlay');
-      const filmTargetTag = document.getElementById('filmTargetTag');
-      const filmTargetTitle = document.getElementById('filmTargetTitle');
-      const filmTargetSub = document.getElementById('filmTargetSub');
-      const filmDiveScene = document.getElementById('filmDiveScene');
-      let isFilmTransitioning = false;
       let currentSectionIndex = 0; // 0: Home, 1: Story, 2: Skills, 3: Projects, 4: Contact
 
       const SECTION_INFO = [
@@ -1059,41 +1085,78 @@
       window.__navigateToContact = navigateToContact;
 
       // Cancel any ongoing auto-scroll as soon as user takes manual control
-      function interruptAutoScroll() {
-        if (isAutoScrolling) {
-          if (autoScrollAnimId) {
-            cancelAnimationFrame(autoScrollAnimId);
-            autoScrollAnimId = null;
+      function interruptAutoScroll(e) {
+        if (!isAutoScrolling) return;
+        // If within initial 280ms of auto-scroll, protect against momentum/inertia of the trigger wheel flick in the same direction
+        const elapsed = performance.now() - autoScrollStartTime;
+        if (elapsed < 280 && e && typeof e.deltaY === 'number') {
+          if ((autoScrollDirection > 0 && e.deltaY > 0) || (autoScrollDirection < 0 && e.deltaY < 0)) {
+            return;
           }
-          isAutoScrolling = false;
         }
+        if (autoScrollAnimId) {
+          cancelAnimationFrame(autoScrollAnimId);
+          autoScrollAnimId = null;
+        }
+        isAutoScrolling = false;
+        isGlidingToStory = false;
+        isGlidingBetweenSections = false;
       }
 
-      // Auto-Glide Scroll towards Hikayem when scrolling down past Home
+      // Auto-Glide Scroll tracking
       let lastScrollY = window.pageYOffset || 0;
       let isGlidingToStory = false;
+      let isGlidingBetweenSections = false;
 
       window.addEventListener('scroll', () => {
         const curY = window.pageYOffset || document.documentElement.scrollTop || 0;
         const isDown = curY > lastScrollY;
         lastScrollY = curY;
 
-        if (isFilmTransitioning || isAutoScrolling || isGlidingToStory) return;
+        if (isFilmTransitioning || isAutoScrolling) return;
 
-        const { flowTop, storyY, winH } = (typeof getSnapTargets === 'function') ? getSnapTargets() : { flowTop: 9999, storyY: 9999, winH: 800 };
-        const glideThreshold = flowTop - winH * 0.35;
+        const { flowTop, flowH, storyY, shelfY, winH } = (typeof getSnapTargets === 'function') ? getSnapTargets() : { flowTop: 9999, flowH: 9999, storyY: 9999, shelfY: 9999, winH: 800 };
+        const totalTravel = Math.max(1, flowH - winH);
+        const p = Math.max(0, Math.min(1, (curY - flowTop) / totalTravel));
 
-        // Auto-glide into seated book when scrolling down into the pre-book buffer
-        if (isDown && curY >= glideThreshold && curY < storyY - 30) {
+        // 1. Auto-glide into seated book when scrolling down past Home
+        const glideHomeThreshold = flowTop - winH * 0.35;
+        if (!isGlidingToStory && isDown && curY >= glideHomeThreshold && curY < storyY - 30) {
           isGlidingToStory = true;
           ensureStoryLoaded();
           customSmoothScrollTo(storyY, 650, () => {
             isGlidingToStory = false;
           });
+          return;
         }
 
-        if (curY < glideThreshold - 60 || curY > storyY + 60) {
+        if (curY < glideHomeThreshold - 60 || curY > storyY + 60) {
           isGlidingToStory = false;
+        }
+
+        // 2. Smooth Animated Transition between Hikayem (02) and Yeteneklerim (03)
+        // Downward: scrolling past comfortable reading zone (p >= 0.28) smoothly glides into the 3D book fold & docks at shelf
+        if (!isGlidingBetweenSections && isDown && p >= 0.28 && p < 0.68) {
+          isGlidingBetweenSections = true;
+          ensureShelfLoaded();
+          customSmoothScrollTo(shelfY, 950, () => {
+            isGlidingBetweenSections = false;
+          });
+          return;
+        }
+
+        // Upward: scrolling up from shelf (p <= 0.72) smoothly unfolds and returns to Hikayem
+        if (!isGlidingBetweenSections && !isDown && p <= 0.72 && p > 0.28) {
+          isGlidingBetweenSections = true;
+          ensureStoryLoaded();
+          customSmoothScrollTo(storyY, 950, () => {
+            isGlidingBetweenSections = false;
+          });
+          return;
+        }
+
+        if (p < 0.20 || p > 0.85) {
+          isGlidingBetweenSections = false;
         }
       }, { passive: true });
 

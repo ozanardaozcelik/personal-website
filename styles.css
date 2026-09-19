@@ -1980,6 +1980,7 @@ html.menu-open {
   opacity: 0;
   pointer-events: none;
   transform: translateZ(0);
+  transition: opacity 0.12s ease-out;
 }
 
 /* LAYER 2: 3D DOCKING BOOK (Smooth 3D folding & gliding) */
@@ -1995,6 +1996,7 @@ html.menu-open {
   opacity: 0;
   will-change: opacity;
   transform: translateZ(0);
+  transition: opacity 0.12s ease-out;
 }
 
 /* LAYER 3: 02 HİKAYEM (3D SKETCHBOOK IFRAME) */
@@ -2005,6 +2007,7 @@ html.menu-open {
   pointer-events: auto;
   transform: translateZ(0);
   will-change: transform, opacity;
+  transition: opacity 0.12s ease-out;
 }
 
 .scroll-dock-book {
@@ -2015,6 +2018,7 @@ html.menu-open {
   transform-style: preserve-3d;
   will-change: transform, opacity;
   transform: translateZ(0);
+  transition: transform 0.12s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* SPREAD WINGS */
@@ -2041,6 +2045,7 @@ html.menu-open {
   z-index: 4;
   will-change: transform;
   transform: translateZ(0);
+  transition: transform 0.12s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* WING FACES */
