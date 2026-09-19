@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { vertexShader, fluidFragmentShader, displayFragmentShader } from './shaders.js';
 import { initTopics3DStream } from './gallery_3d.js';
+import { initRibbonFieldBackground } from './src/shaders/ribbon-field/ribbonField.js';
 
 const CONFIG = {
   // Simulation render-target size (optimized 256 for silky smooth 60+ FPS without GPU stalls)
@@ -426,3 +427,26 @@ if (document.readyState === 'loading') {
     initTopics3DStream('topics-3d-canvas');
   }
 }
+
+// Initialize ThreeUI PredictiveArcCanvas (Ribbon Field) on Hikayem scroll background
+function setupHikayemRibbonField() {
+  const container = document.getElementById('flowRibbonFieldLayer');
+  if (container) {
+    initRibbonFieldBackground(container, {
+      speed: 1.00,
+      pointerAmount: 1.00,
+      smoothing: 0.035,
+      hue: 0,
+      saturation: 1.00,
+      brightness: 1.00,
+      opacity: 1.00
+    });
+  }
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', setupHikayemRibbonField);
+} else {
+  setupHikayemRibbonField();
+}
+

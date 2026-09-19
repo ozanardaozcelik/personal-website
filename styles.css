@@ -1890,6 +1890,25 @@ html.menu-open {
   height: 0 !important;
 }
 
+/* LAYER 0: THREEUI PREDICTIVE ARC CANVAS (RIBBON-FIELD) BACKGROUND */
+.flow-ribbon-field-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+  background: #030304;
+}
+
+.flow-ribbon-field-layer canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
+}
+
 /* LAYER 1: 03 YETENEKLERİM (3D SHELF IFRAME) */
 .flow-shelf-layer {
   z-index: 2;
@@ -1917,10 +1936,11 @@ html.menu-open {
 /* LAYER 3: 02 HİKAYEM (3D SKETCHBOOK IFRAME) */
 .flow-story-layer {
   z-index: 5;
-  background: var(--bg);
+  background: transparent;
   opacity: 1;
   pointer-events: auto;
   transform: translateZ(0);
+  will-change: transform, opacity;
 }
 
 .scroll-dock-book {

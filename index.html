@@ -399,16 +399,6 @@
             <span class="lang-en">I am a senior Computer Engineering student focused on computer vision and artificial intelligence architectures. I develop object detection, anomaly detection, and OCR-based image processing models, optimizing them to run in real-time on embedded hardware. I produce applicable software solutions by integrating these solutions into industrial quality control processes and ROS 2/Gazebo-supported autonomous robotic systems.</span>
           </p>
 
-          <div class="hero-home-actions">
-            <button type="button" class="hero-cta-btn" id="btnExploreStory">
-              <span><span class="lang-tr">HİKAYEM İÇİN AŞAĞI KAYDIRIN</span><span class="lang-en">SCROLL DOWN FOR MY STORY</span></span>
-              <span class="hero-cta-arrow">↓</span>
-            </button>
-            <span class="hero-interactive-hint">
-              <span class="lang-tr">✦ Portre üzerinde mouse'u gezdirerek geleceği keşfedin</span>
-              <span class="lang-en">✦ Hover over portrait to discover the future</span>
-            </span>
-          </div>
         </div>
       </div>
     </div>
@@ -419,6 +409,9 @@
        ========================================================================= -->
   <div class="hero-scroll-flow" id="heroScrollFlow">
     <div class="hero-sticky-viewport" id="heroStickyViewport">
+
+      <!-- LAYER 0: THREEUI PREDICTIVE ARC CANVAS (RIBBON-FIELD) BACKGROUND -->
+      <div class="flow-layer flow-ribbon-field-layer" id="flowRibbonFieldLayer"></div>
       
       <!-- LAYER 1: 03 YETENEKLERİM 3D SHELF IFRAME (Lazy loaded for instant page load) -->
       <div class="flow-layer flow-shelf-layer" id="flowShelfLayer" style="visibility: hidden; opacity: 0;">
@@ -844,6 +837,7 @@
       // Scroll Handler with Generous Dedicated Reading Buffer & Cinematic Pacing
       let lastRenderedP = -999;
       let hasSnappedToStory = true;
+      let hasAutoFlippedFirstPage = false;
 
       function onScrollHeroFlow() {
         if (!flowContainer || !scrollDockBook || !sdbWingRight) return;
@@ -853,6 +847,23 @@
         const flowTop = getDocTop(flowContainer);
         const flowH = flowContainer.offsetHeight;
         const totalTravel = Math.max(1, flowH - winH);
+
+        // Home -> Hikayem Smooth Transition (Exit Home Hero into ThreeUI Ribbon Field)
+        if (heroHomeSec) {
+          if (scrollY < flowTop) {
+            const homeExitDist = winH * 0.75;
+            const exitP = Math.max(0, Math.min(1, (scrollY - (flowTop - homeExitDist)) / homeExitDist));
+            if (exitP > 0) {
+              heroHomeSec.style.opacity = (1 - exitP * 0.90).toFixed(3);
+              heroHomeSec.style.transform = 'scale(' + (1 - exitP * 0.05).toFixed(3) + ') translateY(' + (-exitP * 40).toFixed(1) + 'px)';
+            } else {
+              heroHomeSec.style.opacity = '1';
+              heroHomeSec.style.transform = 'none';
+            }
+          } else {
+            heroHomeSec.style.opacity = '0.05';
+          }
+        }
 
         // Progress p: 0.00 (Story top) to 1.00 (Shelf docked)
         let p = (scrollY - flowTop) / totalTravel;
@@ -889,16 +900,39 @@
         }
 
         // 1. Story layer (02 Hikayem Sketchbook):
-        // 100% Solid & fully interactive reading zone (p: 0.00 -> 0.28)
+        // Drops smoothly from above upon entrance (p: 0.00 -> 0.06), auto-flips once, then enters comfortable reading zone (p: 0.06 -> 0.28)
         // Gentle crossfade out to blank closing volume (p: 0.28 -> 0.38)
         if (flowStoryLayer) {
           let storyOpacity = 1;
-          if (p > 0.28) {
+          let dropTranslateY = 0;
+          let dropScale = 1;
+
+          if (p < 0.06) {
+            const dropP = smoothstep(p / 0.06);
+            dropTranslateY = -45 * (1 - dropP);
+            dropScale = 0.94 + 0.06 * dropP;
+            storyOpacity = Math.max(0.2, dropP);
+
+            if (dropP >= 0.90 && !hasAutoFlippedFirstPage && sbIframe && sbIframe.contentWindow) {
+              hasAutoFlippedFirstPage = true;
+              setTimeout(() => {
+                try {
+                  sbIframe.contentWindow.postMessage({ type: 'STEP_DIR', dir: 'next' }, '*');
+                } catch (e) {}
+              }, 350);
+            }
+          } else if (p > 0.28) {
             storyOpacity = Math.max(0, 1 - (p - 0.28) / 0.10);
           }
+
+          flowStoryLayer.style.transform = 'translateY(' + dropTranslateY.toFixed(1) + 'px) scale(' + dropScale.toFixed(3) + ')';
           flowStoryLayer.style.opacity = storyOpacity.toFixed(3);
           flowStoryLayer.style.pointerEvents = (p <= 0.32) ? 'auto' : 'none';
           flowStoryLayer.style.visibility = storyOpacity <= 0 ? 'hidden' : 'visible';
+        }
+
+        if (scrollY < flowTop - 120) {
+          hasAutoFlippedFirstPage = false;
         }
 
         // 2. 3D Closing book layer:
