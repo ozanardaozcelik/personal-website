@@ -550,9 +550,14 @@
             <p class="dph-desc" id="dphDesc">TEKNOFEST Savaşan İHA Yarışması kapsamında yüksek hızlı hava-hava muharebe senaryolarında gerçek zamanlı YOLOv8 nesne tespiti, ByteTrack takip, ArduPilot &amp; MAVLink otonom güdüm entegrasyonu ve kamikaze dalış mimarileri.</p>
           </div>
 
-          <!-- Dynamic Projects Deck -->
+          <!-- Dynamic Projects Deck (max 3 visible per page) -->
           <div class="projects-cards-deck" id="projectsCardsDeck">
-            <!-- Injected via JavaScript based on selected topic -->
+            <!-- Injected via JavaScript based on selected topic and page -->
+          </div>
+
+          <!-- Pagination Bar for seamless multi-page browsing -->
+          <div class="projects-pagination-bar" id="projectsPaginationBar">
+            <!-- Injected via JavaScript -->
           </div>
         </div>
 
@@ -1208,63 +1213,85 @@
       const PROJECT_TOPICS = {
         uav: {
           badge: 'HAVACILIK // SAVAŞAN İHA OTONOMİSİ',
-          count: '2 PROJE',
+          count: '3 GÖREV',
           titleTr: 'Havacılık & Savaşan SİHA Muharebe Otonomisi',
           titleEn: 'Aerospace & Combat UAV Autonomous Warfare',
-          descTr: 'TEKNOFEST Savaşan İHA Yarışması kapsamında yüksek hızlı hava-hava muharebe senaryolarında gerçek zamanlı YOLOv8 nesne tespiti, ByteTrack takip, ArduPilot & MAVLink otonom güdüm entegrasyonu, kamikaze dalış mimarileri ve Gazebo Harmonic & ROS 2 simülasyon test ortamı.',
-          descEn: 'Real-time YOLOv8 object detection, ByteTrack tracking, ArduPilot & MAVLink autonomous guidance, kamikaze dive trajectories and Gazebo Harmonic simulation under high-speed dogfight combat scenarios.',
+          descTr: 'TEKNOFEST Savaşan İHA Yarışması kapsamında hava-hava muharebe senaryolarında gerçek zamanlı YOLOv8 nesne tespiti, ByteTrack takip, Orange Cube (Pixhawk), MAVLink & ROS 2 güdüm, 45° dalış, QR kod decode ve Gazebo Harmonic dijital ikiz simülasyon ortamı.',
+          descEn: 'Air-to-air dogfight engagement featuring real-time YOLOv8 object detection, ByteTrack tracking, Orange Cube (Pixhawk), MAVLink & ROS 2 protocols, 45-degree dive guidance, QR decode, and Gazebo Harmonic digital twin simulation.',
           projects: [
             {
-              title: 'Şahi Otonom Savaşan SİHA Yazılım Mimarisi',
+              title: 'Öndeki İHA Tespiti & Otonom Kilitlenme (Hava-Hava Muharebe)',
               category: 'TEKNOFEST // SAVAŞAN İHA',
               flagship: true,
               tagBadge: 'YAZILIM EKİBİ LİDERİ',
-              descTr: 'Önceden gelen görüntü işleme ilgim ve projelerimle Şahi Otonom SİHA takımında Yazılım Ekibi Lideri olarak görev aldım. TEKNOFEST Savaşan İHA Yarışması kapsamında yüksek hızlı hava-hava muharebe senaryolarında gerçek zamanlı YOLOv8 nesne tespiti, ByteTrack takip, ArduPilot & MAVLink otonom güdüm entegrasyonu ve kamikaze dalış algoritmalarını yönettim. Uçuş öncesi tüm sistemleri Gazebo Harmonic ve ROS 2 ortamında simüle ederek uçuş testlerini gerçekleştirdim.',
-              descEn: 'Led the software team for Sahi Autonomous Combat UAV at TEKNOFEST. Engineered 120 FPS real-time YOLOv8 target detection, ByteTrack, ArduPilot MAVLink guidance, kamikaze dive trajectories, and full digital twin testing in Gazebo Harmonic & ROS 2.',
-              tech: ['YOLOv8', 'ByteTrack', 'ArduPilot', 'MAVLink', 'Gazebo Harmonic', 'ROS 2', 'C++', 'Python'],
+              descTr: 'Yüksek hızlı hava-hava muharebe senaryolarında öndeki rakip İHA\'yı YOLOv8 ile gerçek zamanlı tespit edip ByteTrack ile kararlı takip. Orange Cube (Pixhawk) otonom uçuş kontrolcüsü, MAVLink ve ROS 2 protokolleri üzerinden güdüm ve anlık kilitlenme algoritmaları.',
+              descEn: 'Real-time target UAV detection and dynamic lock-on using YOLOv8, ByteTrack, Orange Cube (Pixhawk) flight controller, MAVLink, and ROS 2 protocols under air-to-air dogfight scenarios.',
+              tech: ['YOLOv8', 'Orange Cube', 'ROS 2', 'MAVLink', 'ByteTrack', 'C++', 'Python'],
               repo: 'Sahi-Otonom-Savasan-IHA',
               url: 'https://github.com/ozanardaozcelik'
             },
             {
-              title: 'SİHA Telemetri & Yer Kontrol İstasyonu (GCS)',
-              category: 'TELEMETRİ & GCS',
+              title: '45° Dalış, QR Kod Tespiti/Decode & Otonom Yükselme',
+              category: 'KAMİKAZE & QR GÖREVİ',
               flagship: false,
-              tagBadge: 'GERÇEK ZAMANLI KONTROL',
-              descTr: '433/868 MHz RF telemetri veri akışını gerçek zamanlı ayrıştıran, yapay ufuk, 3D yönelim ve MAVLink telemetri izleme arayüzü. Otonom kilitlenme ve kamikaze dalış telemetrilerinin operatöre anlık aktarımı.',
-              descEn: 'Real-time artificial horizon, 433/868 MHz RF telemetry stream parser, 3D orientation rendering, and MAVLink mission command panel.',
-              tech: ['Qt / C++', 'MAVLink', 'RF Telemetry', 'Python', 'GUI'],
-              repo: 'UAV-GroundControl-Station',
+              tagBadge: 'OTONOM MANEVRA GÜDÜMÜ',
+              descTr: 'Hedef koordinata 45 derecelik açı ile otonom dalış gerçekleştirirken yerdeki QR kodu yüksek hızda optik olarak tespit edip decode etme; QR başarıyla okunduktan sonra güvenli irtifaya tekrar otonom tırmanış/yükselme mimarisi.',
+              descEn: 'Autonomous 45-degree dive guidance, high-speed optical QR code detection and decoding, followed by autonomous pull-up climb to safe cruise altitude.',
+              tech: ['Görüntü İşleme', 'QR Decode', '45° Dalış Güdümü', 'MAVLink', 'Otonom Yükselme', 'OpenCV'],
+              repo: 'Sahi-Otonom-Savasan-IHA',
+              url: 'https://github.com/ozanardaozcelik'
+            },
+            {
+              title: 'Gazebo Harmonic Simülasyon Ortam Kurulumu & Dijital İkiz',
+              category: 'SİHA SİMÜLASYONU & TEST',
+              flagship: false,
+              tagBadge: 'DİJİTAL İKİZ // ROS 2',
+              descTr: 'Uçuş öncesi aerodinamik modellerin, rüzgar koşullarının ve hava muharebe görevlerinin Gazebo Harmonic ve ROS 2 ortamında birebir dijital ikiz simülasyonu; donanım döngüde (HIL/SIL) güvenli test altyapısı.',
+              descEn: 'Full digital twin simulation environment setup in Gazebo Harmonic & ROS 2 Humble for aerodynamics, wind disturbance modeling, and Hardware-in-the-Loop (HIL/SIL) validation.',
+              tech: ['Gazebo Harmonic', 'ROS 2 Humble', 'SDF / URDF', 'SIL/HIL Testleri', 'SİHA Simülasyonu'],
+              repo: 'Sahi-Otonom-Savasan-IHA',
               url: 'https://github.com/ozanardaozcelik'
             }
           ]
         },
         vision: {
           badge: 'ÇÖZÜM MAKİNA // ISEE VISION',
-          count: '2 PROJE',
-          titleTr: 'Endüstriyel Bilgisayarlı Görü & İSG Güvenlik Sistemleri',
-          titleEn: 'Industrial Computer Vision & OHS Safety Inspection',
-          descTr: 'Fabrikalarda, hastanelerde ve ofislerde iş sağlığı ve güvenliği (İSG) kurallarını denetleyen akıllı kamera yazılımları; üretim hatlarında mikron hassasiyetli yüzey kusur ve anomali tespiti.',
-          descEn: 'Intelligent camera systems for workplace occupational health and safety (OHS/ISG) in factories, hospitals, and offices; high-precision surface defect and anomaly inspection in manufacturing lines.',
+          count: '3 PROJE',
+          titleTr: 'Endüstriyel Görü, Kalite Kontrol & İSG Güvenlik Sistemleri',
+          titleEn: 'Industrial Computer Vision, Quality Control & OHS Safety',
+          descTr: 'Üretim hatlarında mikron hassasiyetli geometrik ölçüm ve yüzey kusur kontrolü; yapay zeka tabanlı anomali tespiti (anomaly detection) ve endüstriyel OCR; fabrika ve sahalarda İSG personel/baret ve güvenli alan ihlal denetimi.',
+          descEn: 'Micron-level dimension verification and defect inspection on production lines; AI-driven anomaly detection and industrial OCR; automated factory OHS PPE compliance and restricted safety zone monitoring.',
           projects: [
             {
-              title: 'ISEE Vision — Fabrika, Hastane & Ofis İSG Denetim Sistemleri',
-              category: 'ENDÜSTRİYEL İSG & GÖRÜNTÜ İŞLEME',
+              title: 'Endüstriyel Kalite Kontrol & Yüzey Kusur Muayenesi',
+              category: 'OPTİK KALİTE KONTROL',
               flagship: true,
-              tagBadge: 'ÇÖZÜM MAKİNA // SAHA PROJESİ',
-              descTr: 'Fabrikalarda, hastanelerde ve ofislerde insanlara yönelik İSG kontrolleri (baret, reflektörlü yelek, tehlikeli alan ihlali vb.) yapan akıllı kameraların yazılımlarını kurdum, inceledim ve saha ortamında optimize ettim. Sıfır gecikmeli RTSP video akışı üzerinden çoklu kamera nesne tespiti.',
-              descEn: 'Deployed, inspected, and optimized intelligent camera software for workplace health & safety (PPE compliance, helmet, vest, restricted zone breach) across factories, hospitals, and office environments.',
-              tech: ['Gerçek Zamanlı Nesne Tespiti', 'İSG Kameraları', 'RTSP Stream', 'OpenCV', 'CUDA', 'Python'],
+              tagBadge: 'ÇÖZÜM MAKİNA // SAHA',
+              descTr: 'Seri üretim hatlarında mikron düzeyinde parça geometrik ölçümü, yüzey deformasyonu, çizik ve çatlak tespiti yapan yüksek hızlı endüstriyel kamera ve görüntü işlemeli kalite kontrol sistemleri.',
+              descEn: 'High-speed optical inspection systems for micron-accuracy dimension verification, surface flaw, scratch, and crack detection on manufacturing lines.',
+              tech: ['Kalite Kontrol', 'Optik Muayene', 'Endüstriyel Kameralar', 'OpenCV', 'CUDA', 'C++'],
               isCorporate: true,
               corporateTag: 'ÇÖZÜM MAKİNA AR-GE'
             },
             {
-              title: 'ISEE Vision — Endüstriyel Yüzey Kusur & Anomali Tespiti',
-              category: 'OPTİK KALİTE KONTROL',
+              title: 'Yapay Zeka Tabanlı Anomali Tespiti (Anomaly Detection) & OCR',
+              category: 'DERİN ÖĞRENME & OCR',
               flagship: false,
-              tagBadge: 'ÇÖZÜM MAKİNA // ÜRETİM HATTI',
-              descTr: 'Seri üretim bantlarında mikron düzeyinde yüzey hataları, çizik, çatlak ve göçük deformasyonlarını PatchCore ve DINO ViT mimarileriyle tespit eden, sıfır hata toleranslı yüksek hızlı optik muayene hattı.',
-              descEn: 'Zero-defect optical quality inspection pipeline identifying sub-millimeter surface flaws, cracks, and deformation using PatchCore and DINO ViT architectures.',
-              tech: ['PatchCore', 'DINO ViT', 'Optik Muayene', 'TensorRT', 'C++', 'Python'],
+              tagBadge: 'ÇÖZÜM MAKİNA // AR-GE',
+              descTr: 'Üretim bantlarında beklenmeyen parça kusurlarını PatchCore mimarisiyle tespit eden anomali tespiti modelleri ve parça üzerindeki seri numarası/etiketleri okuyan endüstriyel OCR mimarisi.',
+              descEn: 'Deep learning anomaly detection leveraging PatchCore architecture for defect localization, combined with real-time industrial OCR for part serial and label verification.',
+              tech: ['Anomali Tespiti (PatchCore)', 'Endüstriyel OCR', 'TensorRT', 'Derin Öğrenme', 'Python'],
+              isCorporate: true,
+              corporateTag: 'ÇÖZÜM MAKİNA AR-GE'
+            },
+            {
+              title: 'Fabrika & Saha İSG Denetimi — Personel & Güvenli Alan Tespiti',
+              category: 'İSG GÜVENLİK KAMERALARI',
+              flagship: false,
+              tagBadge: 'ÇÖZÜM MAKİNA // İSG',
+              descTr: 'Fabrika, hastane ve ofis ortamlarında personelin İSG uygunluğu (baret, yelek, kişisel koruyucu donanım) denetimi, tehlikeli alanlarda insan tespiti ve sınır ihlali durumlarında anlık alarm üreten akıllı kamera yazılımı.',
+              descEn: 'Intelligent camera surveillance inspecting worker PPE compliance (hard hats, vests), restricted zone intrusion detection, and zero-latency workplace safety alerts.',
+              tech: ['İSG İnsan Tespiti', 'Yasak Alan İhlali', 'Baret / Yelek Tespiti', 'RTSP Video', 'Jetson CUDA'],
               isCorporate: true,
               corporateTag: 'ÇÖZÜM MAKİNA AR-GE'
             }
@@ -1272,31 +1299,42 @@
         },
         robotics: {
           badge: 'ÇÖZÜM MAKİNA // ISEE ROBOTICS',
-          count: '2 PROJE',
-          titleTr: 'Robotik Sistemler, Otonom Mobil Robotlar & Dijital İkiz',
-          titleEn: 'Robotics Systems, AMRs & Digital Twin Simulation',
-          descTr: '6 eksenli endüstriyel robot kollar, M20 otonom mobil robot (AMR) ve Tron 1 robot platformları; Gazebo Harmonic 3D fizik simülasyonları, ROS 2 ve MQTT telemetri entegrasyonu.',
-          descEn: '6-axis industrial arms, M20 autonomous mobile robots (AMR), and Tron 1 platforms; 3D physics simulation in Gazebo Harmonic, ROS 2, and MQTT telemetry.',
+          count: '3 PROJE',
+          titleTr: 'Robotik Sistemler, Otonom Mobil Robotlar (AMR) & Simülasyon',
+          titleEn: 'Robotics Systems, AMRs & Gazebo Simulation',
+          descTr: 'Güncel endüstriyel kalitede 6 eksenli robot kollar ile hassas manipülasyon; M20 ve Tron 1 otonom mobil robot (AMR) filo lojistiği ve Nav2 rota planlama; Gazebo Harmonic üzerinde yüksek sadakatli 3D simülasyon.',
+          descEn: 'Precision manipulation with 6-axis industrial arms; autonomous navigation and logistics with M20 AMR and Tron 1 platforms; high-fidelity 3D simulation benchmark in Gazebo Harmonic.',
           projects: [
             {
-              title: 'ISEE Robotics — Çoklu Robot Platformları (Robot Kol, M20 AMR & Tron 1)',
-              category: 'OTONOM ROBOTİK',
+              title: 'Endüstriyel Çok Eksenli Robot Kollar & Hassas Manipülasyon',
+              category: 'ENDÜSTRİYEL ROBOTİK',
               flagship: true,
-              tagBadge: 'ÇÖZÜM MAKİNA // ENDÜSTRİYEL ROBOTİK',
-              descTr: 'Endüstriyel 6 eksenli robot kolların yanı sıra M20 otonom mobil robot (AMR) ve Tron 1 robot platformları üzerinde hareket planlama, otonom rota takibi ve sensör füzyonu. Gerçek dünya testlerinden önce Gazebo Harmonic ortamında 3D fizik simülasyonları gerçekleştirildi; ROS 2 ve MQTT telemetri haberleşmesi kuruldu.',
-              descEn: 'Engineered motion planning, autonomous route tracking, and sensor fusion for 6-axis arms, M20 AMR, and Tron 1 platforms with Gazebo Harmonic 3D simulations and ROS 2/MQTT telemetry.',
-              tech: ['6-Eksen Robot Kol', 'M20 AMR', 'Tron 1 Robot', 'Gazebo Harmonic', 'ROS 2', 'MQTT', 'Nav2'],
+              tagBadge: 'ÇÖZÜM MAKİNA // ROBOT KOL',
+              descTr: 'Fabrika montaj ve transfer hatlarında yüksek tekrarlanabilirlikle çalışan 6 eksenli endüstriyel robot kollar için ters kinematik, MoveIt yörünge planlama ve nesne kavrama algoritmaları.',
+              descEn: 'Inverse kinematics, MoveIt trajectory planning, and precision pick-and-place manipulation algorithms for 6-axis industrial robotic arms.',
+              tech: ['6-Eksen Robot Kol', 'ROS 2 MoveIt', 'Ters Kinematik', 'Yörünge Planlama', 'Otomasyon'],
               isCorporate: true,
               corporateTag: 'ÇÖZÜM MAKİNA AR-GE'
             },
             {
-              title: 'Gazebo Harmonic 3D Dijital İkiz & Simülasyon Test Ortamı',
-              category: 'ROBOTİK SİMÜLASYON',
+              title: 'M20 & Tron 1 Otonom Mobil Robotlar (AMR) & Saha Çözümleri',
+              category: 'OTONOM MOBİL ROBOTLAR (AMR)',
               flagship: false,
-              tagBadge: 'DİJİTAL İKİZ // SİMÜLASYON',
-              descTr: 'ROS 2 entegrasyonlu Gazebo Harmonic 3D fizik simülasyonu, LiDAR 3D nokta bulutu haritalama, engelden kaçınma ve donanım döngüde (HIL/SIL) otonom navigasyon doğrulama altyapısı.',
-              descEn: 'High-fidelity 3D physics simulation with ROS 2, 3D LiDAR point cloud mapping, dynamic obstacle avoidance, and Hardware-in-the-Loop (HIL) benchmark environment.',
-              tech: ['Gazebo Harmonic', 'ROS 2 Humble', 'URDF/SDF', 'LiDAR 3D', 'Nav2', 'C++'],
+              tagBadge: 'ÇÖZÜM MAKİNA // AMR ÇÖZÜMLERİ',
+              descTr: 'M20 AMR ve Tron 1 mobil platformları üzerinde LiDAR SLAM tabanlı 2D/3D haritalama, Nav2 ile dinamik rota planlama, engelden kaçınma ve fabrika içi otonom malzeme taşıma çözümleri.',
+              descEn: 'Autonomous navigation, LiDAR SLAM 2D/3D mapping, Nav2 dynamic obstacle avoidance, and industrial logistics fleet dispatch for M20 AMR and Tron 1 platforms.',
+              tech: ['M20 AMR', 'Tron 1 Platform', 'Nav2', 'LiDAR SLAM', 'Engelden Kaçınma', 'MQTT'],
+              isCorporate: true,
+              corporateTag: 'ÇÖZÜM MAKİNA AR-GE'
+            },
+            {
+              title: 'Gazebo Harmonic Gelişmiş Robotik Simülasyon & Test Ortamı',
+              category: 'DİJİTAL İKİZ & SİMÜLASYON',
+              flagship: false,
+              tagBadge: 'GAZEBO HARMONIC // ROS 2',
+              descTr: 'Robot platformlarının fiziksel donanıma aktarılmadan önce Gazebo Harmonic üzerinde fizik, sürtünme, sensör ve aktüatör davranışlarının birebir modellenmesi ve güvenli test altyapısı.',
+              descEn: 'High-fidelity physics, friction, LiDAR sensor, and actuator simulation benchmark setup in Gazebo Harmonic & ROS 2 prior to hardware deployment.',
+              tech: ['Gazebo Harmonic', 'ROS 2 Humble', 'URDF Model', 'Sensör Füzyonu', 'Dijital İkiz'],
               repo: 'Gazebo-ROS2-DigitalTwin',
               url: 'https://github.com/ozanardaozcelik'
             }
@@ -1304,86 +1342,185 @@
         },
         agentic_ai: {
           badge: 'MARTUR FOMPAK // AGENTIC AI',
-          count: '1 PROJE',
-          titleTr: 'Kurumsal Yapay Zeka & Çoklu Ajan (Agentic AI) Otomasyonu',
-          titleEn: 'Enterprise AI & Multi-Agent (Agentic AI) Automation',
-          descTr: 'Küresel otomotiv fabrikası bünyesinde, departmanların ihtiyaçları doğrultusunda AI modelleri geliştirme, üretim ve verimliliği artıran LLM destekli çoklu ajan (Agentic AI) otomasyon iş akışları.',
-          descEn: 'Developing AI models for departmental needs and implementing LLM-powered Multi-Agent (Agentic AI) workflow automations in a global automotive manufacturing facility.',
+          count: '3 PROJE',
+          titleTr: 'Kurumsal Yapay Zeka, Şirket İçi Chatbotlar & Ajanlar',
+          titleEn: 'Enterprise AI, Internal Chatbots & Multi-Agent Automations',
+          descTr: 'Şirket içi kullanım için geliştirilen yapay zeka modelleri, RAG tabanlı kurumsal chatbotlar; departmanların operasyonel verimliliğini artıran LLM destekli çoklu ajan (Agentic AI) iş akışı otomasyonları.',
+          descEn: 'Internal enterprise chatbots powered by RAG, customized departmental machine learning models, and LLM-driven Multi-Agent (Agentic AI) workflow automations in automotive manufacturing.',
           projects: [
             {
-              title: 'Martur Fompak — Çoklu Ajan (Agentic AI) Otomasyonu & Kurumsal AI',
-              category: 'KURUMSAL YAPAY ZEKA',
+              title: 'Şirket İçi Akıllı Asistan & Kurumsal Chatbot Sistemleri',
+              category: 'KURUMSAL CHATBOT & ASİSTAN',
               flagship: true,
-              tagBadge: 'MARTUR FOMPAK // OTOMOTİV FABRİKASI',
-              descTr: 'Küresel otomotiv fabrikasında şirket içi diğer departmanların ihtiyaçları doğrultusunda yapay zeka modelleri geliştirdim. Üretim süreçlerini optimize eden ve verimliliği artıran LLM destekli çoklu ajan (Agentic AI) otomasyon iş akışlarını hayata geçirdim. Dinamik iş hayatı ve kurumsal üretim dinamikleri için güçlü bir başlangıç ve tecrübe sağladı.',
-              descEn: 'Developed targeted AI models across enterprise departments and orchestrated LLM-driven Multi-Agent AI automation pipelines optimizing production efficiency and manufacturing workflows.',
-              tech: ['Agentic AI', 'Multi-Agent LLM', 'RAG Mimarisi', 'PyTorch', 'Hugging Face', 'FastAPI'],
+              tagBadge: 'ŞİRKET İÇİ KULLANIM',
+              descTr: 'Kurum içi çalışanların şirket prosedürlerini, teknik dokümanları ve iç bilgi havuzunu anlık sorgulayabildiği, RAG mimarisiyle çalışan güvenli ve yetkilendirilmiş kurumsal chatbot çözümleri.',
+              descEn: 'Secure enterprise chatbot leveraging RAG architecture for instant internal document querying, policy Q&A, and corporate knowledge base retrieval.',
+              tech: ['Kurumsal Chatbot', 'RAG Mimarisi', 'LLM Asistan', 'Vektör Veritabanı', 'FastAPI', 'Python'],
+              isCorporate: true,
+              corporateTag: 'MARTUR FOMPAK AI'
+            },
+            {
+              title: 'Martur Fompak Çoklu Ajan (Multi-Agent) İş Akışı Otomasyonu',
+              category: 'AGENTIC AI OTOMASYONU',
+              flagship: false,
+              tagBadge: 'MARTUR FOMPAK // OTOMOTİV',
+              descTr: 'Küresel otomotiv fabrikasında departmanlar arası veri akışını, raporlama ve analiz adımlarını otomatize eden çoklu LLM ajanları (Agentic AI) ve iş akışı optimizasyon boru hatları.',
+              descEn: 'Orchestrating Multi-Agent LLM workflows automating cross-departmental data synthesis, analytical reporting, and manufacturing pipeline optimization.',
+              tech: ['Agentic AI', 'Multi-Agent', 'İş Akışı Otomasyonu', 'PyTorch', 'Hugging Face'],
               isCorporate: true,
               corporateTag: 'MARTUR FOMPAK INTERNATIONAL'
+            },
+            {
+              title: 'Departman Bazlı Özelleştirilmiş AI Modelleri & Tahminleme',
+              category: 'ÖZEL AI MODELLERİ & NLP',
+              flagship: false,
+              tagBadge: 'KURUMSAL ANALİTİK',
+              descTr: 'İK, kalite ve üretim departmanlarının spesifik ihtiyaçları doğrultusunda eğitilmiş/fine-tune edilmiş tahminleme modelleri ve metin analitiği boru hatları.',
+              descEn: 'Fine-tuned departmental machine learning models for employee analytics, quality metrics, and tailored natural language processing pipelines.',
+              tech: ['Fine-Tuning', 'Hugging Face', 'Tahminleme Modelleri', 'NLP', 'Docker'],
+              isCorporate: true,
+              corporateTag: 'MARTUR FOMPAK AR-GE'
             }
           ]
         },
         hmi: {
           badge: 'ARAYÜZ TASARIMI // ENDÜSTRİYEL HMI',
-          count: '2 PROJE',
-          titleTr: 'Arayüz Tasarımı, Web Panel & Endüstriyel HMI',
-          titleEn: 'Interface Design, Web Panels & Industrial HMI',
-          descTr: 'Fabrika sahası ve operatörler için ISEE Vision Web Kontrol Paneli, endüstriyel dokunmatik HMI arayüzleri, ISEE Robotics takip ve robot kontrol panelleri, SİHA telemetri arayüzleri.',
-          descEn: 'Industrial touch HMI panels, real-time Web Control Dashboards for ISEE Vision, robot tracking and teleoperation UI for ISEE Robotics, and UAV ground telemetry consoles.',
+          count: '3 PROJE',
+          titleTr: 'Arayüz Tasarımı, Web Portfolyo & Endüstriyel HMI Paneller',
+          titleEn: 'Interface Design, Web Portfolio & Industrial HMI Dashboards',
+          descTr: 'Kişisel 3D interaktif portfolyo web sitem; şirket bünyesinde geliştirilen endüstriyel dokunmatik ekran operatör HMI arayüzleri, ISEE Vision ve Robotics gerçek zamanlı web yönetim panoları.',
+          descEn: 'My personal 3D interactive engineering portfolio website; industrial touch HMI operator panels, and real-time enterprise web control dashboards for ISEE Vision & Robotics.',
           projects: [
             {
-              title: 'ISEE Vision — Web Kontrol Paneli & Endüstriyel Dokunmatik HMI',
-              category: 'ENDÜSTRİYEL UI/UX & HMI',
+              title: 'Kişisel Web Sitesi & 3D İnteraktif Portfolyo (Ozan Arda)',
+              category: 'KİŞİSEL WEB SİTESİ & UI',
               flagship: true,
-              tagBadge: 'ÇÖZÜM MAKİNA // HMI TASARIMI',
-              descTr: 'Fabrika operatörleri ve kalite mühendislerinin kameraları, kalite kontrol parametrelerini ve İSG güvenlik alarmlarını anlık izleyip yönetebildiği modern Web Kontrol Paneli ve endüstriyel dokunmatik ekranlar için HMI arayüzleri tasarlayıp devreye aldım.',
-              descEn: 'Architected and built real-time Web Control Dashboards and industrial touch HMI interfaces allowing factory operators to monitor live camera streams, quality alerts, and safety parameters.',
-              tech: ['Endüstriyel Dokunmatik HMI', 'Web Kontrol Paneli', 'WebSocket', 'Canlı Telemetri', 'UI/UX'],
+              tagBadge: '3D WEBGL PORTFOLYO',
+              descTr: 'Three.js, raw WebGL, CSS 3D donanım hızlandırmalı dokunsal eskiz defteri, 3D kitaplık ve akışkan silindirik ribbon mimarileriyle tasarlanmış modern kişisel mühendislik web sitem.',
+              descEn: 'My personal engineering website featuring custom Three.js WebGL fluid shaders, hardware-accelerated CSS 3D tactile sketchbook, and interactive 3D stream.',
+              tech: ['Three.js', 'WebGL', 'CSS 3D Engine', 'Vite', 'UI/UX', 'Responsive Design'],
+              repo: 'personal-website',
+              url: 'https://github.com/ozanardaozcelik/personal-website'
+            },
+            {
+              title: 'Şirket İçi Web Yönetim & Canlı Telemetri Panelleri',
+              category: 'ŞİRKET WEB PANELLERİ',
+              flagship: false,
+              tagBadge: 'ÇÖZÜM MAKİNA // WEB PANEL',
+              descTr: 'Robot filolarının ve ISEE Vision kameralarının canlı video akışlarını, anlık telemetri durumlarını ve alarm raporlarını fabrika yöneticilerine sunan modern web yönetim panoları.',
+              descEn: 'Modern enterprise web dashboards providing real-time camera video streaming, fleet telemetry monitoring, and alert dispatch for factory managers.',
+              tech: ['Web Kontrol Paneli', 'WebSocket', 'Canlı Telemetri', 'REST API', 'JavaScript'],
               isCorporate: true,
               corporateTag: 'ÇÖZÜM MAKİNA ISEE VISION'
             },
             {
-              title: 'ISEE Robotics — Robot Kontrol & Canlı Takip Arayüzü',
-              category: 'ROBOTİK HMI & TELEMETRİ',
+              title: 'Endüstriyel Dokunmatik HMI Arayüzleri',
+              category: 'ENDÜSTRİYEL DOKUNMATİK HMI',
               flagship: false,
-              tagBadge: 'ÇÖZÜM MAKİNA // ROBOT KONTROL',
-              descTr: 'Endüstriyel robot kolların, M20 AMR ve Tron 1 robotlarının anlık pozisyon, rota haritası, batarya ve telemetri verilerini operatöre görselleştiren, acil durum ve görev atama yetenekli kontrol paneli.',
-              descEn: 'Interactive telemetry tracking and control dashboard rendering live robot positions, path planning, battery diagnostics, and emergency stop overrides for M20 AMR and Tron 1 robots.',
-              tech: ['Robot Takip Paneli', 'Rota Görselleştirme', 'MQTT Telemetri', 'Endüstriyel HMI', 'Dashboard'],
+              tagBadge: 'ÇÖZÜM MAKİNA // HMI TASARIMI',
+              descTr: 'Fabrika zemininde operatör panelleri ve endüstriyel dokunmatik ekranlar için sıfır gecikmeli, yüksek ergonomili makine ve kamera denetim arayüzleri.',
+              descEn: 'Industrial touchscreen HMI interfaces optimized for factory floor ergonomics, zero-latency machine parameter tuning, and optical inspection control.',
+              tech: ['Dokunmatik HMI', 'Operatör Paneli', 'Ergonomik UI', 'Endüstriyel Kontrol', 'Qt / Web'],
               isCorporate: true,
               corporateTag: 'ÇÖZÜM MAKİNA ISEE ROBOTICS'
             }
           ]
         },
-        embedded: {
-          badge: 'GÖMÜLÜ SİSTEMLER // GNC & DONANIM',
-          count: '2 PROJE',
-          titleTr: 'Gömülü Sistemler, GNC Güdüm & Donanım Entegrasyonu',
-          titleEn: 'Embedded Systems, GNC Guidance & Hardware Integration',
-          descTr: 'ArduPilot & MAVLink telemetri köprüsü, Jetson CUDA hızlandırmalı optik akış ve RF haberleşme mimarileri.',
-          descEn: 'ArduPilot & MAVLink telemetry bridge, Jetson CUDA hardware-accelerated optical flow, and robust serial/RF telemetry pipelines.',
+        personal: {
+          badge: 'KİŞİSEL PROJELER // AÇIK KAYNAK',
+          count: '8 PROJE',
+          titleTr: 'Kişisel Projeler & Açık Kaynak GitHub Arşivi',
+          titleEn: 'Personal Projects & Open-Source GitHub Repositories',
+          descTr: 'Bilgisayarlı görü, doğal dil işleme chatbotları, makine öğrenmesi tahminleme modelleri, mühendislik simülasyonları ve açık kaynak GitHub projelerim (sayfalamayla gezinebilirsiniz).',
+          descEn: 'Computer vision utilities, NLP chatbots, predictive machine learning models, engineering simulators, and public open-source tools across my GitHub repository.',
           projects: [
             {
-              title: 'ArduPilot & MAVLink GNC Donanım Köprüsü',
-              category: 'GNC & OTONOM GÜDÜM',
-              flagship: false,
-              tagBadge: 'MAVLINK GNC KÖPRÜSÜ',
-              descTr: 'Uçuş kontrol kartı (Pixhawk) ile Jetson yardımcı bilgisayar arasında yüksek hızlı UART seri haberleşme, durum kestirimi ve otonom rota noktası aktarımı sağlayan MAVLink GNC köprüsü.',
-              descEn: 'Low-latency UART serial bridge synchronizing Pixhawk autopilot state estimation and autonomous waypoint trajectories with companion computer via MAVLink protocol.',
-              tech: ['ArduPilot', 'MAVLink', 'Serial UART', 'C++', 'Python'],
-              repo: 'ArduPilot-MAVLink-GNC-Bridge',
-              url: 'https://github.com/ozanardaozcelik'
+              title: 'Hand Detector — Gerçek Zamanlı El Hareketi Tanıma',
+              category: 'BİLGİSAYARLI GÖRÜ // AI',
+              flagship: true,
+              tagBadge: 'AÇIK KAYNAK // GITHUB',
+              descTr: 'OpenCV ve MediaPipe ile 5 farklı el hareketini her iki el için rotasyon düzeltmeli ve avuç içi/el sırtı fark etmeksizin gerçek zamanlı tanıyan yapay zeka aracı.',
+              descEn: 'Real-time hand gesture recognition engine using OpenCV & MediaPipe detecting 5 gestures with orientation and rotation correction.',
+              tech: ['OpenCV', 'MediaPipe', 'Python', 'El Tespiti', 'Jest Tanıma'],
+              repo: 'Hand-Detector-',
+              url: 'https://github.com/ozanardaozcelik/Hand-Detector-'
             },
             {
-              title: 'CUDA GPU Hızlandırmalı Optik Akış (Lucas-Kanade)',
-              category: 'GPGPU HIZLANDIRMA',
+              title: 'Comp2laintBox — NLP Geri Bildirim & Çeviri Chatbotu',
+              category: 'NLP & ÇOK DİLLİ CHATBOT',
               flagship: false,
-              tagBadge: 'JETSON ORIN GÖMÜLÜ',
-              descTr: 'NVIDIA Jetson gömülü donanım mimarisinde sıfır gecikmeli Lucas-Kanade optik akış ve gerçek zamanlı hareket vektör kestirimi.',
-              descEn: 'Zero-latency Lucas-Kanade optical flow and dense feature velocity vector computation accelerated natively on NVIDIA Jetson GPU.',
-              tech: ['CUDA C++', 'NVIDIA Jetson Orin', 'TensorRT', 'OpenCV'],
-              repo: 'CUDA-Optical-Flow-Jetson',
-              url: 'https://github.com/ozanardaozcelik'
+              tagBadge: 'AÇIK KAYNAK // GITHUB',
+              descTr: 'Google Forms ve Sheets API üzerinden gelen kurumsal verileri analiz eden, İngilizce modellerle işleyip çıktıları Türkçe\'ye çevirerek kullanıcıya yanıt veren akıllı bilgi çıkarma chatbotu.',
+              descEn: 'Intelligent NLP chatbot integrating Google Forms/Sheets API, performing cross-lingual translation and information extraction for user queries.',
+              tech: ['Python', 'NLP', 'Chatbot', 'Google Sheets API', 'Çok Dilli Çeviri'],
+              repo: 'Comp2laintBox',
+              url: 'https://github.com/ozanardaozcelik/Comp2laintBox'
+            },
+            {
+              title: 'EmployeeLoss — İK Analitiği & Çalışan Kaybı Tahmini',
+              category: 'MAKİNE ÖĞRENMESİ & İK',
+              flagship: false,
+              tagBadge: 'AÇIK KAYNAK // GITHUB',
+              descTr: 'Şirket çalışanlarına dair metrik ve anket verilerini analiz ederek personelin istifa / ayrılma riskini makine öğrenmesi algoritmalarıyla önceden tahminleyen analitik modeli.',
+              descEn: 'Machine learning prediction engine forecasting employee resignation and turnover risk based on corporate HR metrics and sentiment data.',
+              tech: ['Makine Öğrenmesi', 'Python', 'Scikit-Learn', 'İK Analitiği', 'Tahminleme'],
+              repo: 'EmployeeLoss',
+              url: 'https://github.com/ozanardaozcelik/EmployeeLoss'
+            },
+            {
+              title: 'TensileForge — Malzeme Dayanım & Çekme Testi Simülatörü',
+              category: 'MÜHENDİSLİK SİMÜLASYONU',
+              flagship: false,
+              tagBadge: 'AÇIK KAYNAK // GITHUB',
+              descTr: 'Mühendislik malzemelerinin mekanik çekme testlerini, akma/kopma dayanımlarını ve gerilme-uzama eğrilerini modelleyen Python simülasyon ve analiz aracı.',
+              descEn: 'Mechanical tensile test simulator and engineering material analysis tool computing stress-strain curves and yield/ultimate strengths.',
+              tech: ['Python', 'Malzeme Mekaniği', 'Çekme Testi', 'NumPy', 'Matplotlib'],
+              repo: 'TensileForge',
+              url: 'https://github.com/ozanardaozcelik/TensileForge'
+            },
+            {
+              title: 'MovieNSeriesNSitcom — Medya Arşivi & Notlama Uygulaması',
+              category: 'MASAÜSTÜ UYGULAMA',
+              flagship: false,
+              tagBadge: 'AÇIK KAYNAK // GITHUB',
+              descTr: 'İzlenen film, dizi ve sitcom yapımlarını yerel veritabanında kaydeden, puanlama, özel notlar ekleme ve dinamik filtreleme sağlayan kişisel medya takip sistemi.',
+              descEn: 'Desktop media tracking software archiving watched movies and series with ratings, personal notes, and dynamic sorting filters.',
+              tech: ['Python', 'Masaüstü GUI', 'SQLite', 'Veri Filtreleme'],
+              repo: 'MovieNSeriesNSitcom',
+              url: 'https://github.com/ozanardaozcelik/MovieNSeriesNSitcom'
+            },
+            {
+              title: 'SAWBLADES — İvmeli Fizik Hayatta Kalma Oyunu',
+              category: 'OYUN GELİŞTİRME & FİZİK',
+              flagship: false,
+              tagBadge: 'AÇIK KAYNAK // GITHUB',
+              descTr: 'Yukarıdan düşen testere bıçaklarından kaçarak refleks geliştirmeyi amaçlayan, her geçen engelle birlikte ivmeli hız artışı sunan 2D fizik motorlu arcade oyunu.',
+              descEn: '2D arcade survival game with dynamic progressive acceleration where players dodge falling sawblades using keyboard controls.',
+              tech: ['Pygame', 'Python', 'Fizik Motoru', '2D Oyun'],
+              repo: 'SAWBLADES',
+              url: 'https://github.com/ozanardaozcelik/SAWBLADES'
+            },
+            {
+              title: 'TurtleAimBot — Dinamik İmleç Takip & Refleks Oyunu',
+              category: 'GRAFİK & REFLEKS MOTORU',
+              flagship: false,
+              tagBadge: 'AÇIK KAYNAK // GITHUB',
+              descTr: 'Python Turtle kütüphanesiyle yazılmış, göl üzerinde rastgele konumlara ışınlanan hedef kaplumbağayı reflekslerle yakalamaya dayalı etkileşimli hedefleme aracı.',
+              descEn: 'Interactive reflex and aim training simulator developed in Python Turtle tracking teleporting targets across a virtual lake.',
+              tech: ['Python', 'Turtle Graphics', 'Refleks Takibi', 'Oyun Mantığı'],
+              repo: 'TurtleAimBot',
+              url: 'https://github.com/ozanardaozcelik/TurtleAimBot'
+            },
+            {
+              title: 'Akıllı Takvim — Web Tabanlı Etkinlik & Planlama Aracı',
+              category: 'WEB UYGULAMASI',
+              flagship: false,
+              tagBadge: 'AÇIK KAYNAK // GITHUB',
+              descTr: 'Günlük ve haftalık görev, etkinlik ve zaman yönetimini sağlayan, modern JavaScript arayüzüne sahip responsive akıllı ajanda ve takvim web uygulaması.',
+              descEn: 'Interactive web calendar and scheduling web tool featuring responsive UI, event management, and daily productivity workflows.',
+              tech: ['JavaScript', 'HTML5', 'CSS3', 'Local Storage', 'Responsive'],
+              repo: 'akilli-takvim',
+              url: 'https://github.com/ozanardaozcelik/akilli-takvim'
             }
           ]
         }
@@ -1394,25 +1531,40 @@
       const dphTitle = document.getElementById('dphTitle');
       const dphDesc = document.getElementById('dphDesc');
       const projectsCardsDeck = document.getElementById('projectsCardsDeck');
-      const topicStreamCards = document.querySelectorAll('.topic-stream-card');
+      const projectsPaginationBar = document.getElementById('projectsPaginationBar');
       let currentTopicKey = 'uav';
+      let currentTopicPage = 0;
+      const PROJECTS_PER_PAGE = 3;
 
-      window.__renderCurrentTopic = () => renderTopicProjects(currentTopicKey);
+      function renderTopicProjects(topicKey, pageIndex) {
+        if (topicKey && topicKey !== currentTopicKey) {
+          currentTopicKey = topicKey;
+          currentTopicPage = 0;
+        } else if (typeof pageIndex === 'number') {
+          currentTopicPage = pageIndex;
+        }
 
-      function renderTopicProjects(topicKey) {
-        currentTopicKey = topicKey || currentTopicKey;
         const topic = PROJECT_TOPICS[currentTopicKey] || PROJECT_TOPICS.uav;
         const isEn = (currentLang === 'en');
+        const allProjects = topic.projects || [];
+        const totalProjects = allProjects.length;
+        const totalPages = Math.max(1, Math.ceil(totalProjects / PROJECTS_PER_PAGE));
+
+        if (currentTopicPage >= totalPages) currentTopicPage = totalPages - 1;
+        if (currentTopicPage < 0) currentTopicPage = 0;
 
         if (dphBadge) dphBadge.textContent = topic.badge;
-        if (dphCount) dphCount.textContent = topic.count;
+        if (dphCount) dphCount.textContent = totalProjects + (isEn ? ' PROJECTS' : ' PROJE');
         if (dphTitle) dphTitle.textContent = isEn ? topic.titleEn : topic.titleTr;
         if (dphDesc) dphDesc.textContent = isEn ? topic.descEn : topic.descTr;
 
         if (!projectsCardsDeck) return;
         projectsCardsDeck.innerHTML = '';
 
-        topic.projects.forEach(p => {
+        const startIdx = currentTopicPage * PROJECTS_PER_PAGE;
+        const pageProjects = allProjects.slice(startIdx, startIdx + PROJECTS_PER_PAGE);
+
+        pageProjects.forEach((p) => {
           const card = document.createElement('article');
           card.className = 'project-deck-card' + (p.flagship ? ' is-flagship' : '');
 
@@ -1446,7 +1598,7 @@
 
           const tagsWrap = document.createElement('div');
           tagsWrap.className = 'pdc-tags';
-          p.tech.forEach(t => {
+          (p.tech || []).slice(0, 5).forEach(t => {
             const tag = document.createElement('span');
             tag.className = 'pdc-tag';
             tag.textContent = t;
@@ -1472,7 +1624,7 @@
             link.target = '_blank';
             link.rel = 'noopener noreferrer';
             link.className = 'pdc-link-btn';
-            link.innerHTML = `<span>GitHub'da İncele</span> ↗`;
+            link.innerHTML = `<span>${isEn ? 'View on GitHub' : 'GitHub\'da İncele'}</span> ↗`;
             footer.appendChild(link);
           }
 
@@ -1485,19 +1637,72 @@
           projectsCardsDeck.appendChild(card);
         });
 
+        // Render Pagination Bar (clean, compact & responsive)
+        if (projectsPaginationBar) {
+          projectsPaginationBar.innerHTML = '';
+
+          const info = document.createElement('div');
+          info.className = 'ppb-info';
+          info.innerHTML = `<span>${isEn ? 'PAGE' : 'SAYFA'} <strong>${currentTopicPage + 1}</strong> / ${totalPages}</span> <span class="ppb-total">(${totalProjects} ${isEn ? 'Projects' : 'Proje'})</span>`;
+          projectsPaginationBar.appendChild(info);
+
+          const dotsWrap = document.createElement('div');
+          dotsWrap.className = 'ppb-dots';
+          for (let i = 0; i < totalPages; i++) {
+            const dot = document.createElement('button');
+            dot.type = 'button';
+            dot.className = 'ppb-dot' + (i === currentTopicPage ? ' is-active' : '');
+            dot.setAttribute('aria-label', (isEn ? 'Page ' : 'Sayfa ') + (i + 1));
+            dot.addEventListener('click', () => renderTopicProjects(currentTopicKey, i));
+            dotsWrap.appendChild(dot);
+          }
+          projectsPaginationBar.appendChild(dotsWrap);
+
+          const navBtns = document.createElement('div');
+          navBtns.className = 'ppb-nav-buttons';
+
+          const prevBtn = document.createElement('button');
+          prevBtn.type = 'button';
+          prevBtn.className = 'ppb-btn';
+          prevBtn.innerHTML = '←';
+          prevBtn.title = isEn ? 'Previous Page' : 'Önceki Sayfa';
+          if (currentTopicPage <= 0) prevBtn.disabled = true;
+          prevBtn.addEventListener('click', () => {
+            if (currentTopicPage > 0) renderTopicProjects(currentTopicKey, currentTopicPage - 1);
+          });
+
+          const nextBtn = document.createElement('button');
+          nextBtn.type = 'button';
+          nextBtn.className = 'ppb-btn';
+          nextBtn.innerHTML = '→';
+          nextBtn.title = isEn ? 'Next Page' : 'Sonraki Sayfa';
+          if (currentTopicPage >= totalPages - 1) nextBtn.disabled = true;
+          nextBtn.addEventListener('click', () => {
+            if (currentTopicPage < totalPages - 1) renderTopicProjects(currentTopicKey, currentTopicPage + 1);
+          });
+
+          navBtns.appendChild(prevBtn);
+          navBtns.appendChild(nextBtn);
+          projectsPaginationBar.appendChild(navBtns);
+        }
+
         hydrateGitHubData();
       }
 
+      window.__renderCurrentTopic = function(topicKey) {
+        renderTopicProjects(topicKey, 0);
+      };
+
       // Global hook for 3D topic stream selection
       window.__selectTopic = function(topicId) {
-        renderTopicProjects(topicId);
+        renderTopicProjects(topicId, 0);
         if (typeof window.__updateTopics3DSelection === 'function') {
           window.__updateTopics3DSelection(topicId);
         }
       };
 
       // Initialize default topic
-      renderTopicProjects('uav');
+      renderTopicProjects('uav', 0);
 
 
       // 6. Live GitHub Repositories Hydration

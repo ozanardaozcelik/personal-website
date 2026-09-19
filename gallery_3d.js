@@ -9,9 +9,9 @@ export const TOPICS_DATA = [
     titleEn: 'Autonomous Combat UAV',
     subTr: 'Şahi Otonom SİHA Takımı · YOLOv8 & ArduPilot',
     subEn: 'Şahi UAV Team Lead · YOLOv8 & ArduPilot',
-    countTr: '2 Proje',
-    countEn: '2 Projects',
-    tags: ['YOLOv8', 'ArduPilot', 'ROS 2', 'Gazebo'],
+    countTr: '3 Görev',
+    countEn: '3 Missions',
+    tags: ['YOLOv8', 'Orange Cube', 'ROS 2', 'Gazebo'],
     accent: '#ff8c37'
   },
   {
@@ -20,10 +20,10 @@ export const TOPICS_DATA = [
     titleTr: 'Endüstriyel Görü & İSG',
     titleEn: 'Computer Vision & OHS',
     subTr: 'Çözüm Makina ISEE Vision · İSG & Anomali',
-    subEn: 'ISEE Vision · OHS Inspection & Anomaly',
-    countTr: '2 Proje',
-    countEn: '2 Projects',
-    tags: ['İSG Kameraları', 'PatchCore', 'CUDA', 'C++'],
+    subEn: 'ISEE Vision · OHS & Anomaly Inspection',
+    countTr: '3 Proje',
+    countEn: '3 Projects',
+    tags: ['İSG Kameraları', 'PatchCore', 'OCR', 'CUDA'],
     accent: '#00d2ff'
   },
   {
@@ -33,8 +33,8 @@ export const TOPICS_DATA = [
     titleEn: 'Robotics, AMR & Gazebo',
     subTr: 'ISEE Robotics · Robot Kol, M20 & Tron 1',
     subEn: 'Robotic Arm, M20 AMR & Tron 1 Platforms',
-    countTr: '2 Proje',
-    countEn: '2 Projects',
+    countTr: '3 Proje',
+    countEn: '3 Projects',
     tags: ['M20 AMR', 'Tron 1', 'Robot Kol', 'Gazebo Harmonic'],
     accent: '#2ecc71'
   },
@@ -43,11 +43,11 @@ export const TOPICS_DATA = [
     code: '04 // AGENTIC AI',
     titleTr: 'Kurumsal Yapay Zeka',
     titleEn: 'Enterprise Agentic AI',
-    subTr: 'Martur Fompak · Multi-Agent LLM İş Akışları',
-    subEn: 'Martur Fompak · Multi-Agent LLM Workflows',
-    countTr: '1 Proje',
-    countEn: '1 Project',
-    tags: ['Agentic AI', 'Multi-Agent', 'RAG', 'PyTorch'],
+    subTr: 'Şirket İçi Chatbotlar & LLM İş Akışları',
+    subEn: 'Enterprise Chatbots & LLM Workflows',
+    countTr: '3 Proje',
+    countEn: '3 Projects',
+    tags: ['Kurumsal Chatbot', 'Agentic AI', 'RAG', 'PyTorch'],
     accent: '#c084fc'
   },
   {
@@ -55,23 +55,23 @@ export const TOPICS_DATA = [
     code: '05 // HMI & UI',
     titleTr: 'Arayüz Tasarımı & HMI',
     titleEn: 'Interface Design & HMI',
-    subTr: 'Web Paneller & Endüstriyel Dokunmatik HMI',
-    subEn: 'Web Dashboards & Touchscreen Industrial HMI',
-    countTr: '2 Proje',
-    countEn: '2 Projects',
-    tags: ['Dokunmatik HMI', 'Web Panel', 'Telemetri', 'WebSocket'],
+    subTr: 'Web Portfolyo & Endüstriyel HMI Paneller',
+    subEn: 'Web Portfolio & Industrial HMI Panels',
+    countTr: '3 Proje',
+    countEn: '3 Projects',
+    tags: ['3D Web Portfolyo', 'Dokunmatik HMI', 'Web Panel', 'Telemetri'],
     accent: '#fbbf24'
   },
   {
-    key: 'embedded',
-    code: '06 // EMBEDDED',
-    titleTr: 'Gömülü Sistemler & GNC',
-    titleEn: 'Embedded Systems & GNC',
-    subTr: 'ArduPilot MAVLink & Jetson CUDA Donanımı',
-    subEn: 'ArduPilot MAVLink & Jetson CUDA Acceleration',
-    countTr: '2 Proje',
-    countEn: '2 Projects',
-    tags: ['MAVLink', 'Jetson CUDA', 'UART', 'TensorRT'],
+    key: 'personal',
+    code: '06 // KİŞİSEL & GITHUB',
+    titleTr: 'Kişisel Projeler & GitHub',
+    titleEn: 'Personal Projects & GitHub',
+    subTr: 'Açık Kaynak Kodlu GitHub Arşivi & Araçlar',
+    subEn: 'Open-Source GitHub Repositories & Tools',
+    countTr: '8 Proje',
+    countEn: '8 Projects',
+    tags: ['Açık Kaynak', 'GitHub', 'Python', 'AI/ML'],
     accent: '#f472b6'
   }
 ];
@@ -328,7 +328,9 @@ export function initTopics3DStream(canvasId = 'topics-3d-canvas') {
     if (!key) return;
     currentSelectedKey = key;
     refreshPanelTextures();
-    if (typeof window.__renderCurrentTopic === 'function') {
+    if (typeof window.__selectTopic === 'function') {
+      window.__selectTopic(key);
+    } else if (typeof window.__renderCurrentTopic === 'function') {
       window.__renderCurrentTopic(key);
     }
   }
@@ -368,8 +370,8 @@ export function initTopics3DStream(canvasId = 'topics-3d-canvas') {
     isDragging = false;
     try { canvas.releasePointerCapture(e.pointerId); } catch (err) {}
 
-    // Tap / Click detection: moved less than 7px
-    if (totalDragDist < 7) {
+    // Tap / Click detection: moved less than 16px (tolerant for mobile taps and quick clicks)
+    if (totalDragDist < 16) {
       const rect = canvas.getBoundingClientRect();
       const clickVec = new THREE.Vector2(
         ((e.clientX - rect.left) / rect.width) * 2 - 1,
