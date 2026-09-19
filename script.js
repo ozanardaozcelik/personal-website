@@ -60,7 +60,7 @@ function initHeroFluid(canvas) {
     powerPreference: 'high-performance',
     precision: 'highp'
   });
-  const dpr = Math.min(window.devicePixelRatio || 1, 2.0);
+  const dpr = Math.min(window.devicePixelRatio || 1, 1.25);
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setPixelRatio(dpr);
 
@@ -307,7 +307,7 @@ function initHeroFluid(canvas) {
   window.addEventListener('resize', () => {
     const w = window.innerWidth;
     const h = window.innerHeight;
-    const currentDpr = Math.min(window.devicePixelRatio || 1, 2.0);
+    const currentDpr = Math.min(window.devicePixelRatio || 1, 1.25);
     renderer.setSize(w, h);
     renderer.setPixelRatio(currentDpr);
     displayUniforms.uResolution.value.set(w, h);
@@ -317,21 +317,38 @@ function initHeroFluid(canvas) {
   });
 
   // Render loop with idle pause (saves GPU when user isn't interacting)
-  let idlePauseMs = 4000; // Stop rendering after 4s of no mouse activity
+  let idlePauseMs = 3500; // Stop rendering after 3.5s of no mouse activity
   let renderPaused = false;
 
   function wakeRenderer() {
+    if (!heroActive) return;
     if (renderPaused) {
       renderPaused = false;
       lastMoveTime = performance.now();
-      if (!heroAnimId && heroActive) {
+      if (!heroAnimId) {
         heroAnimId = requestAnimationFrame(animate);
       }
     }
   }
 
-  // Wake on pointer movement
+  // Wake on pointer movement only if hero is active
   window.addEventListener('pointermove', wakeRenderer, { passive: true });
+
+  const heroObserver = new IntersectionObserver(([entry]) => {
+    heroActive = entry ? entry.isIntersecting : true;
+    if (!heroActive) {
+      if (heroAnimId) {
+        cancelAnimationFrame(heroAnimId);
+        heroAnimId = null;
+      }
+    } else {
+      if (!heroAnimId && !renderPaused) {
+        lastMoveTime = performance.now();
+        heroAnimId = requestAnimationFrame(animate);
+      }
+    }
+  }, { threshold: 0.02 });
+  heroObserver.observe(canvas);
 
   function animate() {
     heroAnimId = null;

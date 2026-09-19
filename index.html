@@ -281,8 +281,65 @@
         <span class="lang-tr">EN</span>
         <span class="lang-en">TR</span>
       </button>
+      <button class="nav-hamburger-btn" id="navHamburgerBtn" aria-label="Menüyü Aç/Kapat / Toggle Menu" aria-expanded="false">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
     </div>
   </nav>
+
+  <!-- MOBILE FULLSCREEN / OVERLAY NAVIGATION DRAWER -->
+  <div class="mobile-nav-drawer" id="mobileNavDrawer" aria-hidden="true">
+    <div class="mobile-nav-backdrop" id="mobileNavBackdrop"></div>
+    <div class="mobile-nav-sheet">
+      <div class="mobile-nav-header">
+        <div class="mobile-nav-title">
+          <span class="lang-tr">MENÜ // BÖLÜMLER</span>
+          <span class="lang-en">MENU // SECTIONS</span>
+        </div>
+        <button type="button" class="mobile-nav-close" id="mobileNavClose" aria-label="Kapat / Close">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="mobile-nav-links">
+        <button type="button" class="mobile-nav-link is-active" data-sec="0">
+          <span class="mnl-num">01</span>
+          <span class="mnl-text"><span class="lang-tr">Ana Sayfa</span><span class="lang-en">Home</span></span>
+          <span class="mnl-arrow">➔</span>
+        </button>
+        <button type="button" class="mobile-nav-link" data-sec="1">
+          <span class="mnl-num">02</span>
+          <span class="mnl-text"><span class="lang-tr">Hikayem</span><span class="lang-en">Story</span></span>
+          <span class="mnl-arrow">➔</span>
+        </button>
+        <button type="button" class="mobile-nav-link" data-sec="2">
+          <span class="mnl-num">03</span>
+          <span class="mnl-text"><span class="lang-tr">Yeteneklerim</span><span class="lang-en">Capabilities</span></span>
+          <span class="mnl-arrow">➔</span>
+        </button>
+        <button type="button" class="mobile-nav-link" data-sec="3">
+          <span class="mnl-num">04</span>
+          <span class="mnl-text"><span class="lang-tr">Projelerim</span><span class="lang-en">Projects</span></span>
+          <span class="mnl-arrow">➔</span>
+        </button>
+        <button type="button" class="mobile-nav-link" data-sec="4">
+          <span class="mnl-num">05</span>
+          <span class="mnl-text"><span class="lang-tr">İletişim</span><span class="lang-en">Contact</span></span>
+          <span class="mnl-arrow">➔</span>
+        </button>
+      </div>
+      <div class="mobile-nav-foot">
+        <div class="mobile-nav-dot-wrap">
+          <span class="dot-live"></span>
+          <span class="mobile-nav-status-text">
+            <span class="lang-tr">SİSTEM AKTİF · OZAN ARDA ÖZÇELİK</span>
+            <span class="lang-en">SYSTEM ACTIVE · OZAN ARDA ÖZÇELİK</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- =========================================================================
        01 ANA SAYFA: INTERACTIVE FLUID PORTRAIT & ROBOT REVEAL HERO
@@ -964,19 +1021,17 @@
         const projectsTop = getDocTop(projectsSec) - winH * 0.35;
         const contactTop = getDocTop(contactSec) - winH * 0.35;
 
-        [btnNavHome, btnNavStory, btnNavSkills, btnNavProjects, btnNavContact].forEach(b => b && b.classList.remove('is-active'));
+        const activeNavIndex = (scrollY >= contactTop) ? 4 :
+                               (scrollY >= projectsTop) ? 3 :
+                               (scrollY >= shelfThreshold) ? 2 :
+                               (scrollY >= flowTop - 120) ? 1 : 0;
 
-        if (scrollY >= contactTop) {
-          if (btnNavContact) btnNavContact.classList.add('is-active');
-        } else if (scrollY >= projectsTop) {
-          if (btnNavProjects) btnNavProjects.classList.add('is-active');
-        } else if (scrollY >= shelfThreshold) {
-          if (btnNavSkills) btnNavSkills.classList.add('is-active');
-        } else if (scrollY >= flowTop - 120) {
-          if (btnNavStory) btnNavStory.classList.add('is-active');
-        } else {
-          if (btnNavHome) btnNavHome.classList.add('is-active');
-        }
+        [btnNavHome, btnNavStory, btnNavSkills, btnNavProjects, btnNavContact].forEach((b, i) => {
+          if (b) b.classList.toggle('is-active', i === activeNavIndex);
+        });
+        document.querySelectorAll('.mobile-nav-link').forEach((ml, i) => {
+          if (ml) ml.classList.toggle('is-active', i === activeNavIndex);
+        });
       }
 
       // 3. Cinematic 3D Deep-Dive Film Reel Navigation Transition Engine
@@ -1226,6 +1281,60 @@
       if (btnNavSkills) btnNavSkills.addEventListener('click', navigateToShelf);
       if (btnNavProjects) btnNavProjects.addEventListener('click', navigateToProjects);
       if (btnNavContact) btnNavContact.addEventListener('click', navigateToContact);
+
+      // Mobile Drawer Controller
+      const navHamburgerBtn = document.getElementById('navHamburgerBtn');
+      const mobileNavDrawer = document.getElementById('mobileNavDrawer');
+      const mobileNavClose = document.getElementById('mobileNavClose');
+      const mobileNavBackdrop = document.getElementById('mobileNavBackdrop');
+
+      function openMobileNav() {
+        if (!mobileNavDrawer) return;
+        mobileNavDrawer.classList.add('is-open');
+        mobileNavDrawer.setAttribute('aria-hidden', 'false');
+        if (navHamburgerBtn) {
+          navHamburgerBtn.classList.add('is-active');
+          navHamburgerBtn.setAttribute('aria-expanded', 'true');
+        }
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeMobileNav() {
+        if (!mobileNavDrawer) return;
+        mobileNavDrawer.classList.remove('is-open');
+        mobileNavDrawer.setAttribute('aria-hidden', 'true');
+        if (navHamburgerBtn) {
+          navHamburgerBtn.classList.remove('is-active');
+          navHamburgerBtn.setAttribute('aria-expanded', 'false');
+        }
+        document.body.style.overflow = '';
+      }
+
+      if (navHamburgerBtn) {
+        navHamburgerBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (mobileNavDrawer && mobileNavDrawer.classList.contains('is-open')) {
+            closeMobileNav();
+          } else {
+            openMobileNav();
+          }
+        });
+      }
+
+      if (mobileNavClose) mobileNavClose.addEventListener('click', closeMobileNav);
+      if (mobileNavBackdrop) mobileNavBackdrop.addEventListener('click', closeMobileNav);
+
+      document.querySelectorAll('.mobile-nav-link').forEach((link) => {
+        link.addEventListener('click', () => {
+          const sec = parseInt(link.getAttribute('data-sec'), 10);
+          closeMobileNav();
+          if (sec === 0) navigateToHome();
+          else if (sec === 1) navigateToStory();
+          else if (sec === 2) navigateToShelf();
+          else if (sec === 3) navigateToProjects();
+          else if (sec === 4) navigateToContact();
+        });
+      });
 
       const btnExploreStory = document.getElementById('btnExploreStory');
       if (btnExploreStory) {

@@ -4545,7 +4545,7 @@
       key.name = "shadow-key";
       key.position.set(-4.6, 7.4, 5.8);
       key.castShadow = true;
-      key.shadow.mapSize.set(2048, 2048);
+      key.shadow.mapSize.set(1024, 1024);
       key.shadow.camera.left = -6;
       key.shadow.camera.right = 6;
       key.shadow.camera.top = 6;
@@ -5322,7 +5322,7 @@
       if (
         mode !== "detail"
         || readingOpen
-        || event.button !== 0
+        || (event.button !== 0 && event.pointerType !== 'touch')
         || event.isPrimary === false
       ) return;
 
@@ -5359,7 +5359,7 @@
       if (
         mode !== "detail"
         || !activeBook
-        || event.button !== 0
+        || (event.button !== 0 && event.pointerType !== 'touch')
         || event.isPrimary === false
       ) return;
 
@@ -5562,7 +5562,7 @@
     }
 
     function onCanvasClick(event) {
-      if (mode === "detail" && !readingOpen && event.button === 0) {
+      if (mode === "detail" && !readingOpen) {
         if (!detailPress.allowClick) return;
         detailPress.allowClick = false;
         setPointerFromEvent(event);
@@ -5571,11 +5571,19 @@
         setReadingOpen(true);
         return;
       }
-      if (mode !== "hero" || event.button !== 0) return;
+      if (mode !== "hero") return;
       setPointerFromEvent(event);
       const clickedBookIndex = bookIndexAtPointer();
       if (clickedBookIndex < 0) return;
       event.preventDefault();
+      if (clickedBookIndex === 0 || (BOOKS[clickedBookIndex] && BOOKS[clickedBookIndex].id === "story")) {
+        if (window.parent && window.parent !== window) {
+          try {
+            window.parent.postMessage({ type: 'NAVIGATE_TO_STORY' }, '*');
+            return;
+          } catch(e) {}
+        }
+      }
       selectMarker(clickedBookIndex, canvas);
       openDetail(canvas);
     }
@@ -5601,10 +5609,97 @@
       const isOverBook = (bookIndexAtPointer() >= 0 || hoveredIndex >= 0);
       if (!isOverBook) {
         forwardScrollToParent(event);
-        // Rapidly snap shelf books back to Book 0 (Hikayem) when scrolling off-book
         if (Math.abs(targetPosition) > 0.02 || selectedIndex !== 0) {
           targetPosition = 0;
-          
+          updateSelection(0, true);
+          requestFrame();
+        }
+        return;
+      }
+      event.preventDefault();
+      const delta = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
+      targetPosition += clamp(delta * 0.0022, -0.72, 0.72);
+      wheelIdle = 0.14;
+      requestFrame();
+    }
+
+    // Shelf Swipe Drag & Tap-To-Open for Mobile Touch & Mouse
+    const shelfDrag = {
+      active: false,
+      pointerId: null,
+      startX: 0,
+      startY: 0,
+      lastX: 0,
+      startPos: 0,
+      moved: false
+    };
+
+    function onShelfPointerDown(event) {
+      if (mode !== "hero") return;
+      shelfDrag.active = true;
+      shelfDrag.pointerId = event.pointerId;
+      shelfDrag.startX = event.clientX;
+      shelfDrag.startY = event.clientY;
+      shelfDrag.lastX = event.clientX;
+      shelfDrag.startPos = targetPosition;
+      shelfDrag.moved = false;
+    }
+
+    function onShelfPointerMove(event) {
+      if (!shelfDrag.active || event.pointerId !== shelfDrag.pointerId) return;
+      const dx = event.clientX - shelfDrag.startX;
+      const dy = event.clientY - shelfDrag.startY;
+
+      if (!shelfDrag.moved && Math.hypot(dx, dy) > 8) {
+        shelfDrag.moved = true;
+      }
+
+      if (shelfDrag.moved) {
+        if (Math.abs(dx) > Math.abs(dy) * 0.75) {
+          if (event.cancelable) event.preventDefault();
+        }
+        const deltaX = event.clientX - shelfDrag.lastX;
+        shelfDrag.lastX = event.clientX;
+        const dragFactor = -deltaX / Math.min(window.innerWidth * 0.35, 300);
+        targetPosition += dragFactor;
+        wheelIdle = 0.18;
+        requestFrame();
+      }
+    }
+
+    function onShelfPointerEnd(event) {
+      if (!shelfDrag.active || event.pointerId !== shelfDrag.pointerId) return;
+      const wasMoved = shelfDrag.moved;
+      shelfDrag.active = false;
+      shelfDrag.pointerId = null;
+
+      if (!wasMoved) {
+        // Tap / Click! Check if a book was tapped
+        setPointerFromEvent(event);
+        const idx = bookIndexAtPointer();
+        if (idx >= 0) {
+          if (idx === 0 || (BOOKS[idx] && BOOKS[idx].id === "story")) {
+            if (window.parent && window.parent !== window) {
+              try {
+                window.parent.postMessage({ type: 'NAVIGATE_TO_STORY' }, '*');
+                return;
+              } catch(e) {}
+            }
+          }
+          if (idx !== selectedIndex) {
+            updateSelection(idx, true);
+          }
+          openDetail(canvas);
+        }
+      } else {
+        // Snap to nearest book on release
+        wheelIdle = 0;
+        targetPosition = Math.round(targetPosition);
+        updateSelection(mod(targetPosition, BOOKS.length), true);
+        requestFrame();
+      }
+    }
+
     function setShelfLanguage(lang) {
       currentShelfLang = lang;
       document.documentElement.lang = lang;
@@ -5681,18 +5776,6 @@
         }
       }
     });
-
-    updateSelection(0, true);
-          requestFrame();
-        }
-        return;
-      }
-      event.preventDefault();
-      const delta = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
-      targetPosition += clamp(delta * 0.0022, -0.72, 0.72);
-      wheelIdle = 0.14;
-      requestFrame();
-    }
 
     function openDetail(origin = inspectButton) {
       if (mode !== "hero") return;
@@ -6134,7 +6217,7 @@
       viewHeight = window.innerHeight;
       configureResponsiveTargets();
       renderer.setSize(viewWidth, viewHeight, false);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.25));
       camera.aspect = viewWidth / viewHeight;
       camera.updateProjectionMatrix();
 
@@ -6382,6 +6465,10 @@
       canvas.addEventListener("pointermove", onPointerMove);
       canvas.addEventListener("pointerleave", onPointerLeave);
       canvas.addEventListener("click", onCanvasClick);
+      canvas.addEventListener("pointerdown", onShelfPointerDown);
+      canvas.addEventListener("pointermove", onShelfPointerMove);
+      canvas.addEventListener("pointerup", onShelfPointerEnd);
+      canvas.addEventListener("pointercancel", onShelfPointerEnd);
       canvas.addEventListener("pointerdown", onDetailBookPointerDown, { capture: true });
       canvas.addEventListener("pointermove", onDetailBookPointerMove, { capture: true });
       canvas.addEventListener("pointerup", onDetailBookPointerEnd, { capture: true });

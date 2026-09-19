@@ -312,7 +312,7 @@ export function initTopics3DStream(canvasId = 'topics-3d-canvas') {
     const w = host.clientWidth || 360;
     const h = host.clientHeight || 560;
     renderer.setSize(w, h, false);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.25));
     const aspect = w / h;
     camera.aspect = aspect;
 

@@ -129,7 +129,7 @@ button{font:inherit}
 /* The box is the book's own untransformed frame: the loupe lives here, on
    the desk, while only .sb-tilt leans and scales underneath it. */
 .sb-3d{
-  position:relative;flex:1 1;min-width:0;max-width:900px;
+  position:relative;flex:1 1;min-width:0;max-width:1040px;
   perspective:1750px;perspective-origin:50% 46%;
 }
 .sb-tilt{
@@ -670,7 +670,7 @@ html[data-lang="en"] .lang-tr { display: none !important; }
 
       <div class="sb-tools" role="group" aria-label="view controls">
         <button class="tool" id="zOut" aria-label="zoom out"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="8.6" cy="8.6" r="5.6"/><path d="M12.8 12.8 17.4 17.4M6.2 8.6h4.8"/></svg></button>
-        <span class="zoom-read" id="zRead">100%</span>
+        <span class="zoom-read" id="zRead">125%</span>
         <button class="tool" id="zIn" aria-label="zoom in"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="8.6" cy="8.6" r="5.6"/><path d="M12.8 12.8 17.4 17.4M6.2 8.6h4.8M8.6 6.2v4.8"/></svg></button>
         <span class="tool-sep" aria-hidden="true"></span>
         <button class="tool" id="loupeBtn" aria-label="magnifier" aria-pressed="true"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="8.8" cy="8.8" r="5.8"/><path d="M13 13l4.4 4.4"/><path d="M6.4 7.2a3.2 3.2 0 0 1 2.4-1.4" opacity=".55"/></svg></button>
@@ -923,10 +923,10 @@ function kick(){ if(raf===null){last=performance.now();raf=requestAnimationFrame
 
 /* ------------------------------------------- tilt + zoom of the book */
 const TILT_X=4.5, TILT_Y=7;      /* degrees — deliberately restrained   */
-const ZOOM_MIN=0.9, ZOOM_MAX=1.5;
-const view={rx:0,ry:0,z:1, trx:0,try_:0,tz:1};
+const ZOOM_MIN=0.85, ZOOM_MAX=1.75;
+const view={rx:0,ry:0,z:1.25, trx:0,try_:0,tz:1.25};
 let viewActive=false;
-let lastZ=1;
+let lastZ=1.25;
 function applyView(){
   sb3d.style.setProperty('--rx',view.rx.toFixed(2)+'deg');
   sb3d.style.setProperty('--ry',view.ry.toFixed(2)+'deg');
