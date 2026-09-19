@@ -890,8 +890,10 @@
 
   // Synchronize language with parent page
   try {
-    const pLang = (window.parent && window.parent.document && window.parent.document.documentElement.lang) || 'tr';
+    const qp = new URLSearchParams(window.location.search).get('lang');
+    const pLang = qp || (window.parent && window.parent.document && window.parent.document.documentElement.lang) || localStorage.getItem('site_lang') || 'tr';
     document.documentElement.setAttribute('data-lang', pLang);
+    document.documentElement.lang = pLang;
   } catch (e) {
     document.documentElement.setAttribute('data-lang', 'tr');
   }

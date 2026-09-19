@@ -721,7 +721,8 @@ const PAGES_EN=[
   {file:'botanic-gardens.png',    title:'Transforming theory into practice.',      place:'Future Vision'}
 ];
 
-let currentSbLang = localStorage.getItem('site_lang') || 'tr';
+let currentSbLang = Q.get('lang') || localStorage.getItem('site_lang') || 'tr';
+if (Q.get('lang')) { localStorage.setItem('site_lang', Q.get('lang')); }
 const initialSource = currentSbLang === 'en' ? PAGES_EN : PAGES_TR;
 const PAGES = initialSource.map(p => ({...p}));
 

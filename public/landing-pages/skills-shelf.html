@@ -2350,7 +2350,9 @@
       }
 ];
 
-    let currentShelfLang = localStorage.getItem('site_lang') || 'tr';
+    const qp = new URLSearchParams(window.location.search).get('lang');
+    let currentShelfLang = qp || localStorage.getItem('site_lang') || 'tr';
+    if (qp) { localStorage.setItem('site_lang', qp); }
     document.documentElement.lang = currentShelfLang;
     document.documentElement.setAttribute('data-lang', currentShelfLang);
 

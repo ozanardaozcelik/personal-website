@@ -22,53 +22,7 @@
 </head>
 <body>
 
-  <!-- =========================================================================
-       THREEUI VOID FIELD PRELOADER (MINIMALIST & TEXTLESS // 60-120FPS RAW WEBGL)
-       ========================================================================= -->
-  <div class="site-preloader" id="sitePreloader" aria-label="Loading">
-    <!-- Void Field Hardware Housing -->
-    <div class="void-housing">
-      <!-- Precision Outer Corner Nodes & Brackets -->
-      <div class="void-node void-node-tl"></div>
-      <div class="void-node void-node-tr"></div>
-      <div class="void-node void-node-bl"></div>
-      <div class="void-node void-node-br"></div>
-      <div class="void-bracket void-bracket-tl"></div>
-      <div class="void-bracket void-bracket-tr"></div>
-      <div class="void-bracket void-bracket-bl"></div>
-      <div class="void-bracket void-bracket-br"></div>
-
-      <!-- Main Screen Stage -->
-      <div class="void-screen">
-        <!-- Raw WebGL Dot Matrix Canvas -->
-        <canvas id="voidMatrixCanvas" class="void-canvas"></canvas>
-        
-        <!-- Subtle Screen Corrugation Overlay -->
-        <div class="void-corrugation"></div>
-
-        <!-- Faint Geometric Wireframe -->
-        <svg class="void-wireframe" viewBox="0 0 800 400" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M400 50 L550 150 L550 350 L400 450 L250 350 L250 150 Z" stroke="currentColor" stroke-width="1.5"></path>
-          <path d="M400 50 L400 250 M250 150 L400 250 M550 150 L400 250 M400 450 L400 250 M250 350 L400 250 M550 350 L400 250" stroke="currentColor" stroke-width="0.8" opacity="0.6"></path>
-          <circle cx="550" cy="150" r="32" stroke="currentColor" stroke-width="1.2"></circle>
-        </svg>
-
-        <!-- Minimal Clean HUD (Textless & Clean) -->
-        <div class="void-hud">
-          <div class="void-hud-top">
-            <span class="void-pill"></span>
-            <span class="void-code">042</span>
-          </div>
-          <div class="void-hud-bottom">
-            <div class="void-counter-wrap">
-              <span class="void-num" id="voidNum">0</span>
-              <span class="void-unit">%</span>
-            </div>
-            <div class="void-progress-track">
-              <div class="void-progress-bar" id="voidProgressBar"></div>
-            </div>
-          </div>
-        </div>
+</div>
       </div>
     </div>
   </div>
@@ -92,7 +46,7 @@
   </svg>
 
   <!-- CINEMATIC 3D OPTICAL LENS & LIFE STORY PLATES VORTEX TRANSITION OVERLAY -->
-  <div class="film-dive-overlay" id="filmDiveOverlay" aria-hidden="true">
+  <div class="film-dive-overlay is-active is-diving is-opening" id="filmDiveOverlay" aria-hidden="true">
     <div class="film-warp-lines"></div>
 
     <!-- Optical Lens Barrel Rig -->
@@ -275,10 +229,10 @@
           <div class="film-target-card" id="filmTargetCard">
             <div class="film-target-tag">
               <span class="film-dive-dot"></span>
-              <span id="filmTargetTag">REEL SCENE // 02</span>
+              <span id="filmTargetTag"><span class="lang-tr">SİSTEM // BAŞLATILIYOR</span><span class="lang-en">SYSTEM // INITIALIZING</span></span>
             </div>
-            <h3 class="film-target-title" id="filmTargetTitle">02 HİKAYEM</h3>
-            <div class="film-target-sub" id="filmTargetSub">FRAME: #0180 · 3D TACTILE SKETCHBOOK</div>
+            <h3 class="film-target-title" id="filmTargetTitle">OZAN ARDA ÖZÇELİK</h3>
+            <div class="film-target-sub" id="filmTargetSub"><span class="lang-tr">YAPAY ZEKA, BİLGİSAYARLI GÖRÜ &amp; ROBOTİK MÜHENDİSİ</span><span class="lang-en">AI, COMPUTER VISION &amp; ROBOTICS ENGINEER</span></div>
           </div>
         </div>
 
@@ -597,9 +551,11 @@
         }
       });
 
-      // 1. Language Toggle Logic
-      const langBtn = document.getElementById('lang-toggle-btn');
-      let currentLang = localStorage.getItem('site_lang') || 'tr';
+      // 1. Language Initialization & Clean Query Synchronization
+      const urlParams = new URLSearchParams(window.location.search);
+      let currentLang = urlParams.get('lang') || localStorage.getItem('site_lang') || 'tr';
+      localStorage.setItem('site_lang', currentLang);
+      document.documentElement.lang = currentLang;
 
       const shelfIframe = document.getElementById('shelf-interactive-frame');
       const sbIframe = document.getElementById('sketchbook-interactive-frame');
@@ -629,21 +585,42 @@
 
       setLanguage(currentLang);
 
-      [shelfIframe, sbIframe, wovenClothFrame].forEach(iframe => {
-        if (iframe) {
-          iframe.addEventListener('load', () => {
-            if (iframe.contentWindow) {
-              try {
-                iframe.contentWindow.postMessage({ type: 'SET_LANG', lang: currentLang }, '*');
-              } catch (e) {}
-            }
-          });
-        }
-      });
+      // Pre-assign source with exact language query to ensure iframes start with correct language
+      if (sbIframe) {
+        sbIframe.src = `./landing-pages/meng-to-sketchbook.html?lang=${currentLang}`;
+      }
+      if (wovenClothFrame) {
+        wovenClothFrame.src = `./landing-pages/woven-cloth-washi.html?lang=${currentLang}`;
+      }
 
+      // Language Switch with Cinematic Transition Screen & Instant Clean Reload
+      const langBtn = document.getElementById('lang-toggle-btn');
       if (langBtn) {
-        langBtn.addEventListener('click', () => {
-          setLanguage(currentLang === 'tr' ? 'en' : 'tr');
+        langBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const nextLang = (currentLang === 'tr') ? 'en' : 'tr';
+          localStorage.setItem('site_lang', nextLang);
+
+          const diveOverlay = document.getElementById('filmDiveOverlay');
+          const tTag = document.getElementById('filmTargetTag');
+          const tTitle = document.getElementById('filmTargetTitle');
+          const tSub = document.getElementById('filmTargetSub');
+
+          if (diveOverlay) {
+            if (tTag) tTag.textContent = (nextLang === 'en') ? 'SYSTEM // LOCALIZATION' : 'SİSTEM // DİL GÜNCELLEMESİ';
+            if (tTitle) tTitle.textContent = (nextLang === 'en') ? 'DİL DEĞİŞTİRİLİYOR...' : 'DİL DEĞİŞTİRİLİYOR...';
+            if (tSub) tSub.textContent = (nextLang === 'en') ? 'TÜRKÇE ➔ ENGLISH · LÜTFEN BEKLEYİN...' : 'ENGLISH ➔ TÜRKÇE · PLEASE WAIT...';
+
+            diveOverlay.classList.remove('is-fading-out', 'is-opening');
+            void diveOverlay.offsetHeight;
+            diveOverlay.classList.add('is-active', 'is-diving');
+
+            setTimeout(() => {
+              window.location.href = window.location.pathname + '?lang=' + nextLang;
+            }, 650);
+          } else {
+            window.location.href = window.location.pathname + '?lang=' + nextLang;
+          }
         });
       }
 
@@ -756,9 +733,9 @@
       let storyLoaded = true;
       function ensureStoryLoaded() {
         if (!sbIframe) return;
-        const dSrc = sbIframe.getAttribute('data-src') || './landing-pages/meng-to-sketchbook.html';
+        const targetSrc = `./landing-pages/meng-to-sketchbook.html?lang=${currentLang}`;
         if (!sbIframe.src || sbIframe.src === 'about:blank' || !sbIframe.src.includes('meng-to-sketchbook')) {
-          sbIframe.src = dSrc;
+          sbIframe.src = targetSrc;
         }
         storyLoaded = true;
       }
@@ -768,9 +745,9 @@
 
       function ensureShelfLoaded() {
         if (shelfLoaded || !shelfIframe) return;
-        const dSrc = shelfIframe.getAttribute('data-src');
-        if (dSrc && (!shelfIframe.src || shelfIframe.src === 'about:blank' || !shelfIframe.src.includes('skills-shelf'))) {
-          shelfIframe.src = dSrc;
+        const targetSrc = `./landing-pages/skills-shelf.html?lang=${currentLang}`;
+        if (!shelfIframe.src || shelfIframe.src === 'about:blank' || !shelfIframe.src.includes('skills-shelf')) {
+          shelfIframe.src = targetSrc;
           shelfLoaded = true;
         }
       }
@@ -1737,195 +1714,26 @@
         revealTargets.forEach((el) => el.classList.add('is-visible'));
       }
 
-      // 8. ThreeUI Void Field (PredictiveArcCanvas) Raw-WebGL Dot-Matrix Preloader (Zero-Lag 60-120FPS)
-      const preloader = document.getElementById('sitePreloader');
-      if (preloader) {
-        const canvas = document.getElementById('voidMatrixCanvas');
-        const voidNum = document.getElementById('voidNum');
-        const voidProgressBar = document.getElementById('voidProgressBar');
-
-        let gl = null;
-        let animId = null;
-
-        if (canvas) {
-          gl = canvas.getContext('webgl', { alpha: true, antialias: false, powerPreference: 'high-performance' });
-          if (gl) {
-            const resize = () => {
-              const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-              canvas.width = Math.floor(canvas.clientWidth * dpr);
-              canvas.height = Math.floor(canvas.clientHeight * dpr);
-              gl.viewport(0, 0, canvas.width, canvas.height);
-            };
-            window.addEventListener('resize', resize, { passive: true });
-            resize();
-
-            const vsSource = `
-              attribute vec2 position;
-              void main() {
-                gl_Position = vec4(position, 0.0, 1.0);
-              }
-            `;
-
-            const fsSource = `
-              precision highp float;
-              uniform vec2 iResolution;
-              uniform float iTime;
-              uniform vec2 uMouse;
-
-              vec2 barrel(vec2 uv, float amt) {
-                vec2 cc = uv - 0.5;
-                float r = dot(cc, cc);
-                return uv + cc * r * amt;
-              }
-
-              float rand(vec2 co) {
-                return fract(sin(dot(co, vec2(12.9898,78.233))) * 43758.5453);
-              }
-
-              void main() {
-                vec2 uv = gl_FragCoord.xy / iResolution.xy;
-                vec2 mouseOffset = (uMouse - 0.5) * 0.05;
-                uv += mouseOffset;
-                uv = barrel(uv, 0.2);
-
-                if(uv.x < 0.0 || uv.x > 1.0 || uv.y < 0.0 || uv.y > 1.0) {
-                  gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
-                  return;
-                }
-
-                vec2 gridCount = vec2(100.0, 100.0 * (iResolution.y / iResolution.x));
-                vec2 gridUv = fract(uv * gridCount);
-                vec2 id = floor(uv * gridCount);
-
-                vec2 cc = id / gridCount - 0.5;
-                float dist = length(cc);
-                float pulse = sin(iTime * 1.5 - dist * 10.0) * 0.5 + 0.5;
-
-                float dotSize = 0.35 * pulse;
-                float d = length(gridUv - 0.5);
-                float circle = smoothstep(dotSize, dotSize - 0.05, d);
-
-                float scanline = sin(uv.y * 800.0) * 0.03;
-                float flicker = rand(vec2(iTime, id.y)) > 0.98 ? 0.4 : 1.0;
-
-                // Perceptual color grading matching site's Electric Cyan & Cybernetic Amber
-                vec3 cyanCol = vec3(0.0, 0.82, 1.0);
-                vec3 amberCol = vec3(1.0, 0.55, 0.22);
-                vec3 dotTint = mix(amberCol, cyanCol, smoothstep(0.08, 0.55, dist));
-
-                vec3 col = vec3(circle * pulse * flicker);
-                col -= scanline;
-                col *= dotTint;
-                col *= smoothstep(0.85, 0.15, dist);
-
-                gl_FragColor = vec4(col, 1.0);
-              }
-            `;
-
-            const createShader = (type, src) => {
-              const s = gl.createShader(type);
-              gl.shaderSource(s, src);
-              gl.compileShader(s);
-              return s;
-            };
-
-            const prog = gl.createProgram();
-            gl.attachShader(prog, createShader(gl.VERTEX_SHADER, vsSource));
-            gl.attachShader(prog, createShader(gl.FRAGMENT_SHADER, fsSource));
-            gl.linkProgram(prog);
-            gl.useProgram(prog);
-
-            const buf = gl.createBuffer();
-            gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
-              -1, -1,  1, -1, -1,  1,
-              -1,  1,  1, -1,  1,  1
-            ]), gl.STATIC_DRAW);
-
-            const posLoc = gl.getAttribLocation(prog, "position");
-            gl.enableVertexAttribArray(posLoc);
-            gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
-
-            const resLoc = gl.getUniformLocation(prog, "iResolution");
-            const timeLoc = gl.getUniformLocation(prog, "iTime");
-            const mouseLoc = gl.getUniformLocation(prog, "uMouse");
-
-            let mouseX = 0.5, mouseY = 0.5;
-            window.addEventListener('pointermove', (e) => {
-              mouseX = e.clientX / window.innerWidth;
-              mouseY = 1.0 - (e.clientY / window.innerHeight);
-            }, { passive: true });
-
-            const startTime = performance.now();
-            const render = (time) => {
-              const elapsed = (time - startTime) / 1000.0;
-              gl.uniform2f(resLoc, canvas.width, canvas.height);
-              gl.uniform1f(timeLoc, elapsed);
-              gl.uniform2f(mouseLoc, mouseX, mouseY);
-              gl.drawArrays(gl.TRIANGLES, 0, 6);
-              animId = requestAnimationFrame(render);
-            };
-            animId = requestAnimationFrame(render);
-          }
+      // 8. Opening Cinematic Reel Sequence with "OZAN ARDA ÖZÇELİK"
+      if (filmDiveOverlay) {
+        if (filmTargetTitle) filmTargetTitle.textContent = 'OZAN ARDA ÖZÇELİK';
+        if (filmTargetTag) {
+          filmTargetTag.textContent = (currentLang === 'en') ? 'SYSTEM // INITIALIZING' : 'SİSTEM // BAŞLATILIYOR';
+        }
+        if (filmTargetSub) {
+          filmTargetSub.textContent = (currentLang === 'en') ? 'AI, COMPUTER VISION & ROBOTICS ENGINEER' : 'YAPAY ZEKA, BİLGİSAYARLI GÖRÜ & ROBOTİK MÜHENDİSİ';
         }
 
-        // Smooth loading progression
-        let currentPct = 0;
-        let isWindowLoaded = document.readyState === 'complete';
-        let isDone = false;
-        const loadStart = performance.now();
-
-        function updateProgress(now) {
-          if (isDone) return;
-          const elapsed = now - loadStart;
-
-          if (!isWindowLoaded) {
-            currentPct = Math.min(88, elapsed / 10);
-          } else {
-            currentPct = Math.min(100, currentPct + 4.5);
-          }
-
-          const shown = Math.min(100, Math.round(currentPct));
-          if (voidNum) voidNum.textContent = String(shown);
-          if (voidProgressBar) voidProgressBar.style.width = shown + '%';
-
-          if (shown >= 100) {
-            isDone = true;
-            setTimeout(() => {
-              preloader.classList.add('is-loaded');
-              setTimeout(() => {
-                if (animId) cancelAnimationFrame(animId);
-                preloader.style.display = 'none';
-              }, 450);
-            }, 150);
-            return;
-          }
-
-          requestAnimationFrame(updateProgress);
-        }
-
-        requestAnimationFrame(updateProgress);
-
-        window.addEventListener('load', () => {
-          isWindowLoaded = true;
-        });
-
-        // Fast safety fallback: max 1.2s
+        // Dissolve outward at 1350ms
         setTimeout(() => {
-          isWindowLoaded = true;
-        }, 1200);
+          filmDiveOverlay.classList.add('is-fading-out');
+        }, 1350);
 
-        // Absolute safety fallback: guarantees preloader dismisses within 1.8s
+        // Completion at 2000ms
         setTimeout(() => {
-          if (!isDone) {
-            isDone = true;
-            preloader.classList.add('is-loaded');
-            setTimeout(() => {
-              if (animId) cancelAnimationFrame(animId);
-              preloader.style.display = 'none';
-            }, 300);
-          }
-        }, 1800);
+          filmDiveOverlay.classList.remove('is-diving', 'is-active', 'is-fading-out', 'is-opening');
+          isFilmTransitioning = false;
+        }, 2000);
       }
     })();
   </script>

@@ -2797,6 +2797,13 @@ html.menu-open {
   transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.8s ease;
 }
 
+.film-dive-overlay.is-opening {
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: all !important;
+  background: radial-gradient(circle at center, rgba(14, 18, 26, 0.98) 0%, rgba(6, 9, 14, 0.99) 65%, #020305 100%);
+}
+
 .film-dive-overlay.is-active {
   pointer-events: all;
   opacity: 1;
