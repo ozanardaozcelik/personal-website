@@ -3117,7 +3117,10 @@ html.menu-open {
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  padding: 28px 52px;
+  padding: 24px clamp(16px, 4.5vw, 52px);
+  width: min(92vw, 540px);
+  max-width: 92vw;
+  box-sizing: border-box;
   background: rgba(6, 9, 14, 0.94);
   border: 1.5px solid rgba(255, 140, 55, 0.65);
   border-radius: 12px;
@@ -3127,7 +3130,7 @@ html.menu-open {
 
 .film-target-tag {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: clamp(9px, 2.2vw, 11px);
   letter-spacing: 0.24em;
   color: #00d2ff;
   display: flex;
@@ -3135,6 +3138,7 @@ html.menu-open {
   gap: 8px;
   text-transform: uppercase;
   font-weight: 700;
+  text-align: center;
 }
 
 .film-dive-dot {
@@ -3144,27 +3148,31 @@ html.menu-open {
   background: #ff8c37;
   box-shadow: 0 0 14px #ff8c37;
   animation: filmTallyBlink 0.25s infinite alternate;
+  flex-shrink: 0;
 }
 
 .film-target-title {
   font-family: var(--font-display);
-  font-size: clamp(30px, 4.8vw, 52px);
-  letter-spacing: 0.1em;
+  font-size: clamp(22px, 5.2vw, 52px);
+  letter-spacing: 0.08em;
   color: #fff;
   text-shadow: 0 0 30px rgba(255, 140, 55, 0.7), 0 0 60px rgba(0, 210, 255, 0.35);
   text-transform: uppercase;
   margin: 0;
   text-align: center;
+  line-height: 1.15;
 }
 
 .film-target-sub {
   font-family: var(--font-mono);
-  font-size: clamp(11px, 1.3vw, 13.5px);
-  letter-spacing: 0.22em;
+  font-size: clamp(10px, 2.4vw, 13.5px);
+  letter-spacing: 0.18em;
   color: rgba(255, 255, 255, 0.88);
   text-transform: uppercase;
   text-align: center;
   font-weight: 500;
+  line-height: 1.4;
+  word-break: break-word;
 }
 
 /* 3D Warp Speed Tunnel Lines */
