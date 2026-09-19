@@ -102,12 +102,32 @@ html[lang="en"] .lang-tr { display: none !important; }
 }
 
 .nav-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   font-family: var(--font-display);
-  font-size: clamp(1.1rem, 2vw, 1.6rem);
+  font-size: clamp(1.05rem, 2vw, 1.5rem);
   color: var(--ink);
   text-decoration: none;
   letter-spacing: -0.012em;
   white-space: nowrap;
+}
+
+.nav-brand-logo {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid rgba(255, 140, 55, 0.65);
+  box-shadow: 0 0 10px rgba(255, 140, 55, 0.3);
+  flex-shrink: 0;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.nav-brand:hover .nav-brand-logo {
+  transform: scale(1.08);
+  border-color: rgba(0, 229, 255, 0.85);
+  box-shadow: 0 0 14px rgba(0, 229, 255, 0.45);
 }
 
 .nav-actions {
@@ -322,8 +342,52 @@ html.menu-open {
 }
 
 @media (max-width: 900px) {
+  .site-nav {
+    flex-wrap: wrap;
+    padding: 8px 12px;
+    gap: 8px;
+    justify-content: space-between;
+  }
+  .nav-brand {
+    font-size: 1.05rem;
+    gap: 8px;
+  }
+  .nav-brand-logo {
+    width: 24px;
+    height: 24px;
+  }
   .nav-view-switcher {
-    display: none; /* Mobile relies on Index Slide-Down menu */
+    display: flex;
+    order: 3;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 4px 6px;
+    justify-content: flex-start;
+    gap: 4px;
+  }
+  .nav-view-switcher::-webkit-scrollbar {
+    display: none;
+  }
+  .view-switch-pill {
+    font-size: 0.65rem;
+    padding: 5px 10px;
+    flex-shrink: 0;
+  }
+  .nav-lang-btn {
+    padding: 0.35rem 0.75rem;
+    font-size: 0.68rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .site-nav {
+    padding: 6px 10px;
+  }
+  .view-switch-pill {
+    font-size: 0.62rem;
+    padding: 4px 8px;
   }
 }
 
@@ -2811,7 +2875,7 @@ html.menu-open {
 }
 
 .film-dive-overlay.is-diving .film-dive-scene {
-  animation: filmLensVortexDive 3.0s cubic-bezier(0.2, 0.85, 0.25, 1) forwards;
+  animation: filmLensVortexDive 2.0s cubic-bezier(0.2, 0.85, 0.25, 1) forwards;
 }
 
 @keyframes filmLensVortexDive {
@@ -3114,7 +3178,7 @@ html.menu-open {
 }
 
 .film-dive-overlay.is-diving .film-dive-flash {
-  animation: lensShutterFlash 3.0s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: lensShutterFlash 2.0s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes lensShutterFlash {
@@ -3140,7 +3204,7 @@ html.menu-open {
 }
 
 .film-dive-overlay.is-diving .anamorphic-streak {
-  animation: anamorphicStreakAnim 3.0s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: anamorphicStreakAnim 2.0s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes anamorphicStreakAnim {
