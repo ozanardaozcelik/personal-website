@@ -1069,8 +1069,8 @@
     }
 
     .close-button {
-      top: -10px;
-      right: -10px;
+      top: 16px;
+      right: 16px;
     }
 
     .eyebrow {
@@ -2575,27 +2575,21 @@
     const shared = {
       box: new THREE.BoxGeometry(1, 1, 1),
       plane: new THREE.PlaneGeometry(1, 1),
-      page: new THREE.MeshPhysicalMaterial({
+      page: new THREE.MeshStandardMaterial({
         color: 0xe7dfcf,
         roughness: 0.95,
-        metalness: 0,
-        sheen: 0.025,
-        sheenRoughness: 1
+        metalness: 0
       }),
-      pageSheet: new THREE.MeshPhysicalMaterial({
+      pageSheet: new THREE.MeshStandardMaterial({
         color: 0xeee6d7,
         roughness: 0.955,
         metalness: 0,
-        sheen: 0.02,
-        sheenRoughness: 1,
         side: THREE.DoubleSide
       }),
-      headband: new THREE.MeshPhysicalMaterial({
+      headband: new THREE.MeshStandardMaterial({
         color: 0xc6a66d,
         roughness: 0.58,
-        metalness: 0.16,
-        sheen: 0.14,
-        sheenRoughness: 0.76
+        metalness: 0.16
       }),
       walnut: new THREE.MeshStandardMaterial({
         color: 0x4a2b1d,
@@ -2769,11 +2763,11 @@
 
     function configureCanvasTexture(texture, {
       color = true,
-      anisotropy = 16
+      anisotropy = 2
     } = {}) {
       if (color) texture.colorSpace = THREE.SRGBColorSpace;
       texture.anisotropy = Math.min(
-        anisotropy,
+        2,
         renderer.capabilities.getMaxAnisotropy()
       );
       texture.minFilter = THREE.LinearMipmapLinearFilter;
@@ -3051,7 +3045,7 @@
       texture.rotation = sourceTexture.rotation;
       return configureCanvasTexture(texture, {
         color: false,
-        anisotropy: 16
+        anisotropy: 2
       });
     }
 
@@ -3712,36 +3706,29 @@
       const foilEmbossTexture = makeEmbossMap(foilTexture, `${book.id}-front-foil-emboss`);
       const spineEmbossTexture = makeEmbossMap(spineFoilTexture, `${book.id}-spine-foil-emboss`);
       const backEmbossTexture = makeEmbossMap(backFoilTexture, `${book.id}-back-foil-emboss`);
-      const cloth = new THREE.MeshPhysicalMaterial({
+      const cloth = new THREE.MeshStandardMaterial({
         color: book.color,
         normalMap: clothSurfaceMaps.normal,
         normalScale: new THREE.Vector2(0.34, 0.34),
         roughnessMap: clothSurfaceMaps.roughness,
-        roughness: 0.98,
-        metalness: 0.02,
+        roughness: 0.92,
+        metalness: 0.05,
         bumpMap: clothBumpTexture,
         bumpScale: 0.0045,
-        sheen: 0.34,
-        sheenRoughness: 0.76,
-        sheenColor: new THREE.Color(book.foil),
-        transparent: true
+        transparent: false
       });
-      const coverArt = new THREE.MeshPhysicalMaterial({
+      const coverArt = new THREE.MeshStandardMaterial({
         map: coverTexture,
         normalMap: clothSurfaceMaps.normal,
         normalScale: new THREE.Vector2(0.28, 0.28),
         roughnessMap: clothSurfaceMaps.roughness,
         bumpMap: clothBumpTexture,
         bumpScale: 0.0035,
-        roughness: 0.92,
-        metalness: 0.035,
-        clearcoat: 0.06,
-        clearcoatRoughness: 0.72,
-        sheen: 0.26,
-        sheenRoughness: 0.78,
-        transparent: true
+        roughness: 0.88,
+        metalness: 0.05,
+        transparent: false
       });
-      const foilArt = new THREE.MeshPhysicalMaterial({
+      const foilArt = new THREE.MeshStandardMaterial({
         color: book.foil,
         map: foilTexture,
         alphaMap: foilTexture,
@@ -3749,28 +3736,24 @@
         bumpScale: 0.016,
         roughness: book.id === "cursor" ? 0.22 : 0.2,
         metalness: book.id === "cursor" ? 0.34 : 0.94,
-        clearcoat: 0.18,
-        clearcoatRoughness: 0.12,
         transparent: true,
         depthWrite: false,
         polygonOffset: true,
         polygonOffsetFactor: -2
       });
-      const spineArt = new THREE.MeshPhysicalMaterial({
+      const spineArt = new THREE.MeshStandardMaterial({
         map: spineTexture,
         normalMap: clothSurfaceMaps.normal,
         normalScale: new THREE.Vector2(0.3, 0.3),
         roughnessMap: clothSurfaceMaps.roughness,
         bumpMap: clothBumpTexture,
         bumpScale: 0.004,
-        roughness: 0.95,
-        metalness: 0.025,
-        sheen: 0.27,
-        sheenRoughness: 0.78,
-        transparent: true,
+        roughness: 0.9,
+        metalness: 0.05,
+        transparent: false,
         side: THREE.DoubleSide
       });
-      const spineFoilArt = new THREE.MeshPhysicalMaterial({
+      const spineFoilArt = new THREE.MeshStandardMaterial({
         color: book.foil,
         map: spineFoilTexture,
         alphaMap: spineFoilTexture,
@@ -3778,29 +3761,25 @@
         bumpScale: 0.017,
         roughness: 0.19,
         metalness: 0.92,
-        clearcoat: 0.16,
-        clearcoatRoughness: 0.13,
         transparent: true,
         depthWrite: false,
         polygonOffset: true,
         polygonOffsetFactor: -2,
         side: THREE.DoubleSide
       });
-      const backArt = new THREE.MeshPhysicalMaterial({
+      const backArt = new THREE.MeshStandardMaterial({
         map: backCoverTexture,
         normalMap: clothSurfaceMaps.normal,
         normalScale: new THREE.Vector2(0.28, 0.28),
         roughnessMap: clothSurfaceMaps.roughness,
         bumpMap: clothBumpTexture,
         bumpScale: 0.0035,
-        roughness: 0.96,
-        metalness: 0.025,
-        sheen: 0.25,
-        sheenRoughness: 0.8,
-        transparent: true,
+        roughness: 0.9,
+        metalness: 0.05,
+        transparent: false,
         side: THREE.DoubleSide
       });
-      const backFoilArt = new THREE.MeshPhysicalMaterial({
+      const backFoilArt = new THREE.MeshStandardMaterial({
         color: book.foil,
         map: backFoilTexture,
         alphaMap: backFoilTexture,
@@ -3808,58 +3787,50 @@
         bumpScale: 0.016,
         roughness: 0.21,
         metalness: 0.9,
-        clearcoat: 0.14,
-        clearcoatRoughness: 0.14,
         transparent: true,
         depthWrite: false,
         polygonOffset: true,
         polygonOffsetFactor: -2,
         side: THREE.DoubleSide
       });
-      const endpaperMaterial = new THREE.MeshPhysicalMaterial({
+      const endpaperMaterial = new THREE.MeshStandardMaterial({
         color: new THREE.Color(book.palette.paperPale).lerp(new THREE.Color(0xf2ead8), 0.5),
         map: endpaperTexture,
         bumpMap: paperFaceTexture,
         bumpScale: 0.0018,
         roughness: 0.94,
         metalness: 0,
-        sheen: 0.025,
-        sheenRoughness: 1,
         side: THREE.DoubleSide,
-        transparent: true
+        transparent: false
       });
-      const foreEdgeMaterial = new THREE.MeshPhysicalMaterial({
+      const foreEdgeMaterial = new THREE.MeshStandardMaterial({
         color: 0xffffff,
         map: pageEdgeTextures.fore,
         bumpMap: pageEdgeTextures.fore,
         bumpScale: 0.0022,
         roughness: 0.93,
         metalness: 0,
-        sheen: 0.018,
-        sheenRoughness: 1,
         side: THREE.DoubleSide,
-        transparent: true
+        transparent: false
       });
-      const headTailEdgeMaterial = new THREE.MeshPhysicalMaterial({
+      const headTailEdgeMaterial = new THREE.MeshStandardMaterial({
         color: 0xffffff,
         map: pageEdgeTextures.headTail,
         bumpMap: pageEdgeTextures.headTail,
         bumpScale: 0.0015,
         roughness: 0.94,
         metalness: 0,
-        sheen: 0.014,
-        sheenRoughness: 1,
         side: THREE.DoubleSide,
-        transparent: true
+        transparent: false
       });
-      const grooveMaterial = new THREE.MeshPhysicalMaterial({
+      const grooveMaterial = new THREE.MeshStandardMaterial({
         color: new THREE.Color(book.color).multiplyScalar(0.42),
         roughness: 0.9,
         metalness: 0,
         bumpMap: clothBumpTexture,
         bumpScale: 0.006,
         side: THREE.DoubleSide,
-        transparent: true
+        transparent: false
       });
       const pageMaterial = createFadeMaterial(shared.page);
       const headbandMaterial = createFadeMaterial(shared.headband);

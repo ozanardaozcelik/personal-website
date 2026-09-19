@@ -1026,6 +1026,12 @@
           flowShelfLayer.style.visibility = shelfFade <= 0 ? 'hidden' : 'visible';
         }
 
+        // Hide ribbon field shader when shelf is fully visible to save 50% GPU
+        const flowRibbonLayer = document.getElementById('flowRibbonFieldLayer');
+        if (flowRibbonLayer) {
+          flowRibbonLayer.style.visibility = (p >= 0.75) ? 'hidden' : 'visible';
+        }
+
         // 6. 5-Section Nav Tracking & Story Riffle Trigger
         const shelfThreshold = flowTop + (flowH - winH) * 0.65;
         const projectsTop = getDocTop(projectsSec) - winH * 0.35;

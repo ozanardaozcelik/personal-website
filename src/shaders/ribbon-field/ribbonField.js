@@ -109,7 +109,7 @@ export function initRibbonFieldBackground(hostElement, customOptions = {}) {
   };
 
   const render = (now) => {
-    if (!visible || document.hidden) {
+    if (!visible || document.hidden || hostElement.style.visibility === 'hidden' || hostElement.style.display === 'none') {
       frame = 0;
       return;
     }
