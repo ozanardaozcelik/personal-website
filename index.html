@@ -642,12 +642,19 @@
 
       setLanguage(currentLang);
 
-      // Pre-assign source with exact language query to ensure iframes start with correct language
+      // Pre-assign sketchbook source with exact language query
       if (sbIframe) {
         sbIframe.src = `./landing-pages/meng-to-sketchbook.html?lang=${currentLang}`;
       }
-      if (wovenClothFrame) {
-        wovenClothFrame.src = `./landing-pages/woven-cloth-washi.html?lang=${currentLang}`;
+      // Woven cloth iframe (Section 05) is deferred until user approaches contact section to save GPU memory
+      let wovenClothLoaded = false;
+      function ensureWovenClothLoaded() {
+        if (wovenClothLoaded || !wovenClothFrame) return;
+        const targetSrc = `./landing-pages/woven-cloth-washi.html?lang=${currentLang}`;
+        if (!wovenClothFrame.src || wovenClothFrame.src === 'about:blank' || !wovenClothFrame.src.includes('woven-cloth')) {
+          wovenClothFrame.src = targetSrc;
+          wovenClothLoaded = true;
+        }
       }
 
       // Overlay DOM references for Film Transition & Language Switch
@@ -852,12 +859,15 @@
         }
       }
 
-      // Preload story iframe immediately and shelf iframe on idle for seamless 0ms transition
+      // Preload story iframe immediately; shelf loads on-demand or after boot
       ensureStoryLoaded();
-      if ('requestIdleCallback' in window) {
-        requestIdleCallback(() => ensureShelfLoaded(), { timeout: 1500 });
-      } else {
-        setTimeout(ensureShelfLoaded, 900);
+      const isMobileClient = window.innerWidth < 768 || navigator.maxTouchPoints > 1;
+      if (!isMobileClient) {
+        if ('requestIdleCallback' in window) {
+          requestIdleCallback(() => ensureShelfLoaded(), { timeout: 4500 });
+        } else {
+          setTimeout(ensureShelfLoaded, 4500);
+        }
       }
 
       // Scroll Handler with Generous Dedicated Reading Buffer & Cinematic Pacing
@@ -1129,6 +1139,7 @@
       }
 
       function navigateToContact() {
+        ensureWovenClothLoaded();
         const { contactY } = getSnapTargets();
         playFilmStripTransition(4, contactY);
       }
@@ -1886,26 +1897,64 @@
         revealTargets.forEach((el) => el.classList.add('is-visible'));
       }
 
-      // 8. Opening Cinematic Reel Sequence with "OZAN ARDA ÖZÇELİK"
+      // 8. Contact Section Woven Cloth Lazy-loader & WebGL lifecycle
+      if (contactSec && 'IntersectionObserver' in window) {
+        const contactIo = new IntersectionObserver(([entry]) => {
+          if (entry && entry.isIntersecting) {
+            ensureWovenClothLoaded();
+            if (wovenClothFrame && wovenClothFrame.contentWindow) {
+              try { wovenClothFrame.contentWindow.postMessage({ type: 'RESUME_WEBGL' }, '*'); } catch (e) {}
+            }
+          } else {
+            if (wovenClothFrame && wovenClothFrame.contentWindow) {
+              try { wovenClothFrame.contentWindow.postMessage({ type: 'SUSPEND_WEBGL' }, '*'); } catch (e) {}
+            }
+          }
+        }, { rootMargin: '300px' });
+        contactIo.observe(contactSec);
+      }
+
+      // 9. Opening Cinematic Bootup Sequence (3-4s duration with localized stage progression)
       if (filmDiveOverlay) {
+        isFilmTransitioning = true;
         if (filmTargetTitle) filmTargetTitle.textContent = 'OZAN ARDA ÖZÇELİK';
         if (filmTargetTag) {
-          filmTargetTag.textContent = (currentLang === 'en') ? 'SYSTEM // INITIALIZING' : 'SİSTEM // BAŞLATILIYOR';
+          filmTargetTag.textContent = (currentLang === 'en') ? 'SYSTEM // INITIALIZING' : 'SİSTEM // YÜKLENİYOR';
         }
         if (filmTargetSub) {
-          filmTargetSub.textContent = (currentLang === 'en') ? 'AI, COMPUTER VISION & ROBOTICS ENGINEER' : 'YAPAY ZEKA, BİLGİSAYARLI GÖRÜ & ROBOTİK MÜHENDİSİ';
+          filmTargetSub.textContent = (currentLang === 'en') ? 'PREPARING GRAPHICS ENGINE & ASSETS...' : 'GRAFİK MOTORU & VARLIKLAR HAZIRLANIYOR...';
         }
 
-        // Dissolve outward at 1350ms
+        // Stage 2 (1300ms): Shaders and 3D scenes compiling cleanly in background
+        setTimeout(() => {
+          if (filmTargetTag) {
+            filmTargetTag.textContent = (currentLang === 'en') ? 'SYSTEM // COMPILING' : 'SİSTEM // DERLENİYOR';
+          }
+          if (filmTargetSub) {
+            filmTargetSub.textContent = (currentLang === 'en') ? 'COMPILING 3D SHADERS & STAGES...' : '3D SAHNELER & SHADERLAR DERLENİYOR...';
+          }
+        }, 1300);
+
+        // Stage 3 (2400ms): System ready
+        setTimeout(() => {
+          if (filmTargetTag) {
+            filmTargetTag.textContent = (currentLang === 'en') ? 'SYSTEM // READY' : 'SİSTEM // HAZIR';
+          }
+          if (filmTargetSub) {
+            filmTargetSub.textContent = (currentLang === 'en') ? 'PORTFOLIO READY · WELCOME' : 'PORTFOLYO AÇILIYOR · HOŞ GELDİNİZ';
+          }
+        }, 2400);
+
+        // Stage 4 (3200ms): Smooth dissolve outward revealing solid, ready portfolio
         setTimeout(() => {
           filmDiveOverlay.classList.add('is-fading-out');
-        }, 1350);
+        }, 3200);
 
-        // Completion at 2000ms
+        // Completion (3800ms): Fully clean up overlay and enable all interactions
         setTimeout(() => {
           filmDiveOverlay.classList.remove('is-diving', 'is-active', 'is-fading-out', 'is-opening');
           isFilmTransitioning = false;
-        }, 2000);
+        }, 3800);
       }
     })();
   </script>

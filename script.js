@@ -52,15 +52,16 @@ function initHeroFluid(canvas) {
   let heroActive = true;
   let heroAnimId = null;
 
-  // 2. Create WebGLRenderer with optimal HD settings
+  // 2. Create WebGLRenderer — mobile gets lighter settings to prevent GPU stalls
+  const isMobile = window.innerWidth < 768 || navigator.maxTouchPoints > 1;
   const renderer = new THREE.WebGLRenderer({
     canvas,
-    antialias: true,
+    antialias: !isMobile,
     alpha: true,
-    powerPreference: 'high-performance',
-    precision: 'highp'
+    powerPreference: isMobile ? 'low-power' : 'high-performance',
+    precision: isMobile ? 'mediump' : 'highp'
   });
-  const dpr = Math.min(window.devicePixelRatio || 1, 1.25);
+  const dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1.0 : 1.25);
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setPixelRatio(dpr);
 

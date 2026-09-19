@@ -89,7 +89,7 @@ export function initRibbonFieldBackground(hostElement, customOptions = {}) {
   const time = gl.getUniformLocation(program, "time");
   const pointerUniform = gl.getUniformLocation(program, "pointer");
 
-  let mouseX = 0.72, mouseY = 0.42, targetX = 0.72, targetY = 0.42, frame = 0, visible = true;
+  let mouseX = 0.72, mouseY = 0.42, targetX = 0.72, targetY = 0.42, frame = 0, visible = false;
   const startedAt = performance.now();
 
   const pointer = (event) => {
@@ -100,7 +100,8 @@ export function initRibbonFieldBackground(hostElement, customOptions = {}) {
 
   const resize = () => {
     const bounds = hostElement.getBoundingClientRect();
-    const ratio = Math.min(window.devicePixelRatio || 1, 1.25);
+    const rfMobile = window.innerWidth < 768 || navigator.maxTouchPoints > 1;
+    const ratio = Math.min(window.devicePixelRatio || 1, rfMobile ? 1.0 : 1.25);
     canvas.width = Math.max(1, Math.floor(bounds.width * ratio));
     canvas.height = Math.max(1, Math.floor(bounds.height * ratio));
     gl.viewport(0, 0, canvas.width, canvas.height);
@@ -108,29 +109,34 @@ export function initRibbonFieldBackground(hostElement, customOptions = {}) {
   };
 
   const render = (now) => {
+    if (!visible || document.hidden) {
+      frame = 0;
+      return;
+    }
     mouseX += (targetX - mouseX) * options.smoothing;
     mouseY += (targetY - mouseY) * options.smoothing;
     gl.uniform1f(time, (now - startedAt) * 0.001 * options.speed);
     gl.uniform2f(pointerUniform, mouseX, mouseY);
     gl.drawArrays(gl.TRIANGLES, 0, 6);
-    frame = visible && !document.hidden ? requestAnimationFrame(render) : 0;
+    frame = requestAnimationFrame(render);
   };
 
   const resizeObserver = new ResizeObserver(resize);
   const intersection = new IntersectionObserver(([entry]) => {
-    visible = entry?.isIntersecting ?? true;
-    if (visible && !frame) frame = requestAnimationFrame(render);
-    if (!visible && frame) {
+    visible = entry ? entry.isIntersecting : false;
+    if (visible && !frame && !document.hidden) {
+      frame = requestAnimationFrame(render);
+    } else if (!visible && frame) {
       cancelAnimationFrame(frame);
       frame = 0;
     }
-  });
+  }, { threshold: 0.05 });
 
   resizeObserver.observe(hostElement);
   intersection.observe(hostElement);
   hostElement.addEventListener("pointermove", pointer, { passive: true });
   resize();
-  frame = requestAnimationFrame(render);
+  // Do NOT start frame eagerly — let intersection observer start it when actually visible
 
   return () => {
     if (frame) cancelAnimationFrame(frame);

@@ -670,7 +670,7 @@ html[data-lang="en"] .lang-tr { display: none !important; }
 
       <div class="sb-tools" role="group" aria-label="view controls">
         <button class="tool" id="zOut" aria-label="zoom out"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="8.6" cy="8.6" r="5.6"/><path d="M12.8 12.8 17.4 17.4M6.2 8.6h4.8"/></svg></button>
-        <span class="zoom-read" id="zRead">125%</span>
+        <span class="zoom-read" id="zRead">110%</span>
         <button class="tool" id="zIn" aria-label="zoom in"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="8.6" cy="8.6" r="5.6"/><path d="M12.8 12.8 17.4 17.4M6.2 8.6h4.8M8.6 6.2v4.8"/></svg></button>
         <span class="tool-sep" aria-hidden="true"></span>
         <button class="tool" id="loupeBtn" aria-label="magnifier" aria-pressed="true"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="8.8" cy="8.8" r="5.8"/><path d="M13 13l4.4 4.4"/><path d="M6.4 7.2a3.2 3.2 0 0 1 2.4-1.4" opacity=".55"/></svg></button>
@@ -923,10 +923,10 @@ function kick(){ if(raf===null){last=performance.now();raf=requestAnimationFrame
 
 /* ------------------------------------------- tilt + zoom of the book */
 const TILT_X=4.5, TILT_Y=7;      /* degrees — deliberately restrained   */
-const ZOOM_MIN=0.85, ZOOM_MAX=1.75;
-const view={rx:0,ry:0,z:1.25, trx:0,try_:0,tz:1.25};
+const ZOOM_MIN=0.75, ZOOM_MAX=1.50;
+const view={rx:0,ry:0,z:1.10, trx:0,try_:0,tz:1.10};
 let viewActive=false;
-let lastZ=1.25;
+let lastZ=1.10;
 function applyView(){
   sb3d.style.setProperty('--rx',view.rx.toFixed(2)+'deg');
   sb3d.style.setProperty('--ry',view.ry.toFixed(2)+'deg');
@@ -1331,13 +1331,30 @@ loupeBtn.onclick=()=>{
 };
 addEventListener('resize',()=>{lx=null;restLoupe();});
 
+const ZOOM_STEPS = [0.75, 1.00, 1.10, 1.25, 1.50];
+
 function syncZoom(){
   zRead.textContent=Math.round(view.tz*100)+'%';
-  zOutBtn.disabled=view.tz<=ZOOM_MIN+0.001;
-  zInBtn.disabled=view.tz>=ZOOM_MAX-0.001;
+  zOutBtn.disabled=view.tz<=ZOOM_STEPS[0]+0.005;
+  zInBtn.disabled=view.tz>=ZOOM_STEPS[ZOOM_STEPS.length-1]-0.005;
 }
-zInBtn.onclick=()=>{setView(view.trx,view.try_,view.tz*1.16);hideHint();};
-zOutBtn.onclick=()=>{setView(view.trx,view.try_,view.tz/1.16);hideHint();};
+syncZoom();
+zInBtn.onclick=()=>{
+  const current = view.tz;
+  const next = ZOOM_STEPS.find(s => s > current + 0.005);
+  if (next !== undefined) {
+    setView(view.trx, view.try_, next);
+  }
+  hideHint();
+};
+zOutBtn.onclick=()=>{
+  const current = view.tz;
+  const prev = [...ZOOM_STEPS].reverse().find(s => s < current - 0.005);
+  if (prev !== undefined) {
+    setView(view.trx, view.try_, prev);
+  }
+  hideHint();
+};
 
 /* --------------------------------------------------------- the index */
 const plateList=document.getElementById('plateList');

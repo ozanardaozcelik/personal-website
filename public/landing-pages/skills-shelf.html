@@ -6217,7 +6217,8 @@
       viewHeight = window.innerHeight;
       configureResponsiveTargets();
       renderer.setSize(viewWidth, viewHeight, false);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.25));
+      const isMobileDevice = window.innerWidth < 768 || navigator.maxTouchPoints > 1;
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isMobileDevice ? 1.0 : 1.25));
       camera.aspect = viewWidth / viewHeight;
       camera.updateProjectionMatrix();
 
@@ -6399,12 +6400,13 @@
         coverAtlasReady = false;
       }
 
+      const isMobileDevice = window.innerWidth < 768 || navigator.maxTouchPoints > 1;
       try {
         renderer = new THREE.WebGLRenderer({
           canvas,
-          antialias: true,
+          antialias: !isMobileDevice,
           alpha: true,
-          powerPreference: "high-performance"
+          powerPreference: isMobileDevice ? "low-power" : "high-performance"
         });
       } catch (error) {
         showFallback("WebGL is unavailable in this browser. The complete static catalog remains available.");
@@ -6414,7 +6416,7 @@
       renderer.outputColorSpace = THREE.SRGBColorSpace;
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
       renderer.toneMappingExposure = 0.9;
-      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.enabled = !isMobileDevice;
       renderer.shadowMap.type = THREE.PCFSoftShadowMap;
       renderer.setClearColor(0x000000, 0);
 

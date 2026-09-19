@@ -216,12 +216,13 @@ export function initTopics3DStream(canvasId = 'topics-3d-canvas') {
   if (!host) return;
 
   let renderer;
+  const isMobile = window.innerWidth < 768 || navigator.maxTouchPoints > 1;
   try {
     renderer = new THREE.WebGLRenderer({
       canvas,
       alpha: true,
-      antialias: true,
-      powerPreference: 'high-performance'
+      antialias: !isMobile,
+      powerPreference: isMobile ? 'low-power' : 'high-performance'
     });
   } catch (err) {
     console.error('Three.js topics stream WebGL init error:', err);
@@ -312,7 +313,7 @@ export function initTopics3DStream(canvasId = 'topics-3d-canvas') {
     const w = host.clientWidth || 360;
     const h = host.clientHeight || 560;
     renderer.setSize(w, h, false);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.25));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isMobile ? 1.0 : 1.25));
     const aspect = w / h;
     camera.aspect = aspect;
 
@@ -504,7 +505,7 @@ export function initTopics3DStream(canvasId = 'topics-3d-canvas') {
   };
 
   resize();
-  start();
+  // Don't start() eagerly — the IntersectionObserver above will call start() when visible
 
   return {
     selectTopic,

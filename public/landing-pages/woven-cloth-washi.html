@@ -573,8 +573,9 @@
   }
 
   /* ------------------------------------------------------------- scene -- */
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  const wcMobile = window.innerWidth < 768 || navigator.maxTouchPoints > 1;
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: !wcMobile, alpha: false });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, wcMobile ? 1.0 : 1.25));
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.24;
 
@@ -888,7 +889,14 @@
     document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
   }
 
-  // Synchronize language with parent page
+  // Auto pause/resume when offscreen to conserve CPU/GPU
+  const io = new IntersectionObserver(([entry]) => {
+    if (entry && entry.isIntersecting) start();
+    else stop();
+  }, { threshold: 0.05 });
+  io.observe(canvas);
+
+  // Synchronize language and WebGL lifecycle with parent page
   try {
     const qp = new URLSearchParams(window.location.search).get('lang');
     const pLang = qp || (window.parent && window.parent.document && window.parent.document.documentElement.lang) || localStorage.getItem('site_lang') || 'tr';
@@ -898,8 +906,13 @@
     document.documentElement.setAttribute('data-lang', 'tr');
   }
   window.addEventListener('message', (e) => {
-    if (e.data && e.data.type === 'SET_LANG' && (e.data.lang === 'tr' || e.data.lang === 'en')) {
+    if (!e.data) return;
+    if (e.data.type === 'SET_LANG' && (e.data.lang === 'tr' || e.data.lang === 'en')) {
       document.documentElement.setAttribute('data-lang', e.data.lang);
+    } else if (e.data.type === 'SUSPEND_WEBGL') {
+      stop();
+    } else if (e.data.type === 'RESUME_WEBGL') {
+      start();
     }
   });
 })();
