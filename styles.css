@@ -2217,7 +2217,6 @@ html.menu-open {
   transform-style: preserve-3d;
   will-change: transform, opacity;
   transform: translateZ(0);
-  transition: transform 0.12s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* SPREAD WINGS */
@@ -2244,7 +2243,6 @@ html.menu-open {
   z-index: 4;
   will-change: transform;
   transform: translateZ(0);
-  transition: transform 0.12s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* WING FACES */

@@ -1150,6 +1150,16 @@
       window.__navigateToProjects = navigateToProjects;
       window.__navigateToContact = navigateToContact;
 
+      // Handle iframe actions (e.g. shelf clicking Book 0 to return to story or scroll forwarding)
+      window.addEventListener('message', (e) => {
+        if (!e.data) return;
+        if (e.data.type === 'NAVIGATE_TO_STORY') {
+          navigateToStory();
+        } else if (e.data.type === 'PARENT_SCROLL' && typeof e.data.deltaY === 'number') {
+          window.scrollBy({ top: e.data.deltaY, behavior: 'auto' });
+        }
+      });
+
       // Cancel any ongoing auto-scroll as soon as user takes manual control
       function interruptAutoScroll(e) {
         if (!isAutoScrolling) return;

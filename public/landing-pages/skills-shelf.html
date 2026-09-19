@@ -4545,23 +4545,22 @@
       key.name = "shadow-key";
       key.position.set(-4.6, 7.4, 5.8);
       key.castShadow = true;
-      key.shadow.mapSize.set(1024, 1024);
+      key.shadow.mapSize.set(512, 512);
       key.shadow.camera.left = -6;
       key.shadow.camera.right = 6;
       key.shadow.camera.top = 6;
       key.shadow.camera.bottom = -1.5;
       key.shadow.camera.near = 1;
       key.shadow.camera.far = 18;
-      key.shadow.bias = -0.00018;
-      key.shadow.normalBias = 0.018;
-      key.shadow.radius = 3.5;
+      key.shadow.bias = -0.0002;
+      key.shadow.normalBias = 0.02;
+      key.shadow.radius = 2.0;
       scene.add(key);
       roomLights.key = key;
 
-      const softKey = new THREE.RectAreaLight(0xffe8c2, 5.4, 4.8, 5.6);
+      const softKey = new THREE.DirectionalLight(0xffe8c2, 0.95);
       softKey.name = "cloth-softbox";
       softKey.position.set(-3.2, 5.5, 4.6);
-      softKey.lookAt(0, 1.45, 0);
       scene.add(softKey);
       roomLights.softKey = softKey;
 
@@ -4571,31 +4570,27 @@
       scene.add(fill);
       roomLights.fill = fill;
 
-      const rim = new THREE.RectAreaLight(0xd5a45e, 3.45, 1.6, 4.8);
+      const rim = new THREE.DirectionalLight(0xd5a45e, 0.75);
       rim.name = "foil-rake";
       rim.position.set(3.8, 3.6, -2.1);
-      rim.lookAt(-0.2, 1.5, 0);
       scene.add(rim);
       roomLights.rim = rim;
 
-      const backFill = new THREE.RectAreaLight(0xd8e3e7, 2.7, 3.8, 4.8);
+      const backFill = new THREE.DirectionalLight(0xd8e3e7, 0.45);
       backFill.name = "back-cover-softbox";
       backFill.position.set(-1.8, 2.9, -4.5);
-      backFill.lookAt(-0.1, 1.45, 0);
       scene.add(backFill);
       roomLights.backFill = backFill;
 
-      const spineRake = new THREE.RectAreaLight(0xffe8c2, 1.9, 0.9, 4.6);
+      const spineRake = new THREE.DirectionalLight(0xffe8c2, 0.45);
       spineRake.name = "spine-rake";
       spineRake.position.set(-4.6, 3.2, 1.1);
-      spineRake.lookAt(-0.55, 1.5, 0);
       scene.add(spineRake);
       roomLights.spineRake = spineRake;
 
-      const pageRake = new THREE.RectAreaLight(0xfff7e7, 2.15, 1.15, 3.8);
+      const pageRake = new THREE.DirectionalLight(0xfff7e7, 0.45);
       pageRake.name = "page-edge-rake";
       pageRake.position.set(4.2, 4.8, 3.1);
-      pageRake.lookAt(0.65, 1.55, 0);
       scene.add(pageRake);
       roomLights.pageRake = pageRake;
     }
@@ -6016,16 +6011,23 @@
       requestFrame();
     }
 
+    let shelfAnimating = false;
     function updateShelfLayout(delta, elapsed) {
+      shelfAnimating = false;
       if (mode === "hero") {
         position = reducedMotion
           ? targetPosition
           : damp(position, targetPosition, 9.5, delta);
-        if (Math.abs(position - targetPosition) < 0.0005) position = targetPosition;
+        if (Math.abs(position - targetPosition) < 0.0005) {
+          position = targetPosition;
+        } else {
+          shelfAnimating = true;
+        }
 
         if (wheelIdle > 0) {
           wheelIdle -= delta;
           if (wheelIdle <= 0) targetPosition = Math.round(targetPosition);
+          shelfAnimating = true;
         }
 
         const nearest = mod(Math.round(position), BOOKS.length);
@@ -6078,6 +6080,12 @@
         const isHovered = hoveredIndex === index && mode === "hero";
         const hoverPreview = isHovered && !reducedMotion;
         const hoverAngle = hoverPreview ? -0.085 : 0;
+        const targetHoverY = hoverPreview ? 0.035 : 0;
+
+        if (Math.abs(rig.frontPivot.rotation.y - hoverAngle) > 0.001) shelfAnimating = true;
+        if (Math.abs(rig.motion.position.y - targetHoverY) > 0.001) shelfAnimating = true;
+        if (Math.abs(rig.root.position.x - targetX) > 0.001) shelfAnimating = true;
+
         rig.frontPivot.rotation.y = damp(
           rig.frontPivot.rotation.y,
           hoverAngle,
@@ -6100,8 +6108,7 @@
           updateFlexiblePage(pagePivot, 0, delta);
         });
 
-        const idle = reducedMotion ? 0 : Math.sin(elapsed * 0.72 + index * 0.8) * 0.012 * focus;
-        rig.motion.position.y = damp(rig.motion.position.y, idle + (hoverPreview ? 0.035 : 0), 9, delta);
+        rig.motion.position.y = damp(rig.motion.position.y, targetHoverY, 9, delta);
         rig.motion.rotation.x = damp(
           rig.motion.rotation.x,
           hoverPreview ? pointer.ndc.y * 0.035 : 0,
@@ -6201,12 +6208,11 @@
       renderer.render(scene, camera);
 
       const shelfMoving = Math.abs(position - targetPosition) > 0.0005 || wheelIdle > 0;
-      const isHovering = (hoveredIndex >= 0 || (typeof bookIndexAtPointer === 'function' && bookIndexAtPointer() >= 0));
       const shouldContinue = mode === "opening"
         || mode === "closing"
         || mode === "detail"
         || shelfMoving
-        || isHovering
+        || shelfAnimating
         || themeIsMoving
         || wheelIdle > 0;
       if (shouldContinue && !suspended) requestFrame();
@@ -6217,8 +6223,7 @@
       viewHeight = window.innerHeight;
       configureResponsiveTargets();
       renderer.setSize(viewWidth, viewHeight, false);
-      const isMobileDevice = window.innerWidth < 768 || navigator.maxTouchPoints > 1;
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isMobileDevice ? 1.0 : 1.25));
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.0));
       camera.aspect = viewWidth / viewHeight;
       camera.updateProjectionMatrix();
 
@@ -6404,9 +6409,10 @@
       try {
         renderer = new THREE.WebGLRenderer({
           canvas,
-          antialias: !isMobileDevice,
+          antialias: false,
           alpha: true,
-          powerPreference: isMobileDevice ? "low-power" : "high-performance"
+          powerPreference: isMobileDevice ? "low-power" : "high-performance",
+          precision: "mediump"
         });
       } catch (error) {
         showFallback("WebGL is unavailable in this browser. The complete static catalog remains available.");
@@ -6417,7 +6423,7 @@
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
       renderer.toneMappingExposure = 0.9;
       renderer.shadowMap.enabled = !isMobileDevice;
-      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      renderer.shadowMap.type = THREE.PCFShadowMap;
       renderer.setClearColor(0x000000, 0);
 
       scene = new THREE.Scene();
@@ -6450,7 +6456,7 @@
       controls.target.copy(shelfCameraTarget);
       controls.addEventListener("change", requestFrame);
 
-      RectAreaLightUniformsLib.init();
+      // Lights & Room setup
       addRoom();
       addLights();
       buildMarkers();
