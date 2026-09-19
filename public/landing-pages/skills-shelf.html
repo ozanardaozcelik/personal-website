@@ -4509,61 +4509,26 @@
     }
 
     function addLights() {
-      roomLights.hemisphere = new THREE.HemisphereLight(0xfff8e8, 0x5b4030, 0.56);
+      roomLights.hemisphere = new THREE.HemisphereLight(0xfff8e8, 0x5b4030, 0.72);
       scene.add(roomLights.hemisphere);
 
-      const key = new THREE.DirectionalLight(0xffe8c2, 1.42);
-      key.name = "shadow-key";
-      key.position.set(-4.6, 7.4, 5.8);
-      key.castShadow = true;
-      key.shadow.mapSize.set(512, 512);
-      key.shadow.camera.left = -6;
-      key.shadow.camera.right = 6;
-      key.shadow.camera.top = 6;
-      key.shadow.camera.bottom = -1.5;
-      key.shadow.camera.near = 1;
-      key.shadow.camera.far = 18;
-      key.shadow.bias = -0.0002;
-      key.shadow.normalBias = 0.02;
-      key.shadow.radius = 2.0;
+      const key = new THREE.DirectionalLight(0xffe8c2, 1.8);
+      key.name = "main-key";
+      key.position.set(-4.0, 6.5, 5.0);
       scene.add(key);
       roomLights.key = key;
 
-      const softKey = new THREE.DirectionalLight(0xffe8c2, 0.95);
-      softKey.name = "cloth-softbox";
-      softKey.position.set(-3.2, 5.5, 4.6);
-      scene.add(softKey);
-      roomLights.softKey = softKey;
-
-      const fill = new THREE.DirectionalLight(0xd8e3e7, 0.3);
+      const fill = new THREE.DirectionalLight(0xd8e3e7, 0.6);
       fill.name = "cool-fill";
-      fill.position.set(5.5, 3.6, 4.2);
+      fill.position.set(4.5, 3.0, 3.5);
       scene.add(fill);
       roomLights.fill = fill;
 
-      const rim = new THREE.DirectionalLight(0xd5a45e, 0.75);
+      const rim = new THREE.DirectionalLight(0xd5a45e, 0.55);
       rim.name = "foil-rake";
-      rim.position.set(3.8, 3.6, -2.1);
+      rim.position.set(2.5, 3.0, -3.0);
       scene.add(rim);
       roomLights.rim = rim;
-
-      const backFill = new THREE.DirectionalLight(0xd8e3e7, 0.45);
-      backFill.name = "back-cover-softbox";
-      backFill.position.set(-1.8, 2.9, -4.5);
-      scene.add(backFill);
-      roomLights.backFill = backFill;
-
-      const spineRake = new THREE.DirectionalLight(0xffe8c2, 0.45);
-      spineRake.name = "spine-rake";
-      spineRake.position.set(-4.6, 3.2, 1.1);
-      scene.add(spineRake);
-      roomLights.spineRake = spineRake;
-
-      const pageRake = new THREE.DirectionalLight(0xfff7e7, 0.45);
-      pageRake.name = "page-edge-rake";
-      pageRake.position.set(4.2, 4.8, 3.1);
-      scene.add(pageRake);
-      roomLights.pageRake = pageRake;
     }
 
     function addDust() {

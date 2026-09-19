@@ -187,7 +187,7 @@ function createTopicPlateTexture(topic, isSelected, lang) {
 
     ctx.fillStyle = '#ff8c37';
     ctx.textAlign = 'right';
-    ctx.fillText('● AÇIK', c.width - 24, 213);
+    ctx.fillText(isEn ? '● ACTIVE' : '● AÇIK', c.width - 24, 213);
   } else {
     ctx.fillStyle = '#94a3b8';
     ctx.font = '500 11.5px "DM Mono", monospace';
@@ -195,7 +195,7 @@ function createTopicPlateTexture(topic, isSelected, lang) {
 
     ctx.fillStyle = topic.accent;
     ctx.textAlign = 'right';
-    ctx.fillText('SEÇ ↗', c.width - 24, 213);
+    ctx.fillText(isEn ? 'SELECT ↗' : 'SEÇ ↗', c.width - 24, 213);
   }
   ctx.textAlign = 'left';
 

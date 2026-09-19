@@ -3084,29 +3084,25 @@ html.menu-open {
 }
 
 .film-dive-overlay.is-diving .film-dive-scene {
-  animation: filmLensVortexDive 2.0s cubic-bezier(0.2, 0.85, 0.25, 1) forwards;
+  animation: filmLensVortexDive 1.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 @keyframes filmLensVortexDive {
   0% {
-    transform: translateZ(-1300px) scale(0.42) rotateZ(5deg);
-    opacity: 0.1;
+    transform: translateZ(-1300px) scale(0.42) rotateZ(4deg);
+    opacity: 0;
   }
-  15% {
-    transform: translateZ(-160px) scale(0.92) rotateZ(1deg);
+  20% {
+    transform: translateZ(-400px) scale(0.78) rotateZ(2deg);
     opacity: 1;
   }
-  45% {
-    transform: translateZ(30px) scale(1.02) rotateZ(0deg);
+  50% {
+    transform: translateZ(120px) scale(1.08) rotateZ(0deg);
     opacity: 1;
   }
-  65% {
-    transform: translateZ(220px) scale(1.12) rotateZ(-0.5deg);
-    opacity: 1;
-  }
-  82% {
-    transform: translateZ(1050px) scale(2.2) rotateZ(-2deg);
-    opacity: 0.85;
+  78% {
+    transform: translateZ(950px) scale(2.0) rotateZ(-1.5deg);
+    opacity: 0.92;
   }
   100% {
     transform: translateZ(2200px) scale(3.6) rotateZ(-3.5deg);
@@ -3140,7 +3136,6 @@ html.menu-open {
   overflow: hidden;
   transform-style: preserve-3d;
   transform: translate3d(var(--plate-x, 0px), var(--plate-y, 0px), var(--plate-z, 0px)) rotateX(var(--plate-rx, 0deg)) rotateY(var(--plate-ry, 0deg)) rotateZ(var(--plate-rz, 0deg));
-  transition: transform 0.1s linear;
   will-change: transform, opacity;
 }
 
