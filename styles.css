@@ -4396,9 +4396,6 @@ html.menu-open {
     height: 0 !important;
     overflow: hidden !important;
   }
-  .washi-stage-container {
-    display: none !important;
-  }
   .projects-topics-stream-wrap {
     display: none !important;
   }
@@ -4494,141 +4491,162 @@ html.menu-open {
     margin: 0 auto;
   }
 
-  /* 02 HİKAYEM: Touch-Swipeable Milestones Carousel */
-  .mobile-milestones-viewport {
-    display: flex;
-    gap: 14px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    padding: 10px 4px 18px;
-    scrollbar-width: none;
+  /* Mobile Top Platform Notice */
+  .mobile-desktop-prompt {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 16px;
+    border-radius: 999px;
+    background: rgba(0, 229, 255, 0.08);
+    border: 1px solid rgba(0, 229, 255, 0.35);
+    color: #e0f7fa;
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    font-weight: 500;
+    margin: 12px 0 6px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 4px 18px rgba(0, 229, 255, 0.12);
+    width: fit-content;
+    max-width: 100%;
+    box-sizing: border-box;
   }
-  .mobile-milestones-viewport::-webkit-scrollbar {
-    display: none;
+  .mdp-icon {
+    font-size: 1rem;
+    line-height: 1;
+    color: #00e5ff;
+  }
+  .mdp-text {
+    line-height: 1.35;
   }
 
-  .mobile-ms-card {
-    flex: 0 0 86%;
-    max-width: 330px;
-    scroll-snap-align: center;
-    background: rgba(18, 22, 30, 0.96);
-    border: 1px solid rgba(255, 140, 55, 0.28);
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.55);
+  /* 02 HİKAYEM: Sketchbook Picture Showcase */
+  .mobile-sketchbook-showcase {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 6px 0 12px;
   }
 
-  .mms-media {
+  .mobile-book-frame {
     position: relative;
     width: 100%;
-    aspect-ratio: 16 / 10;
-    background: #090c12;
+    border-radius: 14px;
     overflow: hidden;
+    background: #11141a;
+    border: 1px solid rgba(255, 140, 55, 0.35);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.65), 0 0 20px rgba(255, 140, 55, 0.15);
+    touch-action: pan-y;
   }
 
-  .mms-media img {
+  .mobile-book-spread-img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: auto;
     display: block;
+    object-fit: contain;
+    background: #0f1218;
+    user-select: none;
+    -webkit-user-drag: none;
+    transition: opacity 0.22s ease-in-out;
   }
 
-  .mms-badge {
+  .mobile-book-touch-nav {
     position: absolute;
-    top: 10px;
-    left: 10px;
-    background: rgba(8, 10, 16, 0.85);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 140, 55, 0.4);
-    border-radius: 6px;
-    color: var(--accent);
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    padding: 3px 8px;
-  }
-
-  .mms-content {
-    padding: 16px 16px 20px;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-  }
-
-  .mms-meta {
-    font-family: var(--font-mono);
-    font-size: 0.68rem;
-    color: #94a3b8;
-    letter-spacing: 0.08em;
-    margin-bottom: 4px;
-    text-transform: uppercase;
-  }
-
-  .mms-title {
-    font-size: 1.12rem;
-    font-weight: 600;
-    color: #ffffff;
-    margin: 0 0 8px;
-    line-height: 1.3;
-  }
-
-  .mms-desc {
-    font-size: 0.82rem;
-    color: #cbd5e1;
-    line-height: 1.55;
-    margin: 0;
-  }
-
-  .mobile-carousel-controls {
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 16px;
-    margin-top: 8px;
-  }
-
-  .mcc-arrow {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.08);
+    gap: 12px;
+    background: rgba(14, 18, 24, 0.88);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 999px;
+    padding: 6px 14px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+    z-index: 5;
+  }
+
+  .mbtn-nav {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     color: #fff;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1rem;
     cursor: pointer;
     touch-action: manipulation;
-    transition: background 0.2s;
+    transition: background 0.18s, transform 0.18s;
   }
-  .mcc-arrow:active {
-    background: rgba(255, 140, 55, 0.3);
+  .mbtn-nav:active {
+    background: rgba(255, 140, 55, 0.35);
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: scale(0.92);
   }
 
-  .mcc-dots {
+  .mbook-page-badge {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: #e2e8f0;
+    white-space: nowrap;
+    user-select: none;
+  }
+
+  .mobile-story-caption {
+    margin-top: 20px;
+    text-align: center;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 6px;
+    gap: 10px;
   }
 
-  .mcc-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.22);
-    cursor: pointer;
-    transition: all 0.25s ease;
+  .mobile-story-hero-title {
+    font-family: var(--font-serif);
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.02em;
+    margin: 0;
+    text-transform: capitalize;
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.6);
   }
 
-  .mcc-dot.is-active {
-    width: 18px;
+  .mobile-desktop-recommendation {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 140, 55, 0.08);
+    border: 1px solid rgba(255, 140, 55, 0.32);
+    padding: 8px 16px;
     border-radius: 999px;
-    background: var(--accent);
+    color: #fbd38d;
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    font-weight: 500;
+    line-height: 1.4;
+    text-align: center;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+  }
+
+  .mdr-icon {
+    font-size: 1rem;
+    line-height: 1;
+    color: #ff9d55;
+  }
+  .mdr-text {
+    line-height: 1.35;
   }
 
   /* 03 YETENEKLERİM: Tactical Skills Grid */
@@ -4710,126 +4728,5 @@ html.menu-open {
     padding: 3px 8px;
   }
 
-  /* 05 İLETİŞİM: Mobile Native Contact Card */
-  .mobile-contact-container {
-    padding: 20px 14px 44px;
-    width: 100%;
-    box-sizing: border-box;
-  }
 
-  .mcontact-card {
-    background: rgba(18, 22, 30, 0.96);
-    border: 1px solid rgba(255, 140, 55, 0.35);
-    border-radius: 16px;
-    padding: 24px 18px;
-    text-align: center;
-    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6);
-  }
-
-  .mcontact-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-family: var(--font-mono);
-    font-size: 0.68rem;
-    letter-spacing: 0.18em;
-    color: var(--accent);
-    background: rgba(255, 140, 55, 0.1);
-    border: 1px solid rgba(255, 140, 55, 0.3);
-    border-radius: 999px;
-    padding: 4px 14px;
-    margin-bottom: 12px;
-    text-transform: uppercase;
-  }
-
-  .mcontact-title {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #fff;
-    margin: 0 0 8px;
-    font-family: var(--font-serif);
-  }
-
-  .mcontact-desc {
-    font-size: 0.82rem;
-    color: var(--muted);
-    line-height: 1.5;
-    margin: 0 0 18px;
-  }
-
-  .mcontact-links {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .mcontact-link-btn {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 14px;
-    border-radius: 12px;
-    text-decoration: none;
-    transition: transform 0.2s, background 0.2s;
-    touch-action: manipulation;
-  }
-  .mcontact-link-btn:active {
-    transform: scale(0.98);
-  }
-
-  .mcl-linkedin {
-    background: rgba(10, 102, 194, 0.12);
-    border: 1px solid rgba(10, 102, 194, 0.4);
-    color: #70b5f9;
-  }
-  .mcl-github {
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    color: #f1f5f9;
-  }
-  .mcl-email {
-    background: rgba(255, 140, 55, 0.12);
-    border: 1px solid rgba(255, 140, 55, 0.4);
-    color: #ff9d55;
-  }
-
-  .mcl-icon {
-    width: 36px;
-    height: 36px;
-    border-radius: 8px;
-    background: rgba(0, 0, 0, 0.35);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-
-  .mcl-text {
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-    flex: 1;
-    min-width: 0;
-  }
-
-  .mcl-label {
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.12em;
-    opacity: 0.8;
-    font-weight: 600;
-  }
-
-  .mcl-val {
-    font-size: 0.84rem;
-    font-weight: 500;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .mcl-arrow {
-    font-size: 1rem;
-    opacity: 0.6;
-  }
 }
