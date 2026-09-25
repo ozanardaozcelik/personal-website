@@ -41,7 +41,7 @@
   </svg>
 
   <!-- ELEGANT TRANSITION OVERLAY (ROTATING LENS PHOTO ORBIT & FIXED CENTER CARD) -->
-  <div class="film-dive-overlay is-active is-opening" id="filmDiveOverlay" aria-hidden="true">
+  <div class="film-dive-overlay is-active is-opening" id="filmDiveOverlay" aria-hidden="true" onclick="this.classList.remove('is-active','is-opening'); this.classList.add('is-fading-out','is-dismissed'); setTimeout(()=>{this.style.display='none';},300);">
     
     <!-- Rotating Lens Aperture Ring of Photos (Top, Bottom, Left, Right & Corners) -->
     <div class="lens-orbit-container">
@@ -706,6 +706,34 @@
       const shelfIframe = document.getElementById('shelf-interactive-frame');
       const sbIframe = document.getElementById('sketchbook-interactive-frame');
       const wovenClothFrame = document.getElementById('wovenClothFrame');
+ 
+      // Mobile Sketchbook Showcase Data & Controller (Declared early to prevent TDZ ReferenceError)
+      const mobileBookPages = [
+        { tr: './landing-pages/meng-to-sketchbook/marina-bay-sands.png', en: './landing-pages/meng-to-sketchbook/marina-bay-sands-en.png' },
+        { tr: './landing-pages/meng-to-sketchbook/gardens-by-the-bay.png', en: './landing-pages/meng-to-sketchbook/gardens-by-the-bay-en.png' },
+        { tr: './landing-pages/meng-to-sketchbook/merlion.png', en: './landing-pages/meng-to-sketchbook/merlion-en.png' },
+        { tr: './landing-pages/meng-to-sketchbook/buddha-tooth.png', en: './landing-pages/meng-to-sketchbook/buddha-tooth-en.png' },
+        { tr: './landing-pages/meng-to-sketchbook/lau-pa-sat.png', en: './landing-pages/meng-to-sketchbook/lau-pa-sat-en.png' },
+        { tr: './landing-pages/meng-to-sketchbook/singapore-river.png', en: './landing-pages/meng-to-sketchbook/singapore-river-en.png' },
+        { tr: './landing-pages/meng-to-sketchbook/botanic-gardens.png', en: './landing-pages/meng-to-sketchbook/botanic-gardens-en.png' },
+        { tr: './landing-pages/meng-to-sketchbook/marina-bay-skyline.png', en: './landing-pages/meng-to-sketchbook/marina-bay-skyline-en.png' }
+      ];
+      let mobileBookIdx = 0;
+
+      function updateMobileBookPage(newIdx) {
+        if (newIdx < 0) newIdx = mobileBookPages.length - 1;
+        if (newIdx >= mobileBookPages.length) newIdx = 0;
+        mobileBookIdx = newIdx;
+        const img = document.getElementById('mobileBookSpreadImg');
+        const num = document.getElementById('mbookPageNum');
+        if (img) {
+          const entry = mobileBookPages[mobileBookIdx];
+          if (entry) {
+            img.src = currentLang === 'en' ? entry.en : entry.tr;
+          }
+        }
+        if (num) num.textContent = String(mobileBookIdx + 1);
+      }
 
       function setLanguage(lang) {
         currentLang = lang;
@@ -1419,31 +1447,7 @@
         });
       }
 
-      // Mobile Sketchbook Showcase Controller
-      const mobileBookPages = [
-        { tr: './landing-pages/meng-to-sketchbook/marina-bay-sands.png', en: './landing-pages/meng-to-sketchbook/marina-bay-sands-en.png' },
-        { tr: './landing-pages/meng-to-sketchbook/gardens-by-the-bay.png', en: './landing-pages/meng-to-sketchbook/gardens-by-the-bay-en.png' },
-        { tr: './landing-pages/meng-to-sketchbook/merlion.png', en: './landing-pages/meng-to-sketchbook/merlion-en.png' },
-        { tr: './landing-pages/meng-to-sketchbook/buddha-tooth.png', en: './landing-pages/meng-to-sketchbook/buddha-tooth-en.png' },
-        { tr: './landing-pages/meng-to-sketchbook/lau-pa-sat.png', en: './landing-pages/meng-to-sketchbook/lau-pa-sat-en.png' },
-        { tr: './landing-pages/meng-to-sketchbook/singapore-river.png', en: './landing-pages/meng-to-sketchbook/singapore-river-en.png' },
-        { tr: './landing-pages/meng-to-sketchbook/botanic-gardens.png', en: './landing-pages/meng-to-sketchbook/botanic-gardens-en.png' },
-        { tr: './landing-pages/meng-to-sketchbook/marina-bay-skyline.png', en: './landing-pages/meng-to-sketchbook/marina-bay-skyline-en.png' }
-      ];
-      let mobileBookIdx = 0;
-
-      function updateMobileBookPage(newIdx) {
-        if (newIdx < 0) newIdx = mobileBookPages.length - 1;
-        if (newIdx >= mobileBookPages.length) newIdx = 0;
-        mobileBookIdx = newIdx;
-        const img = document.getElementById('mobileBookSpreadImg');
-        const num = document.getElementById('mbookPageNum');
-        if (img) {
-          const entry = mobileBookPages[mobileBookIdx];
-          img.src = currentLang === 'en' ? entry.en : entry.tr;
-        }
-        if (num) num.textContent = String(mobileBookIdx + 1);
-      }
+      // Mobile Sketchbook Showcase Controller (Pages & update function defined at script top)
 
       function initMobileSketchbook() {
         const frame = document.getElementById('mobileBookFrame');
@@ -2346,50 +2350,52 @@
       }
       preloadInitialAssetsToRAM();
 
-      // 9. Opening Cinematic Bootup Sequence (3.6s with stage progression & asset warmup)
+      // 9. Opening Sequence & Smooth Preloader Dismissal
+      let preloaderDismissed = false;
+      function dismissPreloader() {
+        if (preloaderDismissed || !filmDiveOverlay) return;
+        preloaderDismissed = true;
+        filmDiveOverlay.classList.remove('is-opening');
+        filmDiveOverlay.classList.add('is-fading-out');
+        setTimeout(() => {
+          filmDiveOverlay.classList.remove('is-active', 'is-fading-out');
+          filmDiveOverlay.classList.add('is-dismissed');
+          filmDiveOverlay.style.display = 'none';
+          filmDiveOverlay.setAttribute('aria-hidden', 'true');
+          isFilmTransitioning = false;
+        }, 400);
+      }
+
       if (filmDiveOverlay) {
+        filmDiveOverlay.addEventListener('click', dismissPreloader);
+
         isFilmTransitioning = true;
         if (transitionPreviewImg) transitionPreviewImg.src = './logo.jpeg';
         if (transitionMediaBadge) transitionMediaBadge.textContent = '01';
 
         if (filmTargetTitle) filmTargetTitle.textContent = 'OZAN ARDA ÖZÇELİK';
         if (filmTargetTag) {
-          filmTargetTag.textContent = (currentLang === 'en') ? 'SYSTEM // INITIALIZING' : 'SİSTEM // YÜKLENİYOR';
+          filmTargetTag.textContent = (currentLang === 'en') ? 'SYSTEM // READY' : 'SİSTEM // HAZIR';
         }
         if (filmTargetSub) {
-          filmTargetSub.textContent = (currentLang === 'en') ? 'PREPARING GRAPHICS ENGINE & ASSETS...' : 'GRAFİK MOTORU VE VARLIKLAR HAZIRLANIYOR...';
+          filmTargetSub.textContent = (currentLang === 'en') ? 'PORTFOLIO READY · WELCOME' : 'PORTFOLYO AÇILIYOR · HOŞ GELDİNİZ';
         }
 
-        // Stage 2 (1300ms): Shaders and 3D scenes compiling cleanly in background
+        // Fast & fluid reveal: 600ms on mobile, 1100ms on desktop
+        const bootDelay = isMobileClient ? 600 : 1100;
         setTimeout(() => {
-          if (filmTargetTag) {
-            filmTargetTag.textContent = (currentLang === 'en') ? 'SYSTEM // COMPILING' : 'SİSTEM // DERLENİYOR';
-          }
-          if (filmTargetSub) {
-            filmTargetSub.textContent = (currentLang === 'en') ? 'COMPILING 3D SHADERS & STAGES...' : '3D SAHNELER VE SHADERLAR DERLENİYOR...';
-          }
-        }, 1300);
+          dismissPreloader();
+        }, bootDelay);
 
-        // Stage 3 (2400ms): System ready
+        // Global unconditional failsafes: ensure overlay NEVER stays stuck
+        const failsafeDelay = isMobileClient ? 1400 : 2200;
         setTimeout(() => {
-          if (filmTargetTag) {
-            filmTargetTag.textContent = (currentLang === 'en') ? 'SYSTEM // READY' : 'SİSTEM // HAZIR';
-          }
-          if (filmTargetSub) {
-            filmTargetSub.textContent = (currentLang === 'en') ? 'PORTFOLIO READY · WELCOME' : 'PORTFOLYO AÇILIYOR · HOŞ GELDİNİZ';
-          }
-        }, 2400);
+          dismissPreloader();
+        }, failsafeDelay);
 
-        // Stage 4 (3200ms): Smooth dissolve outward revealing solid, ready portfolio
-        setTimeout(() => {
-          filmDiveOverlay.classList.add('is-fading-out');
-        }, 3200);
-
-        // Completion (3700ms): Fully clean up overlay and enable all interactions
-        setTimeout(() => {
-          filmDiveOverlay.classList.remove('is-active', 'is-fading-out', 'is-opening');
-          isFilmTransitioning = false;
-        }, 3700);
+        window.addEventListener('load', () => {
+          setTimeout(dismissPreloader, 350);
+        });
       }
     })();
   </script>

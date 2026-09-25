@@ -3069,7 +3069,14 @@ html.menu-open {
 .film-dive-overlay.is-fading-out {
   opacity: 0 !important;
   pointer-events: none !important;
-  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.film-dive-overlay.is-dismissed {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
 }
 
 /* ==========================================================================
