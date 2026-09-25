@@ -394,7 +394,7 @@ html[lang="en"] .lang-tr, html[data-lang="en"] .lang-tr { display: none !importa
     overflow-y: auto !important;
     -webkit-overflow-scrolling: touch !important;
     align-content: start !important;
-    padding: 8px 0 24px 0 !important;
+    padding: max(60px, env(safe-area-inset-top, 60px)) 0 16px 0 !important;
   }
   .sb-top-tag {
     padding-top: 6px !important;
@@ -476,13 +476,14 @@ html[lang="en"] .lang-tr, html[data-lang="en"] .lang-tr { display: none !importa
     position: absolute !important;
     top: 50% !important;
     transform: translateY(-50%) !important;
-    width: 38px !important;
-    height: 38px !important;
+    width: 44px !important;
+    height: 44px !important;
     margin: 0 !important;
-    z-index: 100 !important;
+    z-index: 200 !important;
+    touch-action: manipulation !important;
   }
-  .sb-arrow.left, .sb-arrow.sb-arrow--left { left: 4px !important; }
-  .sb-arrow.right, .sb-arrow.sb-arrow--right { right: 4px !important; }
+  .sb-arrow.left, .sb-arrow.sb-arrow--left { left: 8px !important; }
+  .sb-arrow.right, .sb-arrow.sb-arrow--right { right: 8px !important; }
   .sb-captions {
     display: none !important;
   }
@@ -1225,12 +1226,14 @@ addEventListener('wheel', e => {
 let touchStartY = 0;
 let touchStartX = 0;
 let isTouchScroll = false;
+let isBookSwipe = false;
 
 window.addEventListener('touchstart', e => {
   if (e.touches && e.touches.length === 1) {
     touchStartY = e.touches[0].clientY;
     touchStartX = e.touches[0].clientX;
     isTouchScroll = false;
+    isBookSwipe = false;
   }
 }, { passive: true });
 
@@ -1241,8 +1244,12 @@ window.addEventListener('touchmove', e => {
     const dy = touchStartY - cy;
     const dx = touchStartX - cx;
 
-    if (!isTouchScroll && Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > 4) {
-      isTouchScroll = true;
+    if (!isTouchScroll && !isBookSwipe) {
+      if (Math.abs(dx) > Math.abs(dy) * 1.2 && Math.abs(dx) > 8) {
+        isBookSwipe = true;
+      } else if (Math.abs(dy) > Math.abs(dx) * 1.2 && Math.abs(dy) > 8) {
+        isTouchScroll = true;
+      }
     }
 
     if (isTouchScroll && window.parent && window.parent !== window) {
@@ -1264,8 +1271,8 @@ window.addEventListener('touchend', e => {
   const dx = touchEndX - touchStartX;
   const dy = touchEndY - touchStartY;
 
-  // Detect clear horizontal swipe (at least 35px, and more horizontal than vertical)
-  if (Math.abs(dx) > 35 && Math.abs(dx) > Math.abs(dy) * 1.1) {
+  // Detect clear horizontal swipe (at least 25px, horizontally dominant)
+  if (Math.abs(dx) > 25 && Math.abs(dx) > Math.abs(dy)) {
     if (dx < 0) {
       // Swiped Left -> Next page
       turnPage('next');
@@ -1325,38 +1332,69 @@ stage.addEventListener('pointerdown',e=>{
   if(e.button!==0)return;
   const onBook=e.target.closest('.sb-zone');
   if(!onBook||introOn||rewinding)return;
-  e.preventDefault();
-  try{stage.setPointerCapture(e.pointerId);}catch(err){}
+  if(e.pointerType!=='touch'){
+    e.preventDefault();
+    try{stage.setPointerCapture(e.pointerId);}catch(err){}
+  }
   hideHint();
   settleTurn();
   const r=bookRect();
-  const dir=(e.clientX-r.left)/r.width>0.5?'next':'prev';
-  if(dir==='next'&&idx>=M-1)return;
-  if(dir==='prev'&&idx<=0)return;
-  startTurn(dir,0);
-  if(!turn)return;
-  drag={dir:dir,x0:e.clientX,w:r.width,moved:0,vel:0,tPrev:performance.now()};
+  const tapSide=(e.clientX-r.left)/r.width>0.5?'next':'prev';
+  drag={
+    x0:e.clientX,
+    y0:e.clientY,
+    w:r.width,
+    tapSide:tapSide,
+    dir:null,
+    moved:0,
+    vel:0,
+    tPrev:performance.now()
+  };
 });
 stage.addEventListener('pointermove',e=>{
-  if(!drag||!turn)return;
+  if(!drag)return;
   const dx=e.clientX-drag.x0;
-  drag.moved=Math.max(drag.moved,Math.abs(dx));
-  const raw=(drag.dir==='next'? -dx : dx)/(drag.w*0.62);
+  const dy=e.clientY-drag.y0;
+  drag.moved=Math.max(drag.moved,Math.hypot(dx,dy));
+
+  if(!drag.dir){
+    if(Math.abs(dx)>6&&Math.abs(dx)>Math.abs(dy)){
+      const intentDir=dx<0?'next':'prev';
+      if(intentDir==='next'&&idx>=M-1)return;
+      if(intentDir==='prev'&&idx<=0)return;
+      drag.dir=intentDir;
+      startTurn(intentDir,0);
+    }else{
+      return;
+    }
+  }
+
+  if(!turn)return;
+  const raw=(drag.dir==='next'?-dx:dx)/(drag.w*0.55);
   const t=Math.max(0,Math.min(1,raw));
   const now=performance.now();
   drag.vel=(t-turn.t)/Math.max(0.001,(now-drag.tPrev)/1000);
   drag.tPrev=now;
-  turn.t=t;applyTurn(t);
+  turn.t=t;
+  applyTurn(t);
 });
 function endDrag(e){
   if(!drag)return;
   const d=drag;drag=null;
-  if(!turn)return;
-  if(d.moved<6){                              /* a tap, not a drag */
-    commit();return;
+
+  if(d.moved<8){
+    // Clean tap: turn based on side tapped
+    if(d.tapSide==='next'){
+      if(idx<M-1)step('next');
+    }else{
+      if(idx>0)step('prev');
+    }
+    return;
   }
-  const go = turn.t>0.42 || d.vel>1.1;
-  if(go)commit(); else cancel();
+
+  if(!turn)return;
+  const go=turn.t>0.35||d.vel>0.9;
+  if(go)commit();else cancel();
 }
 stage.addEventListener('dragstart',e=>e.preventDefault());
 stage.addEventListener('selectstart',e=>e.preventDefault());
@@ -1428,18 +1466,12 @@ function turnPage(dir, e) {
 
 if (btnLeft) {
   btnLeft.addEventListener('click', (e) => turnPage('prev', e));
-  btnLeft.addEventListener('pointerup', (e) => {
-    if (e.button === 0) turnPage('prev', e);
-  });
-  btnLeft.addEventListener('touchend', (e) => turnPage('prev', e));
+  btnLeft.addEventListener('touchend', (e) => turnPage('prev', e), { passive: false });
 }
 
 if (btnRight) {
   btnRight.addEventListener('click', (e) => turnPage('next', e));
-  btnRight.addEventListener('pointerup', (e) => {
-    if (e.button === 0) turnPage('next', e);
-  });
-  btnRight.addEventListener('touchend', (e) => turnPage('next', e));
+  btnRight.addEventListener('touchend', (e) => turnPage('next', e), { passive: false });
 }
 
 const rewindBtn=document.getElementById('rewindBtn');
@@ -1757,23 +1789,41 @@ function startIntro(force){
   idx=Q.has('shot')?(parseInt(Q.get('shot'),10)||0)%M:0;
   paint();applyView();
   
-  // Preload and decode ALL pages immediately into RAM so page turning is instant and never shows blank void
-  await Promise.all(PAGES.map(p=>{
+  // Fast initial boot: decode only first 2 spreads immediately into RAM for zero initial lag
+  await Promise.all(PAGES.slice(0, 2).map(p=>{
     const im=new Image();im.src=p.url;
     return im.decode?im.decode().catch(()=>{}):new Promise(r=>{im.onload=im.onerror=r});
   }));
 
-  // Also prefetch alternate language spreads in background
-  const altLangPages = currentSbLang === 'en' ? PAGES_TR : PAGES_EN;
-  altLangPages.forEach(p => {
-    const im = new Image();
-    im.src = DIR + p.file;
-    if (im.decode) im.decode().catch(() => {});
-  });
-
   if(document.fonts&&document.fonts.ready)await document.fonts.ready.catch(()=>{});
   syncZoom();restLoupe();
   document.body.dataset.ready='1';
+
+  // Progressively preload remaining spreads in background when browser is idle
+  const preloadRemainingSpreads = () => {
+    PAGES.slice(2).forEach((p, i) => {
+      setTimeout(() => {
+        const im = new Image();
+        im.src = p.url;
+        if (im.decode) im.decode().catch(() => {});
+      }, (i + 1) * 160);
+    });
+
+    const altLangPages = currentSbLang === 'en' ? PAGES_TR : PAGES_EN;
+    altLangPages.forEach((p, i) => {
+      setTimeout(() => {
+        const im = new Image();
+        im.src = DIR + p.file;
+        if (im.decode) im.decode().catch(() => {});
+      }, 1500 + i * 160);
+    });
+  };
+
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(preloadRemainingSpreads, { timeout: 3000 });
+  } else {
+    setTimeout(preloadRemainingSpreads, 1000);
+  }
 
   if(Q.has('shot')){
     if(Q.has('t')){startTurn(Q.get('dir')||'next',parseFloat(Q.get('t')));}

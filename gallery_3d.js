@@ -209,6 +209,7 @@ function createTopicPlateTexture(topic, isSelected, lang) {
 
 // MAIN EXPORT: 3D Rotating Downward Topic Stream
 export function initTopics3DStream(canvasId = 'topics-3d-canvas') {
+  if (window.innerWidth <= 768) return;
   const canvas = document.getElementById(canvasId);
   if (!canvas) return;
 
@@ -337,12 +338,17 @@ export function initTopics3DStream(canvasId = 'topics-3d-canvas') {
   }
 
   // Pointer Events on canvas
+  let touchScrollActive = false;
+
   canvas.addEventListener('pointerdown', (e) => {
     isDragging = true;
     startX = e.clientX;
     startY = e.clientY;
     totalDragDist = 0;
-    try { canvas.setPointerCapture(e.pointerId); } catch (err) {}
+    touchScrollActive = false;
+    if (e.pointerType !== 'touch') {
+      try { canvas.setPointerCapture(e.pointerId); } catch (err) {}
+    }
   });
 
   window.addEventListener('pointermove', (e) => {
@@ -355,9 +361,22 @@ export function initTopics3DStream(canvasId = 'topics-3d-canvas') {
       mouseVec.y = -999;
     }
 
-    if (!isDragging) return;
+    if (!isDragging || touchScrollActive) return;
     const dx = e.clientX - startX;
     const dy = e.clientY - startY;
+
+    if (e.pointerType === 'touch') {
+      // If predominantly vertical swipe, yield control back to natural page scroll
+      if (Math.abs(dy) > Math.abs(dx) * 1.15 && Math.abs(dy) > 7) {
+        touchScrollActive = true;
+        isDragging = false;
+        return;
+      }
+      if (Math.abs(dx) > 7) {
+        try { canvas.setPointerCapture(e.pointerId); } catch (err) {}
+      }
+    }
+
     startX = e.clientX;
     startY = e.clientY;
     totalDragDist += Math.hypot(dx, dy);

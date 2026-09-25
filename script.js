@@ -78,9 +78,10 @@ function initHeroFluid(canvas) {
     type: THREE.HalfFloatType || THREE.FloatType
   };
 
+  const simRes = isMobile ? 128 : CONFIG.simSize;
   const pingPong = [
-    new THREE.WebGLRenderTarget(CONFIG.simSize, CONFIG.simSize, renderTargetOptions),
-    new THREE.WebGLRenderTarget(CONFIG.simSize, CONFIG.simSize, renderTargetOptions)
+    new THREE.WebGLRenderTarget(simRes, simRes, renderTargetOptions),
+    new THREE.WebGLRenderTarget(simRes, simRes, renderTargetOptions)
   ];
 
   // Clear both once at startup
@@ -120,7 +121,7 @@ function initHeroFluid(canvas) {
     uPrevTrails: { value: pingPong[0].texture },
     uMouse: { value: new THREE.Vector2(0.5, 0.5) },
     uPrevMouse: { value: new THREE.Vector2(0.5, 0.5) },
-    uResolution: { value: new THREE.Vector2(CONFIG.simSize, CONFIG.simSize) },
+    uResolution: { value: new THREE.Vector2(simRes, simRes) },
     uDecay: { value: CONFIG.decay },
     uLineWidth: { value: CONFIG.lineWidth },
     uIsMoving: { value: false }

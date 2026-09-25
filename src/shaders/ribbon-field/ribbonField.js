@@ -101,7 +101,7 @@ export function initRibbonFieldBackground(hostElement, customOptions = {}) {
   const resize = () => {
     const bounds = hostElement.getBoundingClientRect();
     const rfMobile = window.innerWidth < 768 || navigator.maxTouchPoints > 1;
-    const ratio = Math.min(window.devicePixelRatio || 1, rfMobile ? 1.0 : 1.25);
+    const ratio = Math.min(window.devicePixelRatio || 1, rfMobile ? 0.75 : 1.0);
     canvas.width = Math.max(1, Math.floor(bounds.width * ratio));
     canvas.height = Math.max(1, Math.floor(bounds.height * ratio));
     gl.viewport(0, 0, canvas.width, canvas.height);
